@@ -1,0 +1,18 @@
+<f:layout name="Default" />
+
+<f:section name="main">
+
+  <f:flashMessages renderMode="div" />
+
+  {_all -> f:debug(maxDepth: 12)}
+
+  {contentObject.ccgConfiguration.partGroups.0.prompt -> f:format.html() -> f:debug()}
+
+  <script language="JavaScript" type="text/javascript">
+    var djs = document.createElement("script");
+    djs.type = "text/javascript";
+    djs.src = "{f:uri.resource(path:'JavaScript/main.js')}";
+    document.body.appendChild(djs);
+  </script>
+
+</f:section>

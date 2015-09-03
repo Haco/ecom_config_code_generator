@@ -14,10 +14,8 @@ return [
 		'crdate' => 'crdate',
 		'cruser_id' => 'cruser_id',
 		'dividers2tabs' => TRUE,
-
 		'versioningWS' => 2,
 		'versioning_followPages' => TRUE,
-
 		'languageField' => 'sys_language_uid',
 		'transOrigPointerField' => 'l10n_parent',
 		'transOrigDiffSourceField' => 'l10n_diffsource',
@@ -25,18 +23,18 @@ return [
 		'enablecolumns' => [
 			'disabled' => 'hidden'
 		],
-		'searchFields' => 'note,use_logical_and,dependent_parts',
+		'searchFields' => 'note,note_wrap,use_logical_and,dependent_parts',
 		'iconfile' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath('sys_note') . 'ext_icon.gif'
 	],
 	'interface' => [
-		'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, note, use_logical_and, dependent_parts'
+		'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, note, note_wrap, use_logical_and, dependent_parts'
 	],
 	'types' => [
 		'1' => [ 'showitem' => 'sys_language_uid;;;;1-1-1, l10n_parent, l10n_diffsource, hidden;;1, note;;2;wizards[t3editorHtml]' ]
 	],
 	'palettes' => [
 		'1' => [ 'showitem' => '' ],
-		'2' => [ 'showitem' => 'dependent_parts, --linebreak--, use_logical_and, partgroup', 'canNotCollapse' => TRUE ]
+		'2' => [ 'showitem' => 'note_wrap, --linebreak--, dependent_parts, --linebreak--, use_logical_and, partgroup', 'canNotCollapse' => TRUE ]
 	],
 	'columns' => [
 
@@ -109,6 +107,20 @@ return [
 				]
 			]
 		],
+		'note_wrap' => [
+			'exclude' => 1,
+			'label' => "{$translate}tx_ecomconfigcodegenerator_domain_model_dependentnote.note_wrap",
+			'config' => [
+				'type' => 'select',
+				'items' => [
+					[ "{$translate}select.empty", 0 ],
+					[ "{$translate}tx_ecomconfigcodegenerator_domain_model_dependentnote.note_wrap.success", 1 ],
+					[ "{$translate}tx_ecomconfigcodegenerator_domain_model_dependentnote.note_wrap.info", 2 ],
+					[ "{$translate}tx_ecomconfigcodegenerator_domain_model_dependentnote.note_wrap.warning", 3 ],
+					[ "{$translate}tx_ecomconfigcodegenerator_domain_model_dependentnote.note_wrap.danger", 4 ]
+				]
+			]
+		],
 		'use_logical_and' => [
 			'exclude' => 1,
 			'label' => '',
@@ -125,8 +137,16 @@ return [
 			'config' => [
 				'type' => 'select',
 				'foreign_table' => 'tx_ecomconfigcodegenerator_domain_model_part',
-				'foreign_table_where' => ' AND tx_ecomconfigcodegenerator_domain_model_part.pid=###REC_FIELD_pid### AND NOT tx_ecomconfigcodegenerator_domain_model_part.deleted AND tx_ecomconfigcodegenerator_domain_model_part.sys_language_uid IN (-1,0) ORDER BY tx_ecomconfigcodegenerator_domain_model_part.partgroup, tx_ecomconfigcodegenerator_domain_model_part.title',
+				'foreign_table_where' => ('
+					AND tx_ecomconfigcodegenerator_domain_model_part.pid=###REC_FIELD_pid###
+					AND NOT tx_ecomconfigcodegenerator_domain_model_part.deleted
+					AND tx_ecomconfigcodegenerator_domain_model_part.sys_language_uid IN (-1,0)
+					AND (SELECT sorting FROM tx_ecomconfigcodegenerator_domain_model_partgroup WHERE tx_ecomconfigcodegenerator_domain_model_partgroup.uid=tx_ecomconfigcodegenerator_domain_model_part.partgroup) < (SELECT sorting FROM tx_ecomconfigcodegenerator_domain_model_partgroup WHERE tx_ecomconfigcodegenerator_domain_model_partgroup.uid=###REC_FIELD_partgroup###)
+					AND (SELECT settings FROM tx_ecomconfigcodegenerator_domain_model_partgroup WHERE tx_ecomconfigcodegenerator_domain_model_partgroup.uid=tx_ecomconfigcodegenerator_domain_model_part.partgroup) & 1 = 1
+					ORDER BY tx_ecomconfigcodegenerator_domain_model_part.partgroup, tx_ecomconfigcodegenerator_domain_model_part.title
+				'),
 				'MM' => 'tx_ecomconfigcodegenerator_dependentnote_part_mm',
+				'itemsProcFunc' => 'S3b0\\EcomConfigCodeGenerator\\User\\ModifyTCA\\ModifyTCA->itemsProcFuncEcomConfigCodeGeneratorDomainModelDependentNoteDependentParts',
 				'size' => 10,
 				'autoSizeMax' => 30,
 				'minitems' => 1,

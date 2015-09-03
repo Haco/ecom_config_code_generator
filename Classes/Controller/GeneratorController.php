@@ -51,6 +51,12 @@ class GeneratorController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionContro
 	protected $contentRepository;
 
 	/**
+	 * @var \S3b0\EcomConfigCodeGenerator\Domain\Repository\CurrencyRepository
+	 * @inject
+	 */
+	protected $currencyRepository;
+
+	/**
 	 * Initializes the controller before invoking an action method.
 	 *
 	 * Override this method to solve tasks which all actions have in
@@ -71,17 +77,23 @@ class GeneratorController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionContro
 		$this->configuration = $this->contentObject->getCcgConfiguration();
 		if ( !$this->configuration instanceof \S3b0\EcomConfigCodeGenerator\Domain\Model\Configuration && !$this->configuration instanceof \TYPO3\CMS\Extbase\Persistence\Generic\LazyLoadingProxy )
 			$this->throwStatus(404, NULL, '<h1>' . LocalizationUtility::translate('404.noConfiguration', $this->extensionName) . '</h1>' . LocalizationUtility::translate('404.message.noConfiguration', $this->extensionName, [ "<a href=\"mailto:{$this->settings['webmasterEmail']}\">{$this->settings['webmasterEmail']}</a>" ]));
+		if ( !$this->configuration->getPartGroups()->count() )
+			$this->throwStatus(404, NULL, '<h1>' . LocalizationUtility::translate('404.noPartGroups', $this->extensionName) . '</h1>' . LocalizationUtility::translate('404.message.noPartGroups', $this->extensionName, [ "<a href=\"mailto:{$this->settings['webmasterEmail']}\">{$this->settings['webmasterEmail']}</a>" ]));
+	}
 
-		// Frontend-Session
-#		$this->getFeSession()->setStorageKey('ext-' . $this->request->getControllerExtensionKey());
-#		\S3b0\Ecompc\Setup::setPriceHandling($this);
-		// Add cObj-pid to configurationSessionStorageKey to make it unique in sessionStorage
-#		$this->configurationSessionStorageKey .= $this->contentObject->getPid();
-		// Get current configuration (Array: options=array(options)|packages=array(package => option(s)))
-#		$this->selectedConfiguration = $this->getFeSession()->get($this->configurationSessionStorageKey) ?: [
-#			'options' => [ ],
-#			'packages' => [ ]
-#		];
+	/**
+	 * Initializes the view before invoking an action method.
+	 *
+	 * Override this method to solve assign variables common for all actions
+	 * or prepare the view in another way before the action is called.
+	 *
+	 * @param \TYPO3\CMS\Extbase\Mvc\View\ViewInterface $view The view to be initialized
+	 *
+	 * @return void
+	 * @api
+	 */
+	public function initializeView(\TYPO3\CMS\Extbase\Mvc\View\ViewInterface $view) {
+		$this->view->assign('contentObject', $this->contentObject);
 	}
 
 	/**

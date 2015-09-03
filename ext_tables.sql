@@ -12,6 +12,7 @@ CREATE TABLE tx_ecomconfigcodegenerator_domain_model_configuration (
 	prefix varchar(255) DEFAULT '' NOT NULL,
 	suffix varchar(255) DEFAULT '' NOT NULL,
 	part_groups int(11) unsigned DEFAULT '0' NOT NULL,
+	enable_pricing tinyint(1) unsigned DEFAULT '0' NOT NULL,
 	pricing int(11) unsigned DEFAULT '0' NOT NULL,
 
 	tstamp int(11) unsigned DEFAULT '0' NOT NULL,
@@ -67,6 +68,7 @@ CREATE TABLE tx_ecomconfigcodegenerator_domain_model_partgroup (
 	icon int(11) unsigned NOT NULL default '0',
 	place_in_code int(11) DEFAULT '0' NOT NULL,
 	prompt text NOT NULL,
+	prompt_wrap int(11) DEFAULT '0' NOT NULL,
 	settings int(11) DEFAULT '0' NOT NULL,
 	parts int(11) unsigned DEFAULT '0' NOT NULL,
 	default_part int(11) unsigned DEFAULT '0',
@@ -162,6 +164,7 @@ CREATE TABLE tx_ecomconfigcodegenerator_domain_model_dependentnote (
 	partgroup int(11) unsigned DEFAULT '0' NOT NULL,
 
 	note text NOT NULL,
+	note_wrap int(11) DEFAULT '0' NOT NULL,
 	use_logical_and tinyint(1) unsigned DEFAULT '0' NOT NULL,
 	dependent_parts int(11) unsigned DEFAULT '0' NOT NULL,
 

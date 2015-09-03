@@ -6,6 +6,9 @@
 			<trans-unit id="note.description">
 				<source>The note itself</source>
 			</trans-unit>
+			<trans-unit id="note_wrap.description">
+				<source><![CDATA[Wrapper <div class="alert alert-xxx"> (default Bootstrap classes)]]></source>
+			</trans-unit>
 			<trans-unit id="use_logical_and.description">
 				<source>Specifies whether to use logical OR or AND chaining for dependent parts</source>
 			</trans-unit>

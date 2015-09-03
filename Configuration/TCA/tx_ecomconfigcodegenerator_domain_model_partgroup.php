@@ -32,7 +32,6 @@ return [
 		'sortby' => 'sorting',
 		'versioningWS' => 2,
 		'versioning_followPages' => TRUE,
-
 		'languageField' => 'sys_language_uid',
 		'transOrigPointerField' => 'l10n_parent',
 		'transOrigDiffSourceField' => 'l10n_diffsource',
@@ -46,14 +45,14 @@ return [
 			'endtime' => 'endtime',
 			'fe_group' => 'fe_group'
 		],
-		'searchFields' => 'title,icon,place_in_code,prompt,settings,parts,default_part,dependent_note',
+		'searchFields' => 'title,icon,place_in_code,prompt,prompt_wrap,settings,parts,default_part,dependent_note',
 		'iconfile' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath('ecom_config_code_generator') . 'Resources/Public/Icons/tx_ecomconfigcodegenerator_domain_model_partgroup.gif'
 	],
 	'interface' => [
-		'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, title, icon, place_in_code, prompt, settings, parts, default_part, dependent_note'
+		'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, title, icon, place_in_code, prompt, prompt_wrap, settings, parts, default_part, dependent_note'
 	],
 	'types' => [
-		'1' => [ 'showitem' => "sys_language_uid;;;;1-1-1, l10n_parent, l10n_diffsource, hidden;;1, title, prompt;;;wizards[t3editorHtml], dependent_note, configuration, --div--;{$translate}tabs.parts, parts, --div--;LLL:EXT:cms/locallang_ttc.xlf:tabs.appearance, icon, --palette--;;2, --div--;LLL:EXT:cms/locallang_ttc.xlf:tabs.access, --palette--;LLL:EXT:cms/locallang_tca.xlf:pages.palettes.access;access" ]
+		'1' => [ 'showitem' => "sys_language_uid;;;;1-1-1, l10n_parent, l10n_diffsource, hidden;;1, title, prompt;;3;wizards[t3editorHtml], dependent_note, configuration, --div--;{$translate}tabs.parts, parts, --div--;LLL:EXT:cms/locallang_ttc.xlf:tabs.appearance, icon, --palette--;;2, --div--;LLL:EXT:cms/locallang_ttc.xlf:tabs.access, --palette--;LLL:EXT:cms/locallang_tca.xlf:pages.palettes.access;access" ]
 	],
 	'palettes' => [
 		'1' => [
@@ -62,6 +61,9 @@ return [
 		'2' => [
 			'showitem' => 'default_part, place_in_code, --linebreak--, settings',
 			'canNotCollapse' => TRUE
+		],
+		'3' => [
+			'showitem' => 'prompt_wrap'
 		],
 		'access' => [
 			'showitem' => 'starttime;LLL:EXT:cms/locallang_tca.xlf:pages.starttime_formlabel, endtime;LLL:EXT:cms/locallang_tca.xlf:pages.endtime_formlabel, --linebreak--, fe_group;LLL:EXT:cms/locallang_tca.xlf:pages.fe_group_formlabel',
@@ -261,6 +263,20 @@ return [
 				]
 			]
 		],
+		'prompt_wrap' => [
+			'exclude' => 1,
+			'label' => "{$translate}tx_ecomconfigcodegenerator_domain_model_partgroup.prompt_wrap",
+			'config' => [
+				'type' => 'select',
+				'items' => [
+					[ "{$translate}select.empty", 0 ],
+					[ "{$translate}tx_ecomconfigcodegenerator_domain_model_partgroup.prompt_wrap.success", 1 ],
+					[ "{$translate}tx_ecomconfigcodegenerator_domain_model_partgroup.prompt_wrap.info", 2 ],
+					[ "{$translate}tx_ecomconfigcodegenerator_domain_model_partgroup.prompt_wrap.warning", 3 ],
+					[ "{$translate}tx_ecomconfigcodegenerator_domain_model_partgroup.prompt_wrap.danger", 4 ]
+				]
+			]
+		],
 		'settings' => [
 			'exclude' => 1,
 			'label' => "{$translate}tx_ecomconfigcodegenerator_domain_model_partgroup.settings",
@@ -280,6 +296,7 @@ return [
 				'maxitems'      => 9999,
 				'appearance' => [
 					'collapseAll' => 1,
+					'expandSingle' => 1,
 					'newRecordLinkAddTitle' => 0,
 					'newRecordLinkTitle' => "{$translate}tx_ecomconfigcodegenerator_domain_model_partgroup.parts.inlineElementAddTitle",
 					'levelLinksPosition' => 'bottom',
@@ -300,7 +317,7 @@ return [
 			'displayCond' => [
 				'AND' => [
 					'FIELD:settings:!BIT:1',
-					'FIELD:parts:>:0'
+
 				]
 			],
 			'exclude' => 1,
@@ -325,7 +342,8 @@ return [
 				'foreign_field' => 'partgroup',
 				'maxitems'      => 9999,
 				'appearance' => [
-					'collapseAll' => 0,
+					'collapseAll' => 1,
+					'expandSingle' => 1,
 					'newRecordLinkAddTitle' => 0,
 					'newRecordLinkTitle' => "{$translate}tx_ecomconfigcodegenerator_domain_model_partgroup.dependent_note.inlineElementAddTitle",
 					'levelLinksPosition' => 'bottom',

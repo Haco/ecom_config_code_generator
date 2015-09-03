@@ -4,6 +4,9 @@ config.tx_extbase {
       S3b0\EcomConfigCodeGenerator\Domain\Model\Content {
         mapping {
           tableName = tt_content
+          columns {
+            bodytext.mapOnProperty = bodytext
+          }
         }
       }
     }

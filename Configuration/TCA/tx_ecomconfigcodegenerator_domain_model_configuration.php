@@ -16,24 +16,24 @@ return [
 		'sortby' => 'sorting',
 		'versioningWS' => 2,
 		'versioning_followPages' => TRUE,
-
 		'languageField' => 'sys_language_uid',
 		'transOrigPointerField' => 'l10n_parent',
 		'transOrigDiffSourceField' => 'l10n_diffsource',
 		'delete' => 'deleted',
+		'requestUpdate' => 'enable_pricing',
 		'enablecolumns' => [
 			'disabled' => 'hidden',
 			'starttime' => 'starttime',
 			'endtime' => 'endtime',
 		],
-		'searchFields' => 'title,prefix,suffix,part_groups,pricing,',
+		'searchFields' => 'title,prefix,suffix,part_groups,enable_pricing,pricing',
 		'iconfile' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath('ecom_config_code_generator') . 'Resources/Public/Icons/tx_ecomconfigcodegenerator_domain_model_configuration.gif'
 	],
 	'interface' => [
-		'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, title, prefix, suffix, part_groups, pricing',
+		'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, title, prefix, suffix, part_groups, enable_pricing, pricing',
 	],
 	'types' => [
-		'1' => [ 'showitem' => "sys_language_uid;;;;1-1-1, l10n_parent, l10n_diffsource, hidden;;1, title;;2, --div--;{$translate}tabs.referral, part_groups, --div--;{$translate}tabs.pricing, pricing, --div--;LLL:EXT:cms/locallang_ttc.xlf:tabs.access, --palette--;LLL:EXT:cms/locallang_tca.xlf:pages.palettes.access;access" ]
+		'1' => [ 'showitem' => "sys_language_uid;;;;1-1-1, l10n_parent, l10n_diffsource, hidden;;1, title;;2, --div--;{$translate}tabs.referral, part_groups, --div--;{$translate}tabs.pricing, enable_pricing, pricing, --div--;LLL:EXT:cms/locallang_ttc.xlf:tabs.access, --palette--;LLL:EXT:cms/locallang_tca.xlf:pages.palettes.access;access" ]
 	],
 	'palettes' => [
 		'1' => [
@@ -183,13 +183,21 @@ return [
 				]
 			],
 		],
+		'enable_pricing' => [
+			'exclude' => 1,
+			'label' => "{$translate}tx_ecomconfigcodegenerator_domain_model_configuration.enable_pricing",
+			'config' => [
+				'type' => 'check'
+			],
+		],
 		'pricing' => [
+			'displayCond' => 'FIELD:enable_pricing:REQ:TRUE',
 			'exclude' => 1,
 			'label' => "{$translate}tx_ecomconfigcodegenerator_domain_model_configuration.pricing",
 			'config' => [
 				'type' => 'inline',
 				'foreign_table' => 'tx_ecomconfigcodegenerator_domain_model_price',
-				'foreign_field' => 'part',
+				'foreign_field' => 'configuration',
 				'maxitems'      => 9999,
 				'appearance' => [
 					'collapseAll' => 0,

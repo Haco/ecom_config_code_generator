@@ -10,6 +10,9 @@
 			<trans-unit id="404.noConfiguration" xml:space="preserve">
 				<source>No configuration provided!</source>
 			</trans-unit>
+			<trans-unit id="404.noPartGroups" xml:space="preserve">
+				<source>No part groups provided!</source>
+			</trans-unit>
 			<trans-unit id="404.noContentObject" xml:space="preserve">
 				<source>No content object provided!</source>
 			</trans-unit>
@@ -19,9 +22,28 @@
 			<trans-unit id="404.message.noConfiguration" xml:space="preserve">
 				<source>Please provide a configuration within corresponding content object. If you need further assistance please contact us at %1$s.</source>
 			</trans-unit>
+			<trans-unit id="404.message.noPartGroups" xml:space="preserve">
+				<source>Please provide at least one part group to select. If you need further assistance please contact us at %1$s.</source>
+			</trans-unit>
 			<trans-unit id="404.message.noContentObject" xml:space="preserve">
 				<source>Please provide a content object. If you need further assistance please contact us at %1$s.</source>
 			</trans-unit>
+
+			<trans-unit id="currency.region.EUR">
+				<source>Europe</source>
+			</trans-unit>
+			<trans-unit id="currency.region.CHF">
+				<source>Switzerland</source>
+			</trans-unit>
+			<trans-unit id="currency.region.GBP">
+				<source>United Kingdom</source>
+			</trans-unit>
+			<trans-unit id="currency.region.USD">
+				<source>United States</source>
+			</trans-unit>
+
+
+
 
 			<trans-unit id="tx_ecomconfigcodegenerator_domain_model_configuration">
 				<source>Configuration</source>

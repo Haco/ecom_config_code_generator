@@ -62,6 +62,13 @@ class PartGroup extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	protected $prompt = '';
 
 	/**
+	 * Wrapper <div class="alert alert-xxx"> (default Bootstrap classes)
+	 *
+	 * @var integer
+	 */
+	protected $promptWrap = 0;
+
+	/**
 	 * Global settings, i.e. visibility options, pricing options, multiple select
 	 * availability ...
 	 *
@@ -179,7 +186,22 @@ class PartGroup extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	 * @return string $prompt
 	 */
 	public function getPrompt() {
-		return $this->prompt;
+		switch ( $this->promptWrap ) {
+			case 1:
+				return "<div class=\"alert alert-success\"><table><tr><td style=\"vertical-align:middle;width:2.5em\"><i class=\"fa fa-check-circle fa-fw fa-lg\"></i></td><td>{$this->prompt}</td></tr></table></div>";
+				break;
+			case 2:
+				return "<div class=\"alert alert-info\"><table><tr><td style=\"vertical-align:middle;width:2.5em\"><i class=\"fa fa-info-circle fa-fw fa-lg\"></i></td><td>{$this->prompt}</td></tr></table></div>";
+				break;
+			case 3:
+				return "<div class=\"alert alert-warning\"><table><tr><td style=\"vertical-align:middle;width:2.5em\"><i class=\"fa fa-exclamation-triangle fa-fw fa-lg\"></i></td><td>{$this->prompt}</td></tr></table></div>";
+				break;
+			case 4:
+				return "<div class=\"alert alert-danger\"><table><tr><td style=\"vertical-align:middle;width:2.5em\"><i class=\"fa fa-exclamation-circle fa-fw fa-lg\"></i></td><td>{$this->prompt}</td></tr></table></div>";
+				break;
+			default:
+				return $this->prompt;
+		}
 	}
 
 	/**
@@ -190,6 +212,25 @@ class PartGroup extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	 */
 	public function setPrompt($prompt) {
 		$this->prompt = $prompt;
+	}
+
+	/**
+	 * Returns the promptWrap
+	 *
+	 * @return integer
+	 */
+	public function getPromptWrap() {
+		return $this->promptWrap;
+	}
+
+	/**
+	 * Sets the promptWrap
+	 *
+	 * @param integer $promptWrap
+	 * @return void
+	 */
+	public function setPromptWrap($promptWrap) {
+		$this->promptWrap = $promptWrap;
 	}
 
 	/**

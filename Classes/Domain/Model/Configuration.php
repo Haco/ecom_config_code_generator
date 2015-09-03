@@ -63,6 +63,13 @@ class Configuration extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	protected $partGroups = NULL;
 
 	/**
+	 * enablePricing
+	 *
+	 * @var boolean
+	 */
+	protected $enablePricing = FALSE;
+
+	/**
 	 * Configuration base pricing
 	 *
 	 * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\S3b0\EcomConfigCodeGenerator\Domain\Model\Price>
@@ -185,6 +192,33 @@ class Configuration extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	 */
 	public function setPartGroups(\TYPO3\CMS\Extbase\Persistence\ObjectStorage $partGroups) {
 		$this->partGroups = $partGroups;
+	}
+
+	/**
+	 * Returns the enablePricing
+	 *
+	 * @return boolean
+	 */
+	public function getEnablePricing() {
+		return $this->enablePricing;
+	}
+	/**
+	 * Sets the enablePricing
+	 *
+	 * @param boolean $enablePricing
+	 * @return void
+	 */
+	public function setEnablePricing($enablePricing) {
+		$this->enablePricing = $enablePricing;
+	}
+
+	/**
+	 * Returns the enablePricing
+	 *
+	 * @return boolean
+	 */
+	public function isEnablePricing() {
+		return $this->enablePricing;
 	}
 
 	/**

@@ -27,6 +27,8 @@ namespace S3b0\EcomConfigCodeGenerator\Domain\Model;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
+use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
+
 /**
  * Currency information table
  */
@@ -39,6 +41,11 @@ class Currency extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	 * @validate NotEmpty
 	 */
 	protected $title = '';
+
+	/**
+	 * @var string
+	 */
+	protected $l10nTitle = '';
 
 	/**
 	 * ISO 4217 code see https://en.wikipedia.org/wiki/ISO_4217
@@ -88,9 +95,9 @@ class Currency extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	/**
 	 * Divers currency settings
 	 *
-	 * @var boolean
+	 * @var integer
 	 */
-	protected $settings = FALSE;
+	protected $settings = 7;
 
 	/**
 	 * Returns the title
@@ -109,6 +116,13 @@ class Currency extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	 */
 	public function setTitle($title) {
 		$this->title = $title;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getL10nTitle() {
+		return $this->llReference ? LocalizationUtility::translate($this->llReference, 'ecom_config_code_generator') : (LocalizationUtility::translate("currency.region.{$this->isoCode}", 'ecom_config_code_generator') ?: $this->region);
 	}
 
 	/**
@@ -228,7 +242,7 @@ class Currency extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	/**
 	 * Returns the settings
 	 *
-	 * @return boolean $settings
+	 * @return integer $settings
 	 */
 	public function getSettings() {
 		return $this->settings;
@@ -237,7 +251,7 @@ class Currency extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	/**
 	 * Sets the settings
 	 *
-	 * @param boolean $settings
+	 * @param integer $settings
 	 * @return void
 	 */
 	public function setSettings($settings) {
@@ -245,12 +259,31 @@ class Currency extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	}
 
 	/**
-	 * Returns the boolean state of settings
-	 *
-	 * @return boolean
+	 * @return bool
 	 */
-	public function isSettings() {
-		return $this->settings;
+	public function isDefaultCurrency() {
+		return ($this->settings & \S3b0\EcomConfigCodeGenerator\Setup::BIT_CURRENCY_IS_DEFAULT) == \S3b0\EcomConfigCodeGenerator\Setup::BIT_CURRENCY_IS_DEFAULT;
+	}
+
+	/**
+	 * @return bool
+	 */
+	public function isSymbolPrepended() {
+		return ($this->settings & \S3b0\EcomConfigCodeGenerator\Setup::BIT_CURRENCY_PREPEND_SYMBOL) == \S3b0\EcomConfigCodeGenerator\Setup::BIT_CURRENCY_PREPEND_SYMBOL;
+	}
+
+	/**
+	 * @return bool
+	 */
+	public function isWhitespaceBetweenCurrencyAndValue() {
+		return ($this->settings & \S3b0\EcomConfigCodeGenerator\Setup::BIT_CURRENCY_ADD_WHITEPACE_BETWEEN_CURRENCY_AND_VALUE) == \S3b0\EcomConfigCodeGenerator\Setup::BIT_CURRENCY_ADD_WHITEPACE_BETWEEN_CURRENCY_AND_VALUE;
+	}
+
+	/**
+	 * @return bool
+	 */
+	public function isNumberSeparatorsInUSFormat() {
+		return $this->settings & 8;
 	}
 
 }

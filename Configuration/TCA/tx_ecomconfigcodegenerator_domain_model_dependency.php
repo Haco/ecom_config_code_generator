@@ -84,6 +84,7 @@ return [
 				'type' => 'select',
 				'foreign_table' => 'tx_ecomconfigcodegenerator_domain_model_partgroup',
 				'foreign_table_where' => ('
+					AND tx_ecomconfigcodegenerator_domain_model_partgroup.pid=###REC_FIELD_pid###
 					AND NOT tx_ecomconfigcodegenerator_domain_model_partgroup.deleted
 					AND tx_ecomconfigcodegenerator_domain_model_partgroup.sys_language_uid IN(-1,0)
 					AND tx_ecomconfigcodegenerator_domain_model_partgroup.sorting < (
@@ -91,6 +92,7 @@ return [
 							SELECT partgroup FROM tx_ecomconfigcodegenerator_domain_model_part WHERE uid=###REC_FIELD_part###
 						)
 					)
+					AND tx_ecomconfigcodegenerator_domain_model_partgroup.settings & 1 = 1
 				'),
 				'MM' => 'tx_ecomconfigcodegenerator_dependency_partgroup_mm',
 				'size' => 10,
@@ -113,6 +115,7 @@ return [
 				'type' => 'select',
 				'foreign_table' => 'tx_ecomconfigcodegenerator_domain_model_part',
 				'foreign_table_where' => ('
+					AND tx_ecomconfigcodegenerator_domain_model_part.pid=###REC_FIELD_pid###
 					AND NOT tx_ecomconfigcodegenerator_domain_model_part.deleted
 					AND tx_ecomconfigcodegenerator_domain_model_part.sys_language_uid IN (-1,0)
 					AND tx_ecomconfigcodegenerator_domain_model_part.partgroup IN (

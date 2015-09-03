@@ -12,9 +12,6 @@
 			<trans-unit id="suffix.description">
 				<source>Code suffix (will be appended on finish)</source>
 			</trans-unit>
-			<trans-unit id="part_groups.description">
-				<source>partGroups</source>
-			</trans-unit>
 			<trans-unit id="pricing.description">
 				<source>Configuration base pricing</source>
 			</trans-unit>

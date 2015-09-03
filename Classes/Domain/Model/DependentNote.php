@@ -41,6 +41,13 @@ class DependentNote extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	protected $note = '';
 
 	/**
+	 * Wrapper <div class="alert alert-xxx"> (default Bootstrap classes)
+	 *
+	 * @var integer
+	 */
+	protected $noteWrap = 0;
+
+	/**
 	 * Specifies whether to use logical OR or AND chaining for dependent parts
 	 *
 	 * @var boolean
@@ -80,7 +87,22 @@ class DependentNote extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	 * @return string $note
 	 */
 	public function getNote() {
-		return $this->note;
+		switch ( $this->noteWrap ) {
+			case 1:
+				return "<div class=\"alert alert-success\"><table><tr><td style=\"vertical-align:middle;width:2.5em\"><i class=\"fa fa-check-circle fa-fw fa-lg\"></i></td><td>{$this->note}</td></tr></table></div>";
+				break;
+			case 2:
+				return "<div class=\"alert alert-info\"><table><tr><td style=\"vertical-align:middle;width:2.5em\"><i class=\"fa fa-info-circle fa-fw fa-lg\"></i></td><td>{$this->note}</td></tr></table></div>";
+				break;
+			case 3:
+				return "<div class=\"alert alert-warning\"><table><tr><td style=\"vertical-align:middle;width:2.5em\"><i class=\"fa fa-exclamation-triangle fa-fw fa-lg\"></i></td><td>{$this->note}</td></tr></table></div>";
+				break;
+			case 4:
+				return "<div class=\"alert alert-danger\"><table><tr><td style=\"vertical-align:middle;width:2.5em\"><i class=\"fa fa-exclamation-circle fa-fw fa-lg\"></i></td><td>{$this->note}</td></tr></table></div>";
+				break;
+			default:
+				return $this->note;
+		}
 	}
 
 	/**
@@ -91,6 +113,25 @@ class DependentNote extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	 */
 	public function setNote($note) {
 		$this->note = $note;
+	}
+
+	/**
+	 * Returns the noteWrap
+	 *
+	 * @return integer
+	 */
+	public function getNoteWrap() {
+		return $this->noteWrap;
+	}
+
+	/**
+	 * Sets the noteWrap
+	 *
+	 * @param integer $noteWrap
+	 * @return void
+	 */
+	public function setNoteWrap($noteWrap) {
+		$this->noteWrap = $noteWrap;
 	}
 
 	/**

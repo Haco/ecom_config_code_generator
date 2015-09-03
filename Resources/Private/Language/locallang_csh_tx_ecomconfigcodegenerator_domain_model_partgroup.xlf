@@ -15,6 +15,9 @@
 			<trans-unit id="prompt.description">
 				<source>User prompt plus hints, if any</source>
 			</trans-unit>
+			<trans-unit id="prompt_wrap.description">
+				<source><![CDATA[Wrapper <div class="alert alert-xxx"> (default Bootstrap classes)]]></source>
+			</trans-unit>
 			<trans-unit id="settings.description">
 				<source>Global settings, i.e. visibility options, pricing options, multiple select availability ...</source>
 			</trans-unit>

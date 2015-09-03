@@ -33,12 +33,31 @@ namespace S3b0\EcomConfigCodeGenerator\Domain\Model;
 class Content extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 
 	/**
+	 * @var string
+	 */
+	protected $bodytext = '';
+
+	/**
 	 * Link content element to configuration
 	 *
 	 * @var \S3b0\EcomConfigCodeGenerator\Domain\Model\Configuration
 	 * @lazy
 	 */
 	protected $ccgConfiguration = NULL;
+
+	/**
+	 * @return string
+	 */
+	public function getBodytext() {
+		return $this->bodytext;
+	}
+
+	/**
+	 * @param string $bodytext
+	 */
+	public function setBodytext($bodytext) {
+		$this->bodytext = $bodytext;
+	}
 
 	/**
 	 * Returns the ccgConfiguration
