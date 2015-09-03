@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<xliff version="1.0">
+	<file source-language="en" datatype="plaintext" original="messages" date="2015-09-02T08:52:37Z" product-name="ecom_config_code_generator">
+		<header/>
+		<body>
+			<trans-unit id="title.description">
+				<source>Work title</source>
+			</trans-unit>
+			<trans-unit id="prefix.description">
+				<source>Code prefix (will be prepended on finish)</source>
+			</trans-unit>
+			<trans-unit id="suffix.description">
+				<source>Code suffix (will be appended on finish)</source>
+			</trans-unit>
+			<trans-unit id="part_groups.description">
+				<source>partGroups</source>
+			</trans-unit>
+			<trans-unit id="pricing.description">
+				<source>Configuration base pricing</source>
+			</trans-unit>
+		</body>
+	</file>
+</xliff>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<xliff version="1.0">
+	<file source-language="en" datatype="plaintext" original="messages" date="2015-09-02T08:52:37Z" product-name="ecom_config_code_generator">
+		<header/>
+		<body>
+			<trans-unit id="mode.description">
+				<source>Select mode allow|deny</source>
+			</trans-unit>
+			<trans-unit id="part_groups.description">
+				<source>Select depending part groups</source>
+			</trans-unit>
+			<trans-unit id="parts.description">
+				<source>Select depending parts</source>
+			</trans-unit>
+		</body>
+	</file>
+</xliff>

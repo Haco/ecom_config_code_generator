@@ -1,0 +1,19 @@
+
+plugin.tx_ecomconfigcodegenerator {
+	view {
+		# cat=plugin.tx_ecomconfigcodegenerator/file; type=string; label=Path to template root (FE)
+		templateRootPath = EXT:ecom_config_code_generator/Resources/Private/Templates/
+		# cat=plugin.tx_ecomconfigcodegenerator/file; type=string; label=Path to template partials (FE)
+		partialRootPath = EXT:ecom_config_code_generator/Resources/Private/Partials/
+		# cat=plugin.tx_ecomconfigcodegenerator/file; type=string; label=Path to template layouts (FE)
+		layoutRootPath = EXT:ecom_config_code_generator/Resources/Private/Layouts/
+	}
+	persistence {
+		# cat=plugin.tx_ecomconfigcodegenerator//a; type=string; label=Default storage PID
+		storagePid =
+	}
+	settings {
+		# cat=plugin.tx_ecomconfigcodegenerator//general; type=string; label=Webmaster E-Mail address
+		webmasterEmail = webmaster@ecom-ex.com
+	}
+}

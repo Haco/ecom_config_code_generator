@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<xliff version="1.0">
+	<file source-language="en" datatype="plaintext" original="messages" date="2015-09-02T08:52:37Z" product-name="ecom_config_code_generator">
+		<header/>
+		<body>
+			<trans-unit id="value.description">
+				<source>The pricing value</source>
+			</trans-unit>
+			<trans-unit id="currency.description">
+				<source>Corresponding currency</source>
+			</trans-unit>
+		</body>
+	</file>
+</xliff>

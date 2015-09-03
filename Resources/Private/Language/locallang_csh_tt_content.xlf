@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<xliff version="1.0">
+	<file source-language="en" datatype="plaintext" original="messages" date="2015-09-02T08:52:37Z" product-name="ecom_config_code_generator">
+		<header/>
+		<body>
+			<trans-unit id="ccg_configuration.description">
+				<source>Link content element to configuration</source>
+			</trans-unit>
+		</body>
+	</file>
+</xliff>

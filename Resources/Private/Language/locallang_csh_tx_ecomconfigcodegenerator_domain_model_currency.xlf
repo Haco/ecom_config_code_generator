@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<xliff version="1.0">
+	<file source-language="en" datatype="plaintext" original="messages" date="2015-09-02T08:52:37Z" product-name="ecom_config_code_generator">
+		<header/>
+		<body>
+			<trans-unit id="title.description">
+				<source>Currency title</source>
+			</trans-unit>
+			<trans-unit id="iso_code.description">
+				<source>ISO 4217 code see https://en.wikipedia.org/wiki/ISO_4217</source>
+			</trans-unit>
+			<trans-unit id="exchange.description">
+				<source>Exchange rate (depending on default currency)</source>
+			</trans-unit>
+			<trans-unit id="symbol.description">
+				<source>Currency symbol, i.e. €, $, £. ¥ ...</source>
+			</trans-unit>
+			<trans-unit id="region.description">
+				<source>Currency region or country</source>
+			</trans-unit>
+			<trans-unit id="ll_reference.description">
+				<source>Reference to locallang item for region label translation</source>
+			</trans-unit>
+			<trans-unit id="flag.description">
+				<source>The region flag, if available</source>
+			</trans-unit>
+			<trans-unit id="settings.description">
+				<source>Divers currency settings</source>
+			</trans-unit>
+		</body>
+	</file>
+</xliff>

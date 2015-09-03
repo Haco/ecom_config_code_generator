@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<xliff version="1.0">
+	<file source-language="en" datatype="plaintext" original="messages" date="2015-09-02T08:52:37Z" product-name="ecom_config_code_generator">
+		<header/>
+		<body>
+			<!-- 404 ERROR INFO -->
+			<trans-unit id="404.duplicate" xml:space="preserve">
+				<source>Multiple configurators found on page!</source>
+			</trans-unit>
+			<trans-unit id="404.noConfiguration" xml:space="preserve">
+				<source>No configuration provided!</source>
+			</trans-unit>
+			<trans-unit id="404.noContentObject" xml:space="preserve">
+				<source>No content object provided!</source>
+			</trans-unit>
+			<trans-unit id="404.message.duplicate" xml:space="preserve">
+				<source>A page may contain one configurator only. If you need further assistance please contact us at %1$s.</source>
+			</trans-unit>
+			<trans-unit id="404.message.noConfiguration" xml:space="preserve">
+				<source>Please provide a configuration within corresponding content object. If you need further assistance please contact us at %1$s.</source>
+			</trans-unit>
+			<trans-unit id="404.message.noContentObject" xml:space="preserve">
+				<source>Please provide a content object. If you need further assistance please contact us at %1$s.</source>
+			</trans-unit>
+
+			<trans-unit id="tx_ecomconfigcodegenerator_domain_model_configuration">
+				<source>Configuration</source>
+			</trans-unit>
+			<trans-unit id="tx_ecomconfigcodegenerator_domain_model_configuration.title">
+				<source>Title</source>
+			</trans-unit>
+			<trans-unit id="tx_ecomconfigcodegenerator_domain_model_configuration.prefix">
+				<source>Prefix</source>
+			</trans-unit>
+			<trans-unit id="tx_ecomconfigcodegenerator_domain_model_configuration.suffix">
+				<source>Suffix</source>
+			</trans-unit>
+			<trans-unit id="tx_ecomconfigcodegenerator_domain_model_configuration.part_groups">
+				<source>Part Groups</source>
+			</trans-unit>
+			<trans-unit id="tx_ecomconfigcodegenerator_domain_model_configuration.pricing">
+				<source>Pricing</source>
+			</trans-unit>
+			<trans-unit id="tx_ecomconfigcodegenerator_domain_model_content">
+				<source>Content</source>
+			</trans-unit>
+			<trans-unit id="tx_ecomconfigcodegenerator_domain_model_content.ccg_configuration">
+				<source>Ccg Configuration</source>
+			</trans-unit>
+			<trans-unit id="tx_ecomconfigcodegenerator_domain_model_partgroup">
+				<source>Part Group</source>
+			</trans-unit>
+			<trans-unit id="tx_ecomconfigcodegenerator_domain_model_partgroup.title">
+				<source>Title</source>
+			</trans-unit>
+			<trans-unit id="tx_ecomconfigcodegenerator_domain_model_partgroup.icon">
+				<source>Icon</source>
+			</trans-unit>
+			<trans-unit id="tx_ecomconfigcodegenerator_domain_model_partgroup.place_in_code">
+				<source>Place In Code</source>
+			</trans-unit>
+			<trans-unit id="tx_ecomconfigcodegenerator_domain_model_partgroup.prompt">
+				<source>Prompt</source>
+			</trans-unit>
+			<trans-unit id="tx_ecomconfigcodegenerator_domain_model_partgroup.settings">
+				<source>Global Settings</source>
+			</trans-unit>
+			<trans-unit id="tx_ecomconfigcodegenerator_domain_model_partgroup.dependent_note">
+				<source>Dependent Note</source>
+			</trans-unit>
+			<trans-unit id="tx_ecomconfigcodegenerator_domain_model_partgroup.default_part">
+				<source>Default Part</source>
+			</trans-unit>
+			<trans-unit id="tx_ecomconfigcodegenerator_domain_model_part">
+				<source>Part</source>
+			</trans-unit>
+			<trans-unit id="tx_ecomconfigcodegenerator_domain_model_part.title">
+				<source>Title</source>
+			</trans-unit>
+			<trans-unit id="tx_ecomconfigcodegenerator_domain_model_part.code_segment">
+				<source>Code Segment</source>
+			</trans-unit>
+			<trans-unit id="tx_ecomconfigcodegenerator_domain_model_part.image">
+				<source>Image</source>
+			</trans-unit>
+			<trans-unit id="tx_ecomconfigcodegenerator_domain_model_part.hint">
+				<source>Hint</source>
+			</trans-unit>
+			<trans-unit id="tx_ecomconfigcodegenerator_domain_model_part.part_group">
+				<source>Part Group</source>
+			</trans-unit>
+			<trans-unit id="tx_ecomconfigcodegenerator_domain_model_part.dependency">
+				<source>Dependency</source>
+			</trans-unit>
+			<trans-unit id="tx_ecomconfigcodegenerator_domain_model_part.pricing">
+				<source>Pricing</source>
+			</trans-unit>
+			<trans-unit id="tx_ecomconfigcodegenerator_domain_model_dependentnote">
+				<source>Dependent Note</source>
+			</trans-unit>
+			<trans-unit id="tx_ecomconfigcodegenerator_domain_model_dependentnote.note">
+				<source>Note</source>
+			</trans-unit>
+			<trans-unit id="tx_ecomconfigcodegenerator_domain_model_dependentnote.use_logical_and">
+				<source>Use Logical And</source>
+			</trans-unit>
+			<trans-unit id="tx_ecomconfigcodegenerator_domain_model_dependentnote.dependent_parts">
+				<source>Dependent Parts</source>
+			</trans-unit>
+			<trans-unit id="tx_ecomconfigcodegenerator_domain_model_modal">
+				<source>Modal</source>
+			</trans-unit>
+			<trans-unit id="tx_ecomconfigcodegenerator_domain_model_currency">
+				<source>Currency</source>
+			</trans-unit>
+			<trans-unit id="tx_ecomconfigcodegenerator_domain_model_currency.title">
+				<source>Title</source>
+			</trans-unit>
+			<trans-unit id="tx_ecomconfigcodegenerator_domain_model_currency.iso_code">
+				<source>Iso Code</source>
+			</trans-unit>
+			<trans-unit id="tx_ecomconfigcodegenerator_domain_model_currency.exchange">
+				<source>Exchange</source>
+			</trans-unit>
+			<trans-unit id="tx_ecomconfigcodegenerator_domain_model_currency.symbol">
+				<source>Symbol</source>
+			</trans-unit>
+			<trans-unit id="tx_ecomconfigcodegenerator_domain_model_currency.region">
+				<source>Region</source>
+			</trans-unit>
+			<trans-unit id="tx_ecomconfigcodegenerator_domain_model_currency.ll_reference">
+				<source>Ll Reference</source>
+			</trans-unit>
+			<trans-unit id="tx_ecomconfigcodegenerator_domain_model_currency.flag">
+				<source>Flag</source>
+			</trans-unit>
+			<trans-unit id="tx_ecomconfigcodegenerator_domain_model_currency.settings">
+				<source>Settings</source>
+			</trans-unit>
+			<trans-unit id="tx_ecomconfigcodegenerator_domain_model_price">
+				<source>Price</source>
+			</trans-unit>
+			<trans-unit id="tx_ecomconfigcodegenerator_domain_model_price.value">
+				<source>Value</source>
+			</trans-unit>
+			<trans-unit id="tx_ecomconfigcodegenerator_domain_model_price.currency">
+				<source>Currency</source>
+			</trans-unit>
+			<trans-unit id="tx_ecomconfigcodegenerator_domain_model_dependency">
+				<source>Dependency</source>
+			</trans-unit>
+			<trans-unit id="tx_ecomconfigcodegenerator_domain_model_dependency.mode">
+				<source>Mode</source>
+			</trans-unit>
+			<trans-unit id="tx_ecomconfigcodegenerator_domain_model_dependency.part_groups">
+				<source>Part Groups</source>
+			</trans-unit>
+			<trans-unit id="tx_ecomconfigcodegenerator_domain_model_dependency.parts">
+				<source>Parts</source>
+			</trans-unit>
+			<trans-unit id="tx_ecomconfigcodegenerator_domain_model_generator">
+				<source>Generator</source>
+			</trans-unit>
+			<trans-unit id="tx_ecomconfigcodegenerator_domain_model_resolver">
+				<source>Resolver</source>
+			</trans-unit>
+			<trans-unit id="tx_ecomconfigcodegenerator_domain_model_log">
+				<source>Log</source>
+			</trans-unit>
+			<trans-unit id="tx_ecomconfigcodegenerator_domain_model_log.session_id">
+				<source>Session Id</source>
+			</trans-unit>
+			<trans-unit id="tx_ecomconfigcodegenerator_domain_model_log.configuration">
+				<source>Configuration</source>
+			</trans-unit>
+			<trans-unit id="tx_ecomconfigcodegenerator_domain_model_log.pricing">
+				<source>Pricing</source>
+			</trans-unit>
+			<trans-unit id="tx_ecomconfigcodegenerator_domain_model_log.ip_address">
+				<source>Ip Address</source>
+			</trans-unit>
+			<trans-unit id="tx_ecomconfigcodegenerator_domain_model_log.fe_user">
+				<source>Fe User</source>
+			</trans-unit>
+		</body>
+	</file>
+</xliff>

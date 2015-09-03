@@ -1,0 +1,264 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<xliff version="1.0">
+	<file source-language="en" datatype="plaintext" original="messages" date="2015-09-02T08:52:37Z" product-name="ecom_config_code_generator">
+		<header/>
+		<body>
+			<trans-unit id="bodytext_formlabel">
+				<source>Hint Text</source>
+			</trans-unit>
+			<trans-unit id="tx_ecomconfigcodegenerator_domain_model_content.ccg_configuration">
+				<source>Configuration</source>
+			</trans-unit>
+			<trans-unit id="tx_ecomconfigcodegenerator_domain_model_configuration">
+				<source>Configuration</source>
+			</trans-unit>
+			<trans-unit id="tx_ecomconfigcodegenerator_domain_model_configuration.title">
+				<source>Title</source>
+			</trans-unit>
+			<trans-unit id="tx_ecomconfigcodegenerator_domain_model_configuration.prefix">
+				<source>Prefix</source>
+			</trans-unit>
+			<trans-unit id="tx_ecomconfigcodegenerator_domain_model_configuration.suffix">
+				<source>Suffix</source>
+			</trans-unit>
+			<trans-unit id="tx_ecomconfigcodegenerator_domain_model_configuration.part_groups">
+				<source>Part Groups</source>
+			</trans-unit>
+			<trans-unit id="tx_ecomconfigcodegenerator_domain_model_configuration.part_groups.inlineElementAddTitle">
+				<source>Add part group</source>
+			</trans-unit>
+			<trans-unit id="tx_ecomconfigcodegenerator_domain_model_configuration.enablePricing">
+				<source>Enable pricing</source>
+			</trans-unit>
+			<trans-unit id="tx_ecomconfigcodegenerator_domain_model_configuration.pricing">
+				<source>Pricing</source>
+			</trans-unit>
+			<trans-unit id="tx_ecomconfigcodegenerator_domain_model_configuration.pricing.inlineElementAddTitle">
+				<source>Add price</source>
+			</trans-unit>
+			<trans-unit id="tx_ecomconfigcodegenerator_domain_model_content">
+				<source>Content</source>
+			</trans-unit>
+			<trans-unit id="tt_content.tx_extbase_type.Tx_EcomConfigCodeGenerator_Content">
+				<source>Config code generator Content</source>
+			</trans-unit>
+			<trans-unit id="tx_ecomconfigcodegenerator_domain_model_partgroup">
+				<source>Part Group</source>
+			</trans-unit>
+			<trans-unit id="tx_ecomconfigcodegenerator_domain_model_partgroup.title">
+				<source>Title</source>
+			</trans-unit>
+			<trans-unit id="tx_ecomconfigcodegenerator_domain_model_partgroup.icon">
+				<source>Icon</source>
+			</trans-unit>
+			<trans-unit id="tx_ecomconfigcodegenerator_domain_model_partgroup.place_in_code">
+				<source>Place In Code</source>
+			</trans-unit>
+			<trans-unit id="tx_ecomconfigcodegenerator_domain_model_partgroup.prompt">
+				<source>Prompt</source>
+			</trans-unit>
+			<trans-unit id="tx_ecomconfigcodegenerator_domain_model_partgroup.settings">
+				<source>Settings</source>
+			</trans-unit>
+			<trans-unit id="tx_ecomconfigcodegenerator_domain_model_partgroup.settings.visibility.showInGenerator">
+				<source>Show in generator</source>
+			</trans-unit>
+			<trans-unit id="tx_ecomconfigcodegenerator_domain_model_partgroup.settings.visibility.showInSummary">
+				<source>Show in summary table</source>
+			</trans-unit>
+			<trans-unit id="tx_ecomconfigcodegenerator_domain_model_partgroup.settings.visibility.showInNavigation">
+				<source>Show in navigation bar</source>
+			</trans-unit>
+			<trans-unit id="tx_ecomconfigcodegenerator_domain_model_partgroup.settings.general.enableMultipleSelect">
+				<source>Enable multiple select</source>
+			</trans-unit>
+			<trans-unit id="tx_ecomconfigcodegenerator_domain_model_partgroup.settings.general.usePercentPricing">
+				<source>Use percentage pricing</source>
+			</trans-unit>
+			<trans-unit id="tx_ecomconfigcodegenerator_domain_model_partgroup.parts">
+				<source>Parts</source>
+			</trans-unit>
+			<trans-unit id="tx_ecomconfigcodegenerator_domain_model_partgroup.parts.inlineElementAddTitle">
+				<source>Add part</source>
+			</trans-unit>
+			<trans-unit id="tx_ecomconfigcodegenerator_domain_model_partgroup.default_part">
+				<source>Default Part</source>
+			</trans-unit>
+			<trans-unit id="tx_ecomconfigcodegenerator_domain_model_partgroup.dependent_note">
+				<source>Dependent Note</source>
+			</trans-unit>
+			<trans-unit id="tx_ecomconfigcodegenerator_domain_model_partgroup.dependent_note.inlineElementAddTitle">
+				<source>Add dependency note</source>
+			</trans-unit>
+			<trans-unit id="tx_ecomconfigcodegenerator_domain_model_part">
+				<source>Part</source>
+			</trans-unit>
+			<trans-unit id="tx_ecomconfigcodegenerator_domain_model_part.title">
+				<source>Title</source>
+			</trans-unit>
+			<trans-unit id="tx_ecomconfigcodegenerator_domain_model_part.code_segment">
+				<source>Code Segment</source>
+			</trans-unit>
+			<trans-unit id="tx_ecomconfigcodegenerator_domain_model_part.image">
+				<source>Image</source>
+			</trans-unit>
+			<trans-unit id="tx_ecomconfigcodegenerator_domain_model_part.hint">
+				<source>Hint</source>
+			</trans-unit>
+			<trans-unit id="tx_ecomconfigcodegenerator_domain_model_part.dependency">
+				<source>Dependency</source>
+			</trans-unit>
+			<trans-unit id="tx_ecomconfigcodegenerator_domain_model_part.dependency.inlineElementAddTitle">
+				<source>Add dependency</source>
+			</trans-unit>
+			<trans-unit id="tx_ecomconfigcodegenerator_domain_model_part.pricing">
+				<source>Pricing</source>
+			</trans-unit>
+			<trans-unit id="tx_ecomconfigcodegenerator_domain_model_part.pricing.inlineElementAddTitle">
+				<source>Add price</source>
+			</trans-unit>
+			<trans-unit id="tx_ecomconfigcodegenerator_domain_model_dependentnote">
+				<source>Dependent Note</source>
+			</trans-unit>
+			<trans-unit id="tx_ecomconfigcodegenerator_domain_model_dependentnote.note">
+				<source>Note</source>
+			</trans-unit>
+			<trans-unit id="tx_ecomconfigcodegenerator_domain_model_dependentnote.use_logical_and">
+				<source>Use Logical And</source>
+			</trans-unit>
+			<trans-unit id="tx_ecomconfigcodegenerator_domain_model_dependentnote.dependent_parts">
+				<source>Dependent Parts</source>
+			</trans-unit>
+			<trans-unit id="tx_ecomconfigcodegenerator_domain_model_modal">
+				<source>Modal</source>
+			</trans-unit>
+			<trans-unit id="tx_ecomconfigcodegenerator_domain_model_currency">
+				<source>Currency</source>
+			</trans-unit>
+			<trans-unit id="tx_ecomconfigcodegenerator_domain_model_currency.title">
+				<source>Title</source>
+			</trans-unit>
+			<trans-unit id="tx_ecomconfigcodegenerator_domain_model_currency.iso_code">
+				<source>Iso Code</source>
+			</trans-unit>
+			<trans-unit id="tx_ecomconfigcodegenerator_domain_model_currency.exchange">
+				<source>Exchange</source>
+			</trans-unit>
+			<trans-unit id="tx_ecomconfigcodegenerator_domain_model_currency.symbol">
+				<source>Symbol</source>
+			</trans-unit>
+			<trans-unit id="tx_ecomconfigcodegenerator_domain_model_currency.region">
+				<source>Region</source>
+			</trans-unit>
+			<trans-unit id="tx_ecomconfigcodegenerator_domain_model_currency.ll_reference">
+				<source>LocalLang-Reference</source>
+			</trans-unit>
+			<trans-unit id="tx_ecomconfigcodegenerator_domain_model_currency.flag">
+				<source>Flag</source>
+			</trans-unit>
+			<trans-unit id="tx_ecomconfigcodegenerator_domain_model_currency.settings">
+				<source>Settings</source>
+			</trans-unit>
+			<trans-unit id="tx_ecomconfigcodegenerator_domain_model_currency.settings.default">
+				<source>Use as default (calculation on exchange base on this)</source>
+			</trans-unit>
+			<trans-unit id="tx_ecomconfigcodegenerator_domain_model_currency.settings.prepend_symbol">
+				<source>Prepend currency symbol</source>
+			</trans-unit>
+			<trans-unit id="tx_ecomconfigcodegenerator_domain_model_currency.settings.separate">
+				<source>Separate cureency and symbol (whitespace will be added)</source>
+			</trans-unit>
+			<trans-unit id="tx_ecomconfigcodegenerator_domain_model_currency.settings.format_us">
+				<source>Use US-Format for separators (decimals/thousands)</source>
+			</trans-unit>
+			<trans-unit id="tx_ecomconfigcodegenerator_domain_model_price">
+				<source>Price</source>
+			</trans-unit>
+			<trans-unit id="tx_ecomconfigcodegenerator_domain_model_price.value">
+				<source>Value</source>
+			</trans-unit>
+			<trans-unit id="tx_ecomconfigcodegenerator_domain_model_price.currency">
+				<source>Currency</source>
+			</trans-unit>
+			<trans-unit id="tx_ecomconfigcodegenerator_domain_model_dependency">
+				<source>Dependency</source>
+			</trans-unit>
+			<trans-unit id="tx_ecomconfigcodegenerator_domain_model_dependency.mode">
+				<source>Mode</source>
+			</trans-unit>
+			<trans-unit id="tx_ecomconfigcodegenerator_domain_model_dependency.mode.allow">
+				<source>Explicit Allow</source>
+			</trans-unit>
+			<trans-unit id="tx_ecomconfigcodegenerator_domain_model_dependency.mode.deny">
+				<source>Explicit Deny</source>
+			</trans-unit>
+			<trans-unit id="tx_ecomconfigcodegenerator_domain_model_dependency.part_groups">
+				<source>Part Groups</source>
+			</trans-unit>
+			<trans-unit id="tx_ecomconfigcodegenerator_domain_model_dependency.parts">
+				<source>Parts</source>
+			</trans-unit>
+			<trans-unit id="tx_ecomconfigcodegenerator_domain_model_generator">
+				<source>Generator</source>
+			</trans-unit>
+			<trans-unit id="tx_ecomconfigcodegenerator_domain_model_resolver">
+				<source>Resolver</source>
+			</trans-unit>
+			<trans-unit id="tx_ecomconfigcodegenerator_domain_model_log">
+				<source>Log</source>
+			</trans-unit>
+			<trans-unit id="tx_ecomconfigcodegenerator_domain_model_log.session_id">
+				<source>Session ID</source>
+			</trans-unit>
+			<trans-unit id="tx_ecomconfigcodegenerator_domain_model_log.configuration">
+				<source>Configuration</source>
+			</trans-unit>
+			<trans-unit id="tx_ecomconfigcodegenerator_domain_model_log.pricing">
+				<source>Pricing</source>
+			</trans-unit>
+			<trans-unit id="tx_ecomconfigcodegenerator_domain_model_log.ip_address">
+				<source>IP Address</source>
+			</trans-unit>
+			<trans-unit id="tx_ecomconfigcodegenerator_domain_model_log.fe_user">
+				<source>Frontend User</source>
+			</trans-unit>
+
+
+			<trans-unit id="select.empty">
+				<source>-- please choose --</source>
+			</trans-unit>
+
+			<!-- TABS AND PALETTES -->
+			<trans-unit id="tabs.referral">
+				<source>Referral</source>
+			</trans-unit>
+			<trans-unit id="tabs.parts">
+				<source>Parts</source>
+			</trans-unit>
+			<trans-unit id="tabs.pricing">
+				<source>Pricing</source>
+			</trans-unit>
+			<trans-unit id="palettes.basic">
+				<source>Basic setup</source>
+			</trans-unit>
+			<trans-unit id="palettes.region">
+				<source>Region setup</source>
+			</trans-unit>
+
+			<!-- DEFAULT CURRENCY REGIONS -->
+
+			<trans-unit id="currency.eur.region">
+				<source>Europe</source>
+			</trans-unit>
+			<trans-unit id="currency.chf.region">
+				<source>Switzerland</source>
+			</trans-unit>
+			<trans-unit id="currency.gbp.region">
+				<source>United Kingdom</source>
+			</trans-unit>
+			<trans-unit id="currency.usd.region">
+				<source>North, Middle and South America</source>
+			</trans-unit>
+		</body>
+	</file>
+</xliff>

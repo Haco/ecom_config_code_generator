@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<xliff version="1.0">
+	<file source-language="en" datatype="plaintext" original="messages" date="2015-09-02T08:52:37Z" product-name="ecom_config_code_generator">
+		<header/>
+		<body>
+			<trans-unit id="session_id.description">
+				<source>PHP session id</source>
+			</trans-unit>
+			<trans-unit id="configuration.description">
+				<source>Resulting configuration (code)</source>
+			</trans-unit>
+			<trans-unit id="pricing.description">
+				<source>The configration pricing</source>
+			</trans-unit>
+			<trans-unit id="ip_address.description">
+				<source>The IP address (as of data protection anonymized)</source>
+			</trans-unit>
+			<trans-unit id="fe_user.description">
+				<source>FE user record, if any</source>
+			</trans-unit>
+		</body>
+	</file>
+</xliff>
