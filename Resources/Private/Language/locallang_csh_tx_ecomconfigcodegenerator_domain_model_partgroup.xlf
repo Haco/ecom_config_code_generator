@@ -4,7 +4,7 @@
 		<header/>
 		<body>
 			<trans-unit id="title.description">
-				<source>The partgroup title</source>
+				<source>The part group title</source>
 			</trans-unit>
 			<trans-unit id="icon.description">
 				<source>Icon file, if any</source>
@@ -27,7 +27,7 @@
 			<trans-unit id="default_part.description">
 				<source>The default part if should be pre-selected</source>
 			</trans-unit>
-			<trans-unit id="dependent_note.description">
+			<trans-unit id="dependent_notes.description">
 				<source>Notes depending on divers parts selected</source>
 			</trans-unit>
 		</body>

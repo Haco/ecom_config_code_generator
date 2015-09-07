@@ -27,7 +27,7 @@
 			<trans-unit id="tx_ecomconfigcodegenerator_domain_model_configuration.part_groups.inlineElementAddTitle">
 				<source>Add part group</source>
 			</trans-unit>
-			<trans-unit id="tx_ecomconfigcodegenerator_domain_model_configuration.enable_pricing">
+			<trans-unit id="tx_ecomconfigcodegenerator_domain_model_configuration.pricing_enabled">
 				<source>Enable pricing</source>
 			</trans-unit>
 			<trans-unit id="tx_ecomconfigcodegenerator_domain_model_configuration.pricing">
@@ -99,10 +99,10 @@
 			<trans-unit id="tx_ecomconfigcodegenerator_domain_model_partgroup.default_part">
 				<source>Default Part</source>
 			</trans-unit>
-			<trans-unit id="tx_ecomconfigcodegenerator_domain_model_partgroup.dependent_note">
+			<trans-unit id="tx_ecomconfigcodegenerator_domain_model_partgroup.dependent_notes">
 				<source>Dependent Note</source>
 			</trans-unit>
-			<trans-unit id="tx_ecomconfigcodegenerator_domain_model_partgroup.dependent_note.inlineElementAddTitle">
+			<trans-unit id="tx_ecomconfigcodegenerator_domain_model_partgroup.dependent_notes.inlineElementAddTitle">
 				<source>Add dependency note</source>
 			</trans-unit>
 			<trans-unit id="tx_ecomconfigcodegenerator_domain_model_part">

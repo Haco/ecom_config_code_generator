@@ -121,7 +121,7 @@ class Currency extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	/**
 	 * @return string
 	 */
-	public function getL10nTitle() {
+	public function getL10nRegionTitle() {
 		return $this->llReference ? LocalizationUtility::translate($this->llReference, 'ecom_config_code_generator') : (LocalizationUtility::translate("currency.region.{$this->isoCode}", 'ecom_config_code_generator') ?: $this->region);
 	}
 

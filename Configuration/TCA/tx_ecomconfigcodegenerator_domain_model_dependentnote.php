@@ -34,7 +34,7 @@ return [
 	],
 	'palettes' => [
 		'1' => [ 'showitem' => '' ],
-		'2' => [ 'showitem' => 'note_wrap, --linebreak--, dependent_parts, --linebreak--, use_logical_and, partgroup', 'canNotCollapse' => TRUE ]
+		'2' => [ 'showitem' => 'note_wrap, --linebreak--, dependent_parts, --linebreak--, use_logical_and, part_group', 'canNotCollapse' => TRUE ]
 	],
 	'columns' => [
 
@@ -141,9 +141,9 @@ return [
 					AND tx_ecomconfigcodegenerator_domain_model_part.pid=###REC_FIELD_pid###
 					AND NOT tx_ecomconfigcodegenerator_domain_model_part.deleted
 					AND tx_ecomconfigcodegenerator_domain_model_part.sys_language_uid IN (-1,0)
-					AND (SELECT sorting FROM tx_ecomconfigcodegenerator_domain_model_partgroup WHERE tx_ecomconfigcodegenerator_domain_model_partgroup.uid=tx_ecomconfigcodegenerator_domain_model_part.partgroup) < (SELECT sorting FROM tx_ecomconfigcodegenerator_domain_model_partgroup WHERE tx_ecomconfigcodegenerator_domain_model_partgroup.uid=###REC_FIELD_partgroup###)
-					AND (SELECT settings FROM tx_ecomconfigcodegenerator_domain_model_partgroup WHERE tx_ecomconfigcodegenerator_domain_model_partgroup.uid=tx_ecomconfigcodegenerator_domain_model_part.partgroup) & 1 = 1
-					ORDER BY tx_ecomconfigcodegenerator_domain_model_part.partgroup, tx_ecomconfigcodegenerator_domain_model_part.title
+					AND ( SELECT sorting FROM tx_ecomconfigcodegenerator_domain_model_partgroup WHERE tx_ecomconfigcodegenerator_domain_model_partgroup.uid=tx_ecomconfigcodegenerator_domain_model_part.part_group ) < ( SELECT sorting FROM tx_ecomconfigcodegenerator_domain_model_partgroup WHERE tx_ecomconfigcodegenerator_domain_model_partgroup.uid=###REC_FIELD_partgroup### )
+					AND ( SELECT settings FROM tx_ecomconfigcodegenerator_domain_model_partgroup WHERE tx_ecomconfigcodegenerator_domain_model_partgroup.uid=tx_ecomconfigcodegenerator_domain_model_part.part_group ) & ' . \S3b0\EcomConfigCodeGenerator\Setup::BIT_PARTGROUP_IS_VISIBLE . ' = ' . \S3b0\EcomConfigCodeGenerator\Setup::BIT_PARTGROUP_IS_VISIBLE . '
+					ORDER BY tx_ecomconfigcodegenerator_domain_model_part.part_group, tx_ecomconfigcodegenerator_domain_model_part.title
 				'),
 				'MM' => 'tx_ecomconfigcodegenerator_dependentnote_part_mm',
 				'itemsProcFunc' => 'S3b0\\EcomConfigCodeGenerator\\User\\ModifyTCA\\ModifyTCA->itemsProcFuncEcomConfigCodeGeneratorDomainModelDependentNoteDependentParts',
@@ -157,7 +157,7 @@ return [
 			]
 		],
 
-		'partgroup' => [
+		'part_group' => [
 			'label' => "{$translate}tx_ecomconfigcodegenerator_domain_model_partgroup",
 			'config' => [
 				'type' => 'select',

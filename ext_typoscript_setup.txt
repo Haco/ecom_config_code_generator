@@ -9,6 +9,22 @@ config.tx_extbase {
           }
         }
       }
+      S3b0\EcomConfigCodeGenerator\Domain\Model\Part {
+        mapping {
+          tableName = tx_ecomconfigcodegenerator_domain_model_part
+          columns {
+            sorting.mapOnProperty = sorting
+          }
+        }
+      }
+      S3b0\EcomConfigCodeGenerator\Domain\Model\PartGroup {
+        mapping {
+          tableName = tx_ecomconfigcodegenerator_domain_model_partgroup
+          columns {
+            sorting.mapOnProperty = sorting
+          }
+        }
+      }
     }
   }
 }

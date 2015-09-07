@@ -89,16 +89,16 @@ class DependentNote extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	public function getNote() {
 		switch ( $this->noteWrap ) {
 			case 1:
-				return "<div class=\"alert alert-success\"><table><tr><td style=\"vertical-align:middle;width:2.5em\"><i class=\"fa fa-check-circle fa-fw fa-lg\"></i></td><td>{$this->note}</td></tr></table></div>";
+				return "<div class=\"alert alert-success\">{$this->note}</div>";
 				break;
 			case 2:
-				return "<div class=\"alert alert-info\"><table><tr><td style=\"vertical-align:middle;width:2.5em\"><i class=\"fa fa-info-circle fa-fw fa-lg\"></i></td><td>{$this->note}</td></tr></table></div>";
+				return "<div class=\"alert alert-info\">{$this->note}</div>";
 				break;
 			case 3:
-				return "<div class=\"alert alert-warning\"><table><tr><td style=\"vertical-align:middle;width:2.5em\"><i class=\"fa fa-exclamation-triangle fa-fw fa-lg\"></i></td><td>{$this->note}</td></tr></table></div>";
+				return "<div class=\"alert alert-warning\">{$this->note}</div>";
 				break;
 			case 4:
-				return "<div class=\"alert alert-danger\"><table><tr><td style=\"vertical-align:middle;width:2.5em\"><i class=\"fa fa-exclamation-circle fa-fw fa-lg\"></i></td><td>{$this->note}</td></tr></table></div>";
+				return "<div class=\"alert alert-danger\">{$this->note}</div>";
 				break;
 			default:
 				return $this->note;

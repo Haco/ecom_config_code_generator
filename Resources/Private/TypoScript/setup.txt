@@ -16,6 +16,46 @@ plugin.tx_ecomconfigcodegenerator {
 	}
 }
 
+page.includeCSSLibs {
+	ccg = EXT:ecom_config_code_generator/Resources/Public/CSS/main.css
+	ccg.import = 1
+}
+
+EcomConfigCodeGeneratorAjaxRequest = PAGE
+EcomConfigCodeGeneratorAjaxRequest {
+	typeNum = 1441344351
+
+	config {
+		disableAllHeaderCode = 1
+		xhtml_cleaning = 0
+		admPanel = 0
+		debug = 0
+		no_cache = 1
+		additionalHeaders = Content-type:application/json|Cache-Control:no-cache, must-revalidate, max-age=0|Pragma:no-cache
+		linkVars = L
+	}
+
+	10 = USER
+	10 {
+		userFunc = TYPO3\CMS\Extbase\Core\Bootstrap->run
+		vendorName = S3b0
+		extensionName = EcomConfigCodeGenerator
+		pluginName = Generator
+		controller = AjaxRequest
+		switchableControllerActions {
+			DynamicConfiguratorAjaxRequest {
+				1 = index
+				2 = selectPart
+				3 = showHint
+			}
+		}
+	}
+
+	view < plugin.tx_ecompc.view
+	persistence < plugin.tx_ecompc.persistence
+	settings < plugin.tx_ecompc.settings
+}
+
 plugin.tx_ecomconfigcodegenerator._CSS_DEFAULT_STYLE (
 	textarea.f3-form-error {
 		background-color:#FF9F9F;

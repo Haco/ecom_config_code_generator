@@ -45,14 +45,14 @@ return [
 			'endtime' => 'endtime',
 			'fe_group' => 'fe_group'
 		],
-		'searchFields' => 'title,icon,place_in_code,prompt,prompt_wrap,settings,parts,default_part,dependent_note',
+		'searchFields' => 'title,icon,place_in_code,prompt,prompt_wrap,settings,parts,default_part,dependent_notes',
 		'iconfile' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath('ecom_config_code_generator') . 'Resources/Public/Icons/tx_ecomconfigcodegenerator_domain_model_partgroup.gif'
 	],
 	'interface' => [
-		'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, title, icon, place_in_code, prompt, prompt_wrap, settings, parts, default_part, dependent_note'
+		'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, title, icon, place_in_code, prompt, prompt_wrap, settings, parts, default_part, dependent_notes'
 	],
 	'types' => [
-		'1' => [ 'showitem' => "sys_language_uid;;;;1-1-1, l10n_parent, l10n_diffsource, hidden;;1, title, prompt;;3;wizards[t3editorHtml], dependent_note, configuration, --div--;{$translate}tabs.parts, parts, --div--;LLL:EXT:cms/locallang_ttc.xlf:tabs.appearance, icon, --palette--;;2, --div--;LLL:EXT:cms/locallang_ttc.xlf:tabs.access, --palette--;LLL:EXT:cms/locallang_tca.xlf:pages.palettes.access;access" ]
+		'1' => [ 'showitem' => "sys_language_uid;;;;1-1-1, l10n_parent, l10n_diffsource, hidden;;1, title, prompt;;3;wizards[t3editorHtml], dependent_notes, configuration, --div--;{$translate}tabs.parts, parts, --div--;LLL:EXT:cms/locallang_ttc.xlf:tabs.appearance, icon, --palette--;;2, --div--;LLL:EXT:cms/locallang_ttc.xlf:tabs.access, --palette--;LLL:EXT:cms/locallang_tca.xlf:pages.palettes.access;access" ]
 	],
 	'palettes' => [
 		'1' => [
@@ -292,7 +292,7 @@ return [
 			'config' => [
 				'type' => 'inline',
 				'foreign_table' => 'tx_ecomconfigcodegenerator_domain_model_part',
-				'foreign_field' => 'partgroup',
+				'foreign_field' => 'part_group',
 				'maxitems'      => 9999,
 				'appearance' => [
 					'collapseAll' => 1,
@@ -325,7 +325,7 @@ return [
 			'config' => [
 				'type' => 'select',
 				'foreign_table' => 'tx_ecomconfigcodegenerator_domain_model_part',
-				'foreign_table_where' => 'AND tx_ecomconfigcodegenerator_domain_model_part.pid=###CURRENT_PID### AND NOT tx_ecomconfigcodegenerator_domain_model_part.deleted AND tx_ecomconfigcodegenerator_domain_model_part.sys_language_uid IN (-1,0) AND tx_ecomconfigcodegenerator_domain_model_part.partgroup IN (###THIS_UID###,###REC_FIELD_l10n_parent###) ORDER BY tx_ecomconfigcodegenerator_domain_model_part.title',
+				'foreign_table_where' => 'AND tx_ecomconfigcodegenerator_domain_model_part.pid=###CURRENT_PID### AND NOT tx_ecomconfigcodegenerator_domain_model_part.deleted AND tx_ecomconfigcodegenerator_domain_model_part.sys_language_uid IN (-1,0) AND tx_ecomconfigcodegenerator_domain_model_part.part_group IN (###THIS_UID###,###REC_FIELD_l10n_parent###) ORDER BY tx_ecomconfigcodegenerator_domain_model_part.title',
 				'items' => [
 					[ "{$translate}select.empty", '' ]
 				],
@@ -333,19 +333,19 @@ return [
 				'maxitems' => 1
 			]
 		],
-		'dependent_note' => [
+		'dependent_notes' => [
 			'exclude' => 1,
-			'label' => "{$translate}tx_ecomconfigcodegenerator_domain_model_partgroup.dependent_note",
+			'label' => "{$translate}tx_ecomconfigcodegenerator_domain_model_partgroup.dependent_notes",
 			'config' => [
 				'type' => 'inline',
 				'foreign_table' => 'tx_ecomconfigcodegenerator_domain_model_dependentnote',
-				'foreign_field' => 'partgroup',
+				'foreign_field' => 'part_group',
 				'maxitems'      => 9999,
 				'appearance' => [
 					'collapseAll' => 1,
 					'expandSingle' => 1,
 					'newRecordLinkAddTitle' => 0,
-					'newRecordLinkTitle' => "{$translate}tx_ecomconfigcodegenerator_domain_model_partgroup.dependent_note.inlineElementAddTitle",
+					'newRecordLinkTitle' => "{$translate}tx_ecomconfigcodegenerator_domain_model_partgroup.dependent_notes.inlineElementAddTitle",
 					'levelLinksPosition' => 'bottom',
 					'showAllLocalizationLink' => 1,
 					'showPossibleLocalizationRecords' => 1,

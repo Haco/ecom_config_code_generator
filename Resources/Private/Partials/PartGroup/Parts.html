@@ -1,0 +1,10 @@
+<div id="configurator-select-parts-ajax-update">
+	<f:if condition="{parts -> f:count()}">
+		<f:for each="{parts}" as="part" iteration="partIterator">
+			<a data-part="{part.uid}" data-part-state="{part.active -> f:format.number(decimals : 0)}" class="configurator-select-part-group-part configurator-select-part-group-part-wrap {f:if(condition : '{part.inConflictWithSelectedParts}', then : 'disabled', else : 'enabled')}" tabindex="{partIterator.cycle}">
+				<f:render partial="Part/LinkInnerHTML" arguments="{_all}" />
+			</a>
+			<div class="clearfix"></div>
+		</f:for>
+	</f:if>
+</div>

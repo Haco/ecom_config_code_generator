@@ -33,6 +33,11 @@ namespace S3b0\EcomConfigCodeGenerator\Domain\Model;
 class Part extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 
 	/**
+	 * @var integer
+	 */
+	protected $sorting = 0;
+
+	/**
 	 * The part title
 	 *
 	 * @var string
@@ -78,6 +83,16 @@ class Part extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	protected $pricing = NULL;
 
 	/**
+	 * @var \S3b0\EcomConfigCodeGenerator\Domain\Model\PartGroup
+	 */
+	protected $partGroup = NULL;
+
+	/**
+	 * @var boolean
+	 */
+	protected $active = FALSE;
+
+	/**
 	 * __construct
 	 */
 	public function __construct() {
@@ -95,6 +110,13 @@ class Part extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	 */
 	protected function initStorageObjects() {
 		$this->pricing = new \TYPO3\CMS\Extbase\Persistence\ObjectStorage();
+	}
+
+	/**
+	 * @return integer
+	 */
+	public function getSorting() {
+		return $this->sorting;
 	}
 
 	/**
@@ -229,6 +251,39 @@ class Part extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	 */
 	public function setPricing(\TYPO3\CMS\Extbase\Persistence\ObjectStorage $pricing) {
 		$this->pricing = $pricing;
+	}
+
+	/**
+	 * Returns the part group
+	 *
+	 * @return \S3b0\EcomConfigCodeGenerator\Domain\Model\PartGroup $partGroup
+	 */
+	public function getPartGroup() {
+		return $this->partGroup;
+	}
+
+	/**
+	 * Sets the part group
+	 *
+	 * @param \S3b0\EcomConfigCodeGenerator\Domain\Model\PartGroup $partGroup
+	 * @return void
+	 */
+	public function setPartGroup(\S3b0\EcomConfigCodeGenerator\Domain\Model\PartGroup $partGroup) {
+		$this->partGroup = $partGroup;
+	}
+
+	/**
+	 * @return boolean
+	 */
+	public function isActive() {
+		return $this->active;
+	}
+
+	/**
+	 * @param boolean $active
+	 */
+	public function setActive($active) {
+		$this->active = $active;
 	}
 
 }

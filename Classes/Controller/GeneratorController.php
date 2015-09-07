@@ -27,12 +27,14 @@ namespace S3b0\EcomConfigCodeGenerator\Controller;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
+use S3b0\EcomConfigCodeGenerator\Setup;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 
 /**
  * GeneratorController
  */
-class GeneratorController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController {
+class GeneratorController extends \S3b0\EcomConfigCodeGenerator\Controller\InjectController {
 
 	/**
 	 * @var \S3b0\EcomConfigCodeGenerator\Domain\Model\Content
@@ -43,18 +45,6 @@ class GeneratorController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionContro
 	 * @var \S3b0\EcomConfigCodeGenerator\Domain\Model\Configuration
 	 */
 	protected $configuration = NULL;
-
-	/**
-	 * @var \S3b0\EcomConfigCodeGenerator\Domain\Repository\ContentRepository
-	 * @inject
-	 */
-	protected $contentRepository;
-
-	/**
-	 * @var \S3b0\EcomConfigCodeGenerator\Domain\Repository\CurrencyRepository
-	 * @inject
-	 */
-	protected $currencyRepository;
 
 	/**
 	 * Initializes the controller before invoking an action method.
@@ -79,6 +69,14 @@ class GeneratorController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionContro
 			$this->throwStatus(404, NULL, '<h1>' . LocalizationUtility::translate('404.noConfiguration', $this->extensionName) . '</h1>' . LocalizationUtility::translate('404.message.noConfiguration', $this->extensionName, [ "<a href=\"mailto:{$this->settings['webmasterEmail']}\">{$this->settings['webmasterEmail']}</a>" ]));
 		if ( !$this->configuration->getPartGroups()->count() )
 			$this->throwStatus(404, NULL, '<h1>' . LocalizationUtility::translate('404.noPartGroups', $this->extensionName) . '</h1>' . LocalizationUtility::translate('404.message.noPartGroups', $this->extensionName, [ "<a href=\"mailto:{$this->settings['webmasterEmail']}\">{$this->settings['webmasterEmail']}</a>" ]));
+
+		// Frontend-Session
+		$this->feSession->setStorageKey(Setup::getSessionStorageKey($this->contentObject));
+		if ( ( $currency = GeneralUtility::_GET('currency') ) && !$this->feSession->get('currency') )
+			$this->feSession->store('currency', $currency);
+
+		if ( $this->configuration->isPricingEnabled() && $this->request->getControllerActionName() != 'currencySelect' && !$this->feSession->get('currency') )
+			$this->forward('currencySelect');
 	}
 
 	/**
@@ -94,15 +92,48 @@ class GeneratorController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionContro
 	 */
 	public function initializeView(\TYPO3\CMS\Extbase\Mvc\View\ViewInterface $view) {
 		$this->view->assign('contentObject', $this->contentObject);
+		$this->view->assign('pricingEnabled', $this->configuration->isPricingEnabled());
+		$this->view->assign('jsData', [
+			'controller' => $this->request->getControllerName(),
+			'pageId' => $GLOBALS['TSFE']->id,
+			'contentObject' => $this->contentObject->_getProperty('_localizedUid'),
+			'sysLanguage' => (int) $GLOBALS['TSFE']->sys_language_content
+		]);
 	}
 
 	/**
 	 * action index
 	 *
+	 * @param \S3b0\EcomConfigCodeGenerator\Domain\Model\PartGroup $partGroup
 	 * @return void
 	 */
-	public function indexAction() {
+	public function indexAction(\S3b0\EcomConfigCodeGenerator\Domain\Model\PartGroup $partGroup = NULL) {
+		// Get current configuration (Array: options=array(options)|packages=array(package => option(s)))
+		$configuration = $this->feSession->get('config') ?: [ ];
+		$partGroups = \S3b0\EcomConfigCodeGenerator\Controller\PartGroupController::initialize(
+			$this,
+			$this->contentObject->getCcgConfiguration()->getPartGroups() ?: new \TYPO3\CMS\Extbase\Persistence\ObjectStorage(),
+			$configuration,
+			$currentPartGroup,
+			$progress
+		);
+		if ( $partGroup ) {
+			/** @var \S3b0\EcomConfigCodeGenerator\Domain\Model\PartGroup $currentPartGroup */
+			$currentPartGroup = $partGroup ?: $currentPartGroup;
+		}
+		$parts = \S3b0\EcomConfigCodeGenerator\Controller\PartController::initialize(
+			$currentPartGroup->getParts(),
+			$configuration
+		);
 
+		$this->view->assign('data', [
+			'partGroups' => $partGroups,
+			'currentPartGroup' => $currentPartGroup,
+			'parts' => $parts,
+			'configuration' => $configuration,
+			'progress' => $progress,
+			'progressPercentage' => $progress * 100
+		]);
 	}
 
 	/**
@@ -111,7 +142,7 @@ class GeneratorController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionContro
 	 * @return void
 	 */
 	public function currencySelectAction() {
-
+		$this->view->assign('currencies', $this->currencyRepository->findAll());
 	}
 
 	/**

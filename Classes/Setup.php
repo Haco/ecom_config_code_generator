@@ -13,6 +13,12 @@ class Setup {
 	const BIT_CURRENCY_ADD_WHITEPACE_BETWEEN_CURRENCY_AND_VALUE = 4;
 	const BIT_CURRENCY_NUMBER_SEPARATORS_IN_US_FORMAT = 8;
 
+	const BIT_PARTGROUP_IS_VISIBLE = 1;
+	const BIT_PARTGROUP_IN_SUMMARY = 2;
+	const BIT_PARTGROUP_IN_NAVIGATION = 4;
+	const BIT_PARTGROUP_MULTIPLE_SELECT = 8;
+	const BIT_PARTGROUP_USE_PERCENTAGE_PRICING = 16;
+
 	/**
 	 * @param boolean $isDevelopment
 	 */
@@ -28,6 +34,16 @@ class Setup {
 			$GLOBALS['TYPO3_CONF_VARS']['SYS']['exceptionalErrors'] = '28674';
 			$GLOBALS['TYPO3_CONF_VARS']['SYS']['clearCacheSystem'] = '1';
 		}
+	}
+
+	/**
+	 * @param \S3b0\EcomConfigCodeGenerator\Domain\Model\Content|NULL $content
+	 * @param int                                                     $cObjectUid
+	 *
+	 * @return string
+	 */
+	public static function getSessionStorageKey(\S3b0\EcomConfigCodeGenerator\Domain\Model\Content $content = NULL, $cObjectUid = 0) {
+		return "ccg-{$content->getUid()}";
 	}
 
 }

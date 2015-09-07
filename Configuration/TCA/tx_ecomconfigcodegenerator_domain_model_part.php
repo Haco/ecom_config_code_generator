@@ -37,7 +37,7 @@ return [
 		'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, title, code_segment, image, hint, dependency, pricing'
 	],
 	'types' => [
-		'1' => [ 'showitem' => "sys_language_uid;;;;1-1-1, l10n_parent, l10n_diffsource, hidden;;1, title, code_segment, partgroup, --div--;{$translate}tabs.referral, image, dependency, --div--;{$translate}tabs.pricing, pricing, --div--;LLL:EXT:cms/locallang_tca.xlf:pages.tabs.extended, hint;;;richtext:rte_transform[mode=ts_links], --div--;LLL:EXT:cms/locallang_ttc.xlf:tabs.access, --palette--;LLL:EXT:cms/locallang_tca.xlf:pages.palettes.access;access" ]
+		'1' => [ 'showitem' => "sys_language_uid;;;;1-1-1, l10n_parent, l10n_diffsource, hidden;;1, title, code_segment, part_group, --div--;{$translate}tabs.referral, image, dependency, --div--;{$translate}tabs.pricing, pricing, --div--;LLL:EXT:cms/locallang_tca.xlf:pages.tabs.extended, hint;;;richtext:rte_transform[mode=ts_links], --div--;LLL:EXT:cms/locallang_ttc.xlf:tabs.access, --palette--;LLL:EXT:cms/locallang_tca.xlf:pages.palettes.access;access" ]
 	],
 	'palettes' => [
 		'1' => [
@@ -275,7 +275,7 @@ return [
 			]
 		],
 
-		'partgroup' => [
+		'part_group' => [
 			'label' => "{$translate}tx_ecomconfigcodegenerator_domain_model_partgroup",
 			'config' => [
 				'type' => 'select',

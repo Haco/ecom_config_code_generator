@@ -89,7 +89,7 @@ return [
 					AND tx_ecomconfigcodegenerator_domain_model_partgroup.sys_language_uid IN(-1,0)
 					AND tx_ecomconfigcodegenerator_domain_model_partgroup.sorting < (
 						SELECT sorting FROM tx_ecomconfigcodegenerator_domain_model_partgroup WHERE uid=(
-							SELECT partgroup FROM tx_ecomconfigcodegenerator_domain_model_part WHERE uid=###REC_FIELD_part###
+							SELECT part_group FROM tx_ecomconfigcodegenerator_domain_model_part WHERE uid=###REC_FIELD_part###
 						)
 					)
 					AND tx_ecomconfigcodegenerator_domain_model_partgroup.settings & 1 = 1
@@ -118,9 +118,9 @@ return [
 					AND tx_ecomconfigcodegenerator_domain_model_part.pid=###REC_FIELD_pid###
 					AND NOT tx_ecomconfigcodegenerator_domain_model_part.deleted
 					AND tx_ecomconfigcodegenerator_domain_model_part.sys_language_uid IN (-1,0)
-					AND tx_ecomconfigcodegenerator_domain_model_part.partgroup IN (
+					AND tx_ecomconfigcodegenerator_domain_model_part.part_group IN (
 						SELECT tx_ecomconfigcodegenerator_dependency_partgroup_mm.uid_foreign FROM tx_ecomconfigcodegenerator_dependency_partgroup_mm WHERE tx_ecomconfigcodegenerator_dependency_partgroup_mm.uid_local=###THIS_UID### ORDER BY tx_ecomconfigcodegenerator_dependency_partgroup_mm.sorting
-					) ORDER BY tx_ecomconfigcodegenerator_domain_model_part.partgroup, tx_ecomconfigcodegenerator_domain_model_part.title
+					) ORDER BY tx_ecomconfigcodegenerator_domain_model_part.part_group, tx_ecomconfigcodegenerator_domain_model_part.title
 				'),
 				'MM' => 'tx_ecomconfigcodegenerator_dependency_part_mm',
 				'itemsProcFunc' => 'S3b0\\EcomConfigCodeGenerator\\User\\ModifyTCA\\ModifyTCA->itemsProcFuncEcomConfigCodeGeneratorDomainModelDependencyParts',

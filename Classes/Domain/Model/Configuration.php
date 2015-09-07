@@ -63,11 +63,11 @@ class Configuration extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	protected $partGroups = NULL;
 
 	/**
-	 * enablePricing
+	 * pricingEnabled
 	 *
 	 * @var boolean
 	 */
-	protected $enablePricing = FALSE;
+	protected $pricingEnabled = FALSE;
 
 	/**
 	 * Configuration base pricing
@@ -195,30 +195,31 @@ class Configuration extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	}
 
 	/**
-	 * Returns the enablePricing
+	 * Returns the pricingEnabled
 	 *
 	 * @return boolean
 	 */
-	public function getEnablePricing() {
-		return $this->enablePricing;
+	public function getPricingEnabled() {
+		return $this->pricingEnabled;
 	}
 	/**
-	 * Sets the enablePricing
+	 * Sets the pricingEnabled
 	 *
-	 * @param boolean $enablePricing
-	 * @return void
+	 * @param boolean $pricingEnabled
+	 *
+*@return void
 	 */
-	public function setEnablePricing($enablePricing) {
-		$this->enablePricing = $enablePricing;
+	public function setPricingEnabled($pricingEnabled) {
+		$this->pricingEnabled = $pricingEnabled;
 	}
 
 	/**
-	 * Returns the enablePricing
+	 * Returns the pricingEnabled
 	 *
 	 * @return boolean
 	 */
-	public function isEnablePricing() {
-		return $this->enablePricing;
+	public function isPricingEnabled() {
+		return $this->pricingEnabled;
 	}
 
 	/**

@@ -109,7 +109,7 @@ class ModifyTCA extends \TYPO3\CMS\Backend\Form\FormEngine {
 
 		if ( sizeof($PA['items']) && $PA['row']['part_groups'] ) {
 			$partGroupsCollection = [ ];
-			$referringPart = BackendUtility\BackendUtility::getRecord('tx_ecomconfigcodegenerator_domain_model_part', $PA['row']['part'], 'pid,partgroup');
+			$referringPart = BackendUtility\BackendUtility::getRecord('tx_ecomconfigcodegenerator_domain_model_part', $PA['row']['part'], 'pid,part_group');
 
 			/** @var \TYPO3\CMS\Core\Database\DatabaseConnection $db */
 			$db = $GLOBALS['TYPO3_DB'];
@@ -122,18 +122,18 @@ class ModifyTCA extends \TYPO3\CMS\Backend\Form\FormEngine {
 
 			foreach ( $PA['items'] as $item ) {
 				$data = BackendUtility\BackendUtility::getRecord('tx_ecomconfigcodegenerator_domain_model_part', $item[1], '*');
-				if ( !sizeof($data) || $data['pid'] !== $referringPart['pid'] || !CoreUtility\GeneralUtility::inList(implode(',', $partGroups), $data['partgroup']) ) {
+				if ( !sizeof($data) || $data['pid'] !== $referringPart['pid'] || !CoreUtility\GeneralUtility::inList(implode(',', $partGroups), $data['part_group']) ) {
 					continue;
 				}
 
 				$item[2] = 'clear.gif';
 				$partGroupsCollection[0]['div'] = '-- not assigned --';
-				if ( CoreUtility\MathUtility::canBeInterpretedAsInteger($data['partgroup']) ) {
-					if ( !array_key_exists($data['partgroup'], $partGroupsCollection) ) {
-						$partGroup = BackendUtility\BackendUtility::getRecord('tx_ecomconfigcodegenerator_domain_model_partgroup', $data['partgroup'], 'title');
-						$partGroupsCollection[$data['partgroup']]['div'] = $partGroup['title'];
+				if ( CoreUtility\MathUtility::canBeInterpretedAsInteger($data['part_group']) ) {
+					if ( !array_key_exists($data['part_group'], $partGroupsCollection) ) {
+						$partGroup = BackendUtility\BackendUtility::getRecord('tx_ecomconfigcodegenerator_domain_model_partgroup', $data['part_group'], 'title');
+						$partGroupsCollection[$data['part_group']]['div'] = $partGroup['title'];
 					}
-					$partGroupsCollection[$data['partgroup']]['items'][] = $item;
+					$partGroupsCollection[$data['part_group']]['items'][] = $item;
 				} else {
 					$partGroupsCollection[0]['items'][] = $item;
 				}
@@ -186,18 +186,18 @@ class ModifyTCA extends \TYPO3\CMS\Backend\Form\FormEngine {
 
 			foreach ( $PA['items'] as $item ) {
 				$data = BackendUtility\BackendUtility::getRecord('tx_ecomconfigcodegenerator_domain_model_part', $item[1], '*');
-				if ( !sizeof($data) || !CoreUtility\GeneralUtility::inList(implode(',', $partGroups), $data['partgroup']) ) {
+				if ( !sizeof($data) || !CoreUtility\GeneralUtility::inList(implode(',', $partGroups), $data['part_group']) ) {
 					continue;
 				}
 
 				$item[2] = 'clear.gif';
 				$partGroupsCollection[0]['div'] = '-- not assigned --';
-				if ( CoreUtility\MathUtility::canBeInterpretedAsInteger($data['partgroup']) ) {
-					if ( !array_key_exists($data['partgroup'], $partGroupsCollection) ) {
-						$partGroup = BackendUtility\BackendUtility::getRecord('tx_ecomconfigcodegenerator_domain_model_partgroup', $data['partgroup'], 'title');
-						$partGroupsCollection[$data['partgroup']]['div'] = $partGroup['title'];
+				if ( CoreUtility\MathUtility::canBeInterpretedAsInteger($data['part_group']) ) {
+					if ( !array_key_exists($data['part_group'], $partGroupsCollection) ) {
+						$partGroup = BackendUtility\BackendUtility::getRecord('tx_ecomconfigcodegenerator_domain_model_partgroup', $data['part_group'], 'title');
+						$partGroupsCollection[$data['part_group']]['div'] = $partGroup['title'];
 					}
-					$partGroupsCollection[$data['partgroup']]['items'][] = $item;
+					$partGroupsCollection[$data['part_group']]['items'][] = $item;
 				} else {
 					$partGroupsCollection[0]['items'][] = $item;
 				}

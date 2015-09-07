@@ -18,3 +18,5 @@ if (!defined('TYPO3_MODE')) {
 	// non-cacheable actions
 	[ 'Resolver' => 'list, show' ]
 );
+
+$GLOBALS['TYPO3_CONF_VARS']['FE']['eID_include']['EcomConfigCodeGenerator'] = 'EXT:ecom_config_code_generator/Classes/AjaxDispatcher.php';

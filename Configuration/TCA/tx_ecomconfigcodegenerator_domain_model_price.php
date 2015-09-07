@@ -67,7 +67,7 @@ return [
 			'config' => [
 				'type' => 'select',
 				'foreign_table' => 'tx_ecomconfigcodegenerator_domain_model_currency',
-				'foreign_table_where' => ' AND NOT tx_ecomconfigcodegenerator_domain_model_currency.deleted',
+				'foreign_table_where' => 'AND NOT tx_ecomconfigcodegenerator_domain_model_currency.deleted',
 				'minitems' => 1,
 				'maxitems' => 1
 			]

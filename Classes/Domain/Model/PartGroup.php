@@ -26,6 +26,7 @@ namespace S3b0\EcomConfigCodeGenerator\Domain\Model;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
+use S3b0\EcomConfigCodeGenerator\Setup;
 
 /**
  * Group of parts available for configuration
@@ -33,7 +34,12 @@ namespace S3b0\EcomConfigCodeGenerator\Domain\Model;
 class PartGroup extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 
 	/**
-	 * The partgroup title
+	 * @var integer
+	 */
+	protected $sorting = 0;
+
+	/**
+	 * The part group title
 	 *
 	 * @var string
 	 * @validate NotEmpty
@@ -100,13 +106,38 @@ class PartGroup extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	 * @cascade remove
 	 * @lazy
 	 */
-	protected $dependentNote = NULL;
+	protected $dependentNotes = NULL;
+
+	/**
+	 * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\S3b0\EcomConfigCodeGenerator\Domain\Model\Part>
+	 */
+	protected $activeParts = NULL;
+
+	/**
+	 * @var \ArrayObject
+	 */
+	protected $dependentNotesFluidParsedMessages;
+
+	/**
+	 * @var boolean
+	 */
+	protected $active = FALSE;
+
+	/**
+	 * @var boolean
+	 */
+	protected $current = FALSE;
+
+	/**
+	 * @var \S3b0\EcomConfigCodeGenerator\Domain\Model\PartGroup
+	 */
+	protected $next = NULL;
 
 	/**
 	 * __construct
 	 */
 	public function __construct() {
-		//Do not remove the next line: It would break the functionality
+		$this->dependentNotesFluidParsedMessages = new \ArrayObject();
 		$this->initStorageObjects();
 	}
 
@@ -120,7 +151,15 @@ class PartGroup extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	 */
 	protected function initStorageObjects() {
 		$this->parts = new \TYPO3\CMS\Extbase\Persistence\ObjectStorage();
-		$this->dependentNote = new \TYPO3\CMS\Extbase\Persistence\ObjectStorage();
+		$this->activeParts = new \TYPO3\CMS\Extbase\Persistence\ObjectStorage();
+		$this->dependentNotes = new \TYPO3\CMS\Extbase\Persistence\ObjectStorage();
+	}
+
+	/**
+	 * @return integer
+	 */
+	public function getSorting() {
+		return $this->sorting;
 	}
 
 	/**
@@ -188,16 +227,16 @@ class PartGroup extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	public function getPrompt() {
 		switch ( $this->promptWrap ) {
 			case 1:
-				return "<div class=\"alert alert-success\"><table><tr><td style=\"vertical-align:middle;width:2.5em\"><i class=\"fa fa-check-circle fa-fw fa-lg\"></i></td><td>{$this->prompt}</td></tr></table></div>";
+				return "<div class=\"alert alert-success\">{$this->prompt}</div>";
 				break;
 			case 2:
-				return "<div class=\"alert alert-info\"><table><tr><td style=\"vertical-align:middle;width:2.5em\"><i class=\"fa fa-info-circle fa-fw fa-lg\"></i></td><td>{$this->prompt}</td></tr></table></div>";
+				return "<div class=\"alert alert-info\">{$this->prompt}</div>";
 				break;
 			case 3:
-				return "<div class=\"alert alert-warning\"><table><tr><td style=\"vertical-align:middle;width:2.5em\"><i class=\"fa fa-exclamation-triangle fa-fw fa-lg\"></i></td><td>{$this->prompt}</td></tr></table></div>";
+				return "<div class=\"alert alert-warning\">{$this->prompt}</div>";
 				break;
 			case 4:
-				return "<div class=\"alert alert-danger\"><table><tr><td style=\"vertical-align:middle;width:2.5em\"><i class=\"fa fa-exclamation-circle fa-fw fa-lg\"></i></td><td>{$this->prompt}</td></tr></table></div>";
+				return "<div class=\"alert alert-danger\">{$this->prompt}</div>";
 				break;
 			default:
 				return $this->prompt;
@@ -311,13 +350,20 @@ class PartGroup extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	}
 
 	/**
+	 * @return boolean
+	 */
+	public function hasDefaultPart() {
+		return $this->defaultPart && ( $this->defaultPart instanceof \S3b0\EcomConfigCodeGenerator\Domain\Model\Part || $this->defaultPart instanceof \TYPO3\CMS\Extbase\Persistence\Generic\LazyLoadingProxy );
+	}
+
+	/**
 	 * Adds a DependentNote
 	 *
 	 * @param \S3b0\EcomConfigCodeGenerator\Domain\Model\DependentNote $dependentNote
 	 * @return void
 	 */
 	public function addDependentNote(\S3b0\EcomConfigCodeGenerator\Domain\Model\DependentNote $dependentNote) {
-		$this->dependentNote->attach($dependentNote);
+		$this->dependentNotes->attach($dependentNote);
 	}
 
 	/**
@@ -327,26 +373,172 @@ class PartGroup extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	 * @return void
 	 */
 	public function removeDependentNote(\S3b0\EcomConfigCodeGenerator\Domain\Model\DependentNote $dependentNoteToRemove) {
-		$this->dependentNote->detach($dependentNoteToRemove);
+		$this->dependentNotes->detach($dependentNoteToRemove);
 	}
 
 	/**
-	 * Returns the dependentNote
+	 * Returns the dependentNotes
 	 *
-	 * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\S3b0\EcomConfigCodeGenerator\Domain\Model\DependentNote> $dependentNote
+	 * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\S3b0\EcomConfigCodeGenerator\Domain\Model\DependentNote> $dependentNotes
 	 */
-	public function getDependentNote() {
-		return $this->dependentNote;
+	public function getDependentNotes() {
+		return $this->dependentNotes;
 	}
 
 	/**
-	 * Sets the dependentNote
+	 * Sets the dependentNotes
 	 *
-	 * @param \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\S3b0\EcomConfigCodeGenerator\Domain\Model\DependentNote> $dependentNote
+	 * @param \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\S3b0\EcomConfigCodeGenerator\Domain\Model\DependentNote> $dependentNotes
 	 * @return void
 	 */
-	public function setDependentNote(\TYPO3\CMS\Extbase\Persistence\ObjectStorage $dependentNote) {
-		$this->dependentNote = $dependentNote;
+	public function setDependentNotes(\TYPO3\CMS\Extbase\Persistence\ObjectStorage $dependentNotes) {
+		$this->dependentNotes = $dependentNotes;
+	}
+
+	/**
+	 * Adds a dependentNotesFluidParsedMessages
+	 *
+	 * @param string $dependentNotesFluidParsedMessages
+	 * @return void
+	 */
+	public function addDependentNotesFluidParsedMessage($dependentNotesFluidParsedMessages) {
+		$this->dependentNotesFluidParsedMessages->append($dependentNotesFluidParsedMessages);
+	}
+
+	/**
+	 * Returns the dependentNotesFluidParsedMessages
+	 *
+	 * @return string
+	 */
+	public function getDependentNotessFluidParsedMessages() {
+		return $this->dependentNotesFluidParsedMessages->count() ? "<p>{implode('</p><p>', $this->dependentNotesFluidParsedMessages)}</p>" : '';
+	}
+
+	/**
+	 * Adds a part to active items
+	 *
+	 * @param \S3b0\EcomConfigCodeGenerator\Domain\Model\Part $part
+	 * @return void
+	 */
+	public function addActivePart(\S3b0\EcomConfigCodeGenerator\Domain\Model\Part $part) {
+		if ( !$this->activeParts instanceof \TYPO3\CMS\Extbase\Persistence\ObjectStorage ) {
+			$this->activeParts = new \TYPO3\CMS\Extbase\Persistence\ObjectStorage();
+		}
+		$this->activeParts->attach($part);
+	}
+
+	/**
+	 * Removes a part from active items
+	 *
+	 * @param \S3b0\EcomConfigCodeGenerator\Domain\Model\Part $partToRemove The Part to be removed
+	 * @return void
+	 */
+	public function removeActivePart(\S3b0\EcomConfigCodeGenerator\Domain\Model\Part $partToRemove) {
+		$this->activeParts->detach($partToRemove);
+	}
+
+	/**
+	 * Returns the activeParts
+	 *
+	 * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\S3b0\EcomConfigCodeGenerator\Domain\Model\Part> $activeParts
+	 */
+	public function getActiveParts() {
+		return $this->activeParts;
+	}
+
+	/**
+	 * Sets the activeParts
+	 *
+	 * @param \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\S3b0\EcomConfigCodeGenerator\Domain\Model\Part> $activeParts
+	 * @return void
+	 */
+	public function setActiveParts(\TYPO3\CMS\Extbase\Persistence\ObjectStorage $activeParts) {
+		$this->activeParts = $activeParts;
+	}
+
+	/**
+	 * @return boolean
+	 */
+	public function isActive() {
+		return $this->active;
+	}
+
+	/**
+	 * @param boolean $active
+	 * @return void
+	 */
+	public function setActive($active) {
+		$this->active = $active;
+	}
+
+	/**
+	 * @return boolean
+	 */
+	public function isCurrent() {
+		return $this->current;
+	}
+
+	/**
+	 * @param boolean $current
+	 */
+	public function setCurrent($current) {
+		$this->current = $current;
+	}
+
+	/**
+	 * @return \S3b0\EcomConfigCodeGenerator\Domain\Model\PartGroup
+	 */
+	public function getNext() {
+		return $this->next;
+	}
+
+	/**
+	 * @param \S3b0\EcomConfigCodeGenerator\Domain\Model\PartGroup $next
+	 */
+	public function setNext($next) {
+		$this->next = $next;
+	}
+
+	/**
+	 * @return boolean
+	 */
+	public function isVisible() {
+		return ($this->settings & Setup::BIT_PARTGROUP_IS_VISIBLE) === Setup::BIT_PARTGROUP_IS_VISIBLE;
+	}
+
+	/**
+	 * @return boolean
+	 */
+	public function isVisibleInSummary() {
+		return ($this->settings & Setup::BIT_PARTGROUP_IN_SUMMARY) === Setup::BIT_PARTGROUP_IN_SUMMARY;
+	}
+
+	/**
+	 * @return boolean
+	 */
+	public function isVisibleInNavigation() {
+		return ($this->settings & Setup::BIT_PARTGROUP_IN_NAVIGATION) === Setup::BIT_PARTGROUP_IN_NAVIGATION;
+	}
+
+	/**
+	 * @return boolean
+	 */
+	public function isMultipleSelectable() {
+		return ($this->settings & Setup::BIT_PARTGROUP_MULTIPLE_SELECT) === Setup::BIT_PARTGROUP_MULTIPLE_SELECT;
+	}
+
+	/**
+	 * @return boolean
+	 */
+	public function isPricePercentage() {
+		return ($this->settings & Setup::BIT_PARTGROUP_USE_PERCENTAGE_PRICING) === Setup::BIT_PARTGROUP_USE_PERCENTAGE_PRICING;
+	}
+
+	/**
+	 * @return boolean
+	 */
+	public function isHidden() {
+		return !$this->isVisible();
 	}
 
 }

@@ -1,5 +1,5 @@
 <?php
-namespace S3b0\EcomConfigCodeGenerator\Domain\Repository;
+namespace S3b0\EcomConfigCodeGenerator\Controller;
 
 
 /***************************************************************
@@ -28,23 +28,36 @@ namespace S3b0\EcomConfigCodeGenerator\Domain\Repository;
  ***************************************************************/
 
 /**
- * The repository for Parts
+ * GeneratorController
  */
-class PartRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
+class InjectController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController {
 
-	public function findByList(array $list, $getFirst = FALSE) {
-		if ( !count($list) )
-			return NULL;
+	/**
+	 * feSession
+	 *
+	 * @var \Ecom\EcomToolbox\Domain\Session\FrontendSessionHandler
+	 * @inject
+	 */
+	public $feSession;
 
-		/** @var \TYPO3\CMS\Core\Database\DatabaseConnection $db */
-		$db = $GLOBALS['TYPO3_DB'];
-		$query = $this->createQuery();
-		$query->getQuerySettings()->setRespectStoragePage(FALSE);
-		$query->getQuerySettings()->setRespectSysLanguage(FALSE);
-		$constraint = $query->in('uid', $db->cleanIntArray($list));
-		$result = $query->matching($constraint)->execute();
+	/**
+	 * @var \S3b0\EcomConfigCodeGenerator\Domain\Repository\ContentRepository
+	 * @inject
+	 */
+	public $contentRepository;
 
-		return $result->count() ? ($getFirst ? $result->getFirst() : $result) : NULL;
-	}
+	/**
+	 * partRepository
+	 *
+	 * @var \S3b0\EcomConfigCodeGenerator\Domain\Repository\PartRepository
+	 * @inject
+	 */
+	public $partRepository;
+
+	/**
+	 * @var \S3b0\EcomConfigCodeGenerator\Domain\Repository\CurrencyRepository
+	 * @inject
+	 */
+	public $currencyRepository;
 
 }
