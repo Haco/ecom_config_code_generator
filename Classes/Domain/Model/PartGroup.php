@@ -134,6 +134,16 @@ class PartGroup extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	protected $next = NULL;
 
 	/**
+	 * @var integer
+	 */
+	protected $stepIndicator = 0;
+
+	/**
+	 * @var boolean
+	 */
+	protected $selectable = TRUE;
+
+	/**
 	 * __construct
 	 */
 	public function __construct() {
@@ -421,10 +431,10 @@ class PartGroup extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	 * @return void
 	 */
 	public function addActivePart(\S3b0\EcomConfigCodeGenerator\Domain\Model\Part $part) {
-		if ( !$this->activeParts instanceof \TYPO3\CMS\Extbase\Persistence\ObjectStorage ) {
+		if ( !$this->activeParts instanceof \TYPO3\CMS\Extbase\Persistence\ObjectStorage )
 			$this->activeParts = new \TYPO3\CMS\Extbase\Persistence\ObjectStorage();
-		}
-		$this->activeParts->attach($part);
+		if ( !$this->activeParts->contains($part) )
+			$this->activeParts->attach($part);
 	}
 
 	/**
@@ -434,7 +444,8 @@ class PartGroup extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	 * @return void
 	 */
 	public function removeActivePart(\S3b0\EcomConfigCodeGenerator\Domain\Model\Part $partToRemove) {
-		$this->activeParts->detach($partToRemove);
+		if ( $this->activeParts instanceof \TYPO3\CMS\Extbase\Persistence\ObjectStorage && $this->activeParts->contains($partToRemove) )
+			$this->activeParts->detach($partToRemove);
 	}
 
 	/**
@@ -502,18 +513,18 @@ class PartGroup extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	/**
 	 * @return boolean
 	 */
-	public function isVisible() {
-		return ($this->settings & Setup::BIT_PARTGROUP_IS_VISIBLE) === Setup::BIT_PARTGROUP_IS_VISIBLE;
+	public function isUnlocked() {
+		return ($this->settings & Setup::BIT_PARTGROUP_IS_LOCKED) === Setup::BIT_PARTGROUP_IS_LOCKED;
 	}
 
 	/**
-	 * @param boolean $visible
+	 * @param boolean $locked
 	 */
-	public function setVisible($visible = TRUE) {
-		if ( $this->isVisible() && $visible === FALSE ) {
-			$this->setSettings($this->getSettings() - Setup::BIT_PARTGROUP_IS_VISIBLE);
-		} elseif ( !$this->isVisible() && $visible === TRUE ) {
-			$this->setSettings($this->getSettings() + Setup::BIT_PARTGROUP_IS_VISIBLE);
+	public function setUnlocked($locked = TRUE) {
+		if ( $this->isUnlocked() && $locked === FALSE ) {
+			$this->setSettings($this->getSettings() - Setup::BIT_PARTGROUP_IS_LOCKED);
+		} elseif ( !$this->isUnlocked() && $locked === TRUE ) {
+			$this->setSettings($this->getSettings() + Setup::BIT_PARTGROUP_IS_LOCKED);
 		}
 	}
 
@@ -548,8 +559,36 @@ class PartGroup extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	/**
 	 * @return boolean
 	 */
-	public function isHidden() {
-		return !$this->isVisible();
+	public function isLocked() {
+		return !$this->isUnlocked();
+	}
+
+	/**
+	 * @return integer
+	 */
+	public function getStepIndicator() {
+		return $this->stepIndicator;
+	}
+
+	/**
+	 * @param integer $stepIndicator
+	 */
+	public function setStepIndicator($stepIndicator) {
+		$this->stepIndicator = $stepIndicator;
+	}
+
+	/**
+	 * @return boolean
+	 */
+	public function isSelectable() {
+		return $this->selectable;
+	}
+
+	/**
+	 * @param boolean $selectable
+	 */
+	public function setSelectable($selectable) {
+		$this->selectable = $selectable;
 	}
 
 }

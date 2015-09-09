@@ -55,25 +55,6 @@
 	});
 })(jQuery);
 
-(function($) {
-	$('#configurator-part-group-select-index').tooltip({
-		tooltipClass: "ecompc-custom-tooltip-styling",
-		track: true
-	});
-	$('.ecompc-syntax-help').tooltip({
-		tooltipClass: "ecompc-custom-tooltip-styling",
-		track: true
-	});
-	if ( showResult === null ) {
-		$('#configurator-result-canvas').hide();
-		$('#configurator-select-parts-ajax-update').show();
-	} else {
-		$('#configurator-result-canvas').show();
-		$('#configurator-select-parts-ajax-update').hide();
-	}
-	$('#configurator-show-result-button').hide();
-})(jQuery);
-
 /**
  * ajax.js
  */
@@ -108,11 +89,8 @@ function ccgUpdatePart() {
 			unset: $(this).attr('data-part-state'),
 			cObj: t3cobj
 		}, function (result) {
-			console.log(result);
-			var resultDiv = $('#configurator-result-canvas');
-			removeAjaxLoader('ccg-configurator-ajax-loader');
+			onSuccessFunction(result);
 			updateProgressIndicator(result.progress);
-			alterPartGroupInformation(result.currentPartGroup);
 			/*
 			if ( result.showResult ) {
 				alterPartGroupInformation('hide');
@@ -120,26 +98,16 @@ function ccgUpdatePart() {
 				$('#configurator-result-canvas .ecom-configurator-result h3.ecom-configurator-result-label').first().html(result.configurationData[0]);
 				$('#configurator-result-canvas .ecom-configurator-result small.ecom-configurator-result-code').first().html(getConfigurationCode(result.configurationData[1]));
 				$('#configurator-summary-table').html(getConfigurationSummary(result.configurationData[2], result.pricingEnabled));
-				$('.ecompc-syntax-help').tooltip({
-					tooltipClass: "ecompc-custom-tooltip-styling",
-					track: true
-				});
 				resultDiv.show();
 				$('#configurator-show-result-button').hide();
-				ccgIndex(); // Re-assign Click-function()
+				assignListeners();
 			} else {
 				alterPartGroupInformation('show');
 				resultDiv.hide();
 				$('#configurator-show-result-button').toggle(result.progress === 1);
 			}
-*/
-			$('#configurator-select-parts-ajax-update').html(result.selectPartsHTML);
-			ccgUpdatePart(); // Re-assign Click-function()
-/*
 			 buildSelector(result);
-			 */
 			updatePackageNavigation(result.packages);
-/*
 			if ( result.pricingEnabled && result.pricing ) {
 				$('#configurator-config-header-config-price').html(result.pricing);
 			}
@@ -162,19 +130,7 @@ function ccgIndex() {
 			partGroup: $(this).attr('data-ccgpg'),
 			cObj: t3cobj
 		}, function (result) {
-			var resultDiv = $('#configurator-result-canvas');
-			removeAjaxLoader('ccg-configurator-ajax-loader');
-			if ( result.showResult !== undefined ) {
-				alterPartGroupInformation('hide');
-				resultDiv.show();
-				$('#configurator-show-result-button').hide();
-			} else {
-				alterPartGroupInformation(result.currentPartGroup);
-				resultDiv.hide();
-				$('#configurator-show-result-button').toggle(result.progress === 1);
-			}
-			$('#configurator-select-parts-ajax-update').html(result.selectPartsHTML);
-			ccgUpdatePart(); // Re-assign Click-function()
+			onSuccessFunction(result);
 /*
 			updatepartGroupNavigation(result.packages);
 			buildSelector(result);
@@ -266,12 +222,58 @@ function updateProgressIndicator(progress) {
 	});
 }
 
+/**
+ * Handle result
+ * @param result
+ */
+function onSuccessFunction(result) {
+	removeAjaxLoader('ccg-configurator-ajax-loader');
+	if ( result.showResultingConfiguration ) {
+		$('#configurator-result-canvas').show();
+		$('#configurator-part-group-select-part-index').hide();
+		alterPartGroupInformation('hide');
+		$('#configurator-show-result-button').hide();
+		$('#configurator-result-canvas .configurator-result h3.configurator-result-label').first().html(result.title);
+		$('#configurator-result-canvas .configurator-result small.configurator-result-code').first().html(result.configurationCode['code']);
+		$('#configurator-summary-table').html(result.configurationCode['summaryTable']);
+	} else {
+		$('#configurator-select-parts-ajax-update').html(result.selectPartsHTML);
+		$('#configurator-result-canvas').hide();
+		$('#configurator-part-group-select-part-index').show();
+		alterPartGroupInformation(result.currentPartGroup);
+		$('#configurator-show-result-button').toggle(result.progress === 1);
+	}
+	assignListeners();
+}
+
+/**
+ * Add default listeners
+ */
+function assignListeners() {
+	$('#configurator-part-group-select-index').tooltip({
+		tooltipClass: "ecompc-custom-tooltip-styling",
+		track: true
+	});
+	$('.syntax-help').tooltip({
+		tooltipClass: "ecom-custom-tooltip-styling",
+		track: true
+	});
+	ccgUpdatePart();
+}
+
 
 /**********************************************
  * Initialize Event Listeners once DOM loaded *
  *********************************************/
 (function() {
-	ccgUpdatePart();
+	if ( showResult ) {
+		$('#configurator-result-canvas').show();
+		$('#configurator-part-group-select-part-index').hide();
+	} else {
+		$('#configurator-result-canvas').hide();
+		$('#configurator-part-group-select-part-index').show();
+	}
+	$('#configurator-show-result-button').hide();
 	ccgIndex();
-	 /*ccgAddInfoTrigger();*/
+	assignListeners();
 })(jQuery);

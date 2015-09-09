@@ -30,7 +30,7 @@ namespace S3b0\EcomConfigCodeGenerator\Controller;
 /**
  * PartController
  */
-class PartController extends \S3b0\EcomConfigCodeGenerator\Controller\InjectController {
+class PartController extends \S3b0\EcomConfigCodeGenerator\Controller\GeneratorController {
 
 	/**
 	 * action list
@@ -52,69 +52,5 @@ class PartController extends \S3b0\EcomConfigCodeGenerator\Controller\InjectCont
 		$this->view->assign('part', $part);
 	}
 
-	/**
-	 * Initialize part groups
-	 *
-	 * @param \TYPO3\CMS\Extbase\Mvc\Controller\ActionController $controller
-	 * @param \TYPO3\CMS\Extbase\Persistence\ObjectStorage       $parts
-	 * @param array                                              $configuration
-	 * @return void
-	 */
-	public static function initialize(\TYPO3\CMS\Extbase\Mvc\Controller\ActionController $controller, \TYPO3\CMS\Extbase\Persistence\ObjectStorage &$parts, array $configuration) {
-		/** @var \S3b0\EcomConfigCodeGenerator\Controller\InjectController $controller */
-		$partsToBeRemoved = new \TYPO3\CMS\Extbase\Persistence\ObjectStorage();
-		/** @var \S3b0\EcomConfigCodeGenerator\Domain\Model\Part $part */
-		foreach ( $parts as $part ) {
-			/** HANDLE DEPENDENCIES */
-			if ( self::checkForPartDependencies($controller, $part, $configuration) === FALSE ) {
-				$partsToBeRemoved->attach($part);
-			}
-		}
-
-		$parts->removeAll($partsToBeRemoved);
-	}
-
-	/**
-	 * @param \S3b0\EcomConfigCodeGenerator\Controller\InjectController $controller    Ensure an Instance of extensions InjectController is given to provide necessary injections
-	 * @param \S3b0\EcomConfigCodeGenerator\Domain\Model\Part           $part
-	 * @param array                                                     $configuration
-	 * @return boolean                                                  Returns FALSE if dependency check failed
-	 */
-	private static function checkForPartDependencies(\S3b0\EcomConfigCodeGenerator\Controller\InjectController $controller, \S3b0\EcomConfigCodeGenerator\Domain\Model\Part $part, array $configuration) {
-		$check = TRUE;
-		if ( !$part->getDependency() instanceof \S3b0\EcomConfigCodeGenerator\Domain\Model\Dependency )
-			return $check;
-
-		/** @var \S3b0\EcomConfigCodeGenerator\Domain\Model\Dependency $dependency */
-		$dependency = $part->getDependency();
-		if ( $dependency instanceof \S3b0\EcomConfigCodeGenerator\Domain\Model\Dependency ) {
-			/** @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage $partGroups */
-			$partGroups = $dependency->getPartGroups();
-			if ( $partGroups instanceof \TYPO3\CMS\Extbase\Persistence\ObjectStorage && $partGroups->count() ) {
-				$dependencyCheck = [ ];
-				/** @var \S3b0\EcomConfigCodeGenerator\Domain\Model\PartGroup $partGroup */
-				foreach ( $partGroups as $partGroup ) {
-					$partGroupCheck = [ ];
-					  // If part group has no part selected or dependency has no parts selected for current group
-					if ( !array_key_exists($partGroup->getUid(), $configuration) || sizeof($dependency->getPartsByPartGroup($partGroup)) === 0 )
-						continue;
-					  // Fetch selected parts for comparison
-					$selectedParts = $controller->partRepository->findByList($configuration[$partGroup->getUid()]);
-					  // Start actual dependency check
-					if ( $selectedParts instanceof \Countable && $selectedParts->count() ) {
-						  // Loop selected parts; fill $partGroupCheck array
-						/** @var \S3b0\EcomConfigCodeGenerator\Domain\Model\Part $selectedPart */
-						foreach ( $selectedParts as $selectedPart ) {
-							$partGroupCheck[] = $dependency->getPartsByPartGroup($partGroup)->contains($selectedPart);
-						}
-					}
-					$dependencyCheck[] = in_array(TRUE, $partGroupCheck);
-				}
-				$check = $dependency->getMode() === 1 ? !in_array(FALSE, $dependencyCheck) : in_array(FALSE, $dependencyCheck);
-			}
-		}
-
-		return $check;
-	}
 
 }

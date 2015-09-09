@@ -197,8 +197,8 @@ body {
 	border-color: #808080;
 	color: #808080;
 }
-#ccg-configurator-canvas a.configurator-part-group-select.configurator-part-group-hidden > div span.part-group-number,
-#ccg-configurator-canvas a.configurator-part-group-select.configurator-part-group-hidden > div i {
+#ccg-configurator-canvas a.configurator-part-group-select.configurator-lock-part-group > div span.part-group-number,
+#ccg-configurator-canvas a.configurator-part-group-select.configurator-lock-part-group > div i {
 	border-color: #ccc;
 	color: #ccc;
 }

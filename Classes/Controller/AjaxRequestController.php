@@ -95,21 +95,10 @@ class AjaxRequestController extends \S3b0\EcomConfigCodeGenerator\Controller\Gen
 		// Manage Session data
 		/** Add part */
 		if ( $unset === FALSE ) {
-			if ( !$part->getPartGroup()->isMultipleSelectable() ) {
-				$temp = [ ];
-			}
-			$temp[$part->getSorting()] = $part->getUid();
-			$this->feSession->store('config', $configuration);
+			\S3b0\EcomConfigCodeGenerator\Session\ManageConfiguration::addPartToConfiguration($this, $part, $configuration);
 		/** Remove part */
 		} else {
-			if ( is_array($temp) ) {
-				if( ( $key = array_search($part->getUid(), $temp) ) !== FALSE ) {
-					unset($temp[$key]);
-				}
-			}
-			if ( sizeof($temp) === 0 )
-				unset($configuration[$part->getPartGroup()->getUid()]);
-				$this->feSession->store('config', $configuration);
+			\S3b0\EcomConfigCodeGenerator\Session\ManageConfiguration::removePartFromConfiguration($this, $part, $configuration);
 		}
 
 		$data = parent::getIndexActionData();
@@ -149,7 +138,7 @@ class AjaxRequestController extends \S3b0\EcomConfigCodeGenerator\Controller\Gen
 	 * @param \TYPO3\CMS\Extbase\Persistence\ObjectStorage $parts
 	 * @return string
 	 */
-	public function getSelectorHTML(\TYPO3\CMS\Extbase\Persistence\ObjectStorage $parts) {
+	public function getPartSelectorHTML(\TYPO3\CMS\Extbase\Persistence\ObjectStorage $parts) {
 		/** @var \TYPO3\CMS\Fluid\View\StandaloneView $view */
 		$view = $this->objectManager->get('TYPO3\\CMS\\Fluid\\View\\StandaloneView');
 
