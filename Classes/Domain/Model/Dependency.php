@@ -171,4 +171,24 @@ class Dependency extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 		$this->parts = $parts;
 	}
 
+	/**
+	 * @param \S3b0\EcomConfigCodeGenerator\Domain\Model\PartGroup $partGroup
+	 * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\S3b0\EcomConfigCodeGenerator\Domain\Model\Part>
+	 */
+	public function getPartsByPartGroup(\S3b0\EcomConfigCodeGenerator\Domain\Model\PartGroup $partGroup) {
+		if ( !$this->parts instanceof \Countable || $this->parts->count() === 0 ) {
+			return $this->parts;
+		}
+
+		$parts = new \TYPO3\CMS\Extbase\Persistence\ObjectStorage();
+		/** @var \S3b0\EcomConfigCodeGenerator\Domain\Model\Part $part */
+		foreach ( $this->parts as $part ) {
+			if ( $part->getPartGroup() === $partGroup ) {
+				$parts->attach($part);
+			}
+		}
+
+		return $parts;
+	}
+
 }

@@ -72,9 +72,15 @@ class GeneratorController extends \S3b0\EcomConfigCodeGenerator\Controller\Injec
 
 		// Frontend-Session
 		$this->feSession->setStorageKey(Setup::getSessionStorageKey($this->contentObject));
-		if ( ( $currency = GeneralUtility::_GET('currency') ) && !$this->feSession->get('currency') )
-			$this->feSession->store('currency', $currency);
-
+		  // On reset destroy config session data
+		if ( $this->request->getControllerActionName() === 'reset' ) {
+			$this->feSession->delete('config');
+			$this->redirectToUri($this->uriBuilder->build());
+		}
+		  // Set currency, if any
+		if ( GeneralUtility::_GET('currency') && !$this->feSession->get('currency') )
+			$this->feSession->store('currency', GeneralUtility::_GET('currency'));
+		  // Redirect to currency selection if pricing enabled
 		if ( $this->configuration->isPricingEnabled() && $this->request->getControllerActionName() != 'currencySelect' && !$this->feSession->get('currency') )
 			$this->forward('currencySelect');
 	}
@@ -108,6 +114,14 @@ class GeneratorController extends \S3b0\EcomConfigCodeGenerator\Controller\Injec
 	 * @return void
 	 */
 	public function indexAction(\S3b0\EcomConfigCodeGenerator\Domain\Model\PartGroup $partGroup = NULL) {
+		$this->view->assign('value', $this->getIndexActionData(func_get_args()));
+	}
+
+	/**
+	 * @param array $arguments
+	 * @return array
+	 */
+	public function getIndexActionData(array $arguments = [ ]) {
 		// Get current configuration (Array: options=array(options)|packages=array(package => option(s)))
 		$configuration = $this->feSession->get('config') ?: [ ];
 		$partGroups = \S3b0\EcomConfigCodeGenerator\Controller\PartGroupController::initialize(
@@ -117,23 +131,32 @@ class GeneratorController extends \S3b0\EcomConfigCodeGenerator\Controller\Injec
 			$currentPartGroup,
 			$progress
 		);
-		if ( $partGroup ) {
+		if ( $arguments[0] instanceof \S3b0\EcomConfigCodeGenerator\Domain\Model\PartGroup ) {
 			/** @var \S3b0\EcomConfigCodeGenerator\Domain\Model\PartGroup $currentPartGroup */
-			$currentPartGroup = $partGroup ?: $currentPartGroup;
+			$currentPartGroup = $arguments[0];
 		}
-		$parts = \S3b0\EcomConfigCodeGenerator\Controller\PartController::initialize(
+		\S3b0\EcomConfigCodeGenerator\Controller\PartController::initialize(
+			$this,
 			$currentPartGroup->getParts(),
 			$configuration
 		);
 
-		$this->view->assign('data', [
-			'partGroups' => $partGroups,
-			'currentPartGroup' => $currentPartGroup,
-			'parts' => $parts,
+		$configCodeHTML = '';
+		$summaryTable = '';
+		/** GET RESULT */
+		if ( $progress === 1 ) {
+
+		}
+
+		return [
+			'title' => $this->contentObject->getCcgConfiguration()->getTitle(),
 			'configuration' => $configuration,
 			'progress' => $progress,
-			'progressPercentage' => $progress * 100
-		]);
+			'progressPercentage' => $progress * 100,
+			'partGroups' => $partGroups,
+			'currentPartGroup' => $currentPartGroup,
+			'selectPartsHTML' => method_exists($this, 'getSelectorHTML') && $currentPartGroup instanceof \S3b0\EcomConfigCodeGenerator\Domain\Model\PartGroup ? $this->getSelectorHTML($currentPartGroup->getParts()) : NULL
+		];
 	}
 
 	/**

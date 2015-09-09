@@ -38,13 +38,21 @@ class InjectController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
 	 * @var \Ecom\EcomToolbox\Domain\Session\FrontendSessionHandler
 	 * @inject
 	 */
-	public $feSession;
+	protected $feSession;
 
 	/**
 	 * @var \S3b0\EcomConfigCodeGenerator\Domain\Repository\ContentRepository
 	 * @inject
 	 */
-	public $contentRepository;
+	protected $contentRepository;
+
+	/**
+	 * partGroupRepository
+	 *
+	 * @var \S3b0\EcomConfigCodeGenerator\Domain\Repository\PartGroupRepository
+	 * @inject
+	 */
+	protected $partGroupRepository;
 
 	/**
 	 * partRepository
@@ -52,12 +60,12 @@ class InjectController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
 	 * @var \S3b0\EcomConfigCodeGenerator\Domain\Repository\PartRepository
 	 * @inject
 	 */
-	public $partRepository;
+	protected $partRepository;
 
 	/**
 	 * @var \S3b0\EcomConfigCodeGenerator\Domain\Repository\CurrencyRepository
 	 * @inject
 	 */
-	public $currencyRepository;
+	protected $currencyRepository;
 
 }

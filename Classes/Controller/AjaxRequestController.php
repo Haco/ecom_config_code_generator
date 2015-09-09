@@ -64,10 +64,19 @@ class AjaxRequestController extends \S3b0\EcomConfigCodeGenerator\Controller\Gen
 		parent::initializeAction();
 	}
 
-	public function indexAction() {
-
+	/**
+	 * @throws \TYPO3\CMS\Extbase\Mvc\Exception\InvalidArgumentNameException
+	 * @throws \TYPO3\CMS\Extbase\Mvc\Exception\NoSuchArgumentException
+	 */
+	public function initializeIndexAction() {
+		if ( MathUtility::canBeInterpretedAsInteger($this->request->getArgument('partGroup')) && !$this->request->getArgument('partGroup') instanceof \S3b0\EcomConfigCodeGenerator\Domain\Model\PartGroup )
+			$this->request->setArgument('partGroup', $this->partGroupRepository->findByUid($this->request->getArgument('partGroup')));
 	}
 
+	/**
+	 * @throws \TYPO3\CMS\Extbase\Mvc\Exception\InvalidArgumentNameException
+	 * @throws \TYPO3\CMS\Extbase\Mvc\Exception\NoSuchArgumentException
+	 */
 	public function initializeUpdatePartAction() {
 		if ( MathUtility::canBeInterpretedAsInteger($this->request->getArgument('part')) && !$this->request->getArgument('part') instanceof \S3b0\EcomConfigCodeGenerator\Domain\Model\Part )
 			$this->request->setArgument('part', $this->partRepository->findByUid($this->request->getArgument('part')));
@@ -77,15 +86,18 @@ class AjaxRequestController extends \S3b0\EcomConfigCodeGenerator\Controller\Gen
 	 * action updatePart
 	 *
 	 * @param \S3b0\EcomConfigCodeGenerator\Domain\Model\Part|NULL $part
+	 * @param boolean                                              $unset
 	 * @return void
 	 */
-	public function updatePartAction(\S3b0\EcomConfigCodeGenerator\Domain\Model\Part $part = NULL) {
-		$part->setActive(!$part->isActive());
+	public function updatePartAction(\S3b0\EcomConfigCodeGenerator\Domain\Model\Part $part = NULL, $unset = FALSE) {
 		$configuration = $this->feSession->get('config');
 		$temp = &$configuration[$part->getPartGroup()->getUid()];
 		// Manage Session data
 		/** Add part */
-		if ( $part->isActive() ) {
+		if ( $unset === FALSE ) {
+			if ( !$part->getPartGroup()->isMultipleSelectable() ) {
+				$temp = [ ];
+			}
 			$temp[$part->getSorting()] = $part->getUid();
 			$this->feSession->store('config', $configuration);
 		/** Remove part */
@@ -100,10 +112,11 @@ class AjaxRequestController extends \S3b0\EcomConfigCodeGenerator\Controller\Gen
 				$this->feSession->store('config', $configuration);
 		}
 
-		$this->view->assign('value', [
-			'part' => $part,
-			'multiple' => $part->getPartGroup()->isMultipleSelectable()
-		]);
+		$data = parent::getIndexActionData();
+		$data['part'] = $part;
+		$data['multiple'] = $part->getPartGroup()->isMultipleSelectable();
+
+		$this->view->assign('value', $data);
 	}
 
 	public function showHintAction() {
@@ -127,6 +140,26 @@ class AjaxRequestController extends \S3b0\EcomConfigCodeGenerator\Controller\Gen
 		$view->setTemplatePathAndFilename($templatePathAndFilename);
 		$view->setPartialRootPaths([$partialRootPath]);
 		$view->assignMultiple($variables);
+		$view->setFormat('html');
+
+		return $view->render();
+	}
+
+	/**
+	 * @param \TYPO3\CMS\Extbase\Persistence\ObjectStorage $parts
+	 * @return string
+	 */
+	public function getSelectorHTML(\TYPO3\CMS\Extbase\Persistence\ObjectStorage $parts) {
+		/** @var \TYPO3\CMS\Fluid\View\StandaloneView $view */
+		$view = $this->objectManager->get('TYPO3\\CMS\\Fluid\\View\\StandaloneView');
+
+		$extbaseFrameworkConfiguration = $this->configurationManager->getConfiguration(\TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface::CONFIGURATION_TYPE_FRAMEWORK);
+		$templateRootPath = \TYPO3\CMS\Core\Utility\GeneralUtility::getFileAbsFileName($extbaseFrameworkConfiguration['view']['templateRootPath'] ?: end($extbaseFrameworkConfiguration['view']['templateRootPaths']));
+		$partialRootPath = \TYPO3\CMS\Core\Utility\GeneralUtility::getFileAbsFileName($extbaseFrameworkConfiguration['view']['partialRootPath'] ?: end($extbaseFrameworkConfiguration['view']['partialRootPaths']));
+		$templatePathAndFilename = $partialRootPath . 'Part/AjaxSelector.html';
+		$view->setTemplatePathAndFilename($templatePathAndFilename);
+		$view->setPartialRootPaths([$partialRootPath]);
+		$view->assign('parts', $parts);
 		$view->setFormat('html');
 
 		return $view->render();

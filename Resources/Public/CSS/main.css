@@ -324,23 +324,23 @@ body {
 #ccg-configurator-canvas #configurator-partSelection-part-group {
 	margin: 2em 0;
 }
-#ccg-configurator-canvas #configurator-partSelection-part-group-info h2 {
+#ccg-configurator-canvas #configurator-part-group-info h2 {
 	color: #0083cb;
 }
-#ccg-configurator-canvas .configurator-select-part-group-part-wrap {
+#ccg-configurator-canvas .configurator-select-part-group-part-selector {
 	color: #000;
 	background: #eee;
 	display: block;
 	border-bottom: 2px solid #fff;
 	padding: 8px;
 }
-#ccg-configurator-canvas .configurator-select-part-group-part-wrap.disabled {
+#ccg-configurator-canvas .configurator-select-part-group-part-selector.disabled {
 	background: #eee;
 	color: #ffb2b2;
 	cursor: not-allowed;
 }
-#ccg-configurator-canvas .configurator-select-part-group-part-wrap.enabled:hover,
-#ccg-configurator-canvas .configurator-select-part-group-part-wrap.enabled:focus {
+#ccg-configurator-canvas .configurator-select-part-group-part-selector.enabled:hover,
+#ccg-configurator-canvas .configurator-select-part-group-part-selector.enabled:focus {
 	background: #0083cb;
 }
 #ccg-configurator-canvas .configurator-select-part-group-part.part {
@@ -412,14 +412,14 @@ body {
 #ccg-configurator-canvas #configurator-select-part-group-part-info-box span.close-popover-x:hover {
 	color: #0083cb;
 }
-#ccg-configurator-canvas .configurator-select-part-group-part-wrap.enabled:hover .configurator-checkbox,
-#ccg-configurator-canvas .configurator-select-part-group-part-wrap.enabled:hover .configurator-select-part-group-part.part,
-#ccg-configurator-canvas .configurator-select-part-group-part-wrap.enabled:hover .configurator-select-part-group-part-price,
-#ccg-configurator-canvas .configurator-select-part-group-part-wrap.enabled:hover .configurator-select-part-group-part-info,
-#ccg-configurator-canvas .configurator-select-part-group-part-wrap.enabled:focus .configurator-checkbox,
-#ccg-configurator-canvas .configurator-select-part-group-part-wrap.enabled:focus .configurator-select-part-group-part.part,
-#ccg-configurator-canvas .configurator-select-part-group-part-wrap.enabled:focus .configurator-select-part-group-part-price,
-#ccg-configurator-canvas .configurator-select-part-group-part-wrap.enabled:focus .configurator-select-part-group-part-info {
+#ccg-configurator-canvas .configurator-select-part-group-part-selector.enabled:hover .configurator-checkbox,
+#ccg-configurator-canvas .configurator-select-part-group-part-selector.enabled:hover .configurator-select-part-group-part.part,
+#ccg-configurator-canvas .configurator-select-part-group-part-selector.enabled:hover .configurator-select-part-group-part-price,
+#ccg-configurator-canvas .configurator-select-part-group-part-selector.enabled:hover .configurator-select-part-group-part-info,
+#ccg-configurator-canvas .configurator-select-part-group-part-selector.enabled:focus .configurator-checkbox,
+#ccg-configurator-canvas .configurator-select-part-group-part-selector.enabled:focus .configurator-select-part-group-part.part,
+#ccg-configurator-canvas .configurator-select-part-group-part-selector.enabled:focus .configurator-select-part-group-part-price,
+#ccg-configurator-canvas .configurator-select-part-group-part-selector.enabled:focus .configurator-select-part-group-part-info {
 	color: #fff;
 }
 #ccg-configurator-canvas .configurator-checkbox {

@@ -30,15 +30,7 @@ namespace S3b0\EcomConfigCodeGenerator\Controller;
 /**
  * PartGroupController
  */
-class PartGroupController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController {
-
-	/**
-	 * partGroupRepository
-	 *
-	 * @var \S3b0\EcomConfigCodeGenerator\Domain\Repository\PartGroupRepository
-	 * @inject
-	 */
-	protected $partGroupRepository = NULL;
+class PartGroupController extends \S3b0\EcomConfigCodeGenerator\Controller\InjectController {
 
 	/**
 	 * action list
@@ -71,6 +63,7 @@ class PartGroupController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionContro
 	 * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage
 	 */
 	public static function initialize(\TYPO3\CMS\Extbase\Mvc\Controller\ActionController $controller, \TYPO3\CMS\Extbase\Persistence\ObjectStorage $partGroups, array &$configuration, \S3b0\EcomConfigCodeGenerator\Domain\Model\PartGroup &$current = NULL, &$progress = 0) {
+		/** @var \S3b0\EcomConfigCodeGenerator\Controller\InjectController $controller */
 		/** @var \S3b0\EcomConfigCodeGenerator\Domain\Model\PartGroup $current */
 		$current = NULL;   // Mark part group current
 		$isActive = FALSE; // Set part group state
@@ -164,16 +157,17 @@ class PartGroupController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionContro
 			$controller->feSession->store('config', $configuration);
 
 		// Get progress state update (ratio of active to visible packages) => float from 0 to 1 (*100 = %)
-		$progress = ( sizeof($configuration) - $hidden ) / $partGroups->count();
+		$progress = ( sizeof($configuration) - $hidden ) / ( $partGroups->count() - $hidden );
 
 		return $partGroups;
 	}
 
 	/**
-	 * @param array $list
+	 * @param \S3b0\EcomConfigCodeGenerator\Controller\InjectController $controller Ensure an Instance of extensions InjectController is given to provide necessary injections
+	 * @param array                                                     $list
 	 * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage
 	 */
-	public function getAndSetActiveParts(\S3b0\EcomConfigCodeGenerator\Controller\GeneratorController $controller, array $list) {
+	private static function getAndSetActiveParts(\S3b0\EcomConfigCodeGenerator\Controller\InjectController $controller, array $list) {
 		$objectStorage = new \TYPO3\CMS\Extbase\Persistence\ObjectStorage();
 		if ( $parts = $controller->partRepository->findByList($list) ) {
 			/** @var \S3b0\EcomConfigCodeGenerator\Domain\Model\Part $part */

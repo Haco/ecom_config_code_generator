@@ -410,8 +410,8 @@ class PartGroup extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	 *
 	 * @return string
 	 */
-	public function getDependentNotessFluidParsedMessages() {
-		return $this->dependentNotesFluidParsedMessages->count() ? "<p>{implode('</p><p>', $this->dependentNotesFluidParsedMessages)}</p>" : '';
+	public function getDependentNotesFluidParsedMessages() {
+		return $this->dependentNotesFluidParsedMessages instanceof \ArrayAccess ? "<p>{implode('</p><p>', $this->dependentNotesFluidParsedMessages)}</p>" : '';
 	}
 
 	/**
