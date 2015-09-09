@@ -28,6 +28,8 @@ namespace S3b0\EcomConfigCodeGenerator\Controller;
  ***************************************************************/
 
 use S3b0\EcomConfigCodeGenerator\Setup;
+use TYPO3\CMS\Core\Cache\Backend\NullBackend;
+use TYPO3\CMS\Core\Utility\ArrayUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 
@@ -141,6 +143,8 @@ class GeneratorController extends \S3b0\EcomConfigCodeGenerator\Controller\Injec
 			$configuration
 		);
 
+		$this->checkForPartAutoSet($currentPartGroup->getParts());
+
 		$configCodeHTML = '';
 		$summaryTable = '';
 		/** GET RESULT */
@@ -193,6 +197,32 @@ class GeneratorController extends \S3b0\EcomConfigCodeGenerator\Controller\Injec
 	 */
 	public function setPartAction() {
 
+	}
+
+	/**
+	 * @param \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\S3b0\EcomConfigCodeGenerator\Domain\Model\Part> $storage
+	 * @throws \TYPO3\CMS\Extbase\Mvc\Exception\StopActionException
+	 */
+	protected function checkForPartAutoSet(\TYPO3\CMS\Extbase\Persistence\ObjectStorage $storage = NULL) {
+		/** @var \S3b0\EcomConfigCodeGenerator\Domain\Model\Part $part */
+		$part = $storage->toArray()[0];
+		if ( $storage instanceof \TYPO3\CMS\Extbase\Persistence\ObjectStorage && $storage->count() === 1 ) {
+			$configuration = $this->feSession->get('config');
+			$temp = &$configuration[$part->getPartGroup()->getUid()];
+
+			 // Add part
+			if ( !$part->getPartGroup()->isMultipleSelectable() ) {
+				$temp = [ ];
+			}
+			$temp[$part->getSorting()] = $part->getUid();
+			$this->feSession->store('config', $configuration);
+
+			$part->getPartGroup()->setVisible(FALSE);
+
+			$arguments = $this->request->getArguments();
+			ArrayUtility::mergeRecursiveWithOverrule($arguments, [ 'partGroup' => $part->getPartGroup()->getNext() ]);
+			$this->forward('index', NULL, NULL, $arguments);
+		}
 	}
 
 }

@@ -125,6 +125,12 @@ class PartGroupController extends \S3b0\EcomConfigCodeGenerator\Controller\Injec
 						$current = $current ?: $previous;
 					}
 				}
+				\S3b0\EcomConfigCodeGenerator\Controller\PartController::initialize(
+					$controller,
+					$partGroup->getParts(),
+					$configuration
+				);
+				$partGroup->setVisible($partGroup->getParts()->count() > 1);
 			}
 			// Initially use first package
 			if ( $cycle === $partGroups->count() && !$current instanceof \S3b0\EcomConfigCodeGenerator\Domain\Model\PartGroup ) {

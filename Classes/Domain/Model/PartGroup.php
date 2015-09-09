@@ -507,6 +507,17 @@ class PartGroup extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	}
 
 	/**
+	 * @param boolean $visible
+	 */
+	public function setVisible($visible = TRUE) {
+		if ( $this->isVisible() && $visible === FALSE ) {
+			$this->setSettings($this->getSettings() - Setup::BIT_PARTGROUP_IS_VISIBLE);
+		} elseif ( !$this->isVisible() && $visible === TRUE ) {
+			$this->setSettings($this->getSettings() + Setup::BIT_PARTGROUP_IS_VISIBLE);
+		}
+	}
+
+	/**
 	 * @return boolean
 	 */
 	public function isVisibleInSummary() {

@@ -69,7 +69,7 @@ class AjaxRequestController extends \S3b0\EcomConfigCodeGenerator\Controller\Gen
 	 * @throws \TYPO3\CMS\Extbase\Mvc\Exception\NoSuchArgumentException
 	 */
 	public function initializeIndexAction() {
-		if ( MathUtility::canBeInterpretedAsInteger($this->request->getArgument('partGroup')) && !$this->request->getArgument('partGroup') instanceof \S3b0\EcomConfigCodeGenerator\Domain\Model\PartGroup )
+		if ( $this->request->hasArgument('partGroup') && MathUtility::canBeInterpretedAsInteger($this->request->getArgument('partGroup')) && !$this->request->getArgument('partGroup') instanceof \S3b0\EcomConfigCodeGenerator\Domain\Model\PartGroup )
 			$this->request->setArgument('partGroup', $this->partGroupRepository->findByUid($this->request->getArgument('partGroup')));
 	}
 
@@ -78,7 +78,7 @@ class AjaxRequestController extends \S3b0\EcomConfigCodeGenerator\Controller\Gen
 	 * @throws \TYPO3\CMS\Extbase\Mvc\Exception\NoSuchArgumentException
 	 */
 	public function initializeUpdatePartAction() {
-		if ( MathUtility::canBeInterpretedAsInteger($this->request->getArgument('part')) && !$this->request->getArgument('part') instanceof \S3b0\EcomConfigCodeGenerator\Domain\Model\Part )
+		if ( $this->request->hasArgument('part') && MathUtility::canBeInterpretedAsInteger($this->request->getArgument('part')) && !$this->request->getArgument('part') instanceof \S3b0\EcomConfigCodeGenerator\Domain\Model\Part )
 			$this->request->setArgument('part', $this->partRepository->findByUid($this->request->getArgument('part')));
 	}
 
