@@ -15,28 +15,6 @@
 	});
 })(jQuery);
 
-// PartGroup-PartList => Popover for hint text
-(function($) {
-	var hintBoxSelector = '#ccg-configurator-canvas #configurator-select-part-group-part-info-hint-box';
-
-	// Hide the Box Function
-	function hideHintBox(hintBox) {
-		$(hintBox).slideUp();
-	}
-	// Hide hint-box on click and ESC key
-	$('#ccg-configurator-canvas #configurator-select-part-group-part-info-hint-box .close-popover-x, #ccg-configurator-canvas #configurator-select-part-group-part-info-hint-box, body').on('click keyup', function(e) {
-		// If the keyup event is triggered
-		if ( e.type == 'keyup' ) {
-			if ( e.keyCode == 27 ) {
-				hideHintBox(hintBoxSelector);
-			}
-			// If click event is triggered
-		} else {
-			hideHintBox(hintBoxSelector);
-		}
-	});
-})(jQuery);
-
 // Review/Summary Configuration Button
 (function($) {
 	var summaryTable = $('#ccg-configurator-canvas #configurator-summary-table');
@@ -90,7 +68,6 @@ function ccgUpdatePart() {
 			cObj: t3cobj
 		}, function (result) {
 			onSuccessFunction(result);
-			updateProgressIndicator(result.progress);
 		});
 	});
 }
@@ -119,16 +96,17 @@ function ccgIndex() {
  * @returns {boolean}
  */
 function getPartInformation(part) {
-	var hintBox = $('#configurator-select-part-group-part-info-hint-box'),
-		hintBoxContent = $('#configurator-select-part-group-part-info-hint-box > div');
-	hintBox.addClass('ajaxloader');
-	hintBoxContent.html('');
 	genericAjaxRequest(t3pid, t3lang, 1441344351, 'showHint', {
 			part: part,
 			cObj: t3cobj
 		}, function(result) {
-			hintBoxContent.html(result);
-			hintBox.removeClass('ajaxloader');
+			swal({
+				title: null,
+				text: result,
+				type: "info",
+				html: true,
+				confirmButtonText: "OK"
+			});
 		}
 	);
 	return false;
@@ -175,6 +153,7 @@ function genericAjaxRequest(pageUid, language, pageType, action, arguments, onSu
  */
 function onSuccessFunction(result) {
 	removeAjaxLoader('ccg-configurator-ajax-loader');
+	updateProgressIndicator(result.progress);
 	$('#configurator-part-group-select-index').html(result.selectPartGroupsHTML);
 	if ( result.showResultingConfiguration ) {
 		$('#configurator-result-canvas').show();
@@ -190,6 +169,12 @@ function onSuccessFunction(result) {
 		$('#configurator-part-group-select-part-index').show();
 		alterPartGroupInformation(result.currentPartGroup);
 		$('#configurator-show-result-button').toggle(result.progress === 1);
+		if ( result.progress === 0 ) {
+			$('#configurator-reset-configuration-button').addClass('disabled');
+		} else {
+			$('#configurator-reset-configuration-button').removeClass('disabled');
+		}
+		$('#configurator-reset-configuration-button').toggle(result.progress < 1);
 	}
 	assignListeners();
 }
@@ -244,39 +229,11 @@ function updateProgressIndicator(progress) {
 
 // Popup on click
 function addInfoTrigger() {
-	var triggerHint = '#ccg-configurator-canvas .configurator-select-part-group-part-info',
-		hintBoxSelector = '#ccg-configurator-canvas #configurator-select-part-group-part-info-hint-box',
-		windowHeight,
-		popupHeight,
-		scrollPosition,
-		currentHintBox;
+	var triggerHint = '#ccg-configurator-canvas .configurator-select-part-group-part-info';
 
 	$(triggerHint).on('click', function(e) {
-		/**
-		 * First hide every active hint box @deprecated since single box is used - switching contents via AJAX
-		 */
-			//hideHintBox(hintBoxSelector);
-
-			// Prevent default anchor action
 		e.preventDefault();
-
-		// AJAX request
 		getPartInformation($(this).parents('a').first().attr('data-part'));
-
-		// Setting new vars
-		windowHeight = $(document).height();
-		currentHintBox = $(hintBoxSelector);
-
-		// Calculate position of the hint-box
-		popupHeight = $(currentHintBox).outerHeight();
-		// Check if popup high exceeds window height
-		// Then set position top 15px
-		scrollPosition = -5;
-		// Show Popup
-		//currentHintBox.css('display', 'block').animate({'top': scrollPosition, 'opacity': 1}, 'fast');
-		currentHintBox.slideDown();
-
-		// Prevent Option-a-tag from executing
 		return false;
 	})
 }

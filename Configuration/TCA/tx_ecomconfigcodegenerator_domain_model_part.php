@@ -37,7 +37,7 @@ return [
 		'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, title, code_segment, image, hint, dependency, pricing'
 	],
 	'types' => [
-		'1' => [ 'showitem' => "sys_language_uid;;;;1-1-1, l10n_parent, l10n_diffsource, hidden;;1, title, code_segment, part_group, --div--;{$translate}tabs.referral, image, dependency, --div--;{$translate}tabs.pricing, pricing, --div--;LLL:EXT:cms/locallang_tca.xlf:pages.tabs.extended, hint;;;richtext:rte_transform[mode=ts_links], --div--;LLL:EXT:cms/locallang_ttc.xlf:tabs.access, --palette--;LLL:EXT:cms/locallang_tca.xlf:pages.palettes.access;access" ]
+		'1' => [ 'showitem' => "sys_language_uid;;;;1-1-1, l10n_parent, l10n_diffsource, hidden;;1, title, code_segment, part_group, --div--;{$translate}tabs.referral, image, dependency, --div--;{$translate}tabs.pricing, pricing, --div--;LLL:EXT:cms/locallang_tca.xlf:pages.tabs.extended, hint;;;wizards[t3editorHtml], --div--;LLL:EXT:cms/locallang_ttc.xlf:tabs.access, --palette--;LLL:EXT:cms/locallang_tca.xlf:pages.palettes.access;access" ]
 	],
 	'palettes' => [
 		'1' => [
@@ -212,18 +212,16 @@ return [
 			'label' => "{$translate}tx_ecomconfigcodegenerator_domain_model_part.hint",
 			'config' => [
 				'type' => 'text',
-				'cols' => 40,
-				'rows' => 15,
+				'cols' => 100,
+				'rows' => 10,
 				'eval' => 'trim',
 				'wizards' => [
-					'RTE' => [
-						'notNewRecords' => 1,
-						'RTEonly' => 1,
-						'type' => 'script',
-						'title' => 'LLL:EXT:cms/locallang_ttc.xlf:bodytext.W.RTE',
-						'icon' => 'wizard_rte2.gif',
-						'module' => [
-							'name' => 'wizard_rte'
+					't3editorHtml' => [
+						'enableByTypeConfig' => 1,
+						'type' => 'userFunc',
+						'userFunc' => 'TYPO3\\CMS\\T3editor\\FormWizard->main',
+						'params' => [
+							'format' => 'html'
 						]
 					]
 				]
