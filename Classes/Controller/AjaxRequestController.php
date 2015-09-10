@@ -108,9 +108,25 @@ class AjaxRequestController extends \S3b0\EcomConfigCodeGenerator\Controller\Gen
 		$this->view->assign('value', $data);
 	}
 
-	public function showHintAction() {
-
+	/**
+	 * @throws \TYPO3\CMS\Extbase\Mvc\Exception\InvalidArgumentNameException
+	 * @throws \TYPO3\CMS\Extbase\Mvc\Exception\NoSuchArgumentException
+	 */
+	public function initializeShowHintAction() {
+		if ( $this->request->hasArgument('part') && MathUtility::canBeInterpretedAsInteger($this->request->getArgument('part')) && !$this->request->getArgument('part') instanceof \S3b0\EcomConfigCodeGenerator\Domain\Model\Part )
+			$this->request->setArgument('part', $this->partRepository->findByUid($this->request->getArgument('part')));
 	}
+
+	/**
+	 * action updatePart
+	 *
+	 * @param \S3b0\EcomConfigCodeGenerator\Domain\Model\Part|NULL $part
+	 * @return void
+	 */
+	public function showHintAction(\S3b0\EcomConfigCodeGenerator\Domain\Model\Part $part = NULL) {
+		$this->view->assign('value', [ $part->getHint() ]);
+	}
+
 
 	/**
 	 * @param \TYPO3\CMS\Extbase\Persistence\ObjectStorage $parts
@@ -122,7 +138,7 @@ class AjaxRequestController extends \S3b0\EcomConfigCodeGenerator\Controller\Gen
 
 		$extbaseFrameworkConfiguration = $this->configurationManager->getConfiguration(\TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface::CONFIGURATION_TYPE_FRAMEWORK);
 		$partialRootPath = \TYPO3\CMS\Core\Utility\GeneralUtility::getFileAbsFileName($extbaseFrameworkConfiguration['view']['partialRootPath'] ?: end($extbaseFrameworkConfiguration['view']['partialRootPaths']));
-		$templatePathAndFilename = $partialRootPath . 'Part/AjaxSelector.html';
+		$templatePathAndFilename = $partialRootPath . 'Part/Selector.html';
 		$view->setTemplatePathAndFilename($templatePathAndFilename);
 		$view->setPartialRootPaths([$partialRootPath]);
 		$view->assign('parts', $parts);

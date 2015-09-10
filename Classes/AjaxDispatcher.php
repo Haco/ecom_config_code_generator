@@ -48,7 +48,7 @@
 	/** !!! IMPORTANT TO MAKE JSON WORK !!! */
 	$TYPO3_CONF_VARS['FE']['debug'] = '0';
 
-	/** @var \S3b0\EcomProductTools\Utility\AjaxDispatcher $dispatcher */
+	/** @var \S3b0\EcomConfigCodeGenerator\AjaxDispatcher $dispatcher */
 	$dispatcher = CoreUtility\GeneralUtility::makeInstance('S3b0\\EcomConfigCodeGenerator\\AjaxDispatcher');
 
 	// ATTENTION! Dispatcher first needs to be initialized here!!!

@@ -45,7 +45,7 @@ EcomConfigCodeGeneratorAjaxRequest {
 		switchableControllerActions {
 			DynamicConfiguratorAjaxRequest {
 				1 = index
-				2 = selectPart
+				2 = updatePart
 				3 = showHint
 			}
 		}

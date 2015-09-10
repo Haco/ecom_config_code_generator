@@ -1,11 +1,10 @@
-<f:comment><f:if condition="{pricingEnabled}">
-	<span class="configurator-select-part-group-part-price"><f:s3b0.financial.currency currency="{currency}" usFormat="{settings.usFormat}">{part.priceOutput}</f:s3b0.financial.currency>
-	( <f:s3b0.financial.currency currency="{currency}" usFormat="{settings.usFormat}">{part.unitPrice}</f:s3b0.financial.currency><f:if condition="{part.partGroup.percentPricing}"> <span style="font-family: 'Lucida Sans Unicode', Arial, sans-serif">≙</span> {f:s3b0.calculation(expressionString : '{part.pricePercental}*100')}%</f:if> )
+<f:if condition="{part.pricing}">
+	<span class="configurator-select-part-group-part-price">{part.pricing.diff} ({part.pricing.basic})<f:if condition="{part.partGroup.pricePercentage}"> <span style="font-family: 'Lucida Sans Unicode', Arial, sans-serif">≙</span> {part.pricing.percentage}%</f:if> )
 	</span>
-</f:if></f:comment>
+</f:if>
 <f:if condition="{part.hint}">
 	<div class="configurator-select-part-group-part-info-wrapper">
-		<span class="configurator-select-part-group-part-info"><f:translate id="partlist.more_info" /></span>
+		<span class="configurator-select-part-group-part-info"><f:translate id="label.moreInformation" /></span>
 	</div>
 </f:if>
 <div class="configurator-checkbox {f:if(condition:'{part.active}',then:'checked',else:'unchecked')}"><span class="configurator-part-checkbox-image"></span></div>

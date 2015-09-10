@@ -91,27 +91,6 @@ function ccgUpdatePart() {
 		}, function (result) {
 			onSuccessFunction(result);
 			updateProgressIndicator(result.progress);
-			/*
-			if ( result.showResult ) {
-				alterPartGroupInformation('hide');
-				$('#configurator-request').attr('href', result.requestLink);
-				$('#configurator-result-canvas .ecom-configurator-result h3.ecom-configurator-result-label').first().html(result.configurationData[0]);
-				$('#configurator-result-canvas .ecom-configurator-result small.ecom-configurator-result-code').first().html(getConfigurationCode(result.configurationData[1]));
-				$('#configurator-summary-table').html(getConfigurationSummary(result.configurationData[2], result.pricingEnabled));
-				resultDiv.show();
-				$('#configurator-show-result-button').hide();
-				assignListeners();
-			} else {
-				alterPartGroupInformation('show');
-				resultDiv.hide();
-				$('#configurator-show-result-button').toggle(result.progress === 1);
-			}
-			 buildSelector(result);
-			updatePackageNavigation(result.packages);
-			if ( result.pricingEnabled && result.pricing ) {
-				$('#configurator-config-header-config-price').html(result.pricing);
-			}
-*/
 		});
 	});
 }
@@ -126,17 +105,33 @@ function ccgIndex() {
 		if ( $(this).hasClass('configurator-part-group-state-0') || $(this).hasClass('current') )
 			return false;
 		addAjaxLoader('ccg-configurator-ajax-loader');
-		genericAjaxRequest(t3pid, t3lang, 1407764086, 'index', {
+		genericAjaxRequest(t3pid, t3lang, 1441344351, 'index', {
 			partGroup: $(this).attr('data-ccgpg'),
 			cObj: t3cobj
 		}, function (result) {
 			onSuccessFunction(result);
-/*
-			updatepartGroupNavigation(result.packages);
-			buildSelector(result);
-*/
 		});
 	});
+}
+
+/**
+ * @param part
+ * @returns {boolean}
+ */
+function getPartInformation(part) {
+	var hintBox = $('#configurator-select-part-group-part-info-hint-box'),
+		hintBoxContent = $('#configurator-select-part-group-part-info-hint-box > div');
+	hintBox.addClass('ajaxloader');
+	hintBoxContent.html('');
+	genericAjaxRequest(t3pid, t3lang, 1441344351, 'showHint', {
+			part: part,
+			cObj: t3cobj
+		}, function(result) {
+			hintBoxContent.html(result);
+			hintBox.removeClass('ajaxloader');
+		}
+	);
+	return false;
 }
 
 /**
@@ -247,6 +242,45 @@ function updateProgressIndicator(progress) {
 	});
 }
 
+// Popup on click
+function addInfoTrigger() {
+	var triggerHint = '#ccg-configurator-canvas .configurator-select-part-group-part-info',
+		hintBoxSelector = '#ccg-configurator-canvas #configurator-select-part-group-part-info-hint-box',
+		windowHeight,
+		popupHeight,
+		scrollPosition,
+		currentHintBox;
+
+	$(triggerHint).on('click', function(e) {
+		/**
+		 * First hide every active hint box @deprecated since single box is used - switching contents via AJAX
+		 */
+			//hideHintBox(hintBoxSelector);
+
+			// Prevent default anchor action
+		e.preventDefault();
+
+		// AJAX request
+		getPartInformation($(this).parents('a').first().attr('data-part'));
+
+		// Setting new vars
+		windowHeight = $(document).height();
+		currentHintBox = $(hintBoxSelector);
+
+		// Calculate position of the hint-box
+		popupHeight = $(currentHintBox).outerHeight();
+		// Check if popup high exceeds window height
+		// Then set position top 15px
+		scrollPosition = -5;
+		// Show Popup
+		//currentHintBox.css('display', 'block').animate({'top': scrollPosition, 'opacity': 1}, 'fast');
+		currentHintBox.slideDown();
+
+		// Prevent Option-a-tag from executing
+		return false;
+	})
+}
+
 /**
  * Add default listeners
  */
@@ -260,6 +294,7 @@ function assignListeners() {
 		track: true
 	});
 	ccgUpdatePart();
+	addInfoTrigger();
 	ccgIndex();
 }
 
