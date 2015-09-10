@@ -246,6 +246,9 @@ class BaseController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController 
 					\S3b0\EcomConfigCodeGenerator\Session\ManageConfiguration::addPartToConfiguration($this, $partGroup->getParts()->toArray()[0], $configuration);
 				}
 				$partGroup->setUnlocked($partGroup->getParts()->count() > 1);
+				if ( !$partGroup->isUidInParts($configuration[$partGroup->getUid()]) ) {
+					$current = $partGroup;
+				}
 			} else {
 				$current = $partGroup;
 			}

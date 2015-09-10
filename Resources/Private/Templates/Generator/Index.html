@@ -29,10 +29,6 @@
 				<div class="clearfix"></div>
 				<!-- parse parts; return selectors -->
 				<f:render partial="PartGroup/Parts" arguments="{parts: value.currentPartGroup.parts}" />
-			<span id="configurator-select-part-group-part-info-hint-box">
-				<span class="close-popover-x" title="{f:translate(id: 'label.closeButton')}">&times;</span>
-				<div></div>
-			</span>
 			</div>
 		</div>
 		<div class="clearfix">
@@ -89,10 +85,14 @@
 			t3cobj = {jsData.contentObject},
 			showResult = {value.showResultingConfiguration -> f:format.number(decimals: 0)},
 			moreInfoLinkTitle = "{f:translate(id : 'label.moreInformation')}",
-			js = document.createElement("script");
+			js = document.createElement("script"),
+			swaljs = document.createElement("script");
 		js.type = "text/javascript";
 		js.src = "{f:uri.resource(path:'JavaScript/main.js')}";
 		document.body.appendChild(js);
+		swaljs.type = "text/javascript";
+		swaljs.src = "https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.0/sweetalert.min.js";
+		document.body.appendChild(swaljs);
 	</script>
 
 </f:section>

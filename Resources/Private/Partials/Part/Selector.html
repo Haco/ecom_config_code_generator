@@ -1,7 +1,16 @@
 <f:if condition="{parts -> f:count()}">
 	<f:for each="{parts}" as="part" iteration="partIterator">
 		<a data-part="{part.uid}" data-part-state="{part.active -> f:format.number(decimals : 0)}" class="configurator-select-part-group-part configurator-select-part-group-part-selector {f:if(condition : '{part.inConflictWithSelectedParts}', then : 'disabled', else : 'enabled')}" tabindex="{partIterator.cycle}">
-			<f:render partial="Part/LinkInnerHTML" arguments="{_all}" />
+			<f:if condition="{part.pricing}">
+				<span class="configurator-select-part-group-part-price">{part.pricing.diff} ({part.pricing.basic})<f:if condition="{part.partGroup.pricePercentage}"> <span style="font-family: 'Lucida Sans Unicode', Arial, sans-serif">≙</span> {part.pricing.percentage}%</f:if> )</span>
+			</f:if>
+			<f:if condition="{part.hint}">
+				<div class="configurator-select-part-group-part-info-wrapper">
+					<span class="configurator-select-part-group-part-info"><f:translate id="label.moreInformation" extensionName="ecom_config_code_generator" /></span>
+				</div>
+			</f:if>
+			<div class="configurator-checkbox {f:if(condition:'{part.active}',then:'checked',else:'unchecked')}"><span class="configurator-part-checkbox-image"></span></div>
+			<span class="configurator-select-part-group-part part">{part.title} {f:if(condition:'{0:\'{part.codeSegment}\'} != {0:\'\'}',then:'[{part.codeSegment}]')}</span>
 		</a>
 		<div class="clearfix"></div>
 	</f:for>

@@ -91,7 +91,6 @@ class AjaxRequestController extends \S3b0\EcomConfigCodeGenerator\Controller\Gen
 	 */
 	public function updatePartAction(\S3b0\EcomConfigCodeGenerator\Domain\Model\Part $part = NULL, $unset = FALSE) {
 		$configuration = $this->feSession->get('config');
-		$temp = &$configuration[$part->getPartGroup()->getUid()];
 		// Manage Session data
 		/** Add part */
 		if ( $unset === FALSE ) {
@@ -124,7 +123,7 @@ class AjaxRequestController extends \S3b0\EcomConfigCodeGenerator\Controller\Gen
 	 * @return void
 	 */
 	public function showHintAction(\S3b0\EcomConfigCodeGenerator\Domain\Model\Part $part = NULL) {
-		$this->view->assign('value', [ $part->getHint() ]);
+		$this->view->assign('value', [ $this->sanitize_output($part->getHint()) ]);
 	}
 
 
@@ -144,7 +143,7 @@ class AjaxRequestController extends \S3b0\EcomConfigCodeGenerator\Controller\Gen
 		$view->assign('parts', $parts);
 		$view->setFormat('html');
 
-		return $view->render();
+		return $this->sanitize_output($view->render());
 	}
 
 	/**
@@ -163,7 +162,7 @@ class AjaxRequestController extends \S3b0\EcomConfigCodeGenerator\Controller\Gen
 		$view->assign('partGroups', $partGroups);
 		$view->setFormat('html');
 
-		return $view->render();
+		return $this->sanitize_output($view->render());
 	}
 
 	/**
@@ -186,6 +185,26 @@ class AjaxRequestController extends \S3b0\EcomConfigCodeGenerator\Controller\Gen
 		$view->setFormat('html');
 
 		return $view->render();
+	}
+
+	/**
+	 * Minify All Output - based on the search and replace regexes.
+	 * @param string $buffer Input string
+	 * @return string
+	 */
+	private function sanitize_output($buffer) {
+		$search = [
+			'/\>[^\S ]+/s', //strip whitespaces after tags, except space
+			'/[^\S ]+\</s', //strip whitespaces before tags, except space
+			'/(\s)+/s'  // shorten multiple whitespace sequences
+		];
+		$replace = [
+			'>',
+			'<',
+			'\\1'
+		];
+		$buffer = preg_replace($search, $replace, $buffer);
+		return $buffer;
 	}
 
 }

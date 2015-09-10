@@ -330,6 +330,21 @@ class PartGroup extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 		return $this->parts;
 	}
 
+	public function isUidInParts($partUidList = []) {
+		$check = FALSE;
+		if ( $this->parts instanceof \TYPO3\CMS\Extbase\Persistence\ObjectStorage && $this->parts->count() ) {
+			/** @var \S3b0\EcomConfigCodeGenerator\Domain\Model\Part $part */
+			foreach ( $this->parts as $part ) {
+				if ( in_array($part->getUid(), $partUidList) ) {
+					$check = TRUE;
+					break;
+				}
+			}
+		}
+
+		return $check;
+	}
+
 	/**
 	 * Sets the parts
 	 *
