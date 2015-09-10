@@ -267,9 +267,6 @@ class BaseController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController 
 		if ( $progress < 1 && !$current instanceof \S3b0\EcomConfigCodeGenerator\Domain\Model\PartGroup ) {
 			$current = $partGroup;
 		}
-		if ( $current instanceof \S3b0\EcomConfigCodeGenerator\Domain\Model\PartGroup ) {
-			$current->setCurrent(TRUE);
-		}
 
 		return $partGroups;
 	}

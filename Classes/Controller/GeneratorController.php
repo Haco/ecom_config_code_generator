@@ -61,6 +61,7 @@ class GeneratorController extends \S3b0\EcomConfigCodeGenerator\Controller\BaseC
 			$currentPartGroup = $arguments[0];
 		}
 		if ( $currentPartGroup instanceof \S3b0\EcomConfigCodeGenerator\Domain\Model\PartGroup ) {
+			$currentPartGroup->setCurrent(TRUE);
 			$this->initializeParts(
 				$currentPartGroup->getParts(),
 				$configuration
@@ -70,6 +71,7 @@ class GeneratorController extends \S3b0\EcomConfigCodeGenerator\Controller\BaseC
 
 		$jsonData = [
 			'title' => $this->contentObject->getCcgConfiguration()->getTitle(),
+			'instructions' => $this->contentObject->getBodytext(),
 			'configuration' => $configuration,
 			'progress' => $progress,
 			'progressPercentage' => $progress * 100,
@@ -85,6 +87,7 @@ class GeneratorController extends \S3b0\EcomConfigCodeGenerator\Controller\BaseC
 
 		if ( $this->request->getControllerName() === 'AjaxRequest' ) {
 			$jsonData['selectPartsHTML'] = $currentPartGroup instanceof \S3b0\EcomConfigCodeGenerator\Domain\Model\PartGroup ? $this->getPartSelectorHTML($currentPartGroup->getParts()) : NULL;
+			$jsonData['selectPartGroupsHTML'] = $this->getPartGroupSelectorHTML($partGroups);
 		}
 
 		return $jsonData;

@@ -1,0 +1,19 @@
+<div class="ecom-configurator-configurator-head">
+	<div class="ecom-configurator-config-header-instructions" id="ecom-configurator-ajax-header-instructions">{value.instructions -> f:format.html()}</div>
+	<f:if condition="{pricing}">
+		<div class="configurator-config-header-price-table">
+			<table>
+				<thead>
+					<tr class="align-center"> <td><f:translate id="label.basePrice" /></td> <td><f:translate id="label.configPrice" /></td> </tr>
+				</thead>
+				<tbody>
+					<tr class="align-center">
+						<td>{value.pricing.basePrice}</td>
+						<td><span id="configurator-config-header-config-price">{value.pricing.configPrice}</span></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</f:if>
+	<div class="clearfix" style="clear: both;"></div>
+</div>

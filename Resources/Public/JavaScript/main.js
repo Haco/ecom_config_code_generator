@@ -174,6 +174,31 @@ function genericAjaxRequest(pageUid, language, pageType, action, arguments, onSu
 	});
 }
 
+/**
+ * Handle result
+ * @param result
+ */
+function onSuccessFunction(result) {
+	removeAjaxLoader('ccg-configurator-ajax-loader');
+	$('#configurator-part-group-select-index').html(result.selectPartGroupsHTML);
+	if ( result.showResultingConfiguration ) {
+		$('#configurator-result-canvas').show();
+		$('#configurator-part-group-select-part-index').hide();
+		alterPartGroupInformation('hide');
+		$('#configurator-show-result-button').hide();
+		$('#configurator-result-canvas .configurator-result h3.configurator-result-label').first().html(result.title);
+		$('#configurator-result-canvas .configurator-result small.configurator-result-code').first().html(result.configurationCode['code']);
+		$('#configurator-summary-table').html(result.configurationCode['summaryTable']);
+	} else {
+		$('#configurator-select-parts-ajax-update').html(result.selectPartsHTML);
+		$('#configurator-result-canvas').hide();
+		$('#configurator-part-group-select-part-index').show();
+		alterPartGroupInformation(result.currentPartGroup);
+		$('#configurator-show-result-button').toggle(result.progress === 1);
+	}
+	assignListeners();
+}
+
 /**********************************
  * Various build helper functions *
  *********************************/
@@ -195,7 +220,7 @@ function alterPartGroupInformation(data) {
 			if ( data instanceof Object ) {
 				/* Add dependency notes */
 				var addDN = data.dependentNotesFluidParsedMessage !== undefined ? data.dependentNotesFluidParsedMessage : '';
-				div.html( '<h2>' + data.title + '</h2>' + data.prompt + addDN ).show();
+				div.html( '<h2>' + data.title + '</h2><p>' + data.prompt + '</p><p>' + addDN + '</p>' ).show();
 			}
 	}
 }
@@ -223,30 +248,6 @@ function updateProgressIndicator(progress) {
 }
 
 /**
- * Handle result
- * @param result
- */
-function onSuccessFunction(result) {
-	removeAjaxLoader('ccg-configurator-ajax-loader');
-	if ( result.showResultingConfiguration ) {
-		$('#configurator-result-canvas').show();
-		$('#configurator-part-group-select-part-index').hide();
-		alterPartGroupInformation('hide');
-		$('#configurator-show-result-button').hide();
-		$('#configurator-result-canvas .configurator-result h3.configurator-result-label').first().html(result.title);
-		$('#configurator-result-canvas .configurator-result small.configurator-result-code').first().html(result.configurationCode['code']);
-		$('#configurator-summary-table').html(result.configurationCode['summaryTable']);
-	} else {
-		$('#configurator-select-parts-ajax-update').html(result.selectPartsHTML);
-		$('#configurator-result-canvas').hide();
-		$('#configurator-part-group-select-part-index').show();
-		alterPartGroupInformation(result.currentPartGroup);
-		$('#configurator-show-result-button').toggle(result.progress === 1);
-	}
-	assignListeners();
-}
-
-/**
  * Add default listeners
  */
 function assignListeners() {
@@ -259,6 +260,7 @@ function assignListeners() {
 		track: true
 	});
 	ccgUpdatePart();
+	ccgIndex();
 }
 
 

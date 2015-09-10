@@ -55,37 +55,3 @@ EcomConfigCodeGeneratorAjaxRequest {
 	persistence < plugin.tx_ecompc.persistence
 	settings < plugin.tx_ecompc.settings
 }
-
-plugin.tx_ecomconfigcodegenerator._CSS_DEFAULT_STYLE (
-	textarea.f3-form-error {
-		background-color:#FF9F9F;
-		border: 1px #FF0000 solid;
-	}
-
-	input.f3-form-error {
-		background-color:#FF9F9F;
-		border: 1px #FF0000 solid;
-	}
-
-	.tx-ecom-config-code-generator table {
-		border-collapse:separate;
-		border-spacing:10px;
-	}
-
-	.tx-ecom-config-code-generator table th {
-		font-weight:bold;
-	}
-
-	.tx-ecom-config-code-generator table td {
-		vertical-align:top;
-	}
-
-	.typo3-messages .message-error {
-		color:red;
-	}
-
-	.typo3-messages .message-ok {
-		color:green;
-	}
-
-)

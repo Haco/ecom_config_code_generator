@@ -1,7 +1,7 @@
 <div id="configurator-part-group-info">
 	<f:if condition="{partGroup}">
 		<h2>{partGroup.title}</h2>
-		{partGroup.prompt -> f:format.html()}
+		<p>{partGroup.prompt -> f:format.html()}</p>
 		<f:if condition="{partGroup.dependentNotesFluidParsedMessage}">
 			<p>{partGroup.dependentNotesFluidParsedMessage -> f:format.html()}</p>
 		</f:if>
