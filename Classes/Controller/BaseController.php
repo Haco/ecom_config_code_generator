@@ -30,6 +30,7 @@ namespace S3b0\EcomConfigCodeGenerator\Controller;
 use S3b0\EcomConfigCodeGenerator\Setup;
 use TYPO3\CMS\Core\Utility\ArrayUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Core\Utility\MathUtility;
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 
 /**
@@ -52,6 +53,8 @@ class BaseController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController 
 	public $feSession;
 
 	/**
+	 * contentRepository
+	 *
 	 * @var \S3b0\EcomConfigCodeGenerator\Domain\Repository\ContentRepository
 	 * @inject
 	 */
@@ -74,10 +77,28 @@ class BaseController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController 
 	protected $partRepository;
 
 	/**
+	 * currencyRepository
+	 *
 	 * @var \S3b0\EcomConfigCodeGenerator\Domain\Repository\CurrencyRepository
 	 * @inject
 	 */
 	protected $currencyRepository;
+
+	/**
+	 * logRepository
+	 *
+	 * @var \S3b0\EcomConfigCodeGenerator\Domain\Repository\LogRepository
+	 * @inject
+	 */
+	protected $logRepository;
+
+	/**
+	 * frontendUserRepository
+	 *
+	 * @var \TYPO3\CMS\Extbase\Domain\Repository\FrontendUserRepository
+	 * @inject
+	 */
+	protected $frontendUserRepository;
 
 	/**
 	 * @var \S3b0\EcomConfigCodeGenerator\Domain\Model\Configuration
@@ -177,9 +198,11 @@ class BaseController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController 
 			 */
 			if ( $partGroup->isLocked() ) {
 				if ( $partGroup->hasDefaultPart() ) {
-					$configuration[$partGroup->getUid()][$partGroup->getDefaultPart()->getSorting()] = $partGroup->getDefaultPart()->getUid();
-					$partGroup->addActivePart($partGroup->getDefaultPart());
-					$partGroup->setSelectable(FALSE);
+					\S3b0\EcomConfigCodeGenerator\Session\ManageConfiguration::addPartToConfiguration(
+						$this,
+						$partGroup->getDefaultPart() instanceof \TYPO3\CMS\Extbase\Persistence\Generic\LazyLoadingProxy ? $partGroup->getDefaultPart()->_loadRealInstance() : $partGroup->getDefaultPart(),
+						$configuration
+					);
 					$locked++;
 					$cycle++;
 				} else {
@@ -414,10 +437,76 @@ class BaseController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController 
 		ksort($blankCode);
 
 		return [
-			'code' => $this->contentObject->getCcgConfiguration()->getPrefix() . implode($code) . $this->contentObject->getCcgConfiguration()->getSuffix(),
-			'blankCode' => $this->contentObject->getCcgConfiguration()->getPrefix() . implode($blankCode) . $this->contentObject->getCcgConfiguration()->getSuffix(),
+			'code' => $this->contentObject->getCcgConfiguration()->getPrefix() . implode('', $code) . $this->contentObject->getCcgConfiguration()->getSuffix(),
+			'blankCode' => $this->contentObject->getCcgConfiguration()->getPrefix() . implode('', $blankCode) . $this->contentObject->getCcgConfiguration()->getSuffix(),
 			'summaryTable' => '<table><tr>' . implode('</tr><tr>', $summaryTableRows) . '</tr></table>'
 		];
+	}
+
+	/**
+	 * @param array $configuration
+	 * @throws \TYPO3\CMS\Extbase\Persistence\Exception\IllegalObjectTypeException
+	 */
+	protected function addConfigurationLog(array $configuration) {
+		/** @var \S3b0\EcomConfigCodeGenerator\Domain\Model\Log $log */
+		$log = $this->objectManager->get(\S3b0\EcomConfigCodeGenerator\Domain\Model\Log::class);
+		$ipLength = !MathUtility::canBeInterpretedAsInteger($this->settings['log']['ipLength']) || $this->settings['log']['ipLength'] > 4 ? 4 : $this->settings['log']['ipLength'];
+		$code = [ ];
+
+		/** @var \S3b0\EcomConfigCodeGenerator\Domain\Model\PartGroup $partGroup */
+		foreach ( $this->contentObject->getCcgConfiguration()->getPartGroups() as $partGroup ) {
+			$parts = $configuration[$partGroup->getUid()];
+			ksort($parts); // Order by sorting
+			$segment = '';
+			foreach ( $parts as $partUid ) {
+				/** @var \S3b0\EcomConfigCodeGenerator\Domain\Model\Part $part */
+				$part = $this->partRepository->findByUid($partUid);
+				$log->addConfiguredPart($part);
+				$segment .= $part->getCodeSegment();
+			}
+			if ( $partGroup->getPlaceInCode() ) {
+				$code[$partGroup->getPlaceInCode()] = $segment;
+			} else {
+				$code[] = $segment;
+			}
+		}
+		ksort($code);
+
+		$log->setConfiguration($this->contentObject->getCcgConfiguration()->getPrefix() . implode('', $code) . $this->contentObject->getCcgConfiguration()->getSuffix())
+			->maskIpAddress($ipLength);
+		if ( $GLOBALS['TSFE']->loginUser ) {
+			/** @todo Add pricing */
+			$log->setFeUser($this->frontendUserRepository->findByUid($GLOBALS['TSFE']->fe_user->user['uid']));
+		}
+
+		// Write to DB and persist to obtain a uid for current log
+		$this->logRepository->add($log);
+		/** @var \TYPO3\CMS\Extbase\Persistence\Generic\PersistenceManager $persistenceManager */
+		$persistenceManager = $this->objectManager->get(\TYPO3\CMS\Extbase\Persistence\Generic\PersistenceManager::class);
+		$persistenceManager->add($log);
+		$persistenceManager->persistAll();
+
+		\S3b0\EcomConfigCodeGenerator\Session\ManageConfiguration::resetConfiguration($this);
+	}
+
+	/**
+	 * Minify All Output - based on the search and replace regexes.
+	 * @param string $buffer Input string
+	 * @return string
+	 */
+	protected function sanitize_output($buffer) {
+		$search = [
+			'/\>[^\S ]+/s', //strip whitespaces after tags, except space
+			'/[^\S ]+\</s', //strip whitespaces before tags, except space
+			'/(\s)+/s'  // shorten multiple whitespace sequences
+		];
+		$replace = [
+			'>',
+			'<',
+			'\\1'
+		];
+		$buffer = preg_replace($search, $replace, $buffer);
+		return $buffer;
 	}
 
 }

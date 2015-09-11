@@ -42,19 +42,7 @@
 
 	<!-- render configuration result -->
 	<div id="configurator-result-canvas">
-		<div class="configurator-result">
-			<h3 class="configurator-result-label no-margin">{value.title}</h3>
-			<h2>
-				<f:translate id="headlines.yourConfigurationCode" /><br />
-				<small class="configurator-result-code">{value.configurationCode.code -> f:format.html()}</small>
-			</h2>
-			<f:link.action action="reset" class="btn btn-default" noCacheHash="1"><f:translate id="label.resetConfiguration" /> <i class="fa fa-undo fa-fw"></i></f:link.action>
-			<a class="btn btn-default configurator-result-review-config dropdown active" title="{f:translate(id : 'label.summaryButtonTitle')}"><i class="fa fa-bars fa-fw"></i> <f:translate id="label.summaryButton" /></a>
-			<f:link.action action="request" arguments="{configuration: resultingConfiguration}" id="configurator-request" noCacheHash="1" additionalParams="{L : sys_language_uid}" class="btn btn-default" target="{settings.requestForm.target}"><i class="fa fa-envelope fa-fw"></i> <f:translate id="label.requestButton" /></f:link.action>
-		</div>
-		<div id="configurator-summary-table">
-			{value.configurationCode.summaryTable -> f:format.html()}
-		</div>
+		<f:render partial="Result" arguments="{value: value, jsData: jsData}" />
 	</div>
 
 	<script type="text/javascript" language="JavaScript">
@@ -83,7 +71,7 @@
 		var t3pid = {jsData.pageId},
 			t3lang = {jsData.sysLanguage -> f:format.number(decimals: 0)},
 			t3cobj = {jsData.contentObject},
-			showResult = {value.showResultingConfiguration -> f:format.number(decimals: 0)},
+			showResult = Boolean({value.showResultingConfiguration -> f:format.number(decimals: 0)}),
 			moreInfoLinkTitle = "{f:translate(id : 'label.moreInformation')}",
 			js = document.createElement("script"),
 			swaljs = document.createElement("script");

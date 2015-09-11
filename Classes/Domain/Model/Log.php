@@ -40,13 +40,6 @@ class Log extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	protected $sessionId = '';
 
 	/**
-	 * Timestamp
-	 *
-	 * @var integer
-	 */
-	protected $tstamp;
-
-	/**
 	 * Resulting configuration (code)
 	 *
 	 * @var string
@@ -87,7 +80,7 @@ class Log extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	public function __construct() {
 		//Do not remove the next line: It would break the functionality
 		$this->initStorageObjects();
-		$this->setSessionId($GLOBALS['TSFE']->fe_user->id);
+		$this->setSessionId($GLOBALS['TSFE']->fe_user->id)->setPid(0);
 	}
 
 	/**
@@ -119,26 +112,6 @@ class Log extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	 */
 	public function setSessionId($sessionId) {
 		$this->sessionId = $sessionId;
-		return $this;
-	}
-
-	/**
-	 * Returns the tstamp
-	 *
-	 * @return integer
-	 */
-	public function getTstamp() {
-		return $this->tstamp;
-	}
-
-	/**
-	 * Sets the tstamp
-	 *
-	 * @param integer $tstamp
-	 * @return \S3b0\EcomConfigCodeGenerator\Domain\Model\Log Allow chaining of methods
-	 */
-	public function setTstamp($tstamp) {
-		$this->tstamp = $tstamp;
 		return $this;
 	}
 

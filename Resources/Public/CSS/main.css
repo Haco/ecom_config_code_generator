@@ -4,9 +4,12 @@ body {
 #ccg-configurator-canvas a {
 	cursor: pointer;
 }
-#ccg-configurator-canvas a.configurator-part-group-select.configurator-part-group-state-0,
+#ccg-configurator-canvas a.configurator-part-group-select.configurator-part-group-state-0:not(:first-child),
 #ccg-configurator-canvas a.configurator-part-group-select.current {
 	cursor: not-allowed;
+}
+#ccg-configurator-canvas a.configurator-part-group-select.configurator-part-group-state-0:first-child {
+	cursor: pointer;
 }
 #ccg-configurator-canvas a:focus {
 	outline: 1px dotted black;
@@ -39,7 +42,7 @@ body {
 	border-bottom: 1px solid #ccc;
 	margin: 1em 0;
 }
-#configurator-ajax-loader.ajaxloader {
+#ccg-configurator-ajax-loader.ajaxloader {
 	background: rgba(255, 255, 255, .8) url("../../../../../../typo3/sysext/t3skin/images/spinner/big-f0f0f0.gif") center center no-repeat scroll;
 	height: 100%;
 	left: 0;
@@ -104,7 +107,7 @@ body {
 	font-size: 1.2em;
 	text-align: center;
 	text-decoration: none;
-	padding: 0px 15px;
+	padding: 0 15px;
 	margin: 1em 0;
 	display: inline-block;
 	*display: inline;
@@ -173,12 +176,8 @@ body {
 	word-wrap: break-word;
 	width: 80px;
 }
-#ccg-configurator-canvas a.configurator-part-group-select.configurator-part-group-state-0,
-#ccg-configurator-canvas a.configurator-part-group-select.current {
-	cursor: not-allowed;
-}
 #ccg-configurator-canvas a.configurator-part-group-select > div:first-child {
-	margin: 0px auto;
+	margin: 0 auto;
 	position: relative;
 	height: 37px;
 	width: 28px;

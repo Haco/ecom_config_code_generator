@@ -133,7 +133,7 @@ class AjaxRequestController extends \S3b0\EcomConfigCodeGenerator\Controller\Gen
 	 */
 	public function getPartSelectorHTML(\TYPO3\CMS\Extbase\Persistence\ObjectStorage $parts) {
 		/** @var \TYPO3\CMS\Fluid\View\StandaloneView $view */
-		$view = $this->objectManager->get('TYPO3\\CMS\\Fluid\\View\\StandaloneView');
+		$view = $this->objectManager->get(\TYPO3\CMS\Fluid\View\StandaloneView::class);
 
 		$extbaseFrameworkConfiguration = $this->configurationManager->getConfiguration(\TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface::CONFIGURATION_TYPE_FRAMEWORK);
 		$partialRootPath = \TYPO3\CMS\Core\Utility\GeneralUtility::getFileAbsFileName($extbaseFrameworkConfiguration['view']['partialRootPath'] ?: end($extbaseFrameworkConfiguration['view']['partialRootPaths']));
@@ -152,7 +152,7 @@ class AjaxRequestController extends \S3b0\EcomConfigCodeGenerator\Controller\Gen
 	 */
 	public function getPartGroupSelectorHTML(\TYPO3\CMS\Extbase\Persistence\ObjectStorage $partGroups) {
 		/** @var \TYPO3\CMS\Fluid\View\StandaloneView $view */
-		$view = $this->objectManager->get('TYPO3\\CMS\\Fluid\\View\\StandaloneView');
+		$view = $this->objectManager->get(\TYPO3\CMS\Fluid\View\StandaloneView::class);
 
 		$extbaseFrameworkConfiguration = $this->configurationManager->getConfiguration(\TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface::CONFIGURATION_TYPE_FRAMEWORK);
 		$partialRootPath = \TYPO3\CMS\Core\Utility\GeneralUtility::getFileAbsFileName($extbaseFrameworkConfiguration['view']['partialRootPath'] ?: end($extbaseFrameworkConfiguration['view']['partialRootPaths']));
@@ -173,7 +173,7 @@ class AjaxRequestController extends \S3b0\EcomConfigCodeGenerator\Controller\Gen
 	 */
 	private function getHTML($templateName, array $variables = []) {
 		/** @var \TYPO3\CMS\Fluid\View\StandaloneView $view */
-		$view = $this->objectManager->get('TYPO3\\CMS\\Fluid\\View\\StandaloneView');
+		$view = $this->objectManager->get(\TYPO3\CMS\Fluid\View\StandaloneView::class);
 
 		$extbaseFrameworkConfiguration = $this->configurationManager->getConfiguration(\TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface::CONFIGURATION_TYPE_FRAMEWORK);
 		$templateRootPath = \TYPO3\CMS\Core\Utility\GeneralUtility::getFileAbsFileName($extbaseFrameworkConfiguration['view']['templateRootPath'] ?: end($extbaseFrameworkConfiguration['view']['templateRootPaths']));
@@ -185,26 +185,6 @@ class AjaxRequestController extends \S3b0\EcomConfigCodeGenerator\Controller\Gen
 		$view->setFormat('html');
 
 		return $view->render();
-	}
-
-	/**
-	 * Minify All Output - based on the search and replace regexes.
-	 * @param string $buffer Input string
-	 * @return string
-	 */
-	private function sanitize_output($buffer) {
-		$search = [
-			'/\>[^\S ]+/s', //strip whitespaces after tags, except space
-			'/[^\S ]+\</s', //strip whitespaces before tags, except space
-			'/(\s)+/s'  // shorten multiple whitespace sequences
-		];
-		$replace = [
-			'>',
-			'<',
-			'\\1'
-		];
-		$buffer = preg_replace($search, $replace, $buffer);
-		return $buffer;
 	}
 
 }

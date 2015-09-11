@@ -13,6 +13,9 @@ plugin.tx_ecomconfigcodegenerator {
 	}
 	settings {
 		webmasterEmail = {$plugin.tx_ecomconfigcodegenerator.settings.webmasterEmail}
+		log {
+			ipLength = 3
+		}
 	}
 }
 

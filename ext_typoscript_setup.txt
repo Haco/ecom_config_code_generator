@@ -25,14 +25,6 @@ config.tx_extbase {
           }
         }
       }
-      S3b0\EcomConfigCodeGenerator\Domain\Model\Log {
-        mapping {
-          tableName = tx_ecomconfigcodegenerator_domain_model_log
-          columns {
-            tstamp.mapOnProperty = tstamp
-          }
-        }
-      }
     }
   }
 }

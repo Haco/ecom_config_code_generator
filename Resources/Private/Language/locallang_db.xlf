@@ -255,6 +255,9 @@
 			<trans-unit id="tx_ecomconfigcodegenerator_domain_model_log">
 				<source>Log</source>
 			</trans-unit>
+			<trans-unit id="tx_ecomconfigcodegenerator_domain_model_log.tstamp">
+				<source>Date</source>
+			</trans-unit>
 			<trans-unit id="tx_ecomconfigcodegenerator_domain_model_log.session_id">
 				<source>Session ID</source>
 			</trans-unit>

@@ -8,8 +8,8 @@ $translate = 'LLL:EXT:ecom_config_code_generator/Resources/Private/Language/loca
 return [
 	'ctrl' => [
 		'title'	=> "{$translate}tx_ecomconfigcodegenerator_domain_model_log",
-		'label' => 'tstamp',
-		'label_alt' => 'configuration_code',
+		'label' => 'configuration',
+		'label_alt' => 'tstamp',
 		'label_alt_force' => TRUE,
 		'default_sortby' => 'ORDER BY tstamp',
 		'tstamp' => 'tstamp',
@@ -18,20 +18,30 @@ return [
 		'readOnly' => TRUE,
 #		'hideTable' => TRUE,
 		'enablecolumns' => [ ],
-		'searchFields' => 'session_id,configuration,configured_parts,pricing,ip_address,fe_user,',
+		'searchFields' => 'tstamp,session_id,configuration,configured_parts,pricing,ip_address,fe_user,',
 		'iconfile' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath('belog') . 'ext_icon.gif'
 	],
 	'interface' => [
-		'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, session_id, configuration, configured_parts, pricing, ip_address, fe_user'
+		'showRecordFieldList' => 'tstamp, session_id, configuration, configured_parts, pricing, ip_address, fe_user'
 	],
 	'types' => [
-		'1' => [ 'showitem' => 'session_id;;;;1-1-1, configuration, configured_parts, pricing, ip_address, fe_user' ]
+		'1' => [ 'showitem' => 'tstamp, session_id;;;;1-1-1, configuration, configured_parts, pricing, ip_address, fe_user' ]
 	],
 	'palettes' => [
 		'1' => [ 'showitem' => '' ]
 	],
 	'columns' => [
 
+		'tstamp' => [
+			'exclude' => 0,
+			'label' => "{$translate}tx_ecomconfigcodegenerator_domain_model_log.tstamp",
+			'config' => [
+				'type' => 'input',
+				'size' => 13,
+				'max' => 20,
+				'eval' => 'datetime'
+			]
+		],
 		'session_id' => [
 			'exclude' => 0,
 			'label' => "{$translate}tx_ecomconfigcodegenerator_domain_model_log.session_id",
@@ -87,7 +97,8 @@ return [
 				'type' => 'select',
 				'foreign_table' => 'tx_ecomconfigcodegenerator_domain_model_part',
 				'foreign_table_where' => 'ORDER BY tx_ecomconfigcodegenerator_domain_model_part.part_group, tx_ecomconfigcodegenerator_domain_model_part.sorting',
-				'size' => 20,
+				'size' => 30,
+				'autoSizeMax' => 30,
 				'maxitems' => 9999,
 				'readOnly' => 1
 			]
