@@ -105,6 +105,12 @@
 			<trans-unit id="tx_ecomconfigcodegenerator_domain_model_partgroup.dependent_notes.inlineElementAddTitle">
 				<source>Add dependency note</source>
 			</trans-unit>
+			<trans-unit id="tx_ecomconfigcodegenerator_domain_model_partgroup.modals">
+				<source>Modals</source>
+			</trans-unit>
+			<trans-unit id="tx_ecomconfigcodegenerator_domain_model_partgroup.modals.inlineElementAddTitle">
+				<source>Add modal</source>
+			</trans-unit>
 			<trans-unit id="tx_ecomconfigcodegenerator_domain_model_part">
 				<source>Part</source>
 			</trans-unit>
@@ -161,6 +167,18 @@
 			</trans-unit>
 			<trans-unit id="tx_ecomconfigcodegenerator_domain_model_modal">
 				<source>Modal</source>
+			</trans-unit>
+			<trans-unit id="tx_ecomconfigcodegenerator_domain_model_modal.title">
+				<source>Title</source>
+			</trans-unit>
+			<trans-unit id="tx_ecomconfigcodegenerator_domain_model_modal.text">
+				<source>Text</source>
+			</trans-unit>
+			<trans-unit id="tx_ecomconfigcodegenerator_domain_model_modal.use_confirmation">
+				<source>Confirmation mode</source>
+			</trans-unit>
+			<trans-unit id="tx_ecomconfigcodegenerator_domain_model_modal.dependent_parts">
+				<source>Dependent Parts</source>
 			</trans-unit>
 			<trans-unit id="tx_ecomconfigcodegenerator_domain_model_currency">
 				<source>ConfigCodeGen: Currency</source>
@@ -251,6 +269,9 @@
 			</trans-unit>
 			<trans-unit id="tx_ecomconfigcodegenerator_domain_model_log.fe_user">
 				<source>Frontend User</source>
+			</trans-unit>
+			<trans-unit id="tx_ecomconfigcodegenerator_domain_model_log.configured_parts">
+				<source>Configured Parts</source>
 			</trans-unit>
 
 

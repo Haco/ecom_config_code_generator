@@ -18,14 +18,14 @@ return [
 		'readOnly' => TRUE,
 #		'hideTable' => TRUE,
 		'enablecolumns' => [ ],
-		'searchFields' => 'session_id,configuration,pricing,ip_address,fe_user,',
+		'searchFields' => 'session_id,configuration,configured_parts,pricing,ip_address,fe_user,',
 		'iconfile' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath('belog') . 'ext_icon.gif'
 	],
 	'interface' => [
-		'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, session_id, configuration, pricing, ip_address, fe_user'
+		'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, session_id, configuration, configured_parts, pricing, ip_address, fe_user'
 	],
 	'types' => [
-		'1' => [ 'showitem' => 'session_id;;;;1-1-1, configuration, pricing, ip_address, fe_user' ]
+		'1' => [ 'showitem' => 'session_id;;;;1-1-1, configuration, configured_parts, pricing, ip_address, fe_user' ]
 	],
 	'palettes' => [
 		'1' => [ 'showitem' => '' ]
@@ -78,6 +78,18 @@ return [
 				'items' => [
 					[ '', 0 ]
 				]
+			]
+		],
+		'configured_parts' => [
+			'exclude' => 1,
+			'label' => "{$translate}tx_ecomconfigcodegenerator_domain_model_log.configured_parts",
+			'config' => [
+				'type' => 'select',
+				'foreign_table' => 'tx_ecomconfigcodegenerator_domain_model_part',
+				'foreign_table_where' => 'ORDER BY tx_ecomconfigcodegenerator_domain_model_part.part_group, tx_ecomconfigcodegenerator_domain_model_part.sorting',
+				'size' => 20,
+				'maxitems' => 9999,
+				'readOnly' => 1
 			]
 		]
 

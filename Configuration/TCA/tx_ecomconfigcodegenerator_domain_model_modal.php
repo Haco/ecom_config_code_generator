@@ -9,7 +9,7 @@ return [
 	'ctrl' => [
 		'adminOnly' => TRUE,
 		'title'	=> "{$translate}tx_ecomconfigcodegenerator_domain_model_modal",
-		'label' => 'uid',
+		'label' => 'title',
 		'tstamp' => 'tstamp',
 		'crdate' => 'crdate',
 		'cruser_id' => 'cruser_id',
@@ -21,21 +21,20 @@ return [
 		'transOrigDiffSourceField' => 'l10n_diffsource',
 		'delete' => 'deleted',
 		'enablecolumns' => [
-			'disabled' => 'hidden',
-			'starttime' => 'starttime',
-			'endtime' => 'endtime'
+			'disabled' => 'hidden'
 		],
-		'searchFields' => '',
+		'searchFields' => 'title,text,dependent_parts',
 		'iconfile' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath('ecom_config_code_generator') . 'Resources/Public/Icons/tx_ecomconfigcodegenerator_domain_model_modal.gif'
 	],
 	'interface' => [
-		'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden',
+		'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, title, text, dependent_parts',
 	],
 	'types' => [
-		'1' => [ 'showitem' => 'sys_language_uid;;;;1-1-1, l10n_parent, l10n_diffsource, hidden;;1, --div--;LLL:EXT:cms/locallang_ttc.xlf:tabs.access, starttime, endtime' ]
+		'1' => [ 'showitem' => 'sys_language_uid;;;;1-1-1, l10n_parent, l10n_diffsource, hidden;;1, title, text;;2;wizards[t3editorHtml]' ]
 	],
 	'palettes' => [
-		'1' => [ 'showitem' => '' ]
+		'1' => [ 'showitem' => '' ],
+		'2' => [ 'showitem' => 'dependent_parts, --linebreak--, use_confirmation, part_group', 'canNotCollapse' => TRUE ]
 	],
 	'columns' => [
 
@@ -87,38 +86,79 @@ return [
 				'type' => 'check'
 			]
 		],
-		'starttime' => [
-			'exclude' => 1,
-			'l10n_mode' => 'mergeIfNotBlank',
-			'label' => 'LLL:EXT:lang/locallang_general.xlf:LGL.starttime',
+
+		'title' => [
+			'exclude' => 0,
+			'label' => "{$translate}tx_ecomconfigcodegenerator_domain_model_modal.title",
 			'config' => [
 				'type' => 'input',
-				'size' => 13,
-				'max' => 20,
-				'eval' => 'datetime',
-				'checkbox' => 0,
-				'default' => 0,
-				'range' => [
-					'lower' => mktime(0, 0, 0, date('m'), date('d'), date('Y'))
+				'size' => 30,
+				'eval' => 'trim'
+			]
+		],
+		'text' => [
+			'exclude' => 0,
+			'label' => "{$translate}tx_ecomconfigcodegenerator_domain_model_modal.text",
+			'config' => [
+				'type' => 'text',
+				'cols' => 100,
+				'rows' => 10,
+				'eval' => 'trim,required',
+				'wizards' => [
+					't3editorHtml' => [
+						'enableByTypeConfig' => 1,
+						'type' => 'userFunc',
+						'userFunc' => 'TYPO3\\CMS\\T3editor\\FormWizard->main',
+						'params' => [
+							'format' => 'html'
+						]
+					]
 				]
 			]
 		],
-		'endtime' => [
+		'use_confirmation' => [
 			'exclude' => 1,
-			'l10n_mode' => 'mergeIfNotBlank',
-			'label' => 'LLL:EXT:lang/locallang_general.xlf:LGL.endtime',
+			'label' => '',
 			'config' => [
-				'type' => 'input',
-				'size' => 13,
-				'max' => 20,
-				'eval' => 'datetime',
-				'checkbox' => 0,
-				'default' => 0,
-				'range' => [
-					'lower' => mktime(0, 0, 0, date('m'), date('d'), date('Y'))
+				'type' => 'check',
+				'items' => [
+					[ "{$translate}tx_ecomconfigcodegenerator_domain_model_modal.use_confirmation" ]
 				]
 			]
-		]
+		],
+		'dependent_parts' => [
+			'exclude' => 1,
+			'label' => "{$translate}tx_ecomconfigcodegenerator_domain_model_modal.dependent_parts",
+			'config' => [
+				'type' => 'select',
+				'foreign_table' => 'tx_ecomconfigcodegenerator_domain_model_part',
+				'foreign_table_where' => ('
+					AND tx_ecomconfigcodegenerator_domain_model_part.pid=###REC_FIELD_pid###
+					AND NOT tx_ecomconfigcodegenerator_domain_model_part.deleted
+					AND tx_ecomconfigcodegenerator_domain_model_part.sys_language_uid IN (-1,0)
+					AND ( SELECT sorting FROM tx_ecomconfigcodegenerator_domain_model_partgroup WHERE tx_ecomconfigcodegenerator_domain_model_partgroup.uid=tx_ecomconfigcodegenerator_domain_model_part.part_group ) <= ( SELECT sorting FROM tx_ecomconfigcodegenerator_domain_model_partgroup WHERE tx_ecomconfigcodegenerator_domain_model_partgroup.uid=###REC_FIELD_part_group### )
+					AND ( SELECT settings FROM tx_ecomconfigcodegenerator_domain_model_partgroup WHERE tx_ecomconfigcodegenerator_domain_model_partgroup.uid=tx_ecomconfigcodegenerator_domain_model_part.part_group ) & ' . \S3b0\EcomConfigCodeGenerator\Setup::BIT_PARTGROUP_IS_LOCKED . ' = ' . \S3b0\EcomConfigCodeGenerator\Setup::BIT_PARTGROUP_IS_LOCKED . '
+					ORDER BY tx_ecomconfigcodegenerator_domain_model_part.part_group, tx_ecomconfigcodegenerator_domain_model_part.title
+				'),
+				'MM' => 'tx_ecomconfigcodegenerator_modal_part_mm',
+				'itemsProcFunc' => 'S3b0\\EcomConfigCodeGenerator\\User\\ModifyTCA\\ModifyTCA->itemsProcFuncEcomConfigCodeGeneratorDomainModelDependentNoteDependentParts',
+				'size' => 10,
+				'autoSizeMax' => 30,
+				'minitems' => 1,
+				'maxitems' => 9999,
+				'multiple' => 0,
+				'renderMode' => 'checkbox',
+				'disableNoMatchingValueElement' => 1
+			]
+		],
 
+		'part_group' => [
+			'label' => "{$translate}tx_ecomconfigcodegenerator_domain_model_partgroup",
+			'config' => [
+				'type' => 'select',
+				'readOnly' => 1,
+				'foreign_table' => 'tx_ecomconfigcodegenerator_domain_model_partgroup'
+			]
+		]
 	]
 ];

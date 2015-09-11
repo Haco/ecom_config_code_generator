@@ -109,6 +109,15 @@ class PartGroup extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	protected $dependentNotes = NULL;
 
 	/**
+	 * Modals opening when dependency match on parts selected
+	 *
+	 * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\S3b0\EcomConfigCodeGenerator\Domain\Model\Modal>
+	 * @cascade remove
+	 * @lazy
+	 */
+	protected $modals = NULL;
+
+	/**
 	 * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\S3b0\EcomConfigCodeGenerator\Domain\Model\Part>
 	 */
 	protected $activeParts = NULL;
@@ -163,6 +172,7 @@ class PartGroup extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 		$this->parts = new \TYPO3\CMS\Extbase\Persistence\ObjectStorage();
 		$this->activeParts = new \TYPO3\CMS\Extbase\Persistence\ObjectStorage();
 		$this->dependentNotes = new \TYPO3\CMS\Extbase\Persistence\ObjectStorage();
+		$this->modals = new \TYPO3\CMS\Extbase\Persistence\ObjectStorage();
 	}
 
 	/**
@@ -437,6 +447,45 @@ class PartGroup extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	 */
 	public function getDependentNotesFluidParsedMessages() {
 		return $this->dependentNotesFluidParsedMessages instanceof \ArrayAccess ? "<p>{implode('</p><p>', $this->dependentNotesFluidParsedMessages)}</p>" : '';
+	}
+
+	/**
+	 * Adds a Modal
+	 *
+	 * @param \S3b0\EcomConfigCodeGenerator\Domain\Model\Modal $modal
+	 * @return void
+	 */
+	public function addModal(\S3b0\EcomConfigCodeGenerator\Domain\Model\Modal $modal) {
+		$this->modals->attach($modal);
+	}
+
+	/**
+	 * Removes a Modal
+	 *
+	 * @param \S3b0\EcomConfigCodeGenerator\Domain\Model\Modal $modalToRemove The Modal to be removed
+	 * @return void
+	 */
+	public function removeModal(\S3b0\EcomConfigCodeGenerator\Domain\Model\Modal $modalToRemove) {
+		$this->modals->detach($modalToRemove);
+	}
+
+	/**
+	 * Returns the modals
+	 *
+	 * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\S3b0\EcomConfigCodeGenerator\Domain\Model\Modal> $modals
+	 */
+	public function getModals() {
+		return $this->modals;
+	}
+
+	/**
+	 * Sets the modals
+	 *
+	 * @param \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\S3b0\EcomConfigCodeGenerator\Domain\Model\Modal> $modals
+	 * @return void
+	 */
+	public function setModals(\TYPO3\CMS\Extbase\Persistence\ObjectStorage $modals) {
+		$this->modals = $modals;
 	}
 
 	/**

@@ -3,6 +3,12 @@
 	<file source-language="en" datatype="plaintext" original="messages" date="2015-09-02T08:52:37Z" product-name="ecom_config_code_generator">
 		<header/>
 		<body>
+			<trans-unit id="use_confirmation.description">
+				<source>Use confirm instead of alert</source>
+			</trans-unit>
+			<trans-unit id="dependent_parts.description">
+				<source>Parts the note display depends on</source>
+			</trans-unit>
 		</body>
 	</file>
 </xliff>

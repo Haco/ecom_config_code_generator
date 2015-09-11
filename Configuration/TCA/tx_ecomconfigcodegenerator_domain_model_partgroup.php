@@ -45,14 +45,14 @@ return [
 			'endtime' => 'endtime',
 			'fe_group' => 'fe_group'
 		],
-		'searchFields' => 'title,icon,place_in_code,prompt,prompt_wrap,settings,parts,default_part,dependent_notes',
+		'searchFields' => 'title,icon,place_in_code,prompt,prompt_wrap,settings,parts,default_part,dependent_notes,modals',
 		'iconfile' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath('ecom_config_code_generator') . 'Resources/Public/Icons/tx_ecomconfigcodegenerator_domain_model_partgroup.gif'
 	],
 	'interface' => [
-		'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, title, icon, place_in_code, prompt, prompt_wrap, settings, parts, default_part, dependent_notes'
+		'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, title, icon, place_in_code, prompt, prompt_wrap, settings, parts, default_part, dependent_notes, modals'
 	],
 	'types' => [
-		'1' => [ 'showitem' => "sys_language_uid;;;;1-1-1, l10n_parent, l10n_diffsource, hidden;;1, title, prompt;;3;wizards[t3editorHtml], dependent_notes, configuration, --div--;{$translate}tabs.parts, parts, --div--;LLL:EXT:cms/locallang_ttc.xlf:tabs.appearance, icon, --palette--;;2, --div--;LLL:EXT:cms/locallang_ttc.xlf:tabs.access, --palette--;LLL:EXT:cms/locallang_tca.xlf:pages.palettes.access;access" ]
+		'1' => [ 'showitem' => "sys_language_uid;;;;1-1-1, l10n_parent, l10n_diffsource, hidden;;1, title, prompt;;3;wizards[t3editorHtml], dependent_notes, modals, configuration, --div--;{$translate}tabs.parts, parts, --div--;LLL:EXT:cms/locallang_ttc.xlf:tabs.appearance, icon, --palette--;;2, --div--;LLL:EXT:cms/locallang_ttc.xlf:tabs.access, --palette--;LLL:EXT:cms/locallang_tca.xlf:pages.palettes.access;access" ]
 	],
 	'palettes' => [
 		'1' => [
@@ -346,6 +346,32 @@ return [
 					'expandSingle' => 1,
 					'newRecordLinkAddTitle' => 0,
 					'newRecordLinkTitle' => "{$translate}tx_ecomconfigcodegenerator_domain_model_partgroup.dependent_notes.inlineElementAddTitle",
+					'levelLinksPosition' => 'bottom',
+					'showAllLocalizationLink' => 1,
+					'showPossibleLocalizationRecords' => 1,
+					'showSynchronizationLink' => 1
+				],
+				'behaviour' => [
+					'localizationMode' => 'select',
+					'localizeChildrenAtParentLocalization' => 1,
+					'disableMovingChildrenWithParent' => 0,
+					'enableCascadingDelete' => 1
+				]
+			]
+		],
+		'modals' => [
+			'exclude' => 1,
+			'label' => "{$translate}tx_ecomconfigcodegenerator_domain_model_partgroup.modals",
+			'config' => [
+				'type' => 'inline',
+				'foreign_table' => 'tx_ecomconfigcodegenerator_domain_model_modal',
+				'foreign_field' => 'part_group',
+				'maxitems'      => 9999,
+				'appearance' => [
+					'collapseAll' => 1,
+					'expandSingle' => 1,
+					'newRecordLinkAddTitle' => 0,
+					'newRecordLinkTitle' => "{$translate}tx_ecomconfigcodegenerator_domain_model_partgroup.modals.inlineElementAddTitle",
 					'levelLinksPosition' => 'bottom',
 					'showAllLocalizationLink' => 1,
 					'showPossibleLocalizationRecords' => 1,

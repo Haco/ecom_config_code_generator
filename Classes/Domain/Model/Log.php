@@ -33,11 +33,18 @@ namespace S3b0\EcomConfigCodeGenerator\Domain\Model;
 class Log extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 
 	/**
-	 * PHP session id
+	 * PHP SESSION ID
 	 *
 	 * @var string
 	 */
 	protected $sessionId = '';
+
+	/**
+	 * Timestamp
+	 *
+	 * @var integer
+	 */
+	protected $tstamp;
 
 	/**
 	 * Resulting configuration (code)
@@ -68,6 +75,34 @@ class Log extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	protected $feUser = NULL;
 
 	/**
+	 * Configured parts
+	 *
+	 * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\S3b0\EcomConfigCodeGenerator\Domain\Model\Part>
+	 */
+	protected $configuredParts = NULL;
+
+	/**
+	 * __construct
+	 */
+	public function __construct() {
+		//Do not remove the next line: It would break the functionality
+		$this->initStorageObjects();
+		$this->setSessionId($GLOBALS['TSFE']->fe_user->id);
+	}
+
+	/**
+	 * Initializes all ObjectStorage properties
+	 * Do not modify this method!
+	 * It will be rewritten on each save in the extension builder
+	 * You may modify the constructor of this class instead
+	 *
+	 * @return void
+	 */
+	protected function initStorageObjects() {
+		$this->configuredParts = new \TYPO3\CMS\Extbase\Persistence\ObjectStorage();
+	}
+
+	/**
 	 * Returns the sessionId
 	 *
 	 * @return string $sessionId
@@ -80,10 +115,31 @@ class Log extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	 * Sets the sessionId
 	 *
 	 * @param string $sessionId
-	 * @return void
+	 * @return \S3b0\EcomConfigCodeGenerator\Domain\Model\Log Allow chaining of methods
 	 */
 	public function setSessionId($sessionId) {
 		$this->sessionId = $sessionId;
+		return $this;
+	}
+
+	/**
+	 * Returns the tstamp
+	 *
+	 * @return integer
+	 */
+	public function getTstamp() {
+		return $this->tstamp;
+	}
+
+	/**
+	 * Sets the tstamp
+	 *
+	 * @param integer $tstamp
+	 * @return \S3b0\EcomConfigCodeGenerator\Domain\Model\Log Allow chaining of methods
+	 */
+	public function setTstamp($tstamp) {
+		$this->tstamp = $tstamp;
+		return $this;
 	}
 
 	/**
@@ -99,10 +155,11 @@ class Log extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	 * Sets the configuration
 	 *
 	 * @param string $configuration
-	 * @return void
+	 * @return \S3b0\EcomConfigCodeGenerator\Domain\Model\Log Allow chaining of methods
 	 */
 	public function setConfiguration($configuration) {
 		$this->configuration = $configuration;
+		return $this;
 	}
 
 	/**
@@ -118,10 +175,11 @@ class Log extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	 * Sets the pricing
 	 *
 	 * @param string $pricing
-	 * @return void
+	 * @return \S3b0\EcomConfigCodeGenerator\Domain\Model\Log Allow chaining of methods
 	 */
 	public function setPricing($pricing) {
 		$this->pricing = $pricing;
+		return $this;
 	}
 
 	/**
@@ -137,10 +195,25 @@ class Log extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	 * Sets the ipAddress
 	 *
 	 * @param string $ipAddress
-	 * @return void
+	 * @return \S3b0\EcomConfigCodeGenerator\Domain\Model\Log Allow chaining of methods
 	 */
 	public function setIpAddress($ipAddress) {
 		$this->ipAddress = $ipAddress;
+		return $this;
+	}
+
+	/**
+	 * @param integer $parts
+	 * @return \S3b0\EcomConfigCodeGenerator\Domain\Model\Log Allow chaining of methods
+	 */
+	public function maskIpAddress($parts = 4) {
+		$tokens = \TYPO3\CMS\Core\Utility\GeneralUtility::intExplode('.', \TYPO3\CMS\Core\Utility\GeneralUtility::getIndpEnv('REMOTE_ADDR'), TRUE, 4);
+
+		$ipParts = array_slice($tokens, 0, $parts);
+		$ipParts = array_pad($ipParts, 4, '*');
+
+		$this->ipAddress = implode('.', $ipParts);
+		return $this;
 	}
 
 	/**
@@ -156,10 +229,51 @@ class Log extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	 * Sets the feUser
 	 *
 	 * @param \TYPO3\CMS\Extbase\Domain\Model\FrontendUser $feUser
-	 * @return void
+	 * @return \S3b0\EcomConfigCodeGenerator\Domain\Model\Log Allow chaining of methods
 	 */
 	public function setFeUser(\TYPO3\CMS\Extbase\Domain\Model\FrontendUser $feUser) {
 		$this->feUser = $feUser;
+		return $this;
+	}
+
+	/**
+	 * Adds a configured Part
+	 *
+	 * @param \S3b0\EcomConfigCodeGenerator\Domain\Model\Part $configuredPart
+	 * @return void
+	 */
+	public function addConfiguredPart(\S3b0\EcomConfigCodeGenerator\Domain\Model\Part $configuredPart) {
+		$this->configuredParts->attach($configuredPart);
+	}
+
+	/**
+	 * Removes a configured Part
+	 *
+	 * @param \S3b0\EcomConfigCodeGenerator\Domain\Model\Part $configuredPartToRemove The Modal to be removed
+	 * @return void
+	 */
+	public function removeConfiguredPart(\S3b0\EcomConfigCodeGenerator\Domain\Model\Part $configuredPartToRemove) {
+		$this->configuredParts->detach($configuredPartToRemove);
+	}
+
+	/**
+	 * Returns the configuredParts
+	 *
+	 * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\S3b0\EcomConfigCodeGenerator\Domain\Model\Part> $configuredParts
+	 */
+	public function getConfiguredParts() {
+		return $this->configuredParts;
+	}
+
+	/**
+	 * Sets the configuredParts
+	 *
+	 * @param \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\S3b0\EcomConfigCodeGenerator\Domain\Model\Part> $configuredParts
+	 * @return \S3b0\EcomConfigCodeGenerator\Domain\Model\Log Allow chaining of methods
+	 */
+	public function setConfiguredParts(\TYPO3\CMS\Extbase\Persistence\ObjectStorage $configuredParts) {
+		$this->configuredParts = $configuredParts;
+		return $this;
 	}
 
 }
