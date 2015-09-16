@@ -23,18 +23,18 @@ return [
 		'enablecolumns' => [
 			'disabled' => 'hidden'
 		],
-		'searchFields' => 'title,text,trigger,dependent_parts',
+		'searchFields' => 'title,text,trigger_part,dependent_parts',
 		'iconfile' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath('ecom_config_code_generator') . 'Resources/Public/Icons/tx_ecomconfigcodegenerator_domain_model_modal.gif'
 	],
 	'interface' => [
-		'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, title, text, trigger, dependent_parts',
+		'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, title, text, trigger_part, dependent_parts',
 	],
 	'types' => [
 		'1' => [ 'showitem' => 'sys_language_uid;;;;1-1-1, l10n_parent, l10n_diffsource, hidden;;1, title, text;;2;wizards[t3editorHtml]' ]
 	],
 	'palettes' => [
 		'1' => [ 'showitem' => '' ],
-		'2' => [ 'showitem' => 'dependent_parts, --linebreak--, trigger, use_confirmation, part_group', 'canNotCollapse' => TRUE ]
+		'2' => [ 'showitem' => 'dependent_parts, --linebreak--, trigger_part, use_confirmation, part_group', 'canNotCollapse' => TRUE ]
 	],
 	'columns' => [
 
@@ -151,13 +151,13 @@ return [
 				'disableNoMatchingValueElement' => 1
 			]
 		],
-		'trigger' => [
+		'trigger_part' => [
 			'exclude' => 1,
-			'label' => "{$translate}tx_ecomconfigcodegenerator_domain_model_modal.trigger",
+			'label' => "{$translate}tx_ecomconfigcodegenerator_domain_model_modal.trigger_part",
 			'config' => [
 				'type' => 'select',
 				'foreign_table' => 'tx_ecomconfigcodegenerator_domain_model_part',
-				'foreign_table_where' => 'AND tx_ecomconfigcodegenerator_domain_model_part.pid=###CURRENT_PID### AND NOT tx_ecomconfigcodegenerator_domain_model_part.deleted AND tx_ecomconfigcodegenerator_domain_model_part.sys_language_uid IN (-1,0) AND tx_ecomconfigcodegenerator_domain_model_part.part_group=###THIS_UID### ORDER BY tx_ecomconfigcodegenerator_domain_model_part.title',
+				'foreign_table_where' => 'AND tx_ecomconfigcodegenerator_domain_model_part.pid=###CURRENT_PID### AND NOT tx_ecomconfigcodegenerator_domain_model_part.deleted AND tx_ecomconfigcodegenerator_domain_model_part.sys_language_uid IN (-1,0) AND tx_ecomconfigcodegenerator_domain_model_part.part_group=###REC_FIELD_part_group### ORDER BY tx_ecomconfigcodegenerator_domain_model_part.title',
 				'items' => [
 					[ "{$translate}select.empty", '' ]
 				],

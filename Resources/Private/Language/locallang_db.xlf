@@ -174,7 +174,7 @@
 			<trans-unit id="tx_ecomconfigcodegenerator_domain_model_modal.text">
 				<source>Text</source>
 			</trans-unit>
-			<trans-unit id="tx_ecomconfigcodegenerator_domain_model_modal.trigger">
+			<trans-unit id="tx_ecomconfigcodegenerator_domain_model_modal.trigger_part">
 				<source>Trigger</source>
 			</trans-unit>
 			<trans-unit id="tx_ecomconfigcodegenerator_domain_model_modal.use_confirmation">

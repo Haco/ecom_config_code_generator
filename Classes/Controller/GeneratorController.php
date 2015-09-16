@@ -48,6 +48,7 @@ class GeneratorController extends \S3b0\EcomConfigCodeGenerator\Controller\BaseC
 	 */
 	public function getIndexActionData(array $arguments = [ ]) {
 		$checkIfPartGroupArgumentIsSet = $arguments[0] instanceof \S3b0\EcomConfigCodeGenerator\Domain\Model\PartGroup;
+		$modals = [ ];
 		// Get current configuration (Array: options=array(options)|packages=array(package => option(s)))
 		$configuration = $this->feSession->get('config') ?: [ ];
 		$partGroups = $this->initializePartGroups(
@@ -62,6 +63,12 @@ class GeneratorController extends \S3b0\EcomConfigCodeGenerator\Controller\BaseC
 		}
 		if ( $currentPartGroup instanceof \S3b0\EcomConfigCodeGenerator\Domain\Model\PartGroup ) {
 			$currentPartGroup->setCurrent(TRUE);
+			if ( $currentPartGroup->hasModals() ) {
+				/** @var \S3b0\EcomConfigCodeGenerator\Domain\Model\Modal $modal */
+				foreach ( $currentPartGroup->getModals() as $modal ) {
+					$modals[$modal->getUid()] = $modal;
+				}
+			}
 			$this->initializeParts(
 				$currentPartGroup->getParts(),
 				$configuration
@@ -77,8 +84,20 @@ class GeneratorController extends \S3b0\EcomConfigCodeGenerator\Controller\BaseC
 			'progressPercentage' => $progress * 100,
 			'partGroups' => $partGroups,
 			'currentPartGroup' => $currentPartGroup,
+			'modals' => $modals,
 			'showResultingConfiguration' => $progress === 1 && !$checkIfPartGroupArgumentIsSet
 		];
+
+		/** Re-parse modals for JSON output */
+		if ( $this->request->getControllerName() === 'Generator' && $this->request->getControllerActionName() === 'index' && is_array($modals) && sizeof($modals) ) {
+			$json = '';
+			/** @var \S3b0\EcomConfigCodeGenerator\Domain\Model\Modal $modal */
+			foreach ( $modals as $modal ) {
+				$json .= "{$modal->getUid()}: " . json_encode($modal->toArray()) . "," . PHP_EOL;
+			}
+			$json = substr($json, 0, (strlen(PHP_EOL) + 1) * -1);
+			$jsonData['modals'] = "{{$json}}";
+		}
 
 		/** GET RESULT */
 		if ( $progress === 1 && is_array($configuration) ) {

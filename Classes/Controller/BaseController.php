@@ -258,6 +258,17 @@ class BaseController extends \Ecom\EcomToolbox\Controller\ActionController {
 					}
 				}
 			}
+
+			if ( $partGroup->hasModals() ) {
+				/** @var \S3b0\EcomConfigCodeGenerator\Domain\Model\Modal $modal */
+				foreach ( $partGroup->getModals() as $modal ) {
+					/** Dependency check */
+					if ( $modal->hasDependentParts() ) {
+
+					}
+					$modal->getTriggerPart()->setModalTrigger($modal->getUid());
+				}
+			}
 			/**
 			 * Check for active packages, set corresponding sate and fill ObjectStorage
 			 */
@@ -309,7 +320,9 @@ class BaseController extends \Ecom\EcomToolbox\Controller\ActionController {
 	}
 
 	/**
-	 * @param \S3b0\EcomConfigCodeGenerator\Controller\BaseController $controller Ensure an Instance of extensions BaseController is given to provide necessary injections
+	 * @param \S3b0\EcomConfigCodeGenerator\Controller\BaseController $controller Ensure an Instance of extensions
+	 *                                                                            BaseController is given to provide
+	 *                                                                            necessary injections
 	 * @param array                                                   $list
 	 *
 	 *@return \TYPO3\CMS\Extbase\Persistence\ObjectStorage
@@ -348,7 +361,9 @@ class BaseController extends \Ecom\EcomToolbox\Controller\ActionController {
 	}
 
 	/**
-	 * @param \S3b0\EcomConfigCodeGenerator\Controller\BaseController $controller    Ensure an Instance of extensions BaseController is given to provide necessary injections
+	 * @param \S3b0\EcomConfigCodeGenerator\Controller\BaseController $controller    Ensure an Instance of extensions
+	 *                                                                               BaseController is given to provide
+	 *                                                                               necessary injections
 	 * @param \S3b0\EcomConfigCodeGenerator\Domain\Model\Part         $part
 	 * @param array                                                   $configuration
 	 * @return boolean                                                Returns FALSE if dependency check failed

@@ -60,7 +60,7 @@ class Modal extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	 *
 	 * @var \S3b0\EcomConfigCodeGenerator\Domain\Model\Part
 	 */
-	protected $trigger;
+	protected $triggerPart;
 
 	/**
 	 * Parts the note display depends on
@@ -147,21 +147,21 @@ class Modal extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	}
 
 	/**
-	 * Returns the trigger
+	 * Returns the triggerPart
 	 *
 	 * @return \S3b0\EcomConfigCodeGenerator\Domain\Model\Part
 	 */
-	public function getTrigger() {
-		return $this->trigger;
+	public function getTriggerPart() {
+		return $this->triggerPart;
 	}
 
 	/**
-	 * Sets the trigger
+	 * Sets the triggerPart
 	 *
-	 * @param \S3b0\EcomConfigCodeGenerator\Domain\Model\Part $trigger
+	 * @param \S3b0\EcomConfigCodeGenerator\Domain\Model\Part $triggerPart
 	 */
-	public function setTrigger(\S3b0\EcomConfigCodeGenerator\Domain\Model\Part $trigger = NULL) {
-		$this->trigger = $trigger;
+	public function setTriggerPart(\S3b0\EcomConfigCodeGenerator\Domain\Model\Part $triggerPart = NULL) {
+		$this->triggerPart = $triggerPart;
 	}
 
 	/**
@@ -194,6 +194,13 @@ class Modal extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	}
 
 	/**
+	 * @return boolean
+	 */
+	public function hasDependentParts() {
+		return $this->dependentParts instanceof \TYPO3\CMS\Extbase\Persistence\ObjectStorage && $this->dependentParts->count();
+	}
+
+	/**
 	 * Sets the dependentParts
 	 *
 	 * @param \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\S3b0\EcomConfigCodeGenerator\Domain\Model\Part> $dependentParts
@@ -201,6 +208,20 @@ class Modal extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	 */
 	public function setDependentParts(\TYPO3\CMS\Extbase\Persistence\ObjectStorage $dependentParts = NULL) {
 		$this->dependentParts = $dependentParts;
+	}
+
+	/**
+	 * Returns this object as an array
+	 *
+	 * @return array The object
+	 */
+	public function toArray() {
+		$array = array();
+		$vars = get_object_vars($this);
+		foreach ($vars as $property => $value) {
+			$array[$property] = $value;
+		}
+		return $array;
 	}
 
 }

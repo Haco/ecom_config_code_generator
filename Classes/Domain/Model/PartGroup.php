@@ -496,6 +496,13 @@ class PartGroup extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	}
 
 	/**
+	 * @return boolean
+	 */
+	public function hasModals() {
+		return $this->modals instanceof \TYPO3\CMS\Extbase\Persistence\ObjectStorage && $this->modals->count();
+	}
+
+	/**
 	 * Adds a part to active items
 	 *
 	 * @param \S3b0\EcomConfigCodeGenerator\Domain\Model\Part $part

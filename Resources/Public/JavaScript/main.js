@@ -54,21 +54,49 @@ function removeAjaxLoader(element) {
 /**
  * Update part function
  */
-function ccgUpdatePart() {
+function ccgUpdatePart(preResult) {
 	$('.configurator-select-part-group-part-selector').on('click', function (e) {
 		e.preventDefault();
 		if ( $(this).hasClass('disabled') ) {
 			$(this).blur();
 			return void(0);
 		}
-		addAjaxLoader('ccg-configurator-ajax-loader');
-		genericAjaxRequest(t3pid, t3lang, 1441344351, 'updatePart', {
-			part: $(this).attr('data-part'),
-			unset: $(this).attr('data-part-state'),
-			cObj: t3cobj
-		}, function (result) {
-			onSuccessFunction(result);
-		});
+		var modal = $(this).attr('data-modal'),
+			part = $(this).attr('data-part'),
+			unset = $(this).attr('data-part-state');
+		if ( modal > 0 && preResult.modals && unset == 0 ) {
+			swal({
+				title: preResult.modals[modal]['title'],
+				text: preResult.modals[modal]['text'],
+				type: "warning",
+				html: true,
+				showCancelButton: true,
+				confirmButtonColor: "#43AC6A",
+				confirmButtonText: "Proceed »",
+				cancelButtonText: "Cancel"
+			},
+			function( isConfirm ) {
+				if ( isConfirm ) {
+					ccgUpdatePartExec(part, unset);
+				} else {
+					$(this).blur();
+					return void(0);
+				}
+			});
+		} else {
+			ccgUpdatePartExec(part, unset);
+		}
+	});
+}
+
+function ccgUpdatePartExec(part, unset) {
+	addAjaxLoader('ccg-configurator-ajax-loader');
+	genericAjaxRequest(t3pid, t3lang, 1441344351, 'updatePart', {
+		part: part,
+		unset: unset,
+		cObj: t3cobj
+	}, function (result) {
+		onSuccessFunction(result);
 	});
 }
 
@@ -177,7 +205,7 @@ function onSuccessFunction(result) {
 			resetButton1.removeClass('disabled');
 		}
 	}
-	assignListeners();
+	assignListeners(result);
 }
 
 /**********************************
@@ -242,7 +270,7 @@ function addInfoTrigger() {
 /**
  * Add default listeners
  */
-function assignListeners() {
+function assignListeners(preResult) {
 	$('#configurator-part-group-select-index').tooltip({
 		tooltipClass: "ecompc-custom-tooltip-styling",
 		track: true
@@ -251,7 +279,7 @@ function assignListeners() {
 		tooltipClass: "ecom-custom-tooltip-styling",
 		track: true
 	});
-	ccgUpdatePart();
+	ccgUpdatePart(preResult);
 	addInfoTrigger();
 	ccgIndex();
 }
@@ -265,5 +293,5 @@ function assignListeners() {
 	$('#configurator-reset-configuration-button').toggle(!showResult);
 	$('#configurator-part-group-select-part-index').toggle(!showResult);
 	$('#configurator-show-result-button').hide();
-	assignListeners();
+	assignListeners(preResult);
 })(jQuery);
