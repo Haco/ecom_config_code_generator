@@ -4,12 +4,10 @@ body {
 #ccg-configurator-canvas a {
 	cursor: pointer;
 }
-#ccg-configurator-canvas a.configurator-part-group-select.configurator-part-group-state-0:not(:first-child),
+#ccg-configurator-canvas a.configurator-part-group-select.configurator-part-group-state-0,
+#ccg-configurator-canvas a.configurator-part-group-select.configurator-locked-part-group,
 #ccg-configurator-canvas a.configurator-part-group-select.current {
 	cursor: not-allowed;
-}
-#ccg-configurator-canvas a.configurator-part-group-select.configurator-part-group-state-0:first-child {
-	cursor: pointer;
 }
 #ccg-configurator-canvas a:focus {
 	outline: 1px dotted black;
@@ -169,6 +167,12 @@ body {
 #ccg-configurator-canvas a:focus {
 	outline: 1px dotted black;
 }
+#configurator-part-group-select-index {
+	margin-bottom: 1.5em;
+}
+#configurator-select-parts-ajax-update {
+	margin-top: 1.5em;
+}
 #ccg-configurator-canvas a.configurator-part-group-select {
 	float: left;
 	margin-right: 0.5em;
@@ -196,8 +200,8 @@ body {
 	border-color: #808080;
 	color: #808080;
 }
-#ccg-configurator-canvas a.configurator-part-group-select.configurator-lock-part-group > div span.part-group-number,
-#ccg-configurator-canvas a.configurator-part-group-select.configurator-lock-part-group > div i {
+#ccg-configurator-canvas a.configurator-part-group-select.configurator-locked-part-group > div span.part-group-number,
+#ccg-configurator-canvas a.configurator-part-group-select.configurator-locked-part-group > div i {
 	border-color: #ccc;
 	color: #ccc;
 }
@@ -205,14 +209,15 @@ body {
 	border: 2px solid #0083cb;
 }
 #ccg-configurator-canvas a.configurator-part-group-select > div > i {
-	position: absolute;
+	background-color: #fff;
 	bottom: 2px;
+	position: absolute;
 	right: -6px;
 }
-#ccg-configurator-canvas a.configurator-part-group-select.configurator-part-group-state-1 > div > i.fa-check-square-o {
+#ccg-configurator-canvas a.configurator-part-group-select > div > i {
 	color: #060;
 }
-#ccg-configurator-canvas a.configurator-part-group-select.configurator-part-group-state-1 > div > i.fa-square-o {
+#ccg-configurator-canvas a.configurator-part-group-select > div > i.fa-square-o.current {
 	color: #f00;
 }
 #ccg-configurator-canvas img.configurator-part-group-icon.icon-state-0 {

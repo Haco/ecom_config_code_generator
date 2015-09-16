@@ -2,8 +2,6 @@
 
 <f:section name="main">
 
-	<f:flashMessages renderMode="div" />
-
 	{value -> f:debug(maxDepth: 12) -> f:comment()}
 	<!-- NoJS Warning! -->
 	<noscript><div class="typo3-messages"><div class="typo3-message message-error">ATTENTION: JavaScript needs to be enabled!</div></div></noscript>
@@ -46,28 +44,6 @@
 	</div>
 
 	<script type="text/javascript" language="JavaScript">
-		(function($) {
-			$(document).ready(function() {
-				var $RequestButton = $('#configurator-request'),
-					resetTimeout = 40000,
-					defaultText = "<i class=\"fa fa-envelope fa-fw\"></i> {f:translate(id : 'label.requestButton')}",
-					loadingText = "{f:translate(id : 'label.requestButton')}... <i class=\"fa fa-spinner fa-fw fa-pulse\"></i>";
-				$RequestButton.attr('data-loading-text', loadingText);
-
-				function resetButton() {
-					$RequestButton.removeAttr('disabled').removeClass('disabled').html(defaultText);
-				}
-
-				if($RequestButton.hasClass('disabled')) { resetButton(); }
-				$RequestButton.on('click', function () {
-					$(this).button('loading');
-					setTimeout(function() {
-						resetButton();
-					}, resetTimeout);
-				})
-			});
-		})(jQuery);
-
 		var t3pid = {jsData.pageId},
 			t3lang = {jsData.sysLanguage -> f:format.number(decimals: 0)},
 			t3cobj = {jsData.contentObject},

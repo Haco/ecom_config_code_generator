@@ -56,6 +56,13 @@ class Modal extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	protected $useConfirmation = FALSE;
 
 	/**
+	 * Part, triggering modal
+	 *
+	 * @var \S3b0\EcomConfigCodeGenerator\Domain\Model\Part
+	 */
+	protected $trigger;
+
+	/**
 	 * Parts the note display depends on
 	 *
 	 * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\S3b0\EcomConfigCodeGenerator\Domain\Model\Part>
@@ -140,6 +147,24 @@ class Modal extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	}
 
 	/**
+	 * Returns the trigger
+	 *
+	 * @return \S3b0\EcomConfigCodeGenerator\Domain\Model\Part
+	 */
+	public function getTrigger() {
+		return $this->trigger;
+	}
+
+	/**
+	 * Sets the trigger
+	 *
+	 * @param \S3b0\EcomConfigCodeGenerator\Domain\Model\Part $trigger
+	 */
+	public function setTrigger(\S3b0\EcomConfigCodeGenerator\Domain\Model\Part $trigger = NULL) {
+		$this->trigger = $trigger;
+	}
+
+	/**
 	 * Adds a Part
 	 *
 	 * @param \S3b0\EcomConfigCodeGenerator\Domain\Model\Part $dependentPart
@@ -174,7 +199,7 @@ class Modal extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	 * @param \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\S3b0\EcomConfigCodeGenerator\Domain\Model\Part> $dependentParts
 	 * @return void
 	 */
-	public function setDependentParts(\TYPO3\CMS\Extbase\Persistence\ObjectStorage $dependentParts) {
+	public function setDependentParts(\TYPO3\CMS\Extbase\Persistence\ObjectStorage $dependentParts = NULL) {
 		$this->dependentParts = $dependentParts;
 	}
 

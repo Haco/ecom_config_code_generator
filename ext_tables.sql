@@ -204,6 +204,7 @@ CREATE TABLE tx_ecomconfigcodegenerator_domain_model_modal (
 	uid int(11) NOT NULL auto_increment,
 	pid int(11) DEFAULT '0' NOT NULL,
 
+	trigger int(11) unsigned DEFAULT '0' NOT NULL,
 	part_group int(11) unsigned DEFAULT '0' NOT NULL,
 
 	title varchar(255) DEFAULT '' NOT NULL,
@@ -359,9 +360,24 @@ CREATE TABLE tx_ecomconfigcodegenerator_domain_model_log (
 	pid int(11) DEFAULT '0' NOT NULL,
 
 	session_id varchar(255) DEFAULT '' NOT NULL,
+	salutation varchar(255) DEFAULT '' NOT NULL,
+	first_name varchar(255) DEFAULT '' NOT NULL,
+	last_name varchar(255) DEFAULT '' NOT NULL,
+	subject varchar(255) DEFAULT '' NOT NULL,
+	message varchar(255) DEFAULT '' NOT NULL,
+	company varchar(255) DEFAULT '' NOT NULL,
+	job_title varchar(255) DEFAULT '' NOT NULL,
+	address varchar(255) DEFAULT '' NOT NULL,
+	postal_code varchar(255) DEFAULT '' NOT NULL,
+	city varchar(255) DEFAULT '' NOT NULL,
+	phone varchar(255) DEFAULT '' NOT NULL,
+	fax varchar(255) DEFAULT '' NOT NULL,
+	email varchar(255) DEFAULT '' NOT NULL,
 	configuration varchar(255) DEFAULT '' NOT NULL,
 	pricing varchar(255) DEFAULT '' NOT NULL,
 	ip_address varchar(255) DEFAULT '' NOT NULL,
+	country int(11) unsigned DEFAULT '0',
+	state int(11) unsigned DEFAULT '0',
 	fe_user int(11) unsigned DEFAULT '0',
 	configured_parts text,
 

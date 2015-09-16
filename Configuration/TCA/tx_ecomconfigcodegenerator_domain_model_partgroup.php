@@ -293,6 +293,7 @@ return [
 				'type' => 'inline',
 				'foreign_table' => 'tx_ecomconfigcodegenerator_domain_model_part',
 				'foreign_field' => 'part_group',
+				'foreign_sortby' => 'sorting',
 				'maxitems'      => 9999,
 				'appearance' => [
 					'collapseAll' => 1,
@@ -314,12 +315,7 @@ return [
 			]
 		],
 		'default_part' => [
-			'displayCond' => [
-				'AND' => [
-					'FIELD:settings:!BIT:1',
-
-				]
-			],
+			'displayCond' => 'FIELD:settings:!BIT:1',
 			'exclude' => 1,
 			'label' => "{$translate}tx_ecomconfigcodegenerator_domain_model_partgroup.default_part",
 			'config' => [

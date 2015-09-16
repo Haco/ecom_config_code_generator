@@ -103,48 +103,10 @@ class GeneratorController extends \S3b0\EcomConfigCodeGenerator\Controller\BaseC
 	}
 
 	/**
-	 * action request
-	 *
-	 * @return void
-	 */
-	public function requestAction() {
-		$configuration = $this->feSession->get('config') ?: [ ];
-		if ( sizeof($configuration) ) {
-			$this->addConfigurationLog($configuration);
-		}
-/*		$additionalParams = sprintf($this->settings['requestForm']['additionalParamsQueryString'], $configurationCode, $data[0], $log->getUid());
-
-		// Build link & redirect
-		$arguments = \TYPO3\CMS\Core\Utility\GeneralUtility::explodeUrl2Array($additionalParams);
-		$this->redirectToUri(
-			$this->uriBuilder
-				->setTargetPageUid((int) $this->settings['requestForm']['pid'])
-				->setArguments([
-					'L' => $GLOBALS['TSFE']->sys_language_content,
-					$arguments
-				])
-				->setUseCacheHash(FALSE)
-				->setCreateAbsoluteUri(TRUE)
-				->build()
-		);*/
-	}
-
-	/**
 	 * action reset
 	 *
 	 * @return void
 	 */
-	public function resetAction() {
-
-	}
-
-	/**
-	 * action setPart
-	 *
-	 * @return void
-	 */
-	public function setPartAction() {
-
-	}
+	public function resetAction() { }
 
 }

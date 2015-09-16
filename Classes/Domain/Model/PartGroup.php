@@ -340,9 +340,16 @@ class PartGroup extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 		return $this->parts;
 	}
 
-	public function isUidInParts($partUidList = []) {
+	/**
+	 * Check if configured parts are also available...
+	 *
+	 * @param array $partUidList
+	 * @todo check right to exist
+	 * @return boolean
+	 */
+	public function areConfiguredPartsAvailable($partUidList = [ ]) {
 		$check = FALSE;
-		if ( $this->parts instanceof \TYPO3\CMS\Extbase\Persistence\ObjectStorage && $this->parts->count() ) {
+		if ( is_array($partUidList) && sizeof($partUidList) && $this->parts instanceof \TYPO3\CMS\Extbase\Persistence\ObjectStorage && $this->parts->count() ) {
 			/** @var \S3b0\EcomConfigCodeGenerator\Domain\Model\Part $part */
 			foreach ( $this->parts as $part ) {
 				if ( in_array($part->getUid(), $partUidList) ) {

@@ -79,7 +79,7 @@ function ccgIndex() {
 	$('.configurator-part-group-select').on('click', function (e) {
 		// Prevent default anchor action
 		e.preventDefault();
-		if ( ( $(this).hasClass('configurator-part-group-state-0') && $('.configurator-part-group-state-0').first().attr('id') !== $(this).attr('id')) || $(this).hasClass('current') )
+		if ( ( $(this).hasClass('configurator-part-group-state-0') && $('.configurator-part-group-state-0').first().attr('id') !== $(this).attr('id')) || $(this).hasClass('configurator-locked-part-group') || $(this).hasClass('current') )
 			return false;
 		addAjaxLoader('ccg-configurator-ajax-loader');
 		genericAjaxRequest(t3pid, t3lang, 1441344351, 'index', {
@@ -265,6 +265,5 @@ function assignListeners() {
 	$('#configurator-reset-configuration-button').toggle(!showResult);
 	$('#configurator-part-group-select-part-index').toggle(!showResult);
 	$('#configurator-show-result-button').hide();
-	ccgIndex();
 	assignListeners();
 })(jQuery);

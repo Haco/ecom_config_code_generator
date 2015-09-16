@@ -40,6 +40,97 @@ class Log extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	protected $sessionId = '';
 
 	/**
+	 * salutation
+	 *
+	 * @var string
+	 */
+	protected $salutation = '';
+
+	/**
+	 * firstName
+	 *
+	 * @var string
+	 */
+	protected $firstName = '';
+
+	/**
+	 * lastName
+	 *
+	 * @var string
+	 */
+	protected $lastName = '';
+
+	/**
+	 * subject
+	 *
+	 * @var string
+	 */
+	protected $subject = '';
+
+	/**
+	 * message
+	 *
+	 * @var string
+	 */
+	protected $message = '';
+
+	/**
+	 * company
+	 *
+	 * @var string
+	 */
+	protected $company = '';
+
+	/**
+	 * jobTitle
+	 *
+	 * @var string
+	 */
+	protected $jobTitle = '';
+
+	/**
+	 * address
+	 *
+	 * @var string
+	 */
+	protected $address = '';
+
+	/**
+	 * postalCode
+	 *
+	 * @var string
+	 */
+	protected $postalCode = '';
+
+	/**
+	 * city
+	 *
+	 * @var string
+	 */
+	protected $city = '';
+
+	/**
+	 * phone
+	 *
+	 * @var string
+	 */
+	protected $phone = '';
+
+	/**
+	 * fax
+	 *
+	 * @var string
+	 */
+	protected $fax = '';
+
+	/**
+	 * email
+	 *
+	 * @var string
+	 */
+	protected $email = '';
+
+	/**
 	 * Resulting configuration (code)
 	 *
 	 * @var string
@@ -61,6 +152,20 @@ class Log extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	protected $ipAddress = '';
 
 	/**
+	 * country
+	 *
+	 * @var \Ecom\EcomToolbox\Domain\Model\Region
+	 */
+	protected $country = NULL;
+
+	/**
+	 * state
+	 *
+	 * @var \Ecom\EcomToolbox\Domain\Model\State
+	 */
+	protected $state = NULL;
+
+	/**
 	 * FE user record, if any
 	 *
 	 * @var \TYPO3\CMS\Extbase\Domain\Model\FrontendUser
@@ -80,7 +185,6 @@ class Log extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	public function __construct() {
 		//Do not remove the next line: It would break the functionality
 		$this->initStorageObjects();
-		$this->setSessionId($GLOBALS['TSFE']->fe_user->id)->setPid(0);
 	}
 
 	/**
@@ -112,6 +216,266 @@ class Log extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	 */
 	public function setSessionId($sessionId) {
 		$this->sessionId = $sessionId;
+		return $this;
+	}
+
+	/**
+	 * Returns the salutation
+	 *
+	 * @return string $salutation
+	 */
+	public function getSalutation() {
+		return $this->salutation;
+	}
+
+	/**
+	 * Sets the salutation
+	 *
+	 * @param string $salutation
+	 * @return \S3b0\EcomConfigCodeGenerator\Domain\Model\Log Allow chaining of methods
+	 */
+	public function setSalutation($salutation) {
+		$this->salutation = $salutation;
+		return $this;
+	}
+
+	/**
+	 * Returns the firstName
+	 *
+	 * @return string $firstName
+	 */
+	public function getFirstName() {
+		return $this->firstName;
+	}
+
+	/**
+	 * Sets the firstName
+	 *
+	 * @param string $firstName
+	 * @return \S3b0\EcomConfigCodeGenerator\Domain\Model\Log Allow chaining of methods
+	 */
+	public function setFirstName($firstName) {
+		$this->firstName = $firstName;
+		return $this;
+	}
+
+	/**
+	 * Returns the lastName
+	 *
+	 * @return string $lastName
+	 */
+	public function getLastName() {
+		return $this->lastName;
+	}
+
+	/**
+	 * Sets the lastName
+	 *
+	 * @param string $lastName
+	 * @return \S3b0\EcomConfigCodeGenerator\Domain\Model\Log Allow chaining of methods
+	 */
+	public function setLastName($lastName) {
+		$this->lastName = $lastName;
+		return $this;
+	}
+
+	/**
+	 * Returns the subject
+	 *
+	 * @return string $subject
+	 */
+	public function getSubject() {
+		return $this->subject;
+	}
+
+	/**
+	 * Sets the subject
+	 *
+	 * @param string $subject
+	 * @return \S3b0\EcomConfigCodeGenerator\Domain\Model\Log Allow chaining of methods
+	 */
+	public function setSubject($subject) {
+		$this->subject = $subject;
+		return $this;
+	}
+
+	/**
+	 * Returns the message
+	 *
+	 * @return string $message
+	 */
+	public function getMessage() {
+		return $this->message;
+	}
+
+	/**
+	 * Sets the message
+	 *
+	 * @param string $message
+	 * @return \S3b0\EcomConfigCodeGenerator\Domain\Model\Log Allow chaining of methods
+	 */
+	public function setMessage($message) {
+		$this->message = $message;
+		return $this;
+	}
+
+	/**
+	 * Returns the company
+	 *
+	 * @return string $company
+	 */
+	public function getCompany() {
+		return $this->company;
+	}
+
+	/**
+	 * Sets the company
+	 *
+	 * @param string $company
+	 * @return \S3b0\EcomConfigCodeGenerator\Domain\Model\Log Allow chaining of methods
+	 */
+	public function setCompany($company) {
+		$this->company = $company;
+		return $this;
+	}
+
+	/**
+	 * Returns the jobTitle
+	 *
+	 * @return string $jobTitle
+	 */
+	public function getJobTitle() {
+		return $this->jobTitle;
+	}
+
+	/**
+	 * Sets the jobTitle
+	 *
+	 * @param string $jobTitle
+	 * @return \S3b0\EcomConfigCodeGenerator\Domain\Model\Log Allow chaining of methods
+	 */
+	public function setJobTitle($jobTitle) {
+		$this->jobTitle = $jobTitle;
+		return $this;
+	}
+
+	/**
+	 * Returns the address
+	 *
+	 * @return string $address
+	 */
+	public function getAddress() {
+		return $this->address;
+	}
+
+	/**
+	 * Sets the address
+	 *
+	 * @param string $address
+	 * @return \S3b0\EcomConfigCodeGenerator\Domain\Model\Log Allow chaining of methods
+	 */
+	public function setAddress($address) {
+		$this->address = $address;
+		return $this;
+	}
+
+	/**
+	 * Returns the postalCode
+	 *
+	 * @return string $postalCode
+	 */
+	public function getPostalCode() {
+		return $this->postalCode;
+	}
+
+	/**
+	 * Sets the postalCode
+	 *
+	 * @param string $postalCode
+	 * @return \S3b0\EcomConfigCodeGenerator\Domain\Model\Log Allow chaining of methods
+	 */
+	public function setPostalCode($postalCode) {
+		$this->postalCode = $postalCode;
+		return $this;
+	}
+
+	/**
+	 * Returns the city
+	 *
+	 * @return string $city
+	 */
+	public function getCity() {
+		return $this->city;
+	}
+
+	/**
+	 * Sets the city
+	 *
+	 * @param string $city
+	 * @return \S3b0\EcomConfigCodeGenerator\Domain\Model\Log Allow chaining of methods
+	 */
+	public function setCity($city) {
+		$this->city = $city;
+		return $this;
+	}
+
+	/**
+	 * Returns the phone
+	 *
+	 * @return string $phone
+	 */
+	public function getPhone() {
+		return $this->phone;
+	}
+
+	/**
+	 * Sets the phone
+	 *
+	 * @param string $phone
+	 * @return \S3b0\EcomConfigCodeGenerator\Domain\Model\Log Allow chaining of methods
+	 */
+	public function setPhone($phone) {
+		$this->phone = $phone;
+		return $this;
+	}
+
+	/**
+	 * Returns the fax
+	 *
+	 * @return string $fax
+	 */
+	public function getFax() {
+		return $this->fax;
+	}
+
+	/**
+	 * Sets the fax
+	 *
+	 * @param string $fax
+	 * @return \S3b0\EcomConfigCodeGenerator\Domain\Model\Log Allow chaining of methods
+	 */
+	public function setFax($fax) {
+		$this->fax = $fax;
+		return $this;
+	}
+
+	/**
+	 * Returns the email
+	 *
+	 * @return string $email
+	 */
+	public function getEmail() {
+		return $this->email;
+	}
+
+	/**
+	 * Sets the email
+	 *
+	 * @param string $email
+	 * @return \S3b0\EcomConfigCodeGenerator\Domain\Model\Log Allow chaining of methods
+	 */
+	public function setEmail($email) {
+		$this->email = $email;
 		return $this;
 	}
 
@@ -190,6 +554,46 @@ class Log extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	}
 
 	/**
+	 * Returns the country
+	 *
+	 * @return \Ecom\EcomToolbox\Domain\Model\Region $country
+	 */
+	public function getCountry() {
+		return $this->country;
+	}
+
+	/**
+	 * Sets the country
+	 *
+	 * @param \Ecom\EcomToolbox\Domain\Model\Region $country
+	 * @return \S3b0\EcomConfigCodeGenerator\Domain\Model\Log Allow chaining of methods
+	 */
+	public function setCountry(\Ecom\EcomToolbox\Domain\Model\Region $country = NULL) {
+		$this->country = $country;
+		return $this;
+	}
+
+	/**
+	 * Returns the state
+	 *
+	 * @return \Ecom\EcomToolbox\Domain\Model\State $state
+	 */
+	public function getState() {
+		return $this->state;
+	}
+
+	/**
+	 * Sets the state
+	 *
+	 * @param \Ecom\EcomToolbox\Domain\Model\State $state
+	 * @return \S3b0\EcomConfigCodeGenerator\Domain\Model\Log Allow chaining of methods
+	 */
+	public function setState(\Ecom\EcomToolbox\Domain\Model\State $state = NULL) {
+		$this->state = $state;
+		return $this;
+	}
+
+	/**
 	 * Returns the feUser
 	 *
 	 * @return \TYPO3\CMS\Extbase\Domain\Model\FrontendUser $feUser
@@ -204,7 +608,7 @@ class Log extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	 * @param \TYPO3\CMS\Extbase\Domain\Model\FrontendUser $feUser
 	 * @return \S3b0\EcomConfigCodeGenerator\Domain\Model\Log Allow chaining of methods
 	 */
-	public function setFeUser(\TYPO3\CMS\Extbase\Domain\Model\FrontendUser $feUser) {
+	public function setFeUser(\TYPO3\CMS\Extbase\Domain\Model\FrontendUser $feUser = NULL) {
 		$this->feUser = $feUser;
 		return $this;
 	}
@@ -244,7 +648,7 @@ class Log extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	 * @param \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\S3b0\EcomConfigCodeGenerator\Domain\Model\Part> $configuredParts
 	 * @return \S3b0\EcomConfigCodeGenerator\Domain\Model\Log Allow chaining of methods
 	 */
-	public function setConfiguredParts(\TYPO3\CMS\Extbase\Persistence\ObjectStorage $configuredParts) {
+	public function setConfiguredParts(\TYPO3\CMS\Extbase\Persistence\ObjectStorage $configuredParts = NULL) {
 		$this->configuredParts = $configuredParts;
 		return $this;
 	}
