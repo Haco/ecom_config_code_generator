@@ -1,0 +1,83 @@
+<f:layout name="Request" />
+
+<f:section name="main">
+
+<h1><f:translate id="label.requestButton" /></h1>
+
+<f:form action="create" enctype="multipart/form-data" id="newLog" name="newLog" object="{newLog}" additionalAttributes="{data-validate: 'html5', data-parsley-validate: 'data-parsley-validate'}">
+	<f:render partial="Log/FormFields" arguments="{_all}" />
+	<div class="form-group row">
+		<f:form.button type="submit" id="ccg-request-submit" class="btn btn-primary morelink"><f:translate id="forms.submit" /></f:form.button>
+	</div>
+</f:form>
+
+<script type="text/javascript" language="JavaScript">
+	(function($) {
+		var countryZonesJSON = [];
+		var correspondingZoneSelect;
+		var output = '';
+
+		// Build the <option>-Tags based on selected country
+		function buildOptionsForZoneSelect(countryIso) {
+			if ( !countryIso ) return false;
+			correspondingZoneSelect = $('select#state');
+			correspondingZoneSelect.empty();
+			output = '';
+
+			$.each(countryZonesJSON, function(index, item) {
+				if (countryIso == item['country-iso']) {
+					output += '<option data-country="'+ item['country-iso'] +'" value="'+ item['value'] +'">'+ item['name'] +"</option>\r\n";
+				}
+			});
+			correspondingZoneSelect.html("<option class=\"empty-option\" value=\"\" selected=\"selected\"></option>\r\n" + output);
+		}
+
+		$(document).ready(function() {
+			var $RequestButton = $('#ccg-request-submit'),
+				resetTimeout = 40000,
+				defaultText = "<i class=\"fa fa-envelope fa-fw\"></i> {f:translate(id : 'label.requestButton')}",
+				loadingText = "{f:translate(id : 'label.requestButton')}... <i class=\"fa fa-spinner fa-fw fa-pulse\"></i>";
+			$RequestButton.attr('data-loading-text', loadingText);
+
+			function resetButton() {
+				$RequestButton.removeAttr('disabled').removeClass('disabled').html(defaultText);
+			}
+
+			if ( $RequestButton.hasClass('disabled') )
+				resetButton();
+
+			$RequestButton.on('click', function() {
+				// If form is valid
+				if ( $('form#newLog').parsley().isValid() ) {
+					$(this).button('loading');
+					setTimeout(function () {
+						resetButton();
+					}, resetTimeout);
+				}
+			});
+
+			// Build JSON Array for => State/Province options
+			$('select#state option').each(function() {
+				// Skip the empty option
+				if ($(this).hasClass('empty-option')) return true;
+
+				var item = new Array();
+				item["name"] = $(this).html();
+				item["value"] = $(this).val();
+				item["country-iso"] = $(this).attr('data-country');
+				countryZonesJSON.push(item);
+				$(this).remove();
+			});
+
+			buildOptionsForZoneSelect('');
+
+			// Build options based on country selection => on Change
+			$('select#country').on('change', function() {
+				buildOptionsForZoneSelect($('option:selected', this).attr('data-cn-iso'), this);
+				$(this).closest('form').find('select#state').focus();
+			});
+		});
+	})(jQuery);
+</script>
+
+</f:section>

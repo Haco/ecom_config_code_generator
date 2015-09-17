@@ -105,6 +105,12 @@
 			<trans-unit id="tx_ecomconfigcodegenerator_domain_model_partgroup.dependent_notes.inlineElementAddTitle">
 				<source>Add dependency note</source>
 			</trans-unit>
+			<trans-unit id="tx_ecomconfigcodegenerator_domain_model_partgroup.modals">
+				<source>Modals</source>
+			</trans-unit>
+			<trans-unit id="tx_ecomconfigcodegenerator_domain_model_partgroup.modals.inlineElementAddTitle">
+				<source>Add modal</source>
+			</trans-unit>
 			<trans-unit id="tx_ecomconfigcodegenerator_domain_model_part">
 				<source>Part</source>
 			</trans-unit>
@@ -161,6 +167,21 @@
 			</trans-unit>
 			<trans-unit id="tx_ecomconfigcodegenerator_domain_model_modal">
 				<source>Modal</source>
+			</trans-unit>
+			<trans-unit id="tx_ecomconfigcodegenerator_domain_model_modal.title">
+				<source>Title</source>
+			</trans-unit>
+			<trans-unit id="tx_ecomconfigcodegenerator_domain_model_modal.text">
+				<source>Text</source>
+			</trans-unit>
+			<trans-unit id="tx_ecomconfigcodegenerator_domain_model_modal.trigger_part">
+				<source>Trigger</source>
+			</trans-unit>
+			<trans-unit id="tx_ecomconfigcodegenerator_domain_model_modal.use_confirmation">
+				<source>Confirmation mode</source>
+			</trans-unit>
+			<trans-unit id="tx_ecomconfigcodegenerator_domain_model_modal.dependent_parts">
+				<source>Dependent Parts</source>
 			</trans-unit>
 			<trans-unit id="tx_ecomconfigcodegenerator_domain_model_currency">
 				<source>ConfigCodeGen: Currency</source>
@@ -237,8 +258,50 @@
 			<trans-unit id="tx_ecomconfigcodegenerator_domain_model_log">
 				<source>Log</source>
 			</trans-unit>
+			<trans-unit id="tx_ecomconfigcodegenerator_domain_model_log.tstamp">
+				<source>Date</source>
+			</trans-unit>
 			<trans-unit id="tx_ecomconfigcodegenerator_domain_model_log.session_id">
 				<source>Session ID</source>
+			</trans-unit>
+			<trans-unit id="tx_ecomconfigcodegenerator_domain_model_log.salutation">
+				<source>Salutation</source>
+			</trans-unit>
+			<trans-unit id="tx_ecomconfigcodegenerator_domain_model_log.first_name">
+				<source>First Name</source>
+			</trans-unit>
+			<trans-unit id="tx_ecomconfigcodegenerator_domain_model_log.last_name">
+				<source>Last Name</source>
+			</trans-unit>
+			<trans-unit id="tx_ecomconfigcodegenerator_domain_model_log.subject">
+				<source>Subject</source>
+			</trans-unit>
+			<trans-unit id="tx_ecomconfigcodegenerator_domain_model_log.message">
+				<source>Message</source>
+			</trans-unit>
+			<trans-unit id="tx_ecomconfigcodegenerator_domain_model_log.company">
+				<source>Company</source>
+			</trans-unit>
+			<trans-unit id="tx_ecomconfigcodegenerator_domain_model_log.job_title">
+				<source>Job Title</source>
+			</trans-unit>
+			<trans-unit id="tx_ecomconfigcodegenerator_domain_model_log.address">
+				<source>Address</source>
+			</trans-unit>
+			<trans-unit id="tx_ecomconfigcodegenerator_domain_model_log.postal_code">
+				<source>Postal Code</source>
+			</trans-unit>
+			<trans-unit id="tx_ecomconfigcodegenerator_domain_model_log.city">
+				<source>City</source>
+			</trans-unit>
+			<trans-unit id="tx_ecomconfigcodegenerator_domain_model_log.phone">
+				<source>Phone</source>
+			</trans-unit>
+			<trans-unit id="tx_ecomconfigcodegenerator_domain_model_log.fax">
+				<source>Fax</source>
+			</trans-unit>
+			<trans-unit id="tx_ecomconfigcodegenerator_domain_model_log.email">
+				<source>Email</source>
 			</trans-unit>
 			<trans-unit id="tx_ecomconfigcodegenerator_domain_model_log.configuration">
 				<source>Configuration</source>
@@ -249,8 +312,17 @@
 			<trans-unit id="tx_ecomconfigcodegenerator_domain_model_log.ip_address">
 				<source>IP Address</source>
 			</trans-unit>
+			<trans-unit id="tx_ecomconfigcodegenerator_domain_model_log.country">
+				<source>Country</source>
+			</trans-unit>
+			<trans-unit id="tx_ecomconfigcodegenerator_domain_model_log.state">
+				<source>State</source>
+			</trans-unit>
 			<trans-unit id="tx_ecomconfigcodegenerator_domain_model_log.fe_user">
 				<source>Frontend User</source>
+			</trans-unit>
+			<trans-unit id="tx_ecomconfigcodegenerator_domain_model_log.configured_parts">
+				<source>Configured Parts</source>
 			</trans-unit>
 
 

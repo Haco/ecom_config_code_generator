@@ -33,6 +33,94 @@
 			<trans-unit id="headlines.yourConfigurationCode" xml:space="preserve">
 				<source>Your configuration code</source>
 			</trans-unit>
+			<trans-unit id="headlines.confirmation" xml:space="preserve">
+				<source>Request sent!</source>
+			</trans-unit>
+
+			<!-- NEW LOG -->
+			<trans-unit id="forms.log.field.salutation" xml:space="preserve">
+				<source>Salutation</source>
+			</trans-unit>
+			<trans-unit id="forms.log.field.firstName" xml:space="preserve">
+				<source>First Name</source>
+			</trans-unit>
+			<trans-unit id="forms.log.field.lastName" xml:space="preserve">
+				<source>Last Name</source>
+			</trans-unit>
+			<trans-unit id="forms.log.field.subject" xml:space="preserve">
+				<source>Subject</source>
+			</trans-unit>
+			<trans-unit id="forms.log.field.message" xml:space="preserve">
+				<source>Your Message</source>
+			</trans-unit>
+			<trans-unit id="forms.log.field.company" xml:space="preserve">
+				<source>Company</source>
+			</trans-unit>
+			<trans-unit id="forms.log.field.jobTitle" xml:space="preserve">
+				<source>Job Title</source>
+			</trans-unit>
+			<trans-unit id="forms.log.field.address" xml:space="preserve">
+				<source>Street Address</source>
+			</trans-unit>
+			<trans-unit id="forms.log.field.zip" xml:space="preserve">
+				<source>Postal Code</source>
+			</trans-unit>
+			<trans-unit id="forms.log.field.city" xml:space="preserve">
+				<source>City</source>
+			</trans-unit>
+			<trans-unit id="forms.log.field.country" xml:space="preserve">
+				<source>Country</source>
+			</trans-unit>
+			<trans-unit id="forms.log.field.state" xml:space="preserve">
+				<source>State / Province</source>
+			</trans-unit>
+			<trans-unit id="forms.log.field.phone" xml:space="preserve">
+				<source>Phone</source>
+			</trans-unit>
+			<trans-unit id="forms.log.field.fax" xml:space="preserve">
+				<source>Fax</source>
+			</trans-unit>
+			<trans-unit id="forms.log.field.email" xml:space="preserve">
+				<source>E-Mail</source>
+			</trans-unit>
+			<!-- GENERIC FORMS -->
+			<trans-unit id="forms.submit" xml:space="preserve">
+				<source>Submit</source>
+			</trans-unit>
+			<trans-unit id="forms.input.placeholder" xml:space="preserve">
+				<source>Please fill in</source>
+			</trans-unit>
+			<trans-unit id="forms.select.empty" xml:space="preserve">
+				<source>Please choose</source>
+			</trans-unit>
+			<trans-unit id="forms.privacyPolicy0" xml:space="preserve">
+				<source>I herewith declare my express agreement to the </source>
+			</trans-unit>
+			<trans-unit id="forms.privacyPolicy1" xml:space="preserve">
+				<source>data protection provisions</source>
+			</trans-unit>
+			<trans-unit id="forms.privacyPolicy2" xml:space="preserve">
+				<source> of ecom instruments GmbH.</source>
+			</trans-unit>
+			<trans-unit id="forms.mandatoryHint" xml:space="preserve">
+				<source><![CDATA[Fields marked with <span class="%1$s">*</span> are mandatory.]]></source>
+			</trans-unit>
+			<!-- PARSLEY MESSAGES -->
+			<trans-unit id="forms.parsley.required" xml:space="preserve">
+				<source>This field is required.</source>
+			</trans-unit>
+			<trans-unit id="forms.parsley.requiredText" xml:space="preserve">
+				<source>This field must be filled!</source>
+			</trans-unit>
+			<trans-unit id="forms.parsley.requiredSelect" xml:space="preserve">
+				<source>Please choose an option!</source>
+			</trans-unit>
+			<trans-unit id="forms.parsley.invalidEmail" xml:space="preserve">
+				<source>This is not a valid email address!</source>
+			</trans-unit>
+			<trans-unit id="forms.parsley.confirmPrivacyPolicy" xml:space="preserve">
+				<source>Please confirm our privacy policy!</source>
+			</trans-unit>
 
 			<!-- 404 ERROR INFO -->
 			<trans-unit id="404.duplicate" xml:space="preserve">

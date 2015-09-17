@@ -93,6 +93,11 @@ class Part extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	protected $active = FALSE;
 
 	/**
+	 * @var integer
+	 */
+	protected $modalTrigger = 0;
+
+	/**
 	 * __construct
 	 */
 	public function __construct() {
@@ -284,6 +289,20 @@ class Part extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	 */
 	public function setActive($active) {
 		$this->active = $active;
+	}
+
+	/**
+	 * @return integer
+	 */
+	public function getModalTrigger() {
+		return $this->modalTrigger;
+	}
+
+	/**
+	 * @param integer $modalTrigger
+	 */
+	public function setModalTrigger($modalTrigger) {
+		$this->modalTrigger = $modalTrigger;
 	}
 
 }

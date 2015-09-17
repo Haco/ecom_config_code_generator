@@ -165,6 +165,7 @@ return [
 				'type' => 'inline',
 				'foreign_table' => 'tx_ecomconfigcodegenerator_domain_model_partgroup',
 				'foreign_field' => 'configuration',
+				'foreign_sortby' => 'sorting',
 				'maxitems'      => 9999,
 				'appearance' => [
 					'collapseAll' => 1,

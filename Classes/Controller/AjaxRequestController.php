@@ -133,11 +133,11 @@ class AjaxRequestController extends \S3b0\EcomConfigCodeGenerator\Controller\Gen
 	 */
 	public function getPartSelectorHTML(\TYPO3\CMS\Extbase\Persistence\ObjectStorage $parts) {
 		/** @var \TYPO3\CMS\Fluid\View\StandaloneView $view */
-		$view = $this->objectManager->get('TYPO3\\CMS\\Fluid\\View\\StandaloneView');
+		$view = $this->objectManager->get(\TYPO3\CMS\Fluid\View\StandaloneView::class);
 
 		$extbaseFrameworkConfiguration = $this->configurationManager->getConfiguration(\TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface::CONFIGURATION_TYPE_FRAMEWORK);
 		$partialRootPath = \TYPO3\CMS\Core\Utility\GeneralUtility::getFileAbsFileName($extbaseFrameworkConfiguration['view']['partialRootPath'] ?: end($extbaseFrameworkConfiguration['view']['partialRootPaths']));
-		$templatePathAndFilename = $partialRootPath . 'Part/Selector.html';
+		$templatePathAndFilename = "{$partialRootPath}Part/Selector.html";
 		$view->setTemplatePathAndFilename($templatePathAndFilename);
 		$view->setPartialRootPaths([$partialRootPath]);
 		$view->assign('parts', $parts);
@@ -152,59 +152,17 @@ class AjaxRequestController extends \S3b0\EcomConfigCodeGenerator\Controller\Gen
 	 */
 	public function getPartGroupSelectorHTML(\TYPO3\CMS\Extbase\Persistence\ObjectStorage $partGroups) {
 		/** @var \TYPO3\CMS\Fluid\View\StandaloneView $view */
-		$view = $this->objectManager->get('TYPO3\\CMS\\Fluid\\View\\StandaloneView');
+		$view = $this->objectManager->get(\TYPO3\CMS\Fluid\View\StandaloneView::class);
 
 		$extbaseFrameworkConfiguration = $this->configurationManager->getConfiguration(\TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface::CONFIGURATION_TYPE_FRAMEWORK);
 		$partialRootPath = \TYPO3\CMS\Core\Utility\GeneralUtility::getFileAbsFileName($extbaseFrameworkConfiguration['view']['partialRootPath'] ?: end($extbaseFrameworkConfiguration['view']['partialRootPaths']));
-		$templatePathAndFilename = $partialRootPath . 'PartGroup/Selector.html';
+		$templatePathAndFilename = "{$partialRootPath}PartGroup/Selector.html";
 		$view->setTemplatePathAndFilename($templatePathAndFilename);
 		$view->setPartialRootPaths([$partialRootPath]);
 		$view->assign('partGroups', $partGroups);
 		$view->setFormat('html');
 
 		return $this->sanitize_output($view->render());
-	}
-
-	/**
-	 * @param string $templateName template name (UpperCamelCase)
-	 * @param array $variables variables to be passed to the Fluid view
-	 *
-	 * @return string
-	 */
-	private function getHTML($templateName, array $variables = []) {
-		/** @var \TYPO3\CMS\Fluid\View\StandaloneView $view */
-		$view = $this->objectManager->get('TYPO3\\CMS\\Fluid\\View\\StandaloneView');
-
-		$extbaseFrameworkConfiguration = $this->configurationManager->getConfiguration(\TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface::CONFIGURATION_TYPE_FRAMEWORK);
-		$templateRootPath = \TYPO3\CMS\Core\Utility\GeneralUtility::getFileAbsFileName($extbaseFrameworkConfiguration['view']['templateRootPath'] ?: end($extbaseFrameworkConfiguration['view']['templateRootPaths']));
-		$partialRootPath = \TYPO3\CMS\Core\Utility\GeneralUtility::getFileAbsFileName($extbaseFrameworkConfiguration['view']['partialRootPath'] ?: end($extbaseFrameworkConfiguration['view']['partialRootPaths']));
-		$templatePathAndFilename = $templateRootPath . 'StandAloneViews/' . $templateName . '.html';
-		$view->setTemplatePathAndFilename($templatePathAndFilename);
-		$view->setPartialRootPaths([$partialRootPath]);
-		$view->assignMultiple($variables);
-		$view->setFormat('html');
-
-		return $view->render();
-	}
-
-	/**
-	 * Minify All Output - based on the search and replace regexes.
-	 * @param string $buffer Input string
-	 * @return string
-	 */
-	private function sanitize_output($buffer) {
-		$search = [
-			'/\>[^\S ]+/s', //strip whitespaces after tags, except space
-			'/[^\S ]+\</s', //strip whitespaces before tags, except space
-			'/(\s)+/s'  // shorten multiple whitespace sequences
-		];
-		$replace = [
-			'>',
-			'<',
-			'\\1'
-		];
-		$buffer = preg_replace($search, $replace, $buffer);
-		return $buffer;
 	}
 
 }

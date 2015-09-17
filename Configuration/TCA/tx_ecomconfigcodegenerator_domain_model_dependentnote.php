@@ -141,7 +141,7 @@ return [
 					AND tx_ecomconfigcodegenerator_domain_model_part.pid=###REC_FIELD_pid###
 					AND NOT tx_ecomconfigcodegenerator_domain_model_part.deleted
 					AND tx_ecomconfigcodegenerator_domain_model_part.sys_language_uid IN (-1,0)
-					AND ( SELECT sorting FROM tx_ecomconfigcodegenerator_domain_model_partgroup WHERE tx_ecomconfigcodegenerator_domain_model_partgroup.uid=tx_ecomconfigcodegenerator_domain_model_part.part_group ) < ( SELECT sorting FROM tx_ecomconfigcodegenerator_domain_model_partgroup WHERE tx_ecomconfigcodegenerator_domain_model_partgroup.uid=###REC_FIELD_partgroup### )
+					AND ( SELECT sorting FROM tx_ecomconfigcodegenerator_domain_model_partgroup WHERE tx_ecomconfigcodegenerator_domain_model_partgroup.uid=tx_ecomconfigcodegenerator_domain_model_part.part_group ) < ( SELECT sorting FROM tx_ecomconfigcodegenerator_domain_model_partgroup WHERE tx_ecomconfigcodegenerator_domain_model_partgroup.uid=###REC_FIELD_part_group### )
 					AND ( SELECT settings FROM tx_ecomconfigcodegenerator_domain_model_partgroup WHERE tx_ecomconfigcodegenerator_domain_model_partgroup.uid=tx_ecomconfigcodegenerator_domain_model_part.part_group ) & ' . \S3b0\EcomConfigCodeGenerator\Setup::BIT_PARTGROUP_IS_LOCKED . ' = ' . \S3b0\EcomConfigCodeGenerator\Setup::BIT_PARTGROUP_IS_LOCKED . '
 					ORDER BY tx_ecomconfigcodegenerator_domain_model_part.part_group, tx_ecomconfigcodegenerator_domain_model_part.title
 				'),

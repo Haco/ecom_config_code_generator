@@ -1,6 +1,6 @@
 <f:if condition="{parts -> f:count()}">
 	<f:for each="{parts}" as="part" iteration="partIterator">
-		<a data-part="{part.uid}" data-part-state="{part.active -> f:format.number(decimals : 0)}" class="configurator-select-part-group-part configurator-select-part-group-part-selector {f:if(condition : '{part.inConflictWithSelectedParts}', then : 'disabled', else : 'enabled')}" tabindex="{partIterator.cycle}">
+		<a data-part="{part.uid}" data-part-state="{part.active -> f:format.number(decimals : 0)}" data-modal="{part.modalTrigger}" class="configurator-select-part-group-part configurator-select-part-group-part-selector {f:if(condition : '{part.inConflictWithSelectedParts}', then : 'disabled', else : 'enabled')}" tabindex="{partIterator.cycle}">
 			<f:if condition="{part.pricing}">
 				<span class="configurator-select-part-group-part-price">{part.pricing.diff} ({part.pricing.basic})<f:if condition="{part.partGroup.pricePercentage}"> <span style="font-family: 'Lucida Sans Unicode', Arial, sans-serif">≙</span> {part.pricing.percentage}%</f:if> )</span>
 			</f:if>

@@ -30,6 +30,9 @@
 			<trans-unit id="dependent_notes.description">
 				<source>Notes depending on divers parts selected</source>
 			</trans-unit>
+			<trans-unit id="modals.description">
+				<source>Modals opening when dependency match on parts selected</source>
+			</trans-unit>
 		</body>
 	</file>
 </xliff>

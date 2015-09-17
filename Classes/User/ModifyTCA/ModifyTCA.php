@@ -48,7 +48,7 @@ class ModifyTCA extends \TYPO3\CMS\Backend\Form\FormEngine {
 		$addWhere = \TYPO3\CMS\Core\Utility\MathUtility::canBeInterpretedAsInteger($PA['row']['uid']) ? " AND NOT $table.uid=" . $PA['row']['uid'] : "";
 		if ( $rows = $pObj->getDatabaseConnection()->exec_SELECTgetRows("*", $table, "$table.settings & " . \S3b0\EcomConfigCodeGenerator\Setup::BIT_CURRENCY_IS_DEFAULT . $addWhere . BackendUtility\BackendUtility::BEenableFields($table)) ) {
 			/** @var \Ecom\EcomToolbox\Utility\BitHandler $bitwiseFlag */
-			$bitwiseFlag = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('Ecom\\EcomToolbox\\Utility\\BitHandler');
+			$bitwiseFlag = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\Ecom\EcomToolbox\Utility\BitHandler::class);
 			$bitwiseFlag->setBits($PA['row']['settings']);
 			$isCurrentMarkedAsDefault = $bitwiseFlag->isBitSet(\S3b0\EcomConfigCodeGenerator\Setup::BIT_CURRENCY_IS_DEFAULT);
 

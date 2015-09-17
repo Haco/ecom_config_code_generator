@@ -74,6 +74,7 @@ return [
 		],
 
 		'configuration' => [
+			'displayCond' => 'FIELD:configuration:>:0',
 			'label' => "{$translate}tx_ecomconfigcodegenerator_domain_model_configuration",
 			'config' => [
 				'type' => 'select',
@@ -82,6 +83,7 @@ return [
 			]
 		],
 		'part' => [
+			'displayCond' => 'FIELD:part:>:0',
 			'label' => "{$translate}tx_ecomconfigcodegenerator_domain_model_part",
 			'config' => [
 				'type' => 'select',

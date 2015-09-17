@@ -37,7 +37,7 @@ class ConfigurationRepository extends \TYPO3\CMS\Extbase\Persistence\Repository 
 	 */
 	public function initializeObject() {
 		/** @var \TYPO3\CMS\Extbase\Persistence\Generic\QuerySettingsInterface $querySettings */
-		$querySettings = $this->objectManager->get('TYPO3\\CMS\\Extbase\\Persistence\\Generic\\QuerySettingsInterface');
+		$querySettings = $this->objectManager->get(\TYPO3\CMS\Extbase\Persistence\Generic\QuerySettingsInterface::class);
 		$querySettings->setRespectStoragePage(FALSE); // Disable storage pid
 		$this->setDefaultQuerySettings($querySettings);
 	}

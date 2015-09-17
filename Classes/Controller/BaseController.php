@@ -30,13 +30,14 @@ namespace S3b0\EcomConfigCodeGenerator\Controller;
 use S3b0\EcomConfigCodeGenerator\Setup;
 use TYPO3\CMS\Core\Utility\ArrayUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Core\Utility\MathUtility;
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 
 /**
  * Class BaseController
  * @package S3b0\EcomConfigCodeGenerator\Controller
  */
-class BaseController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController {
+class BaseController extends \Ecom\EcomToolbox\Controller\ActionController {
 
 	/**
 	 * @var \S3b0\EcomConfigCodeGenerator\Domain\Model\Content
@@ -52,6 +53,8 @@ class BaseController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController 
 	public $feSession;
 
 	/**
+	 * contentRepository
+	 *
 	 * @var \S3b0\EcomConfigCodeGenerator\Domain\Repository\ContentRepository
 	 * @inject
 	 */
@@ -74,10 +77,44 @@ class BaseController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController 
 	protected $partRepository;
 
 	/**
+	 * currencyRepository
+	 *
 	 * @var \S3b0\EcomConfigCodeGenerator\Domain\Repository\CurrencyRepository
 	 * @inject
 	 */
 	protected $currencyRepository;
+
+	/**
+	 * logRepository
+	 *
+	 * @var \S3b0\EcomConfigCodeGenerator\Domain\Repository\LogRepository
+	 * @inject
+	 */
+	protected $logRepository;
+
+	/**
+	 * frontendUserRepository
+	 *
+	 * @var \TYPO3\CMS\Extbase\Domain\Repository\FrontendUserRepository
+	 * @inject
+	 */
+	protected $frontendUserRepository;
+
+	/**
+	 * regionRepository
+	 *
+	 * @var \Ecom\EcomToolbox\Domain\Repository\RegionRepository
+	 * @inject
+	 */
+	protected $regionRepository;
+
+	/**
+	 * stateRepository
+	 *
+	 * @var \Ecom\EcomToolbox\Domain\Repository\StateRepository
+	 * @inject
+	 */
+	protected $stateRepository;
 
 	/**
 	 * @var \S3b0\EcomConfigCodeGenerator\Domain\Model\Configuration
@@ -118,7 +155,7 @@ class BaseController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController 
 		// Frontend-Session
 		$this->feSession->setStorageKey(Setup::getSessionStorageKey($this->contentObject));
 		// On reset destroy config session data
-		if ( $this->request->getControllerActionName() === 'reset' ) {
+		if ( $this->request->getControllerName() === 'Generator' && $this->request->getControllerActionName() === 'reset' ) {
 			$this->feSession->delete('config');
 			$this->redirectToUri($this->uriBuilder->build());
 		}
@@ -167,6 +204,15 @@ class BaseController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController 
 		$previous = NULL;  // Previous part group (NEXT as of array_reverse)
 		$cycle = 1;        // Count loop cycles
 		$locked = 0;       // Count locked items, still visible!
+
+		/** @var array $configuredParts Create an array containing all configured part for validation */
+		$configuredParts = [ ];
+		if ( sizeof($configuration) ) {
+			foreach ( $configuration as $partGroupParts ) {
+				$configuredParts = array_merge($configuredParts, (array) $partGroupParts);
+			}
+		}
+
 		/** @var \S3b0\EcomConfigCodeGenerator\Domain\Model\PartGroup $partGroup */
 		foreach ( array_reverse($partGroups->toArray()) as $partGroup ) {
 			/**
@@ -177,12 +223,15 @@ class BaseController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController 
 			 */
 			if ( $partGroup->isLocked() ) {
 				if ( $partGroup->hasDefaultPart() ) {
-					$configuration[$partGroup->getUid()][$partGroup->getDefaultPart()->getSorting()] = $partGroup->getDefaultPart()->getUid();
-					$partGroup->addActivePart($partGroup->getDefaultPart());
 					$partGroup->setSelectable(FALSE);
+					\S3b0\EcomConfigCodeGenerator\Session\ManageConfiguration::addPartToConfiguration(
+						$this,
+						$partGroup->getDefaultPart() instanceof \TYPO3\CMS\Extbase\Persistence\Generic\LazyLoadingProxy ? $partGroup->getDefaultPart()->_loadRealInstance() : $partGroup->getDefaultPart(),
+						$configuration
+					);
 					$locked++;
 					$cycle++;
-				} else {
+				} elseif ( !array_key_exists($partGroup->getUid(), $configuration) ) {
 					$partGroups->detach($partGroup);
 				}
 				continue;
@@ -200,7 +249,7 @@ class BaseController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController 
 						$addMessage = FALSE;
 						/** @var \S3b0\EcomConfigCodeGenerator\Domain\Model\Part $dependentPart */
 						foreach ( $dependentNote->getDependentParts() as $dependentPart ) {
-							if ( is_array($configuration[$partGroup->getUid()]) && in_array($dependentPart->getUid(), $configuration[$partGroup->getUid()]) ) {
+							if ( is_array($configuredParts) && in_array($dependentPart->getUid(), $configuredParts) ) {
 								$addMessage = TRUE;
 								if ( !$logicalAnd ) {
 									break;
@@ -218,6 +267,16 @@ class BaseController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController 
 					}
 				}
 			}
+
+			if ( $partGroup->hasModals() ) {
+				/** @var \S3b0\EcomConfigCodeGenerator\Domain\Model\Modal $modal */
+				foreach ( $partGroup->getModals() as $modal ) {
+					/** Dependency check */
+					if ( $modal->hasDependentParts() ) {
+						self::checkForModalDependencies($modal, $configuredParts);
+					}
+				}
+			}
 			/**
 			 * Check for active packages, set corresponding sate and fill ObjectStorage
 			 */
@@ -225,33 +284,29 @@ class BaseController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController 
 				// First of all check dependencies and unset parts, if not valid anymore
 				foreach ( $configuration[$partGroup->getUid()] as $partUid ) {
 					/** @var \S3b0\EcomConfigCodeGenerator\Domain\Model\Part $part */
-					$part = $this->partRepository->findByUid($partUid);
-					if ( self::checkForPartDependencies($this, $part, $configuration) ) {
-						\S3b0\EcomConfigCodeGenerator\Session\ManageConfiguration::addPartToConfiguration($this, $part, $configuration);
-					} else {
-						\S3b0\EcomConfigCodeGenerator\Session\ManageConfiguration::removePartFromConfiguration($this, $part, $configuration);
+					if ( $part = $this->partRepository->findByUid($partUid) ) {
+						if ( self::checkForPartDependencies($this, $part, $configuration) ) {
+							\S3b0\EcomConfigCodeGenerator\Session\ManageConfiguration::addPartToConfiguration($this, $part, $configuration);
+						} else {
+							\S3b0\EcomConfigCodeGenerator\Session\ManageConfiguration::removePartFromConfiguration($this, $part, $configuration);
+						}
 					}
 				}
-				$originallyAvailablePartsAmount = $partGroup->getParts()->count();
-				$this->initializeParts(
-					$partGroup->getParts(),
-					$configuration
-				);
-				/**
-				 * Reset part if availability has been affected by dependencies
-				 */
-				if ( $partGroup->getParts()->count() !== $originallyAvailablePartsAmount && $partGroup->getParts()->count() === 1 ) {
-					$partGroup->setSelectable(FALSE);
-					\S3b0\EcomConfigCodeGenerator\Session\ManageConfiguration::removePartGroupFromConfiguration($this, $partGroup, $configuration);
-					\S3b0\EcomConfigCodeGenerator\Session\ManageConfiguration::addPartToConfiguration($this, $partGroup->getParts()->toArray()[0], $configuration);
-				}
-				$partGroup->setUnlocked($partGroup->getParts()->count() > 1);
-				if ( !$partGroup->isUidInParts($configuration[$partGroup->getUid()]) ) {
-					$current = $partGroup;
-				}
-			} else {
-				$current = $partGroup;
 			}
+			$originallyAvailablePartsAmount = $partGroup->getParts()->count();
+			$this->initializeParts(
+				$partGroup->getParts(),
+				$configuration
+			);
+			/**
+			 * Reset part if availability has been affected by dependencies
+			 */
+			if ( $partGroup->getParts()->count() !== $originallyAvailablePartsAmount && $partGroup->getParts()->count() === 1 ) {
+				$partGroup->setSelectable(FALSE);
+				\S3b0\EcomConfigCodeGenerator\Session\ManageConfiguration::removePartGroupFromConfiguration($this, $partGroup, $configuration);
+				\S3b0\EcomConfigCodeGenerator\Session\ManageConfiguration::addPartToConfiguration($this, $partGroup->getParts()->toArray()[0], $configuration);
+			}
+			$partGroup->setUnlocked($partGroup->getParts()->count() > 1);
 			$partGroup->setNext($previous);
 			/** @var \S3b0\EcomConfigCodeGenerator\Domain\Model\PartGroup $previous */
 			$previous = $partGroup;
@@ -260,22 +315,22 @@ class BaseController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController 
 		$cycle = 0;
 		foreach ( $partGroups as $partGroup ) {
 			$partGroup->setStepIndicator($partGroup->isVisibleInNavigation() ? ++$cycle : 0);
+			if ( !array_key_exists($partGroup->getUid(), $configuration) && !is_array($configuration[$partGroup->getUid()]) && !$current instanceof \S3b0\EcomConfigCodeGenerator\Domain\Model\PartGroup ) {
+				$current = $partGroup;
+			}
 		}
 		$this->feSession->store('config', $configuration);
 
 		// Get progress state update (ratio of active to visible packages) => float from 0 to 1 (*100 = %)
 		$progress = ( sizeof($configuration) - $locked ) / ( $partGroups->count() - $locked );
 
-		// Initially use first package
-		if ( $progress < 1 && !$current instanceof \S3b0\EcomConfigCodeGenerator\Domain\Model\PartGroup ) {
-			$current = $partGroup;
-		}
-
 		return $partGroups;
 	}
 
 	/**
-	 * @param \S3b0\EcomConfigCodeGenerator\Controller\BaseController $controller Ensure an Instance of extensions BaseController is given to provide necessary injections
+	 * @param \S3b0\EcomConfigCodeGenerator\Controller\BaseController $controller Ensure an Instance of extensions
+	 *                                                                            BaseController is given to provide
+	 *                                                                            necessary injections
 	 * @param array                                                   $list
 	 *
 	 *@return \TYPO3\CMS\Extbase\Persistence\ObjectStorage
@@ -314,7 +369,9 @@ class BaseController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController 
 	}
 
 	/**
-	 * @param \S3b0\EcomConfigCodeGenerator\Controller\BaseController $controller    Ensure an Instance of extensions BaseController is given to provide necessary injections
+	 * @param \S3b0\EcomConfigCodeGenerator\Controller\BaseController $controller    Ensure an Instance of extensions
+	 *                                                                               BaseController is given to provide
+	 *                                                                               necessary injections
 	 * @param \S3b0\EcomConfigCodeGenerator\Domain\Model\Part         $part
 	 * @param array                                                   $configuration
 	 * @return boolean                                                Returns FALSE if dependency check failed
@@ -335,7 +392,7 @@ class BaseController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController 
 				foreach ( $partGroups as $partGroup ) {
 					$partGroupCheck = [ ];
 					// If part group has no part selected or dependency has no parts selected for current group
-					if ( !array_key_exists($partGroup->getUid(), $configuration) || sizeof($dependency->getPartsByPartGroup($partGroup)) === 0 )
+					if ( !array_key_exists($partGroup->getUid(), $configuration) || $dependency->getPartsByPartGroup($partGroup)->count() === 0 )
 						continue;
 					// Fetch selected parts for comparison
 					$selectedParts = $controller->partRepository->findByList($configuration[$partGroup->getUid()]);
@@ -357,15 +414,32 @@ class BaseController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController 
 	}
 
 	/**
+	 * @param \S3b0\EcomConfigCodeGenerator\Domain\Model\Modal $modal
+	 * @param array                                            $configuredParts
+	 */
+	protected static function checkForModalDependencies(\S3b0\EcomConfigCodeGenerator\Domain\Model\Modal $modal, array $configuredParts) {
+		if ( sizeof($configuredParts) ) {
+			/** @var \S3b0\EcomConfigCodeGenerator\Domain\Model\Part $part */
+			foreach ( $modal->getDependentParts() as $part ) {
+				if ( in_array($part->getUid(), $configuredParts) ) {
+					$modal->getTriggerPart()->setModalTrigger($modal->getUid());
+					break;
+				}
+			}
+		}
+	}
+
+	/**
 	 * @param \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\S3b0\EcomConfigCodeGenerator\Domain\Model\Part> $storage
+	 * @param array                                                                                         $configuration
 	 * @throws \TYPO3\CMS\Extbase\Mvc\Exception\StopActionException
 	 */
-	protected function automaticallySetPartIfNoAlternativeExists(\TYPO3\CMS\Extbase\Persistence\ObjectStorage $storage = NULL) {
+	protected function automaticallySetPartIfNoAlternativeExists(\TYPO3\CMS\Extbase\Persistence\ObjectStorage $storage = NULL, array $configuration) {
 		/** @var \S3b0\EcomConfigCodeGenerator\Domain\Model\Part $part */
 		$part = $storage->toArray()[0];
 		if ( $storage instanceof \TYPO3\CMS\Extbase\Persistence\ObjectStorage && $storage->count() === 1 ) {
-			\S3b0\EcomConfigCodeGenerator\Session\ManageConfiguration::removePartGroupFromConfiguration($this, $part->getPartGroup(), $this->feSession->get('config') ?: [ ]);
-			\S3b0\EcomConfigCodeGenerator\Session\ManageConfiguration::addPartToConfiguration($this, $part, $this->feSession->get('config') ?: [ ]);
+			\S3b0\EcomConfigCodeGenerator\Session\ManageConfiguration::removePartGroupFromConfiguration($this, $part->getPartGroup(), $configuration);
+			\S3b0\EcomConfigCodeGenerator\Session\ManageConfiguration::addPartToConfiguration($this, $part, $configuration);
 
 			$arguments = $this->request->getArguments();
 			ArrayUtility::mergeRecursiveWithOverrule($arguments, [ 'partGroup' => $part->getPartGroup()->getNext() ]);
@@ -379,6 +453,7 @@ class BaseController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController 
 	 */
 	protected function getConfigurationCode(array $configuration) {
 		$summaryTableRows = [ ];
+		$summaryTableMailRows = [ ];
 		$code = [ ];
 		$blankCode = [ ];
 		/** @var \S3b0\EcomConfigCodeGenerator\Domain\Model\PartGroup $partGroup */
@@ -406,7 +481,11 @@ class BaseController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController 
 					<td>{$partGroup->getStepIndicator()}</td>
 					<td>{$partGroup->getTitle()}</td>
 					<td>" . implode(', ', $partList) . "</td>
-					<td>" . ($partGroup->isSelectable() ? "<a data-package=\"{$partGroup->getUid()}\" class=\"configurator-part-group-select\"><i class=\"fa fa-edit\"></i></a>" : "") . "</td>
+					<td>" . ($partGroup->isSelectable() ? "<a data-ccgpg=\"{$partGroup->getUid()}\" class=\"configurator-part-group-select\"><i class=\"fa fa-edit\"></i></a>" : "") . "</td>
+				");
+				$summaryTableMailRows[] = ("
+					<td>{$partGroup->getTitle()}</td>
+					<td>" . implode(', ', $partList) . "</td>
 				");
 			}
 		}
@@ -414,10 +493,92 @@ class BaseController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController 
 		ksort($blankCode);
 
 		return [
-			'code' => $this->contentObject->getCcgConfiguration()->getPrefix() . implode($code) . $this->contentObject->getCcgConfiguration()->getSuffix(),
-			'blankCode' => $this->contentObject->getCcgConfiguration()->getPrefix() . implode($blankCode) . $this->contentObject->getCcgConfiguration()->getSuffix(),
-			'summaryTable' => '<table><tr>' . implode('</tr><tr>', $summaryTableRows) . '</tr></table>'
+			'code' => $this->contentObject->getCcgConfiguration()->getPrefix() . implode('', $code) . $this->contentObject->getCcgConfiguration()->getSuffix(),
+			'blankCode' => $this->contentObject->getCcgConfiguration()->getPrefix() . implode('', $blankCode) . $this->contentObject->getCcgConfiguration()->getSuffix(),
+			'summaryTable' => $this->sanitize_output('<table><tr>' . implode('</tr><tr>', $summaryTableRows) . '</tr></table>'),
+			'summaryTableMail' => $this->sanitize_output('<table><tr>' . implode('</tr><tr>', $summaryTableMailRows) . '</tr></table>')
 		];
+	}
+
+	/**
+	 * @param \S3b0\EcomConfigCodeGenerator\Domain\Model\Log $log
+	 * @param array                                          $configuration
+	 */
+	protected function addConfigurationToLog(\S3b0\EcomConfigCodeGenerator\Domain\Model\Log &$log, array $configuration) {
+		$ipLength = !MathUtility::canBeInterpretedAsInteger($this->settings['log']['ipLength']) || $this->settings['log']['ipLength'] > 4 ? 4 : $this->settings['log']['ipLength'];
+		$code = [ ];
+
+		/** @var \S3b0\EcomConfigCodeGenerator\Domain\Model\PartGroup $partGroup */
+		foreach ( $this->contentObject->getCcgConfiguration()->getPartGroups() as $partGroup ) {
+			$parts = $configuration[$partGroup->getUid()];
+			ksort($parts); // Order by sorting
+			$segment = '';
+			foreach ( $parts as $partUid ) {
+				/** @var \S3b0\EcomConfigCodeGenerator\Domain\Model\Part $part */
+				$part = $this->partRepository->findByUid($partUid);
+				$log->addConfiguredPart($part);
+				$segment .= $part->getCodeSegment();
+			}
+			if ( $partGroup->getPlaceInCode() ) {
+				$code[$partGroup->getPlaceInCode()] = $segment;
+			} else {
+				$code[] = $segment;
+			}
+		}
+		ksort($code);
+
+		$log->setSessionId($GLOBALS['TSFE']->fe_user->id)
+			->setConfiguration($this->contentObject->getCcgConfiguration()->getPrefix() . implode('', $code) . $this->contentObject->getCcgConfiguration()->getSuffix())
+			->maskIpAddress($ipLength)
+			->setPid(0);
+		if ( $GLOBALS['TSFE']->loginUser ) {
+			/** @var \TYPO3\CMS\Extbase\Domain\Model\FrontendUser $feUser */
+			$feUser = $this->frontendUserRepository->findByUid($GLOBALS['TSFE']->fe_user->user['uid']);
+			/** @todo Add pricing */
+			$log->setFeUser($feUser);
+		}
+	}
+
+	/**
+	 * @param string $templateName template name (UpperCamelCase)
+	 * @param array $variables variables to be passed to the Fluid view
+	 *
+	 * @return string
+	 */
+	protected function getStandAloneTemplate($templateName, array $variables = []) {
+		/** @var \TYPO3\CMS\Fluid\View\StandaloneView $view */
+		$view = $this->objectManager->get(\TYPO3\CMS\Fluid\View\StandaloneView::class);
+
+		$extbaseFrameworkConfiguration = $this->configurationManager->getConfiguration(\TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface::CONFIGURATION_TYPE_FRAMEWORK);
+		$templateRootPath = \TYPO3\CMS\Core\Utility\GeneralUtility::getFileAbsFileName($extbaseFrameworkConfiguration['view']['templateRootPath'] ?: end($extbaseFrameworkConfiguration['view']['templateRootPaths']));
+		$partialRootPath = \TYPO3\CMS\Core\Utility\GeneralUtility::getFileAbsFileName($extbaseFrameworkConfiguration['view']['partialRootPath'] ?: end($extbaseFrameworkConfiguration['view']['partialRootPaths']));
+		$templatePathAndFilename = "{$templateRootPath}{$templateName}.html";
+		$view->setTemplatePathAndFilename($templatePathAndFilename);
+		$view->setPartialRootPaths([$partialRootPath]);
+		$view->assignMultiple($variables);
+		$view->setFormat('html');
+
+		return $this->sanitize_output($view->render());
+	}
+
+	/**
+	 * Minify All Output - based on the search and replace regexes.
+	 * @param string $buffer Input string
+	 * @return string
+	 */
+	protected function sanitize_output($buffer) {
+		$search = [
+			'/\>[^\S ]+/s', //strip whitespaces after tags, except space
+			'/[^\S ]+\</s', //strip whitespaces before tags, except space
+			'/(\s)+/s'  // shorten multiple whitespace sequences
+		];
+		$replace = [
+			'>',
+			'<',
+			'\\1'
+		];
+		$buffer = preg_replace($search, $replace, $buffer);
+		return $buffer;
 	}
 
 }

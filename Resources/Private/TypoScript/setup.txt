@@ -13,6 +13,10 @@ plugin.tx_ecomconfigcodegenerator {
 	}
 	settings {
 		webmasterEmail = {$plugin.tx_ecomconfigcodegenerator.settings.webmasterEmail}
+		log {
+			ipLength = 3
+		}
+		switchableControllerActions = Generator->index;Generator->currencySelect;Generator->reset;Log->new;Log->create;Log->confirmation
 	}
 }
 

@@ -1,0 +1,183 @@
+<div class="form-group row">
+	<label for="salutation" class="col-sm-2 col-md-1 control-label"><f:translate id="forms.log.field.salutation" /><span class="mandatory">*</span></label>
+	<div class="col-sm-10 col-md-11">
+		<f:form.select additionalAttributes="{data-parsley-required-message: '{f:translate(id: \'forms.parsley.required\')}', data-parsley-trigger: 'change', required: 'required'}"
+		               class="form-control"
+		               id="salutation"
+		               property="salutation"
+		               prependOptionLabel="{f:translate(id: 'forms.select.empty')}"
+		               prependOptionValue=""
+		               options="{Mr: 'Mr.', Mrs: 'Mrs.', Ms: 'Ms.'}" />
+	</div>
+</div>
+<div class="form-group row">
+	<label for="firstName" class="col-sm-2 col-md-1 control-label"><f:translate id="forms.log.field.firstName" /><span class="mandatory">*</span></label>
+	<div class="col-sm-10 col-md-11">
+		<f:form.textfield additionalAttributes="{data-parsley-required-message: '{f:translate(id: \'forms.parsley.required\')}', data-parsley-trigger: 'change'}"
+		                  required="required"
+		                  placeholder="{f:translate(id: 'forms.input.placeholder')}"
+		                  class="form-control"
+		                  id="firstName"
+		                  property="firstName" />
+	</div>
+</div>
+<div class="form-group row">
+	<label for="lastName" class="col-sm-2 col-md-1 control-label"><f:translate id="forms.log.field.lastName" /><span class="mandatory">*</span></label>
+	<div class="col-sm-10 col-md-11">
+		<f:form.textfield additionalAttributes="{data-parsley-required-message: '{f:translate(id: \'forms.parsley.required\')}', data-parsley-trigger: 'change'}"
+		                  required="required"
+		                  placeholder="{f:translate(id: 'forms.input.placeholder')}"
+		                  class="form-control"
+		                  id="lastName"
+		                  property="lastName" />
+	</div>
+</div>
+<div class="form-group row">
+	<label for="subject" class="col-sm-2 col-md-1 control-label"><f:translate id="forms.log.field.subject" /><span class="mandatory">*</span></label>
+	<div class="col-sm-10 col-md-11">
+		<f:form.textfield additionalAttributes="{data-parsley-required-message: '{f:translate(id: \'forms.parsley.required\')}', data-parsley-trigger: 'change'}"
+		                  required="required"
+		                  placeholder="{f:translate(id: 'forms.input.placeholder')}"
+		                  class="form-control"
+		                  id="subject"
+		                  property="subject" />
+	</div>
+</div>
+<div class="form-group row">
+	<label for="message" class="col-sm-2 col-md-1 control-label"><f:translate id="forms.log.field.message" /><span class="mandatory">*</span></label>
+	<div class="col-sm-10 col-md-11">
+				<f:form.textarea additionalAttributes="{data-parsley-required-message: '{f:translate(id: \'forms.parsley.required\')}', data-parsley-trigger: 'change', required: 'required'}"
+				                 rows="5"
+				                 cols="20"
+				                 class="form-control"
+				                 id="message"
+				                 property="message" />
+	</div>
+</div>
+<div class="form-group row">
+	<label for="company" class="col-sm-2 col-md-1 control-label"><f:translate id="forms.log.field.company" /><span class="mandatory">*</span></label>
+	<div class="col-sm-10 col-md-11">
+		<f:form.textfield additionalAttributes="{data-parsley-required-message: '{f:translate(id: \'forms.parsley.required\')}', data-parsley-trigger: 'change'}"
+		                  required="required"
+		                  placeholder="{f:translate(id: 'forms.input.placeholder')}"
+		                  class="form-control"
+		                  id="company"
+		                  property="company" />
+	</div>
+</div>
+<div class="form-group row">
+	<label for="jobTitle" class="col-sm-2 col-md-1 control-label"><f:translate id="forms.log.field.jobTitle" /></label>
+	<div class="col-sm-10 col-md-11">
+		<f:form.textfield placeholder="{f:translate(id: 'forms.input.placeholder')}"
+		                  class="form-control"
+		                  id="jobTitle"
+		                  property="jobTitle" />
+	</div>
+</div>
+<div class="form-group row">
+	<label for="address" class="col-sm-2 col-md-1 control-label"><f:translate id="forms.log.field.address" /><span class="mandatory">*</span></label>
+	<div class="col-sm-10 col-md-11">
+		<f:form.textfield additionalAttributes="{data-parsley-required-message: '{f:translate(id: \'forms.parsley.required\')}', data-parsley-trigger: 'change'}"
+		                  required="required"
+		                  placeholder="{f:translate(id: 'forms.input.placeholder')}"
+		                  class="form-control"
+		                  id="address"
+		                  property="address" />
+	</div>
+</div>
+<div class="form-group row">
+	<label for="postalCode" class="col-sm-2 col-md-1 control-label"><f:translate id="forms.log.field.zip" /><span class="mandatory">*</span></label>
+	<div class="col-sm-10 col-md-11">
+		<f:form.textfield additionalAttributes="{data-parsley-required-message: '{f:translate(id: \'forms.parsley.required\')}', data-parsley-trigger: 'change'}"
+		                  required="required"
+		                  placeholder="{f:translate(id: 'forms.input.placeholder')}"
+		                  class="form-control"
+		                  id="postalCode"
+		                  property="postalCode" />
+	</div>
+</div>
+<div class="form-group row">
+	<label for="city" class="col-sm-2 col-md-1 control-label"><f:translate id="forms.log.field.city" /><span class="mandatory">*</span></label>
+	<div class="col-sm-10 col-md-11">
+		<f:form.textfield additionalAttributes="{data-parsley-required-message: '{f:translate(id: \'forms.parsley.required\')}', data-parsley-trigger: 'change'}"
+		                  required="required"
+		                  placeholder="{f:translate(id: 'forms.input.placeholder')}"
+		                  class="form-control"
+		                  id="city"
+		                  property="city" />
+	</div>
+</div>
+<div class="form-group row">
+	<label for="country" class="col-sm-2 col-md-1 control-label"><f:translate id="forms.log.field.country" /><span class="mandatory">*</span></label>
+	<div class="col-sm-10 col-md-11">
+		<select data-parsley-required-message="{f:translate(id: 'forms.parsley.required')}"
+		        data-parsley-trigger="change"
+		        required="required"
+		        name="tx_ecomconfigcodegenerator_generator[newLog][country]"
+		        class="form-control"
+		        id="country">
+			<option value="" selected="selected" class="empty-option"><f:translate id="forms.select.empty" /></option>
+			<f:for each="{countryList}" as="country">
+				<option value="{country.uid}" data-cn-iso="{country.isoCodeA3}">{country.title}</option>
+			</f:for>
+		</select>
+	</div>
+</div>
+<div class="form-group row">
+	<label for="state" class="col-sm-2 col-md-1 control-label"><f:translate id="forms.log.field.state" /></label>
+	<div class="col-sm-10 col-md-11">
+		<select name="tx_ecomconfigcodegenerator_generator[newLog][state]"
+		        class="form-control"
+		        id="state">
+			<option value="" selected="selected" class="empty-option"><f:translate id="forms.select.empty" /></option>
+			<f:for each="{stateList}" as="state">
+				<option value="{state.uid}" data-country="{state.country.isoCodeA3}">{state.title}</option>
+			</f:for>
+		</select>
+	</div>
+</div>
+<div class="form-group row">
+	<label for="phone" class="col-sm-2 col-md-1 control-label"><f:translate id="forms.log.field.phone" /><span class="mandatory">*</span></label>
+	<div class="col-sm-10 col-md-11">
+		<f:form.textfield additionalAttributes="{data-parsley-required-message: '{f:translate(id: \'forms.parsley.required\')}', data-parsley-trigger: 'change'}"
+		                  required="required"
+		                  placeholder="{f:translate(id: 'forms.input.placeholder')}"
+		                  class="form-control"
+		                  id="phone"
+		                  property="phone" />
+	</div>
+</div>
+<div class="form-group row">
+	<label for="fax" class="col-sm-2 col-md-1 control-label"><f:translate id="forms.log.field.fax" /></label>
+	<div class="col-sm-10 col-md-11">
+		<f:form.textfield  placeholder="{f:translate(id: 'forms.input.placeholder')}"
+		                   class="form-control"
+		                   id="fax"
+		                   property="fax" />
+	</div>
+</div>
+<div class="form-group row">
+	<label for="email" class="col-sm-2 col-md-1 control-label"><f:translate id="forms.log.field.email" /><span class="mandatory">*</span></label>
+	<div class="col-sm-10 col-md-11">
+		<f:form.textfield additionalAttributes="{data-parsley-required-message: '{f:translate(id: \'forms.parsley.required\')}', data-parsley-trigger: 'change', data-parsley-error-message: '{f:translate(id: \'forms.parsley.invalidEmail\')}'}"
+		                  required="required"
+		                  placeholder="{f:translate(id: 'forms.input.placeholder')}"
+		                  class="form-control"
+		                  id="email"
+		                  property="email"
+		                  type="email" />
+	</div>
+</div>
+<div class="checkbox row">
+	<label for="privacyPolicy">
+		<input data-parsley-id="16"
+		       data-parsley-required-message="{f:translate(id: 'forms.parsley.confirmPrivacyPolicy')}"
+		       required="required"
+		       id="privacyPolicy"
+		       name="privacyPolicy"
+		       value="1"
+		       type="checkbox">
+		<f:translate id="forms.privacyPolicy0" default="I herewith declare my express agreement to the " /><f:link.typolink parameter="15 _blank"><f:translate id="forms.privacyPolicy1" default="data protection provisions" /></f:link.typolink><f:translate id="forms.privacyPolicy2" default=" of ecom instruments GmbH." />
+	</label>
+</div>
+<p><small><f:translate id="forms.mandatoryHint" arguments="{0: 'mandatory'}" /></small></p>

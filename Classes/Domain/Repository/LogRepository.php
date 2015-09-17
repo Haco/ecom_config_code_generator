@@ -28,9 +28,9 @@ namespace S3b0\EcomConfigCodeGenerator\Domain\Repository;
  ***************************************************************/
 
 /**
- * The repository for Currencies
+ * The repository for Logs
  */
-class CurrencyRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
+class LogRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
 
 	/**
 	 * Set repository wide settings

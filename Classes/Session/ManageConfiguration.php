@@ -75,4 +75,12 @@
 			$controller->feSession->store('config', $configuration);
 		}
 
+		/**
+		 * @param \S3b0\EcomConfigCodeGenerator\Controller\BaseController $controller
+		 * @return void
+		 */
+		public static function resetConfiguration(\S3b0\EcomConfigCodeGenerator\Controller\BaseController $controller) {
+			$controller->feSession->store('config', [ ]);
+		}
+
 	}

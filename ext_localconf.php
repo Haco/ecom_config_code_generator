@@ -4,15 +4,21 @@ if (!defined('TYPO3_MODE')) {
 }
 
 \TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
-	'S3b0.' . $_EXTKEY,
+	'S3b0.EcomConfigCodeGenerator',
 	'Generator',
-	[ 'Generator' => 'index, currencySelect, request, reset, setPart' ],
+	[
+		'Generator' => 'index, currencySelect, reset',
+		'Log' => 'new, create, confirmation'
+	],
 	// non-cacheable actions
-	[ 'Generator' => 'index, request, reset, setPart' ]
+	[
+		'Generator' => 'index, reset',
+		'Log' => 'create'
+	]
 );
 
 \TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
-	'S3b0.' . $_EXTKEY,
+	'S3b0.EcomConfigCodeGenerator',
 	'Resolver',
 	[ 'Resolver' => 'list, show' ],
 	// non-cacheable actions

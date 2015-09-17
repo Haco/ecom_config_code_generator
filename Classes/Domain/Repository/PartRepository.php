@@ -32,6 +32,19 @@ namespace S3b0\EcomConfigCodeGenerator\Domain\Repository;
  */
 class PartRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
 
+	/**
+	 * @var array
+	 */
+	protected $defaultOrderings = [
+		'sorting' => \TYPO3\CMS\Extbase\Persistence\QueryInterface::ORDER_ASCENDING
+	];
+
+	/**
+	 * @param array      $list
+	 * @param bool|FALSE $getFirst
+	 *
+	 * @return array|null|object|\TYPO3\CMS\Extbase\Persistence\QueryResultInterface
+	 */
 	public function findByList(array $list, $getFirst = FALSE) {
 		if ( !count($list) )
 			return NULL;

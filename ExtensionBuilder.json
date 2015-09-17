@@ -770,6 +770,7 @@
                         "index",
                         "currencySelect",
                         "request",
+                        "sendRequest",
                         "reset",
                         "setPart"
                     ]
@@ -937,6 +938,199 @@
                     ]
                 }
             }
+        },
+        {
+            "config": {
+                "position": [
+                    1216,
+                    566
+                ]
+            },
+            "name": "New Model Object",
+            "value": {
+                "actionGroup": {
+                    "_default0_list": false,
+                    "_default1_show": false,
+                    "_default2_new_create": true,
+                    "_default3_edit_update": false,
+                    "_default4_delete": false,
+                    "customActions": [
+
+                    ]
+                },
+                "name": "EmailLog",
+                "objectsettings": {
+                    "addDeletedField": false,
+                    "addHiddenField": false,
+                    "addStarttimeEndtimeFields": false,
+                    "aggregateRoot": false,
+                    "categorizable": false,
+                    "description": "",
+                    "mapToTable": "",
+                    "parentClass": "",
+                    "sorting": false,
+                    "type": "Entity",
+                    "uid": "1041990076875"
+                },
+                "propertyGroup": {
+                    "properties": [
+                        {
+                            "allowedFileTypes": "",
+                            "maxItems": "1",
+                            "propertyDescription": "",
+                            "propertyIsExcludeField": false,
+                            "propertyIsRequired": false,
+                            "propertyName": "salutation",
+                            "propertyType": "String",
+                            "uid": "318170475992"
+                        },
+                        {
+                            "allowedFileTypes": "",
+                            "maxItems": "1",
+                            "propertyDescription": "",
+                            "propertyIsExcludeField": true,
+                            "propertyIsRequired": false,
+                            "propertyName": "firstName",
+                            "propertyType": "String",
+                            "uid": "862480407507"
+                        },
+                        {
+                            "allowedFileTypes": "",
+                            "maxItems": "1",
+                            "propertyDescription": "",
+                            "propertyIsExcludeField": true,
+                            "propertyIsRequired": false,
+                            "propertyName": "lastName",
+                            "propertyType": "String",
+                            "uid": "1352281010600"
+                        },
+                        {
+                            "allowedFileTypes": "",
+                            "maxItems": "1",
+                            "propertyDescription": "",
+                            "propertyIsExcludeField": true,
+                            "propertyIsRequired": false,
+                            "propertyName": "subject",
+                            "propertyType": "String",
+                            "uid": "1277270668353"
+                        },
+                        {
+                            "allowedFileTypes": "",
+                            "maxItems": "1",
+                            "propertyDescription": "",
+                            "propertyIsExcludeField": true,
+                            "propertyIsRequired": false,
+                            "propertyName": "message",
+                            "propertyType": "String",
+                            "uid": "1278146177899"
+                        },
+                        {
+                            "allowedFileTypes": "",
+                            "maxItems": "1",
+                            "propertyDescription": "",
+                            "propertyIsExcludeField": true,
+                            "propertyIsRequired": false,
+                            "propertyName": "company",
+                            "propertyType": "String",
+                            "uid": "1407027978620"
+                        },
+                        {
+                            "allowedFileTypes": "",
+                            "maxItems": "1",
+                            "propertyDescription": "",
+                            "propertyIsExcludeField": true,
+                            "propertyIsRequired": false,
+                            "propertyName": "jobTitle",
+                            "propertyType": "String",
+                            "uid": "317700231282"
+                        },
+                        {
+                            "allowedFileTypes": "",
+                            "maxItems": "1",
+                            "propertyDescription": "",
+                            "propertyIsExcludeField": true,
+                            "propertyIsRequired": false,
+                            "propertyName": "address",
+                            "propertyType": "String",
+                            "uid": "700414132442"
+                        },
+                        {
+                            "allowedFileTypes": "",
+                            "maxItems": "1",
+                            "propertyDescription": "",
+                            "propertyIsExcludeField": true,
+                            "propertyIsRequired": false,
+                            "propertyName": "postalCode",
+                            "propertyType": "String",
+                            "uid": "773047957446"
+                        },
+                        {
+                            "allowedFileTypes": "",
+                            "maxItems": "1",
+                            "propertyDescription": "",
+                            "propertyIsExcludeField": true,
+                            "propertyIsRequired": false,
+                            "propertyName": "city",
+                            "propertyType": "String",
+                            "uid": "161288630969"
+                        },
+                        {
+                            "allowedFileTypes": "",
+                            "maxItems": "1",
+                            "propertyDescription": "",
+                            "propertyIsExcludeField": true,
+                            "propertyIsRequired": false,
+                            "propertyName": "phone",
+                            "propertyType": "String",
+                            "uid": "600887949105"
+                        },
+                        {
+                            "allowedFileTypes": "",
+                            "maxItems": "1",
+                            "propertyDescription": "",
+                            "propertyIsExcludeField": true,
+                            "propertyIsRequired": false,
+                            "propertyName": "fax",
+                            "propertyType": "String",
+                            "uid": "122942466078"
+                        },
+                        {
+                            "allowedFileTypes": "",
+                            "maxItems": "1",
+                            "propertyDescription": "",
+                            "propertyIsExcludeField": true,
+                            "propertyIsRequired": false,
+                            "propertyName": "email",
+                            "propertyType": "String",
+                            "uid": "486836071905"
+                        }
+                    ]
+                },
+                "relationGroup": {
+                    "relations": [
+                        {
+                            "foreignRelationClass": "\\Ecom\\EcomToolbox\\Domain\\Model\\Region",
+                            "lazyLoading": false,
+                            "propertyIsExcludeField": false,
+                            "relationDescription": "",
+                            "relationName": "country",
+                            "relationType": "zeroToOne",
+                            "relationWire": "",
+                            "uid": "1331835962952"
+                        },
+                        {
+                            "foreignRelationClass": "\\Ecom\\EcomToolbox\\Domain\\Model\\State",
+                            "lazyLoading": false,
+                            "propertyIsExcludeField": true,
+                            "relationDescription": "",
+                            "relationName": "state",
+                            "relationType": "zeroToOne",
+                            "relationWire": "",
+                            "uid": "321276742962"
+                        }
+                    ]
+                }
+            }
         }
     ],
     "properties": {
@@ -969,8 +1163,8 @@
         "plugins": [
             {
                 "actions": {
-                    "controllerActionCombinations": "Generator => index, currencySelect, request, reset, setPart",
-                    "noncacheableActions": "Generator => index, request, reset, setPart",
+                    "controllerActionCombinations": "Generator => index, currencySelect, request, sendRequest, reset, setPart",
+                    "noncacheableActions": "Generator => index, sendRequest, request, reset, setPart",
                     "switchableActions": ""
                 },
                 "key": "generator",
@@ -1135,7 +1329,7 @@
         }
     ],
     "log": {
-        "last_modified": "2015-09-02 08:52",
+        "last_modified": "2015-09-14 12:23",
         "extension_builder_version": "6.2.0",
         "be_user": "Sebo (6)"
     }
