@@ -267,7 +267,9 @@ class BaseController extends \Ecom\EcomToolbox\Controller\ActionController {
 					}
 				}
 			}
-
+			/**
+			 * Set modal triggers, if any
+			 */
 			if ( $partGroup->hasModals() ) {
 				/** @var \S3b0\EcomConfigCodeGenerator\Domain\Model\Modal $modal */
 				foreach ( $partGroup->getModals() as $modal ) {
@@ -383,29 +385,31 @@ class BaseController extends \Ecom\EcomToolbox\Controller\ActionController {
 
 		/** @var \S3b0\EcomConfigCodeGenerator\Domain\Model\Dependency $dependency */
 		$dependency = $part->getDependency();
-		if ( $dependency instanceof \S3b0\EcomConfigCodeGenerator\Domain\Model\Dependency ) {
-			/** @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage $partGroups */
-			$partGroups = $dependency->getPartGroups();
-			if ( $partGroups instanceof \TYPO3\CMS\Extbase\Persistence\ObjectStorage && $partGroups->count() ) {
-				$dependencyCheck = [ ];
-				/** @var \S3b0\EcomConfigCodeGenerator\Domain\Model\PartGroup $partGroup */
-				foreach ( $partGroups as $partGroup ) {
-					$partGroupCheck = [ ];
-					// If part group has no part selected or dependency has no parts selected for current group
-					if ( !array_key_exists($partGroup->getUid(), $configuration) || $dependency->getPartsByPartGroup($partGroup)->count() === 0 )
-						continue;
-					// Fetch selected parts for comparison
-					$selectedParts = $controller->partRepository->findByList($configuration[$partGroup->getUid()]);
-					// Start actual dependency check
-					if ( $selectedParts instanceof \Countable && $selectedParts->count() ) {
-						// Loop selected parts; fill $partGroupCheck array
-						/** @var \S3b0\EcomConfigCodeGenerator\Domain\Model\Part $selectedPart */
-						foreach ( $selectedParts as $selectedPart ) {
-							$partGroupCheck[] = $dependency->getPartsByPartGroup($partGroup)->contains($selectedPart);
-						}
-					}
-					$dependencyCheck[] = in_array(TRUE, $partGroupCheck);
+		/** @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage $partGroups */
+		$partGroups = $dependency->getPartGroups();
+		if ( $partGroups instanceof \TYPO3\CMS\Extbase\Persistence\ObjectStorage && $partGroups->count() ) {
+			$dependencyCheck = [ ];
+			/** @var \S3b0\EcomConfigCodeGenerator\Domain\Model\PartGroup $partGroup */
+			foreach ( $partGroups as $partGroup ) {
+				$partGroupCheck = [ ];
+				// If part group has no part selected or dependency has no parts selected for current group
+				if ( !array_key_exists($partGroup->getUid(), $configuration) || $dependency->getPartsByPartGroup($partGroup)->count() === 0 ) {
+					continue;
 				}
+				// Fetch selected parts for comparison
+				$selectedParts = $controller->partRepository->findByList($configuration[$partGroup->getUid()]);
+				// Start actual dependency check
+				if ( $selectedParts instanceof \Countable && $selectedParts->count() ) {
+					// Loop selected parts; fill $partGroupCheck array
+					/** @var \S3b0\EcomConfigCodeGenerator\Domain\Model\Part $selectedPart */
+					foreach ( $selectedParts as $selectedPart ) {
+						$partGroupCheck[] = $dependency->getPartsByPartGroup($partGroup)->contains($selectedPart);
+					}
+				}
+				$dependencyCheck[] = in_array(TRUE, $partGroupCheck);
+			}
+			if ( sizeof($dependencyCheck) === $partGroups->count() ) {
+				/** @mode -> 0: explicit deny | 1: explicit allow */
 				$check = $dependency->getMode() === 1 ? !in_array(FALSE, $dependencyCheck) : in_array(FALSE, $dependencyCheck);
 			}
 		}
