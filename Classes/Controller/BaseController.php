@@ -204,6 +204,15 @@ class BaseController extends \Ecom\EcomToolbox\Controller\ActionController {
 		$previous = NULL;  // Previous part group (NEXT as of array_reverse)
 		$cycle = 1;        // Count loop cycles
 		$locked = 0;       // Count locked items, still visible!
+
+		/** @var array $configuredParts Create an array containing all configured part for validation */
+		$configuredParts = [ ];
+		if ( sizeof($configuration) ) {
+			foreach ( $configuration as $partGroupParts ) {
+				$configuredParts = array_merge($configuredParts, (array) $partGroupParts);
+			}
+		}
+
 		/** @var \S3b0\EcomConfigCodeGenerator\Domain\Model\PartGroup $partGroup */
 		foreach ( array_reverse($partGroups->toArray()) as $partGroup ) {
 			/**
@@ -240,7 +249,7 @@ class BaseController extends \Ecom\EcomToolbox\Controller\ActionController {
 						$addMessage = FALSE;
 						/** @var \S3b0\EcomConfigCodeGenerator\Domain\Model\Part $dependentPart */
 						foreach ( $dependentNote->getDependentParts() as $dependentPart ) {
-							if ( is_array($configuration[$partGroup->getUid()]) && in_array($dependentPart->getUid(), $configuration[$partGroup->getUid()]) ) {
+							if ( is_array($configuredParts) && in_array($dependentPart->getUid(), $configuredParts) ) {
 								$addMessage = TRUE;
 								if ( !$logicalAnd ) {
 									break;
@@ -264,7 +273,7 @@ class BaseController extends \Ecom\EcomToolbox\Controller\ActionController {
 				foreach ( $partGroup->getModals() as $modal ) {
 					/** Dependency check */
 					if ( $modal->hasDependentParts() ) {
-						self::checkForModalDependencies($modal, $configuration);
+						self::checkForModalDependencies($modal, $configuredParts);
 					}
 				}
 			}
@@ -383,7 +392,7 @@ class BaseController extends \Ecom\EcomToolbox\Controller\ActionController {
 				foreach ( $partGroups as $partGroup ) {
 					$partGroupCheck = [ ];
 					// If part group has no part selected or dependency has no parts selected for current group
-					if ( !array_key_exists($partGroup->getUid(), $configuration) || sizeof($dependency->getPartsByPartGroup($partGroup)) === 0 )
+					if ( !array_key_exists($partGroup->getUid(), $configuration) || $dependency->getPartsByPartGroup($partGroup)->count() === 0 )
 						continue;
 					// Fetch selected parts for comparison
 					$selectedParts = $controller->partRepository->findByList($configuration[$partGroup->getUid()]);
@@ -406,14 +415,10 @@ class BaseController extends \Ecom\EcomToolbox\Controller\ActionController {
 
 	/**
 	 * @param \S3b0\EcomConfigCodeGenerator\Domain\Model\Modal $modal
-	 * @param array                                            $configuration
+	 * @param array                                            $configuredParts
 	 */
-	protected static function checkForModalDependencies(\S3b0\EcomConfigCodeGenerator\Domain\Model\Modal $modal, array $configuration) {
-		if ( sizeof($configuration) ) {
-			$configuredParts = [ ];
-			foreach ( $configuration as $partGroupParts ) {
-				$configuredParts = array_merge($configuredParts, (array) $partGroupParts);
-			}
+	protected static function checkForModalDependencies(\S3b0\EcomConfigCodeGenerator\Domain\Model\Modal $modal, array $configuredParts) {
+		if ( sizeof($configuredParts) ) {
 			/** @var \S3b0\EcomConfigCodeGenerator\Domain\Model\Part $part */
 			foreach ( $modal->getDependentParts() as $part ) {
 				if ( in_array($part->getUid(), $configuredParts) ) {

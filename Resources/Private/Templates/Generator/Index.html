@@ -23,7 +23,7 @@
 		<div id="configurator-part-group-select-part-index">
 			<div class="configurator" id="configurator-canvas-main">
 				<!-- render part group information -->
-				<f:render partial="PartGroup/Info" arguments="{partGroup: value.currentPartGroup}" />
+				<div id="configurator-part-group-info"><f:render partial="PartGroup/Info" arguments="{partGroup: value.currentPartGroup}" /></div>
 				<div class="clearfix"></div>
 				<!-- parse parts; return selectors -->
 				<f:render partial="PartGroup/Parts" arguments="{parts: value.currentPartGroup.parts}" />

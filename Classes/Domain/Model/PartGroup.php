@@ -156,7 +156,6 @@ class PartGroup extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	 * __construct
 	 */
 	public function __construct() {
-		$this->dependentNotesFluidParsedMessages = new \ArrayObject();
 		$this->initStorageObjects();
 	}
 
@@ -172,6 +171,7 @@ class PartGroup extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 		$this->parts = new \TYPO3\CMS\Extbase\Persistence\ObjectStorage();
 		$this->activeParts = new \TYPO3\CMS\Extbase\Persistence\ObjectStorage();
 		$this->dependentNotes = new \TYPO3\CMS\Extbase\Persistence\ObjectStorage();
+		$this->dependentNotesFluidParsedMessages = new \ArrayObject();
 		$this->modals = new \TYPO3\CMS\Extbase\Persistence\ObjectStorage();
 	}
 
@@ -444,6 +444,9 @@ class PartGroup extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	 * @return void
 	 */
 	public function addDependentNotesFluidParsedMessage($dependentNotesFluidParsedMessages) {
+		if ( !$this->dependentNotesFluidParsedMessages instanceof \ArrayObject ) {
+			$this->dependentNotesFluidParsedMessages = new \ArrayObject();
+		}
 		$this->dependentNotesFluidParsedMessages->append($dependentNotesFluidParsedMessages);
 	}
 
@@ -453,7 +456,14 @@ class PartGroup extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	 * @return string
 	 */
 	public function getDependentNotesFluidParsedMessages() {
-		return $this->dependentNotesFluidParsedMessages instanceof \ArrayAccess ? "<p>{implode('</p><p>', $this->dependentNotesFluidParsedMessages)}</p>" : '';
+		$dependentNotesFluidParsedMessages = '';
+		if ( $this->dependentNotesFluidParsedMessages instanceof \ArrayAccess ) {
+			foreach ( $this->dependentNotesFluidParsedMessages as $dependentNotesFluidParsedMessage ) {
+				$dependentNotesFluidParsedMessages .= "<p>{$dependentNotesFluidParsedMessage}</p>";
+			}
+		}
+
+		return $dependentNotesFluidParsedMessages;
 	}
 
 	/**

@@ -228,7 +228,7 @@ function alterPartGroupInformation(data) {
 		default:
 			if ( data instanceof Object ) {
 				/* Add dependency notes */
-				var addDN = data.dependentNotesFluidParsedMessage !== undefined ? data.dependentNotesFluidParsedMessage : '';
+				var addDN = data.dependentNotesFluidParsedMessages !== undefined ? data.dependentNotesFluidParsedMessages : '';
 				div.html( '<h2>' + data.title + '</h2><p>' + data.prompt + '</p><p>' + addDN + '</p>' ).show();
 			}
 	}

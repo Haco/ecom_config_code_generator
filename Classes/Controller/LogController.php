@@ -71,6 +71,7 @@ class LogController extends \S3b0\EcomConfigCodeGenerator\Controller\GeneratorCo
 	 */
 	protected function initializeCreateAction(){
 		$propertyMappingConfiguration = $this->arguments['newLog']->getPropertyMappingConfiguration();
+		$propertyMappingConfiguration->allowProperties('country');
 		$propertyMappingConfiguration->allowProperties('state');
 	}
 
