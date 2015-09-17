@@ -73,7 +73,7 @@ class GeneratorController extends \S3b0\EcomConfigCodeGenerator\Controller\BaseC
 				$currentPartGroup->getParts(),
 				$configuration
 			);
-			$this->automaticallySetPartIfNoAlternativeExists($currentPartGroup->getParts());
+			$this->automaticallySetPartIfNoAlternativeExists($currentPartGroup->getParts(), $configuration);
 		}
 
 		$jsonData = [

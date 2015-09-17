@@ -264,9 +264,8 @@ class BaseController extends \Ecom\EcomToolbox\Controller\ActionController {
 				foreach ( $partGroup->getModals() as $modal ) {
 					/** Dependency check */
 					if ( $modal->hasDependentParts() ) {
-
+						self::checkForModalDependencies($modal, $configuration);
 					}
-					$modal->getTriggerPart()->setModalTrigger($modal->getUid());
 				}
 			}
 			/**
@@ -406,15 +405,36 @@ class BaseController extends \Ecom\EcomToolbox\Controller\ActionController {
 	}
 
 	/**
+	 * @param \S3b0\EcomConfigCodeGenerator\Domain\Model\Modal $modal
+	 * @param array                                            $configuration
+	 */
+	protected static function checkForModalDependencies(\S3b0\EcomConfigCodeGenerator\Domain\Model\Modal $modal, array $configuration) {
+		if ( sizeof($configuration) ) {
+			$configuredParts = [ ];
+			foreach ( $configuration as $partGroupParts ) {
+				$configuredParts = array_merge($configuredParts, (array) $partGroupParts);
+			}
+			/** @var \S3b0\EcomConfigCodeGenerator\Domain\Model\Part $part */
+			foreach ( $modal->getDependentParts() as $part ) {
+				if ( in_array($part->getUid(), $configuredParts) ) {
+					$modal->getTriggerPart()->setModalTrigger($modal->getUid());
+					break;
+				}
+			}
+		}
+	}
+
+	/**
 	 * @param \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\S3b0\EcomConfigCodeGenerator\Domain\Model\Part> $storage
+	 * @param array                                                                                         $configuration
 	 * @throws \TYPO3\CMS\Extbase\Mvc\Exception\StopActionException
 	 */
-	protected function automaticallySetPartIfNoAlternativeExists(\TYPO3\CMS\Extbase\Persistence\ObjectStorage $storage = NULL) {
+	protected function automaticallySetPartIfNoAlternativeExists(\TYPO3\CMS\Extbase\Persistence\ObjectStorage $storage = NULL, array $configuration) {
 		/** @var \S3b0\EcomConfigCodeGenerator\Domain\Model\Part $part */
 		$part = $storage->toArray()[0];
 		if ( $storage instanceof \TYPO3\CMS\Extbase\Persistence\ObjectStorage && $storage->count() === 1 ) {
-			\S3b0\EcomConfigCodeGenerator\Session\ManageConfiguration::removePartGroupFromConfiguration($this, $part->getPartGroup(), $this->feSession->get('config') ?: [ ]);
-			\S3b0\EcomConfigCodeGenerator\Session\ManageConfiguration::addPartToConfiguration($this, $part, $this->feSession->get('config') ?: [ ]);
+			\S3b0\EcomConfigCodeGenerator\Session\ManageConfiguration::removePartGroupFromConfiguration($this, $part->getPartGroup(), $configuration);
+			\S3b0\EcomConfigCodeGenerator\Session\ManageConfiguration::addPartToConfiguration($this, $part, $configuration);
 
 			$arguments = $this->request->getArguments();
 			ArrayUtility::mergeRecursiveWithOverrule($arguments, [ 'partGroup' => $part->getPartGroup()->getNext() ]);
