@@ -16,9 +16,6 @@ return [
 		'sortby' => 'sorting',
 		'versioningWS' => 2,
 		'versioning_followPages' => TRUE,
-		'languageField' => 'sys_language_uid',
-		'transOrigPointerField' => 'l10n_parent',
-		'transOrigDiffSourceField' => 'l10n_diffsource',
 		'delete' => 'deleted',
 		'requestUpdate' => 'pricing_enabled',
 		'enablecolumns' => [
@@ -30,10 +27,10 @@ return [
 		'iconfile' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath('ecom_config_code_generator') . 'Resources/Public/Icons/tx_ecomconfigcodegenerator_domain_model_configuration.gif'
 	],
 	'interface' => [
-		'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, title, prefix, suffix, part_groups, pricing_enabled, pricing',
+		'showRecordFieldList' => 'hidden, title, prefix, suffix, part_groups, pricing_enabled, pricing',
 	],
 	'types' => [
-		'1' => [ 'showitem' => "sys_language_uid;;;;1-1-1, l10n_parent, l10n_diffsource, hidden;;1, title;;2, --div--;{$translate}tabs.referral, part_groups, --div--;{$translate}tabs.pricing, pricing_enabled, pricing, --div--;LLL:EXT:cms/locallang_ttc.xlf:tabs.access, --palette--;LLL:EXT:cms/locallang_tca.xlf:pages.palettes.access;access" ]
+		'1' => [ 'showitem' => "hidden;;1;;1-1-1, title;;2, --div--;{$translate}tabs.referral, part_groups, --div--;{$translate}tabs.pricing, pricing_enabled, pricing, --div--;LLL:EXT:cms/locallang_ttc.xlf:tabs.access, --palette--;LLL:EXT:cms/locallang_tca.xlf:pages.palettes.access;access" ]
 	],
 	'palettes' => [
 		'1' => [
@@ -49,38 +46,6 @@ return [
 		]
 	],
 	'columns' => [
-
-		'sys_language_uid' => [
-			'exclude' => 1,
-			'label' => 'LLL:EXT:lang/locallang_general.xlf:LGL.language',
-			'config' => [
-				'type' => 'select',
-				'foreign_table' => 'sys_language',
-				'foreign_table_where' => 'ORDER BY sys_language.title',
-				'items' => [
-					[ 'LLL:EXT:lang/locallang_general.xlf:LGL.allLanguages', -1 ],
-					[ 'LLL:EXT:lang/locallang_general.xlf:LGL.default_value', 0 ]
-				],
-			],
-		],
-		'l10n_parent' => [
-			'displayCond' => 'FIELD:sys_language_uid:>:0',
-			'exclude' => 1,
-			'label' => 'LLL:EXT:lang/locallang_general.xlf:LGL.l18n_parent',
-			'config' => [
-				'type' => 'select',
-				'items' => [
-					[ '', 0 ],
-				],
-				'foreign_table' => 'tx_ecomconfigcodegenerator_domain_model_configuration',
-				'foreign_table_where' => 'AND tx_ecomconfigcodegenerator_domain_model_configuration.pid=###CURRENT_PID### AND tx_ecomconfigcodegenerator_domain_model_configuration.sys_language_uid IN (-1,0)',
-			],
-		],
-		'l10n_diffsource' => [
-			'config' => [
-				'type' => 'passthrough',
-			],
-		],
 
 		't3ver_label' => [
 			'label' => 'LLL:EXT:lang/locallang_general.xlf:LGL.versionLabel',

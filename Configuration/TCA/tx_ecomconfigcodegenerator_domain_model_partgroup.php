@@ -180,6 +180,7 @@ return [
 		],
 
 		'title' => [
+			'l10n_mode' => 'prefixLangTitle',
 			'exclude' => 0,
 			'label' => "{$translate}tx_ecomconfigcodegenerator_domain_model_partgroup.title",
 			'config' => [
@@ -189,8 +190,8 @@ return [
 			]
 		],
 		'icon' => [
-			'displayCond' => 'FIELD:settings:BIT:1',
 			'l10n_mode' => 'exclude',
+			'displayCond' => 'FIELD:settings:BIT:1',
 			'exclude' => 1,
 			'label' => "{$translate}tx_ecomconfigcodegenerator_domain_model_partgroup.icon",
 			'config' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::getFileFieldTCAConfig(
@@ -223,6 +224,7 @@ return [
 			)
 		],
 		'place_in_code' => [
+			'l10n_mode' => 'exclude',
 			'exclude' => 1,
 			'label' => "{$translate}tx_ecomconfigcodegenerator_domain_model_partgroup.place_in_code",
 			'config' => [
@@ -244,6 +246,7 @@ return [
 			]
 		],
 		'prompt' => [
+			'l10n_mode' => 'prefixLangTitle',
 			'exclude' => 0,
 			'label' => "{$translate}tx_ecomconfigcodegenerator_domain_model_partgroup.prompt",
 			'config' => [
@@ -264,6 +267,7 @@ return [
 			]
 		],
 		'prompt_wrap' => [
+			'l10n_mode' => 'exclude',
 			'exclude' => 1,
 			'label' => "{$translate}tx_ecomconfigcodegenerator_domain_model_partgroup.prompt_wrap",
 			'config' => [
@@ -278,6 +282,7 @@ return [
 			]
 		],
 		'settings' => [
+			'l10n_mode' => 'exclude',
 			'exclude' => 1,
 			'label' => "{$translate}tx_ecomconfigcodegenerator_domain_model_partgroup.settings",
 			'config' => [
@@ -315,6 +320,7 @@ return [
 			]
 		],
 		'default_part' => [
+			'l10n_mode' => 'exclude',
 			'displayCond' => 'FIELD:settings:!BIT:1',
 			'exclude' => 1,
 			'label' => "{$translate}tx_ecomconfigcodegenerator_domain_model_partgroup.default_part",
@@ -383,6 +389,7 @@ return [
 		],
 
 		'configuration' => [
+			'l10n_mode' => 'exclude',
 			'label' => "{$translate}tx_ecomconfigcodegenerator_domain_model_configuration",
 			'config' => [
 				'type' => 'select',

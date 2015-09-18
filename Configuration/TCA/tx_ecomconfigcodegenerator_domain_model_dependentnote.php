@@ -88,6 +88,7 @@ return [
 		],
 
 		'note' => [
+			'l10n_mode' => 'prefixLangTitle',
 			'exclude' => 0,
 			'label' => "{$translate}tx_ecomconfigcodegenerator_domain_model_dependentnote.note",
 			'config' => [
@@ -108,6 +109,7 @@ return [
 			]
 		],
 		'note_wrap' => [
+			'l10n_mode' => 'exclude',
 			'exclude' => 1,
 			'label' => "{$translate}tx_ecomconfigcodegenerator_domain_model_dependentnote.note_wrap",
 			'config' => [
@@ -122,6 +124,7 @@ return [
 			]
 		],
 		'use_logical_and' => [
+			'l10n_mode' => 'exclude',
 			'exclude' => 1,
 			'label' => '',
 			'config' => [
@@ -132,6 +135,7 @@ return [
 			]
 		],
 		'dependent_parts' => [
+			'l10n_mode' => 'exclude',
 			'exclude' => 1,
 			'label' => "{$translate}tx_ecomconfigcodegenerator_domain_model_dependentnote.dependent_parts",
 			'config' => [
@@ -158,6 +162,7 @@ return [
 		],
 
 		'part_group' => [
+			'l10n_mode' => 'exclude',
 			'label' => "{$translate}tx_ecomconfigcodegenerator_domain_model_partgroup",
 			'config' => [
 				'type' => 'select',

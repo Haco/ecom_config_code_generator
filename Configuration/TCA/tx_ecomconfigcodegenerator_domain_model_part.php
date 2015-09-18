@@ -158,6 +158,7 @@ return [
 		],
 
 		'title' => [
+			'l10n_mode' => 'prefixLangTitle',
 			'exclude' => 0,
 			'label' => "{$translate}tx_ecomconfigcodegenerator_domain_model_part.title",
 			'config' => [
@@ -167,6 +168,7 @@ return [
 			]
 		],
 		'code_segment' => [
+			'l10n_mode' => 'exclude',
 			'exclude' => 0,
 			'label' => "{$translate}tx_ecomconfigcodegenerator_domain_model_part.code_segment",
 			'config' => [
@@ -176,6 +178,7 @@ return [
 			]
 		],
 		'image' => [
+			'l10n_mode' => 'exclude',
 			'exclude' => 1,
 			'label' => "{$translate}tx_ecomconfigcodegenerator_domain_model_part.image",
 			'config' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::getFileFieldTCAConfig(
@@ -208,6 +211,7 @@ return [
 			)
 		],
 		'hint' => [
+			'l10n_mode' => 'prefixLangTitle',
 			'exclude' => 0,
 			'label' => "{$translate}tx_ecomconfigcodegenerator_domain_model_part.hint",
 			'config' => [
@@ -228,6 +232,7 @@ return [
 			]
 		],
 		'dependency' => [
+			'l10n_mode' => 'exclude',
 			'exclude' => 1,
 			'label' => "{$translate}tx_ecomconfigcodegenerator_domain_model_part.dependency",
 			'config' => [
@@ -251,6 +256,7 @@ return [
 			]
 		],
 		'pricing' => [
+			'l10n_mode' => 'exclude',
 			'exclude' => 1,
 			'label' => "{$translate}tx_ecomconfigcodegenerator_domain_model_part.pricing",
 			'config' => [
@@ -274,6 +280,7 @@ return [
 		],
 
 		'part_group' => [
+			'l10n_mode' => 'exclude',
 			'label' => "{$translate}tx_ecomconfigcodegenerator_domain_model_partgroup",
 			'config' => [
 				'type' => 'select',

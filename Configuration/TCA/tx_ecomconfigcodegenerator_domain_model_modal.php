@@ -88,6 +88,7 @@ return [
 		],
 
 		'title' => [
+			'l10n_mode' => 'prefixLangTitle',
 			'exclude' => 0,
 			'label' => "{$translate}tx_ecomconfigcodegenerator_domain_model_modal.title",
 			'config' => [
@@ -97,6 +98,7 @@ return [
 			]
 		],
 		'text' => [
+			'l10n_mode' => 'prefixLangTitle',
 			'exclude' => 0,
 			'label' => "{$translate}tx_ecomconfigcodegenerator_domain_model_modal.text",
 			'config' => [
@@ -117,6 +119,7 @@ return [
 			]
 		],
 		'use_confirmation' => [
+			'l10n_mode' => 'exclude',
 			'exclude' => 1,
 			'label' => '',
 			'config' => [
@@ -127,6 +130,7 @@ return [
 			]
 		],
 		'dependent_parts' => [
+			'l10n_mode' => 'exclude',
 			'exclude' => 1,
 			'label' => "{$translate}tx_ecomconfigcodegenerator_domain_model_modal.dependent_parts",
 			'config' => [
@@ -152,6 +156,7 @@ return [
 			]
 		],
 		'trigger_part' => [
+			'l10n_mode' => 'exclude',
 			'exclude' => 1,
 			'label' => "{$translate}tx_ecomconfigcodegenerator_domain_model_modal.trigger_part",
 			'config' => [
@@ -167,6 +172,7 @@ return [
 		],
 
 		'part_group' => [
+			'l10n_mode' => 'exclude',
 			'label' => "{$translate}tx_ecomconfigcodegenerator_domain_model_partgroup",
 			'config' => [
 				'type' => 'select',

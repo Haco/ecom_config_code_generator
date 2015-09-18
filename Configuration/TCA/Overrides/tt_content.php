@@ -11,6 +11,7 @@ $translate = "LLL:EXT:{$extKey}/Resources/Private/Language/locallang_db.xlf:";
 
 $tempColumns = [
 	'ccg_configuration' => [
+		'l10n_mode' => 'exclude',
 		'exclude' => 1,
 		'label' => "{$translate}tx_ecomconfigcodegenerator_domain_model_content.ccg_configuration",
 		'config' => [
