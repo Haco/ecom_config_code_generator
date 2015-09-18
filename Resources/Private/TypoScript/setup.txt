@@ -13,6 +13,11 @@ plugin.tx_ecomconfigcodegenerator {
 	}
 	settings {
 		webmasterEmail = {$plugin.tx_ecomconfigcodegenerator.settings.webmasterEmail}
+		mail {
+			senderEmail = {$plugin.tx_ecomconfigcodegenerator.settings.mail.senderEmail}
+			senderName = {$plugin.tx_ecomconfigcodegenerator.settings.mail.senderName}
+			confirmationMessage = {$plugin.tx_ecomconfigcodegenerator.settings.mail.confirmationMessage}
+		}
 		log {
 			ipLength = 3
 		}

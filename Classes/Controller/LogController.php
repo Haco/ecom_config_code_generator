@@ -45,7 +45,9 @@ class LogController extends \S3b0\EcomConfigCodeGenerator\Controller\GeneratorCo
 	 *
 	 * @return void
 	 */
-	public function confirmationAction() { }
+	public function confirmationAction() {
+		$this->view->assign('message', $this->contentRepository->findByUid((int) $this->settings['mail']['confirmationMessage']));
+	}
 
 	/**
 	 * action new

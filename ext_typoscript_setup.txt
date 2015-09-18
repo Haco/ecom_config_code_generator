@@ -6,6 +6,7 @@ config.tx_extbase {
           tableName = tt_content
           columns {
             bodytext.mapOnProperty = bodytext
+            header.mapOnProperty = header
           }
         }
       }

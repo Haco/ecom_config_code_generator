@@ -15,5 +15,13 @@ plugin.tx_ecomconfigcodegenerator {
 	settings {
 		# cat=plugin.tx_ecomconfigcodegenerator//general; type=string; label=Webmaster E-Mail address
 		webmasterEmail = webmaster@ecom-ex.com
+		mail {
+			# cat=plugin.tx_ecomconfigcodegenerator//general; type=string; label=E-Mail sender address
+			senderEmail = sales@ecom-ex.com
+			# cat=plugin.tx_ecomconfigcodegenerator//general; type=string; label=E-Mail sender name
+			senderName = ecom instruments GmbH
+			# cat=plugin.tx_ecomconfigcodegenerator//general; type=int+; label=Content object (text) for confirmation page [tt_content]
+			confirmationMessage = 4821
+		}
 	}
 }

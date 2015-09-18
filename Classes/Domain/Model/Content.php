@@ -38,6 +38,11 @@ class Content extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	protected $bodytext = '';
 
 	/**
+	 * @var string
+	 */
+	protected $header = '';
+
+	/**
 	 * Link content element to configuration
 	 *
 	 * @var \S3b0\EcomConfigCodeGenerator\Domain\Model\Configuration
@@ -57,6 +62,20 @@ class Content extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	 */
 	public function setBodytext($bodytext) {
 		$this->bodytext = $bodytext;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getHeader() {
+		return $this->header;
+	}
+
+	/**
+	 * @param string $header
+	 */
+	public function setHeader($header) {
+		$this->header = $header;
 	}
 
 	/**

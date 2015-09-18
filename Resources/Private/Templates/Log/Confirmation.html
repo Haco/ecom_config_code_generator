@@ -2,9 +2,10 @@
 
 <f:section name="main">
 
-	<script type="application/javascript" language="JavaScript">
-		swal("Good job!", "You clicked the button!", "success");
-	</script>
-
+	<h2>{message.header -> f:format.html()}</h2>
+	{message.bodytext -> f:format.html()}
+	<hr />
+	<f:link.page pageUid="{jsData.pageId}" class="btn btn-primary morelink-no-arrow"><i class="fa fa-undo fa-fw"></i> <f:translate id="label.configureAgainButton" default="Configure another %1$s" arguments="{0: contentObject.ccgConfiguration.title}" /></f:link.page>
+	<a id="ccg-fancybox-close-button" href="javascript:$.fancybox.close();" target="_parent" class="btn btn-danger"><f:translate id="label.closeWindow" default="Close window" /> <i class="fa fa-times fa-fw"></i></a>
 
 </f:section>

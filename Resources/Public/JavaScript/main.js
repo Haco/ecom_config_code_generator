@@ -68,7 +68,7 @@ function ccgUpdatePart(preResult) {
 			swal({
 				title: preResult.modals[modal]['title'],
 				text: preResult.modals[modal]['text'],
-				type: "warning",
+				type: "info",
 				html: true,
 				showCancelButton: true,
 				confirmButtonColor: "#43AC6A",
