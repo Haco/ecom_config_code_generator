@@ -49,13 +49,6 @@ class Modal extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	protected $text = '';
 
 	/**
-	 * Use confirm instead of alert
-	 *
-	 * @var boolean
-	 */
-	protected $useConfirmation = FALSE;
-
-	/**
 	 * Part, triggering modal
 	 *
 	 * @var \S3b0\EcomConfigCodeGenerator\Domain\Model\Part
@@ -125,25 +118,6 @@ class Modal extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	 */
 	public function setText($text) {
 		$this->text = $text;
-	}
-
-	/**
-	 * Returns the useConfirmation
-	 *
-	 * @return boolean $useConfirmation
-	 */
-	public function getUseConfirmation() {
-		return $this->useConfirmation;
-	}
-
-	/**
-	 * Sets the useConfirmation
-	 *
-	 * @param boolean $useConfirmation
-	 * @return void
-	 */
-	public function setUseConfirmation($useConfirmation) {
-		$this->useConfirmation = $useConfirmation;
 	}
 
 	/**

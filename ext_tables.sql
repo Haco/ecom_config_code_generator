@@ -204,7 +204,6 @@ CREATE TABLE tx_ecomconfigcodegenerator_domain_model_modal (
 
 	title varchar(255) DEFAULT '' NOT NULL,
 	text text NOT NULL,
-	use_confirmation tinyint(1) unsigned DEFAULT '0' NOT NULL,
 	dependent_parts int(11) unsigned DEFAULT '0' NOT NULL,
 
 	tstamp int(11) unsigned DEFAULT '0' NOT NULL,

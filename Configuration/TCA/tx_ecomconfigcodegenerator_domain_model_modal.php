@@ -34,7 +34,7 @@ return [
 	],
 	'palettes' => [
 		'1' => [ 'showitem' => '' ],
-		'2' => [ 'showitem' => 'dependent_parts, --linebreak--, trigger_part, use_confirmation, part_group', 'canNotCollapse' => TRUE ]
+		'2' => [ 'showitem' => 'dependent_parts, --linebreak--, trigger_part, part_group', 'canNotCollapse' => TRUE ]
 	],
 	'columns' => [
 
@@ -115,17 +115,6 @@ return [
 							'format' => 'html'
 						]
 					]
-				]
-			]
-		],
-		'use_confirmation' => [
-			'l10n_mode' => 'exclude',
-			'exclude' => 1,
-			'label' => '',
-			'config' => [
-				'type' => 'check',
-				'items' => [
-					[ "{$translate}tx_ecomconfigcodegenerator_domain_model_modal.use_confirmation" ]
 				]
 			]
 		],

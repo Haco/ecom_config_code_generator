@@ -6,9 +6,6 @@
 			<trans-unit id="trigger_part.description">
 				<source>Part, triggering modal</source>
 			</trans-unit>
-			<trans-unit id="use_confirmation.description">
-				<source>Use confirm instead of alert</source>
-			</trans-unit>
 			<trans-unit id="dependent_parts.description">
 				<source>Parts the note display depends on</source>
 			</trans-unit>
