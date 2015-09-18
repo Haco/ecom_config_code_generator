@@ -91,7 +91,7 @@ class LogController extends \S3b0\EcomConfigCodeGenerator\Controller\GeneratorCo
 
 		$this->createRecord($newLog);
 
-		$data = $this->getIndexActionData();
+		$data = $this->getConfigurationCode($configuration);
 		if ( $this->settings['mail']['senderEmail'] && GeneralUtility::validEmail($this->settings['mail']['senderEmail']) && $this->settings['mail']['senderName'] ) {
 			$from = [ $this->settings['mail']['senderEmail'] => $this->settings['mail']['senderName'] ];
 		} else {
@@ -108,7 +108,7 @@ class LogController extends \S3b0\EcomConfigCodeGenerator\Controller\GeneratorCo
 			->setTo([ $newLog->getEmail() => "{$newLog->getFirstName()} {$newLog->getLastName()}" ])
 			->setSubject($this->settings['mail']['senderSubject'] ?: LocalizationUtility::translate('mail.toSender.subject', $this->extensionName, [ $data['title'] ]))
 			->setBody($this->getStandAloneTemplate('Email/ToSender', [
-				'value' => $data,
+				'configurationCode' => $data,
 				'log' => $newLog
 			]))
 			->send();
@@ -124,7 +124,7 @@ class LogController extends \S3b0\EcomConfigCodeGenerator\Controller\GeneratorCo
 			->setTo($from)
 			->setSubject($this->settings['mail']['receiverSubject'] ?: LocalizationUtility::translate('mail.toReceiver.subject', $this->extensionName, [ $data['title'] ]))
 			->setBody($this->getStandAloneTemplate('Email/ToReceiver', [
-				'value' => $data,
+				'configurationCode' => $data,
 				'log' => $newLog
 			]))
 			->send();

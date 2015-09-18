@@ -3,7 +3,7 @@
 		<td>
 			Following data has been provided:<br /><br />
 			<table>
-				<tr><td><f:translate id="mail.field.salutation" default="Salutation" extensionName="ecom_config_code_generator" /> </td><td>{log.salutation}</td></tr>
+				<tr><td><f:translate id="mail.field.salutation" default="Salutation" extensionName="ecom_config_code_generator" /> </td><td>{log.salutation}.</td></tr>
 				<tr><td><f:translate id="mail.field.first_name" default="First Name" extensionName="ecom_config_code_generator" /> </td><td>{log.firstName}</td></tr>
 				<tr><td><f:translate id="mail.field.last_name" default="Last Name" extensionName="ecom_config_code_generator" /> </td><td>{log.lastName}</td></tr>
 				<tr><td><f:translate id="mail.field.subject" default="Subject" extensionName="ecom_config_code_generator" /> </td><td>{log.subject}</td></tr>
@@ -26,12 +26,12 @@
 		<td><h2>Configuration</h2></td>
 	</tr>
 	<tr>
-		<td><h4>{value.configurationCode.blankCode}</h4></td>
+		<td><h4>{configurationCode.blankCode}</h4></td>
 	</tr>
 	<tr>
 		<td>
-			<h3>{value.title}</h3>
-			{value.configurationCode.summaryTableMail -> f:format.html()}
+			<h3>{title}</h3>
+			{configurationCode.summaryTableMail -> f:format.html()}
 		</td>
 	</tr>
 </table>

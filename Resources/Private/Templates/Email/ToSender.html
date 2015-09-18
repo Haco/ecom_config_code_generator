@@ -5,10 +5,10 @@
 	<tr><td>&nbsp;</td></tr>
 	<tr>
 		<td>
-			<f:translate id="mail.hello" extensionName="ecom_config_code_generator" default="Hello %1$s %2$s," arguments="{0: log.salutation, 1: log.lastName}" /><br />
+			<f:translate id="mail.hello" extensionName="ecom_config_code_generator" default="Hello %1$s %2$s," arguments="{0: '{log.salutation}.', 1: log.lastName}" /><br />
 			<f:translate id="mail.toSender.receivedMessage" extensionName="ecom_config_code_generator" default="we received this message from you:" /><br /><br />
 			<table>
-				<tr><td><f:translate id="mail.field.salutation" default="Salutation" extensionName="ecom_config_code_generator" /> </td><td>{log.salutation}</td></tr>
+				<tr><td><f:translate id="mail.field.salutation" default="Salutation" extensionName="ecom_config_code_generator" /> </td><td>{log.salutation}.</td></tr>
 				<tr><td><f:translate id="mail.field.first_name" default="First Name" extensionName="ecom_config_code_generator" /> </td><td>{log.firstName}</td></tr>
 				<tr><td><f:translate id="mail.field.last_name" default="Last Name" extensionName="ecom_config_code_generator" /> </td><td>{log.lastName}</td></tr>
 				<tr><td><f:translate id="mail.field.subject" default="Subject" extensionName="ecom_config_code_generator" /> </td><td>{log.subject}</td></tr>
@@ -31,12 +31,12 @@
 		<td><h2><f:translate id="mail.toSender.configurationHeadline" default="Your Configuration:" /></h2></td>
 	</tr>
 	<tr>
-		<td><h4>{value.configurationCode.blankCode}</h4></td>
+		<td><h4>{configurationCode.blankCode}</h4></td>
 	</tr>
 	<tr>
 		<td>
-			<h3>{value.title}</h3>
-			{value.configurationCode.summaryTableMail -> f:format.html()}
+			<h3>{title}</h3>
+			{configurationCode.summaryTableMail -> f:format.html()}
 		</td>
 	</tr>
 </table>
