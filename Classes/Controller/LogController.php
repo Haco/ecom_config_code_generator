@@ -27,6 +27,7 @@ namespace S3b0\EcomConfigCodeGenerator\Controller;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 
 /**
  * LogController
@@ -90,42 +91,45 @@ class LogController extends \S3b0\EcomConfigCodeGenerator\Controller\GeneratorCo
 
 		$this->createRecord($newLog);
 
-/*		$data = $this->getIndexActionData();
-		$formData = GeneralUtility::_POST();
+		$data = $this->getIndexActionData();
 		if ( $this->settings['mail']['senderEmail'] && GeneralUtility::validEmail($this->settings['mail']['senderEmail']) && $this->settings['mail']['senderName'] ) {
 			$from = [ $this->settings['mail']['senderEmail'] => $this->settings['mail']['senderName'] ];
 		} else {
 			$from = \TYPO3\CMS\Core\Utility\MailUtility::getSystemFrom();
-		}*/
-		/** @var \TYPO3\CMS\Core\Mail\MailMessage $mail */
-		$mail = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\TYPO3\CMS\Core\Mail\MailMessage::class);
-		$mail->setContentType('text/html');
+		}
+		/** @var \TYPO3\CMS\Core\Mail\MailMessage $mailToSender */
+		$mailToSender = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\TYPO3\CMS\Core\Mail\MailMessage::class);
+		$mailToSender->setContentType('text/html');
 
 		/**
 		 * Email to sender
 		 */
-/*		$mail->setFrom($from)
-			->setTo([ $formData['email'] => "{$formData['first_name']} {$formData['last_name']}" ])
-			->setSubject($this->settings['mail']['senderSubject'] ?: "Your {$data['title']} request")
+		$mailToSender->setFrom($from)
+			->setTo([ $newLog->getEmail() => "{$newLog->getFirstName()} {$newLog->getLastName()}" ])
+			->setSubject($this->settings['mail']['senderSubject'] ?: LocalizationUtility::translate('mail.toSender.subject', $this->extensionName, [ $data['title'] ]))
 			->setBody($this->getStandAloneTemplate('Email/ToSender', [
 				'value' => $data,
-				'formData' => $formData
+				'log' => $newLog
 			]))
-			->send();*/
+			->send();
+
+		/** @var \TYPO3\CMS\Core\Mail\MailMessage $mailToReceiver */
+		$mailToReceiver = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\TYPO3\CMS\Core\Mail\MailMessage::class);
+		$mailToReceiver->setContentType('text/html');
 
 		/**
 		 * Email to receiver
 		 */
-		/*		$mail->setFrom([ $formData['email'] => "{$formData['first_name']} {$formData['last_name']}" ])
-					->setTo($from)
-					->setSubject($this->settings['mail']['receiverSubject'] ?: "New {$data['title']} request")
-					->setBody($this->getStandAloneTemplate('Email/ToReceiver', [
-						'value' => $data,
-						'formData' => $formData
-					]))
-					->send();*/
+		$mailToReceiver->setFrom([ $newLog->getEmail() => "{$newLog->getFirstName()} {$newLog->getLastName()}" ])
+			->setTo($from)
+			->setSubject($this->settings['mail']['receiverSubject'] ?: LocalizationUtility::translate('mail.toReceiver.subject', $this->extensionName, [ $data['title'] ]))
+			->setBody($this->getStandAloneTemplate('Email/ToReceiver', [
+				'value' => $data,
+				'log' => $newLog
+			]))
+			->send();
 
-		#	\S3b0\EcomConfigCodeGenerator\Session\ManageConfiguration::resetConfiguration($this);
+		\S3b0\EcomConfigCodeGenerator\Session\ManageConfiguration::resetConfiguration($this);
 
 		$this->redirect('confirmation');
 	}

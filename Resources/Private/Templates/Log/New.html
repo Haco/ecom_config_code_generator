@@ -36,11 +36,11 @@
 			var $RequestButton = $('#ccg-request-submit'),
 				resetTimeout = 40000,
 				defaultText = "<i class=\"fa fa-envelope fa-fw\"></i> {f:translate(id : 'label.requestButton')}",
-				loadingText = "{f:translate(id : 'label.requestButton')}... <i class=\"fa fa-spinner fa-fw fa-pulse\"></i>";
+				loadingText = "{f:translate(id : 'label.requestButton')}... <i class=\"fa fa-circle-o-notch fa-fw fa-spin\"></i>";
 			$RequestButton.attr('data-loading-text', loadingText);
 
 			function resetButton() {
-				$RequestButton.removeAttr('disabled').removeClass('disabled').html(defaultText);
+				$RequestButton.removeAttr('disabled').removeClass('disabled morelink-no-arrow').html(defaultText);
 			}
 
 			if ( $RequestButton.hasClass('disabled') )
@@ -49,7 +49,7 @@
 			$RequestButton.on('click', function() {
 				// If form is valid
 				if ( $('form#newLog').parsley().isValid() ) {
-					$(this).button('loading');
+					$(this).button('loading').addClass('morelink-no-arrow');
 					setTimeout(function () {
 						resetButton();
 					}, resetTimeout);
