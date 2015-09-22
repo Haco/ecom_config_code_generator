@@ -16,6 +16,8 @@ plugin.tx_ecomconfigcodegenerator {
 		# cat=plugin.tx_ecomconfigcodegenerator//general; type=string; label=Webmaster E-Mail address
 		webmasterEmail = webmaster@ecom-ex.com
 		mail {
+			# cat=plugin.tx_ecomconfigcodegenerator//general; type=string; label=No reply address
+			noReplyEmail = noreply@ecom-ex.com
 			# cat=plugin.tx_ecomconfigcodegenerator//general; type=string; label=E-Mail sender address
 			senderEmail = sales@ecom-ex.com
 			# cat=plugin.tx_ecomconfigcodegenerator//general; type=string; label=E-Mail sender name

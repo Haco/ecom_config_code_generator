@@ -26,6 +26,7 @@ namespace S3b0\EcomConfigCodeGenerator\Controller;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
+use In2code\Powermail\Utility\SessionUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 
@@ -60,7 +61,7 @@ class LogController extends \S3b0\EcomConfigCodeGenerator\Controller\GeneratorCo
 		$data = $this->getIndexActionData();
 
 		if ( $data['progress'] < 1 ) {
-			$this->redirect('index');
+			$this->redirect('index', 'Generator');
 		}
 		$this->view->assignMultiple([
 			'newLog' => $newLog,
@@ -93,11 +94,15 @@ class LogController extends \S3b0\EcomConfigCodeGenerator\Controller\GeneratorCo
 
 		$this->createRecord($newLog);
 
+		$noReply = NULL;
 		$data = $this->getConfigurationCode($configuration);
+		if ( $this->settings['mail']['noReplyEmail'] && GeneralUtility::validEmail($this->settings['mail']['noReplyEmail']) && $this->settings['mail']['senderName'] ) {
+			$noReply = [ $this->settings['mail']['noReplyEmail'] => $this->settings['mail']['senderName'] ];
+		}
 		if ( $this->settings['mail']['senderEmail'] && GeneralUtility::validEmail($this->settings['mail']['senderEmail']) && $this->settings['mail']['senderName'] ) {
-			$from = [ $this->settings['mail']['senderEmail'] => $this->settings['mail']['senderName'] ];
+			$sender = [ $this->settings['mail']['senderEmail'] => $this->settings['mail']['senderName'] ];
 		} else {
-			$from = \TYPO3\CMS\Core\Utility\MailUtility::getSystemFrom();
+			$sender = \TYPO3\CMS\Core\Utility\MailUtility::getSystemFrom();
 		}
 		/** @var \TYPO3\CMS\Core\Mail\MailMessage $mailToSender */
 		$mailToSender = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\TYPO3\CMS\Core\Mail\MailMessage::class);
@@ -106,7 +111,7 @@ class LogController extends \S3b0\EcomConfigCodeGenerator\Controller\GeneratorCo
 		/**
 		 * Email to sender
 		 */
-		$mailToSender->setFrom($from)
+		$mailToSender->setFrom($noReply ?: $sender)
 			->setTo([ $newLog->getEmail() => "{$newLog->getFirstName()} {$newLog->getLastName()}" ])
 			->setSubject($this->settings['mail']['senderSubject'] ?: LocalizationUtility::translate('mail.toSender.subject', $this->extensionName, [ $data['title'] ]))
 			->setBody($this->getStandAloneTemplate('Email/ToSender', [
@@ -123,11 +128,12 @@ class LogController extends \S3b0\EcomConfigCodeGenerator\Controller\GeneratorCo
 		 * Email to receiver
 		 */
 		$mailToReceiver->setFrom([ $newLog->getEmail() => "{$newLog->getFirstName()} {$newLog->getLastName()}" ])
-			->setTo($from)
+			->setTo($sender)
 			->setSubject($this->settings['mail']['receiverSubject'] ?: LocalizationUtility::translate('mail.toReceiver.subject', $this->extensionName, [ $data['title'] ]))
 			->setBody($this->getStandAloneTemplate('Email/ToReceiver', [
 				'configurationCode' => $data,
-				'log' => $newLog
+				'log' => $newLog,
+				'marketingInformation' => SessionUtility::getMarketingInfos()
 			]))
 			->send();
 

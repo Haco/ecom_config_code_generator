@@ -14,6 +14,7 @@ plugin.tx_ecomconfigcodegenerator {
 	settings {
 		webmasterEmail = {$plugin.tx_ecomconfigcodegenerator.settings.webmasterEmail}
 		mail {
+			noReplyEmail = {$plugin.tx_ecomconfigcodegenerator.settings.mail.noReplyEmail}
 			senderEmail = {$plugin.tx_ecomconfigcodegenerator.settings.mail.senderEmail}
 			senderName = {$plugin.tx_ecomconfigcodegenerator.settings.mail.senderName}
 			confirmationMessage = {$plugin.tx_ecomconfigcodegenerator.settings.mail.confirmationMessage}
