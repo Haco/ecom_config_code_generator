@@ -115,6 +115,7 @@ class LogController extends \S3b0\EcomConfigCodeGenerator\Controller\GeneratorCo
 			->setTo([ $newLog->getEmail() => "{$newLog->getFirstName()} {$newLog->getLastName()}" ])
 			->setSubject($this->settings['mail']['senderSubject'] ?: LocalizationUtility::translate('mail.toSender.subject', $this->extensionName, [ $data['title'] ]))
 			->setBody($this->getStandAloneTemplate('Email/ToSender', [
+				'title' => $this->contentObject->getCcgConfiguration()->getTitle(),
 				'configurationCode' => $data,
 				'log' => $newLog
 			]))
@@ -131,6 +132,7 @@ class LogController extends \S3b0\EcomConfigCodeGenerator\Controller\GeneratorCo
 			->setTo($sender)
 			->setSubject($this->settings['mail']['receiverSubject'] ?: LocalizationUtility::translate('mail.toReceiver.subject', $this->extensionName, [ $data['title'] ]))
 			->setBody($this->getStandAloneTemplate('Email/ToReceiver', [
+				'title' => $this->contentObject->getCcgConfiguration()->getTitle(),
 				'configurationCode' => $data,
 				'log' => $newLog,
 				'marketingInformation' => SessionUtility::getMarketingInfos()

@@ -493,8 +493,8 @@ class BaseController extends \Ecom\EcomToolbox\Controller\ActionController {
 				");
 			}
 		}
-		ksort($code);
-		ksort($blankCode);
+		ksort($code);      // Order code either incremental or by place in code
+		ksort($blankCode); // Order code either incremental or by place in code
 
 		return [
 			'code' => $this->contentObject->getCcgConfiguration()->getPrefix() . implode('', $code) . $this->contentObject->getCcgConfiguration()->getSuffix(),
