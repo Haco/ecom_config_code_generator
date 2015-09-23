@@ -1,6 +1,6 @@
 <div class="ecom-configurator-configurator-head">
 	<div class="ecom-configurator-config-header-instructions" id="ecom-configurator-ajax-header-instructions">{value.instructions -> f:format.html()}</div>
-	<f:if condition="{pricing}">
+	<f:if condition="{pricingEnabled}">
 		<div class="configurator-config-header-price-table">
 			<table>
 				<thead>
@@ -8,12 +8,21 @@
 				</thead>
 				<tbody>
 					<tr class="align-center">
-						<td>{value.pricing.basePrice}</td>
-						<td><span id="configurator-config-header-config-price">{value.pricing.configPrice}</span></td>
+						<td>{contentObject.ccgConfiguration.currencyPricing}</td>
+						<td><span id="configurator-config-header-config-price">{contentObject.ccgConfiguration.configurationPricing}</span></td>
 					</tr>
 				</tbody>
 			</table>
 		</div>
+		<select onchange="this.options[this.selectedIndex].value && (window.location = this.options[this.selectedIndex].value);">
+			<option value="">Select...</option>
+			<f:for each="{currencies}" as="currency">
+				<f:if condition="{currency} == {currencyActive}">
+					<f:then><option value="" class="disabled" selected="selected">{currency.title}</option></f:then>
+					<f:else><option value="{f:uri.page(additionalParams: '{currency: currency.uid}', noCacheHash: 1)}">{currency.title}</option></f:else>
+				</f:if>
+			</f:for>
+		</select>
 	</f:if>
 	<div class="clearfix" style="clear: both;"></div>
 </div>

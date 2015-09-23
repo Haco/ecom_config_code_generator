@@ -85,7 +85,7 @@ class ModifyTCA extends \TYPO3\CMS\Backend\Form\FormEngine {
 					);
 				}
 			}
-			$PA['fieldConf']['config']['items'][(int) log(\S3b0\EcomConfigCodeGenerator\Setup::BIT_CURRENCY_IS_DEFAULT, 2)][0] = '!!! FLAG ALREADY SET !!! This will cause a break in plugin functionality! Saving twice will set the flag at current record and unset flag at the other records!';
+			$PA['fieldConf']['config']['items'][(int) log(\S3b0\EcomConfigCodeGenerator\Setup::BIT_CURRENCY_IS_DEFAULT, 2)][0] = '!!! FLAG ALREADY SET !!! This will cause a break in plugin functionality! Save twice to set flag at current record!';
 		}
 
 		// Disable for non-admins

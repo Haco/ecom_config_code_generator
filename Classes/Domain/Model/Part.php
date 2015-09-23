@@ -80,7 +80,22 @@ class Part extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	 * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\S3b0\EcomConfigCodeGenerator\Domain\Model\Price>
 	 * @cascade remove
 	 */
-	protected $pricing = NULL;
+	public $pricing = NULL;
+
+	/**
+	 * @var \S3b0\EcomConfigCodeGenerator\Domain\Model\Price
+	 */
+	public $currencyPricing = NULL;
+
+	/**
+	 * @var integer
+	 */
+	public $noCurrencyPricing = 0;
+
+	/**
+	 * @var string
+	 */
+	public $differencePricing = '';
 
 	/**
 	 * @var \S3b0\EcomConfigCodeGenerator\Domain\Model\PartGroup
@@ -256,6 +271,48 @@ class Part extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	 */
 	public function setPricing(\TYPO3\CMS\Extbase\Persistence\ObjectStorage $pricing) {
 		$this->pricing = $pricing;
+	}
+
+	/**
+	 * @return \S3b0\EcomConfigCodeGenerator\Domain\Model\Price $currencyPricing
+	 */
+	public function getCurrencyPricing() {
+		return $this->currencyPricing;
+	}
+
+	/**
+	 * @param \S3b0\EcomConfigCodeGenerator\Domain\Model\Currency $currency
+	 */
+	public function setCurrencyPricing(\S3b0\EcomConfigCodeGenerator\Domain\Model\Currency $currency = NULL) {
+		\S3b0\EcomConfigCodeGenerator\Utility\PriceHandler::getPriceInCurrency($this, $currency);
+	}
+
+	/**
+	 * @return integer
+	 */
+	public function getNoCurrencyPricing() {
+		return $this->noCurrencyPricing;
+	}
+
+	/**
+	 * @param integer $noCurrencyPricing
+	 */
+	public function setNoCurrencyPricing($noCurrencyPricing) {
+		$this->noCurrencyPricing = $noCurrencyPricing;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getDifferencePricing() {
+		return $this->differencePricing;
+	}
+
+	/**
+	 * @param string $differencePricing
+	 */
+	public function setDifferencePricing($differencePricing) {
+		$this->differencePricing = $differencePricing;
 	}
 
 	/**

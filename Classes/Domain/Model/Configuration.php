@@ -75,7 +75,22 @@ class Configuration extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	 * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\S3b0\EcomConfigCodeGenerator\Domain\Model\Price>
 	 * @cascade remove
 	 */
-	protected $pricing = NULL;
+	public $pricing = NULL;
+
+	/**
+	 * @var string
+	 */
+	public $currencyPricing = '';
+
+	/**
+	 * @var integer
+	 */
+	public $noCurrencyPricing = 0;
+
+	/**
+	 * @var string
+	 */
+	public $configurationPricing = '';
 
 	/**
 	 * __construct
@@ -259,6 +274,48 @@ class Configuration extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	 */
 	public function setPricing(\TYPO3\CMS\Extbase\Persistence\ObjectStorage $pricing) {
 		$this->pricing = $pricing;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getCurrencyPricing() {
+		return $this->currencyPricing;
+	}
+
+	/**
+	 * @param \S3b0\EcomConfigCodeGenerator\Domain\Model\Currency $currency
+	 */
+	public function setCurrencyPricing(\S3b0\EcomConfigCodeGenerator\Domain\Model\Currency $currency = NULL) {
+		\S3b0\EcomConfigCodeGenerator\Utility\PriceHandler::getPriceInCurrency($this, $currency);
+	}
+
+	/**
+	 * @return integer
+	 */
+	public function getNoCurrencyPricing() {
+		return $this->noCurrencyPricing;
+	}
+
+	/**
+	 * @param integer $noCurrencyPricing
+	 */
+	public function setNoCurrencyPricing($noCurrencyPricing) {
+		$this->noCurrencyPricing = $noCurrencyPricing;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getConfigurationPricing() {
+		return $this->configurationPricing;
+	}
+
+	/**
+	 * @param string $configurationPricing
+	 */
+	public function setConfigurationPricing($configurationPricing) {
+		$this->configurationPricing = $configurationPricing;
 	}
 
 }

@@ -282,7 +282,7 @@ class Currency extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	/**
 	 * @return bool
 	 */
-	public function isNumberSeparatorsInUSFormat() {
+	public function isNumberSeparatorInUSFormat() {
 		return $this->settings & 8;
 	}
 

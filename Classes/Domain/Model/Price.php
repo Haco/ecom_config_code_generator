@@ -70,7 +70,7 @@ class Price extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	/**
 	 * Returns the currency
 	 *
-	 * @return \S3b0\EcomConfigCodeGenerator\Domain\Model\Currency $currency
+	 * @return \S3b0\EcomConfigCodeGenerator\Domain\Model\Currency|\TYPO3\CMS\Extbase\Persistence\Generic\LazyLoadingProxy $currency
 	 */
 	public function getCurrency() {
 		return $this->currency;

@@ -127,6 +127,11 @@ class BaseController extends \Ecom\EcomToolbox\Controller\ActionController {
 	protected $pricing = FALSE;
 
 	/**
+	 * @var \S3b0\EcomConfigCodeGenerator\Domain\Model\Currency
+	 */
+	protected $currency = NULL;
+
+	/**
 	 * Initializes the controller before invoking an action method.
 	 *
 	 * Override this method to solve tasks which all actions have in
@@ -150,7 +155,7 @@ class BaseController extends \Ecom\EcomToolbox\Controller\ActionController {
 		if ( !$this->configuration->getPartGroups()->count() )
 			$this->throwStatus(404, NULL, '<h1>' . LocalizationUtility::translate('404.noPartGroups', $this->extensionName) . '</h1>' . LocalizationUtility::translate('404.message.noPartGroups', $this->extensionName, [ "<a href=\"mailto:{$this->settings['webmasterEmail']}\">{$this->settings['webmasterEmail']}</a>" ]));
 
-		$this->pricing = $this->configuration->isPricingEnabled() && \Ecom\EcomToolbox\Security\Frontend::checkForUserRoles($this->settings['accessPricing']);
+		$this->pricing = $this->configuration->isPricingEnabled()/* && \Ecom\EcomToolbox\Security\Frontend::checkForUserRoles($this->settings['accessPricing'])*/;
 
 		// Frontend-Session
 		$this->feSession->setStorageKey(Setup::getSessionStorageKey($this->contentObject));
@@ -160,11 +165,17 @@ class BaseController extends \Ecom\EcomToolbox\Controller\ActionController {
 			$this->redirectToUri($this->uriBuilder->build());
 		}
 		// Set currency, if any
-		if ( GeneralUtility::_GET('currency') && !$this->feSession->get('currency') )
+		if ( GeneralUtility::_GET('currency') ) {
 			$this->feSession->store('currency', GeneralUtility::_GET('currency'));
+			$this->redirectToUri($this->uriBuilder->build());
+		}
 		// Redirect to currency selection if pricing enabled
 		if ( $this->pricing && $this->request->getControllerActionName() != 'currencySelect' && !$this->feSession->get('currency') )
 			$this->forward('currencySelect');
+		if ( $this->pricing && $this->feSession->get('currency') && MathUtility::canBeInterpretedAsInteger($this->feSession->get('currency')) ) {
+			$this->currency = $this->currencyRepository->findByUid($this->feSession->get('currency'));
+			$this->contentObject->getCcgConfiguration()->setCurrencyPricing($this->currency);
+		}
 	}
 
 	/**
@@ -179,14 +190,22 @@ class BaseController extends \Ecom\EcomToolbox\Controller\ActionController {
 	 * @api
 	 */
 	public function initializeView(\TYPO3\CMS\Extbase\Mvc\View\ViewInterface $view) {
-		$this->view->assign('contentObject', $this->contentObject);
-		$this->view->assign('pricingEnabled', $this->pricing);
-		$this->view->assign('jsData', [
-			'controller' => $this->request->getControllerName(),
-			'pageId' => $GLOBALS['TSFE']->id,
-			'contentObject' => $this->contentObject->_getProperty('_localizedUid'),
-			'sysLanguage' => (int) $GLOBALS['TSFE']->sys_language_content
+		$this->view->assignMultiple([
+			'contentObject' => $this->contentObject,
+			'pricingEnabled' => $this->pricing,
+			'jsData' => [
+				'pageId' => $GLOBALS['TSFE']->id,
+				'controller' => $this->request->getControllerName(),
+				'sysLanguage' => (int) $GLOBALS['TSFE']->sys_language_content,
+				'contentObject' => $this->contentObject->_getProperty('_localizedUid')
+			]
 		]);
+		if ( $this->pricing ) {
+			$this->view->assignMultiple([
+				'currencyActive' => $this->currency,
+				'currencies' => $this->currencyRepository->findAll()
+			]);
+		}
 	}
 
 	/**
