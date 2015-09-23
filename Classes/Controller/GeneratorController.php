@@ -84,6 +84,7 @@ class GeneratorController extends \S3b0\EcomConfigCodeGenerator\Controller\BaseC
 			'progressPercentage' => $progress * 100,
 			'partGroups' => $partGroups,
 			'currentPartGroup' => $currentPartGroup,
+			'nextPartGroup' => $currentPartGroup instanceof \S3b0\EcomConfigCodeGenerator\Domain\Model\PartGroup && $currentPartGroup->getNext() instanceof \S3b0\EcomConfigCodeGenerator\Domain\Model\PartGroup ? $currentPartGroup->getNext()->getUid() : 0,
 			'modals' => $modals,
 			'showResultingConfiguration' => $progress === 1 && !$checkIfPartGroupArgumentIsSet
 		];

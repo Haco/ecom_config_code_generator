@@ -8,16 +8,20 @@
 
 	namespace S3b0\EcomConfigCodeGenerator\Session;
 
-
+	/**
+	 * Class ManageConfiguration
+	 * @package S3b0\EcomConfigCodeGenerator\Session
+	 */
 	class ManageConfiguration {
 
 		/**
 		 * @param \S3b0\EcomConfigCodeGenerator\Controller\BaseController $controller
-		 * @param \S3b0\EcomConfigCodeGenerator\Domain\Model\Part           $part
-		 * @param array                                                     $configuration
+		 * @param \S3b0\EcomConfigCodeGenerator\Domain\Model\Part         $part
+		 * @param array                                                   $configuration
+		 * @param boolean                                                 $setPartGroupActive
 		 * @return void
 		 */
-		public static function addPartToConfiguration(\S3b0\EcomConfigCodeGenerator\Controller\BaseController $controller, \S3b0\EcomConfigCodeGenerator\Domain\Model\Part &$part, array &$configuration) {
+		public static function addPartToConfiguration(\S3b0\EcomConfigCodeGenerator\Controller\BaseController $controller, \S3b0\EcomConfigCodeGenerator\Domain\Model\Part &$part, array &$configuration, $setPartGroupActive = TRUE) {
 			$temp = &$configuration[$part->getPartGroup()->getUid()];
 
 			// Add part
@@ -26,7 +30,7 @@
 			}
 			$temp[$part->getSorting()] = $part->getUid();
 			$part->setActive(TRUE);
-			$part->getPartGroup()->setActive(TRUE);
+			$part->getPartGroup()->setActive($setPartGroupActive);
 			$part->getPartGroup()->addActivePart($part);
 
 			$controller->feSession->store('config', $configuration);
@@ -34,8 +38,8 @@
 
 		/**
 		 * @param \S3b0\EcomConfigCodeGenerator\Controller\BaseController $controller
-		 * @param \S3b0\EcomConfigCodeGenerator\Domain\Model\Part           $part
-		 * @param array                                                     $configuration
+		 * @param \S3b0\EcomConfigCodeGenerator\Domain\Model\Part         $part
+		 * @param array                                                   $configuration
 		 * @return void
 		 */
 		public static function removePartFromConfiguration(\S3b0\EcomConfigCodeGenerator\Controller\BaseController $controller, \S3b0\EcomConfigCodeGenerator\Domain\Model\Part &$part, array &$configuration) {
@@ -58,8 +62,8 @@
 
 		/**
 		 * @param \S3b0\EcomConfigCodeGenerator\Controller\BaseController $controller
-		 * @param \S3b0\EcomConfigCodeGenerator\Domain\Model\PartGroup      $partGroup
-		 * @param array                                                     $configuration
+		 * @param \S3b0\EcomConfigCodeGenerator\Domain\Model\PartGroup    $partGroup
+		 * @param array                                                   $configuration
 		 * @return void
 		 */
 		public static function removePartGroupFromConfiguration(\S3b0\EcomConfigCodeGenerator\Controller\BaseController $controller, \S3b0\EcomConfigCodeGenerator\Domain\Model\PartGroup &$partGroup, array &$configuration) {

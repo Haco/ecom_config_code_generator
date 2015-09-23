@@ -679,4 +679,15 @@ class PartGroup extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 		$this->selectable = $selectable;
 	}
 
+	/**
+	 * reset function
+	 */
+	public function reset() {
+		$this->dependentNotesFluidParsedMessages = new \ArrayObject();
+		$this->active = FALSE;
+		$this->current = FALSE;
+		$this->next = NULL;
+		$this->selectable = TRUE;
+	}
+
 }

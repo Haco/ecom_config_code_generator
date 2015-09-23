@@ -100,7 +100,8 @@ class AjaxRequestController extends \S3b0\EcomConfigCodeGenerator\Controller\Gen
 			\S3b0\EcomConfigCodeGenerator\Session\ManageConfiguration::removePartFromConfiguration($this, $part, $configuration);
 		}
 
-		$data = parent::getIndexActionData();
+		$arguments = $part->getPartGroup()->isMultipleSelectable() ? [ $part->getPartGroup() ] : [ ];
+		$data = parent::getIndexActionData($arguments);
 		$data['part'] = $part;
 		$data['multiple'] = $part->getPartGroup()->isMultipleSelectable();
 

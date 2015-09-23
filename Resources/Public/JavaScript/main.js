@@ -103,15 +103,21 @@ function ccgUpdatePartExec(part, unset) {
 /**
  * Update index view only (switch between packages)
  */
-function ccgIndex() {
-	$('.configurator-part-group-select').on('click', function (e) {
+function ccgIndex(target) {
+	$(target).on('click', function (e) {
 		// Prevent default anchor action
 		e.preventDefault();
-		if ( ( $(this).hasClass('configurator-part-group-state-0') && $('.configurator-part-group-state-0').first().attr('id') !== $(this).attr('id')) || $(this).hasClass('configurator-locked-part-group') || $(this).hasClass('current') )
+		/*if ( target === "#configurator-next-button" && $('.configurator-part-group-select[data-part-group=]').hasClass('disabled') ) {
+			$(this).blur();
+			return void(0);
+		}*/
+		if ( ( $(this).hasClass('configurator-part-group-state-0') && $('.configurator-part-group-state-0').first().attr('id') !== $(this).attr('id')) || $(this).hasClass('configurator-locked-part-group') || $(this).hasClass('current') ) {
+			$(this).blur();
 			return false;
+		}
 		addAjaxLoader('ccg-configurator-ajax-loader');
 		genericAjaxRequest(t3pid, t3lang, 1441344351, 'index', {
-			partGroup: $(this).attr('data-ccgpg'),
+			partGroup: $(this).attr('data-part-group'),
 			cObj: t3cobj
 		}, function (result) {
 			onSuccessFunction(result);
@@ -180,17 +186,19 @@ function genericAjaxRequest(pageUid, language, pageType, action, arguments, onSu
  * @param result
  */
 function onSuccessFunction(result) {
-	var resetButton1 = $('#configurator-reset-configuration-button');
+	var resetButton = $('#configurator-reset-configuration-button'),
+		nextButton = $('#configurator-next-button');
 	removeAjaxLoader('ccg-configurator-ajax-loader');
 	updateProgressIndicator(result.progress);
-	resetButton1.toggle(!result.showResultingConfiguration && result.progress > 0);
+	resetButton.toggle(!result.showResultingConfiguration && result.progress > 0);
 	$('#configurator-part-group-select-index').html(result.selectPartGroupsHTML);
 	$('#configurator-select-parts-ajax-update').html(result.selectPartsHTML);
 	if ( result.showResultingConfiguration ) {
 		$('#configurator-result-canvas').show();
 		$('#configurator-part-group-select-part-index').hide();
 		alterPartGroupInformation('hide');
-		$('#configurator-show-result-button').hide();
+		nextButton.hide();
+		nextButton.attr('data-current', 0);
 		$('#configurator-result-canvas .configurator-result h3.configurator-result-label').first().html(result.title);
 		$('#configurator-result-canvas .configurator-result small.configurator-result-code').first().html(result.configurationCode['code']);
 		$('#configurator-summary-table').html(result.configurationCode['summaryTable']);
@@ -198,11 +206,18 @@ function onSuccessFunction(result) {
 		$('#configurator-result-canvas').hide();
 		$('#configurator-part-group-select-part-index').show();
 		alterPartGroupInformation(result.currentPartGroup);
-		$('#configurator-show-result-button').toggle(result.progress === 1);
-		if ( result.progress === 0 ) {
-			resetButton1.addClass('disabled');
+		nextButton.attr('data-part-group', result.nextPartGroup);
+		nextButton.attr('data-current', result.currentPartGroup ? result.currentPartGroup['uid'] : 0);
+		if ( result.currentPartGroup && $('#configurator-part-group-' + result.currentPartGroup['uid'] + '-link').hasClass('configurator-part-group-state-1') ) {
+			nextButton.removeClass('disabled');
 		} else {
-			resetButton1.removeClass('disabled');
+			nextButton.addClass('disabled');
+		}
+		nextButton.show();
+		if ( result.progress === 0 ) {
+			resetButton.addClass('disabled');
+		} else {
+			resetButton.removeClass('disabled');
 		}
 	}
 	assignListeners(result);
@@ -281,7 +296,7 @@ function assignListeners(preResult) {
 	});
 	ccgUpdatePart(preResult);
 	addInfoTrigger();
-	ccgIndex();
+	ccgIndex('.configurator-part-group-select');
 }
 
 
@@ -291,7 +306,8 @@ function assignListeners(preResult) {
 (function() {
 	$('#configurator-result-canvas').toggle(showResult);
 	$('#configurator-reset-configuration-button').toggle(!showResult);
+	$('#configurator-next-button').toggle(!showResult);
 	$('#configurator-part-group-select-part-index').toggle(!showResult);
-	$('#configurator-show-result-button').hide();
 	assignListeners(preResult);
+	ccgIndex('#configurator-next-button');
 })(jQuery);

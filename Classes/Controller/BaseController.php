@@ -215,6 +215,7 @@ class BaseController extends \Ecom\EcomToolbox\Controller\ActionController {
 
 		/** @var \S3b0\EcomConfigCodeGenerator\Domain\Model\PartGroup $partGroup */
 		foreach ( array_reverse($partGroups->toArray()) as $partGroup ) {
+			$partGroup->reset();
 			/**
 			 * Handle locked part groups
 			 * They might have a default part set (mostly used as code placeholder)
@@ -317,6 +318,7 @@ class BaseController extends \Ecom\EcomToolbox\Controller\ActionController {
 		$cycle = 0;
 		foreach ( $partGroups as $partGroup ) {
 			$partGroup->setStepIndicator($partGroup->isVisibleInNavigation() ? ++$cycle : 0);
+			$this->setNextPartGroupFinalOnPartGroup($partGroup);
 			if ( !array_key_exists($partGroup->getUid(), $configuration) && !is_array($configuration[$partGroup->getUid()]) && !$current instanceof \S3b0\EcomConfigCodeGenerator\Domain\Model\PartGroup ) {
 				$current = $partGroup;
 			}
@@ -327,6 +329,33 @@ class BaseController extends \Ecom\EcomToolbox\Controller\ActionController {
 		$progress = ( sizeof($configuration) - $locked ) / ( $partGroups->count() - $locked );
 
 		return $partGroups;
+	}
+
+	/**
+	 * Traverse setting correct 'next' item, skipping locked
+	 * @param \S3b0\EcomConfigCodeGenerator\Domain\Model\PartGroup $partGroup
+	 */
+	private function setNextPartGroupFinalOnPartGroup(\S3b0\EcomConfigCodeGenerator\Domain\Model\PartGroup $partGroup = NULL, $traverse = 0) {
+		$next = $partGroup->getNext();
+		if ( $traverse > 0 ) {
+			for ($i = 0; $i < $traverse; $i++) {
+				if ( $next instanceof \S3b0\EcomConfigCodeGenerator\Domain\Model\PartGroup ) {
+					$next = $next->getNext();
+				} else {
+					$next = NULL;
+					continue;
+				}
+			}
+		}
+		if ( $next instanceof \S3b0\EcomConfigCodeGenerator\Domain\Model\PartGroup ) {
+			if ( $next->isUnlocked() ) {
+				$partGroup->setNext($next);
+			} elseif ( $partGroup->getNext()->getNext()->getNext() instanceof \S3b0\EcomConfigCodeGenerator\Domain\Model\PartGroup ) {
+				$this->setNextPartGroupFinalOnPartGroup($partGroup, ++$traverse);
+			}
+		} else {
+			$partGroup->setNext(NULL);
+		}
 	}
 
 	/**
@@ -485,7 +514,7 @@ class BaseController extends \Ecom\EcomToolbox\Controller\ActionController {
 					<td>{$partGroup->getStepIndicator()}</td>
 					<td>{$partGroup->getTitle()}</td>
 					<td>" . implode(', ', $partList) . "</td>
-					<td>" . ($partGroup->isSelectable() ? "<a data-ccgpg=\"{$partGroup->getUid()}\" class=\"configurator-part-group-select\"><i class=\"fa fa-edit\"></i></a>" : "") . "</td>
+					<td>" . ($partGroup->isSelectable() ? "<a data-part-group=\"{$partGroup->getUid()}\" class=\"configurator-part-group-select\"><i class=\"fa fa-edit\"></i></a>" : "") . "</td>
 				");
 				$summaryTableMailRows[] = ("
 					<td>{$partGroup->getTitle()}</td>

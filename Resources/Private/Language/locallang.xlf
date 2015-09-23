@@ -16,6 +16,9 @@
 			<trans-unit id="label.showResult" xml:space="preserve">
 				<source>Show result</source>
 			</trans-unit>
+			<trans-unit id="label.proceed" xml:space="preserve">
+				<source>Proceed</source>
+			</trans-unit>
 			<trans-unit id="label.summaryButton" xml:space="preserve">
 				<source>Summary</source>
 			</trans-unit>
