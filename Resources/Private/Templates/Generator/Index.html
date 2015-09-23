@@ -31,8 +31,9 @@
 		</div>
 		<div class="clearfix">
 			<p></p>
-			<f:link.action action="reset" class="btn btn-default {f:if(condition: '{value.progress} <= 0', then: ' disabled')}" noCacheHash="1" id="configurator-reset-configuration-button"><f:translate id="label.resetConfiguration" /> &nbsp; <i class="fa fa-undo"></i></f:link.action>
-			<a data-part-group="{value.nextPartGroup}" data-current="{value.currentPartGroup.uid -> f:format.number(decimals: 0)}" class="btn btn-default forward{f:if(condition: '{value.currentPartGroup.active} == 0', then: ' disabled')}" id="configurator-next-button"><f:translate id="label.proceed" /></a>
+			<f:link.action action="reset" class="btn btn-default{f:if(condition: '{value.progress} <= 0', then: ' disabled')}" noCacheHash="1" id="configurator-reset-configuration-button"><f:translate id="label.resetConfiguration" /> &nbsp; <i class="fa fa-undo"></i></f:link.action>
+			<a data-part-group="{value.nextPartGroup}" data-current="{value.currentPartGroup.uid -> f:format.number(decimals: 0)}" class="btn btn-default{f:if(condition: '{value.currentPartGroup.active} == 0', then: ' disabled')}" id="configurator-next-button"><f:translate id="label.proceed" /> &nbsp; <i class="fa fa-angle-right"></i></a>
+			<f:link.action action="index" class="btn btn-primary" noCacheHash="1" id="configurator-show-result-button"><f:translate id="label.showResult" /> &nbsp; <i class="fa fa-angle-double-right"></i></f:link.action>
 		</div>
 	</div>
 

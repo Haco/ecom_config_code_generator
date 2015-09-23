@@ -197,6 +197,7 @@ function onSuccessFunction(result) {
 		$('#configurator-result-canvas').show();
 		$('#configurator-part-group-select-part-index').hide();
 		alterPartGroupInformation('hide');
+		$('#configurator-show-result-button').hide();
 		nextButton.hide();
 		nextButton.attr('data-current', 0);
 		$('#configurator-result-canvas .configurator-result h3.configurator-result-label').first().html(result.title);
@@ -206,6 +207,7 @@ function onSuccessFunction(result) {
 		$('#configurator-result-canvas').hide();
 		$('#configurator-part-group-select-part-index').show();
 		alterPartGroupInformation(result.currentPartGroup);
+		$('#configurator-show-result-button').toggle(result.progress === 1 && !result.currentPartGroup['last']);
 		nextButton.attr('data-part-group', result.nextPartGroup);
 		nextButton.attr('data-current', result.currentPartGroup ? result.currentPartGroup['uid'] : 0);
 		if ( result.currentPartGroup && $('#configurator-part-group-' + result.currentPartGroup['uid'] + '-link').hasClass('configurator-part-group-state-1') ) {
@@ -308,6 +310,7 @@ function assignListeners(preResult) {
 	$('#configurator-reset-configuration-button').toggle(!showResult);
 	$('#configurator-next-button').toggle(!showResult);
 	$('#configurator-part-group-select-part-index').toggle(!showResult);
+	$('#configurator-show-result-button').hide();
 	assignListeners(preResult);
 	ccgIndex('#configurator-next-button');
 })(jQuery);

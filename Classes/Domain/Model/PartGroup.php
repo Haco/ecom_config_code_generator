@@ -153,6 +153,11 @@ class PartGroup extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	protected $selectable = TRUE;
 
 	/**
+	 * @var boolean
+	 */
+	protected $last = FALSE;
+
+	/**
 	 * __construct
 	 */
 	public function __construct() {
@@ -680,6 +685,20 @@ class PartGroup extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	}
 
 	/**
+	 * @return boolean
+	 */
+	public function isLast() {
+		return $this->last;
+	}
+
+	/**
+	 * @param boolean $last
+	 */
+	public function setLast($last) {
+		$this->last = $last;
+	}
+
+	/**
 	 * reset function
 	 */
 	public function reset() {
@@ -688,6 +707,7 @@ class PartGroup extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 		$this->current = FALSE;
 		$this->next = NULL;
 		$this->selectable = TRUE;
+		$this->last = FALSE;
 	}
 
 }

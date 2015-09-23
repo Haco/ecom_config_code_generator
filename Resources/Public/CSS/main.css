@@ -67,23 +67,6 @@ body {
 #ccg-configurator-canvas .btn.btn-default.dropdown.active:after {
 	content: "\f106";
 }
-#ccg-configurator-canvas .btn.btn-default.forward:after,
-#ccg-configurator-canvas .btn.btn-default.backward:after {
-	display: inline-block;
-	font: normal normal normal 16px/1 FontAwesome;
-	content: "\f101";
-	line-height: .75em;
-	padding-left: 5px;
-	text-align: center;
-	text-rendering: auto;
-	-webkit-font-smoothing: antialiased;
-	-moz-osx-font-smoothing: grayscale;
-	transform: translate(0, 0);
-	width: 1.28571429em;
-}
-#ccg-configurator-canvas .btn.btn-default.backward:after {
-	content: "\f100";
-}
 /**
 *	SELECT REGION / CURRENCY
 */

@@ -323,6 +323,7 @@ class BaseController extends \Ecom\EcomToolbox\Controller\ActionController {
 				$current = $partGroup;
 			}
 		}
+		$partGroup->setLast(TRUE);
 		$this->feSession->store('config', $configuration);
 
 		// Get progress state update (ratio of active to visible packages) => float from 0 to 1 (*100 = %)
