@@ -495,6 +495,9 @@ body .ui-tooltip {
 	#ccg-configurator-canvas #configurator-summary-table > table td {
 		padding: 5px 10px;
 	}
+	.sweet-alert .sa-icon {
+		display: none !important;
+	}
 }
 
 @media (max-width: 468px) {
@@ -519,5 +522,12 @@ body .ui-tooltip {
 	.select-region-wrap a.select-region-choose-flag img {
 		width: 100px;
 		height: auto;
+	}
+	.sweet-alert h2 {
+		font-size: 2em !important;
+		margin: 5px 0 !important;
+	}
+	.sweet-alert button {
+		margin: 15px 5px 0 !important;
 	}
 }
