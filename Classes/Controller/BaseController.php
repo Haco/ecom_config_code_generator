@@ -410,6 +410,8 @@ class BaseController extends \Ecom\EcomToolbox\Controller\ActionController {
 		$partsToBeRemoved = new \TYPO3\CMS\Extbase\Persistence\ObjectStorage();
 		/** @var \S3b0\EcomConfigCodeGenerator\Domain\Model\Part $part */
 		foreach ( $parts as $part ) {
+			/** SET PRICE */
+			$part->setCurrencyPricing($this->currency);
 			/** HANDLE DEPENDENCIES */
 			if ( self::checkForPartDependencies($this, $part, $configuration) === FALSE ) {
 				$partsToBeRemoved->attach($part);

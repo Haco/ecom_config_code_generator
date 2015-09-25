@@ -138,6 +138,9 @@
 			<trans-unit id="tx_ecomconfigcodegenerator_domain_model_part.pricing.inlineElementAddTitle">
 				<source>Add price</source>
 			</trans-unit>
+			<trans-unit id="tx_ecomconfigcodegenerator_domain_model_part.pricing_percentage">
+				<source>Pricing (Percentage)</source>
+			</trans-unit>
 			<trans-unit id="tx_ecomconfigcodegenerator_domain_model_dependentnote">
 				<source>Dependent Note</source>
 			</trans-unit>

@@ -21,6 +21,9 @@
 			<trans-unit id="pricing.description">
 				<source>Part pricing</source>
 			</trans-unit>
+			<trans-unit id="pricing_percentage.description">
+				<source>Part pricing (percentage)</source>
+			</trans-unit>
 		</body>
 	</file>
 </xliff>

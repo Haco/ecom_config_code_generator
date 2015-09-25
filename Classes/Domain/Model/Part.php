@@ -83,6 +83,13 @@ class Part extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	public $pricing = NULL;
 
 	/**
+	 * Part pricing (percentage)
+	 *
+	 * @var float
+	 */
+	public $pricingPercentage = 0.0;
+
+	/**
 	 * @var \S3b0\EcomConfigCodeGenerator\Domain\Model\Price
 	 */
 	public $currencyPricing = NULL;
@@ -274,6 +281,26 @@ class Part extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	}
 
 	/**
+	 * Returns the pricingPercentage
+	 *
+	 * @return float
+	 */
+	public function getPricingPercentage() {
+		return $this->pricingPercentage;
+	}
+
+	/**
+	 * Sets the pricingPercentage
+	 *
+	 * @param float $pricingPercentage
+	 */
+	public function setPricingPercentage($pricingPercentage) {
+		$this->pricingPercentage = $pricingPercentage;
+	}
+
+	/**
+	 * Returns the currencyPricing
+	 *
 	 * @return \S3b0\EcomConfigCodeGenerator\Domain\Model\Price $currencyPricing
 	 */
 	public function getCurrencyPricing() {
@@ -281,6 +308,8 @@ class Part extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	}
 
 	/**
+	 * Sets the currencyPricing
+	 *
 	 * @param \S3b0\EcomConfigCodeGenerator\Domain\Model\Currency $currency
 	 */
 	public function setCurrencyPricing(\S3b0\EcomConfigCodeGenerator\Domain\Model\Currency $currency = NULL) {
@@ -288,6 +317,8 @@ class Part extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	}
 
 	/**
+	 * Returns the noCurrencyPricing
+	 *
 	 * @return integer
 	 */
 	public function getNoCurrencyPricing() {
@@ -295,6 +326,8 @@ class Part extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	}
 
 	/**
+	 * Sets the noCurrencyPricing
+	 *
 	 * @param integer $noCurrencyPricing
 	 */
 	public function setNoCurrencyPricing($noCurrencyPricing) {
@@ -302,6 +335,8 @@ class Part extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	}
 
 	/**
+	 * Returns the differencePricing
+	 *
 	 * @return string
 	 */
 	public function getDifferencePricing() {
@@ -309,6 +344,8 @@ class Part extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	}
 
 	/**
+	 * Sets the differencePricing
+	 *
 	 * @param string $differencePricing
 	 */
 	public function setDifferencePricing($differencePricing) {
