@@ -42,4 +42,23 @@ class CurrencyRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
 		$this->setDefaultQuerySettings($querySettings);
 	}
 
+	/**
+	 * @return \S3b0\EcomConfigCodeGenerator\Domain\Model\Currency
+	 */
+	public function getDefault() {
+		$currencies = $this->findAll();
+		/** @var \S3b0\EcomConfigCodeGenerator\Domain\Model\Currency $default */
+		$default = $currencies->getFirst();
+		if ( count($currencies) > 1 ) {
+			/** @var \S3b0\EcomConfigCodeGenerator\Domain\Model\Currency $currency */
+			foreach ( $currencies as $currency ) {
+				if ( $currency->isDefaultCurrency() ) {
+					$default = $currency;
+				}
+			}
+		}
+
+		return $default;
+	}
+
 }

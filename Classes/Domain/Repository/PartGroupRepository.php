@@ -39,4 +39,35 @@ class PartGroupRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
 		'sorting' => \TYPO3\CMS\Extbase\Persistence\QueryInterface::ORDER_ASCENDING
 	];
 
+	/**
+	 * @param \S3b0\EcomConfigCodeGenerator\Domain\Model\Configuration $configuration
+	 * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage
+	 */
+	public function findByConfiguration(\S3b0\EcomConfigCodeGenerator\Domain\Model\Configuration $configuration) {
+		$query = $this->createQuery();
+		$query->getQuerySettings()->setRespectStoragePage(FALSE);
+		$query->getQuerySettings()->setRespectSysLanguage(FALSE);
+
+		return $this->fillOjectStorageFromQueryResult($query->matching($query->equals('configuration', $configuration))->execute());
+	}
+
+	/**
+	 * Fill objectStorage from QueryResult
+	 *
+	 * @param \TYPO3\CMS\Extbase\Persistence\QueryResultInterface $queryResult
+	 * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage
+	 */
+	protected function fillOjectStorageFromQueryResult(\TYPO3\CMS\Extbase\Persistence\QueryResultInterface $queryResult = NULL) {
+		/* @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage $objectStorage */
+		$objectStorage = $this->objectManager->get('TYPO3\\CMS\\Extbase\\Persistence\\ObjectStorage');
+
+		if ( $queryResult !== NULL ) {
+			foreach ( $queryResult as $object ) {
+				$objectStorage->attach($object);
+			}
+		}
+
+		return $objectStorage;
+	}
+
 }

@@ -86,6 +86,9 @@
 			<trans-unit id="forms.log.field.email" xml:space="preserve">
 				<source>E-Mail</source>
 			</trans-unit>
+			<trans-unit id="forms.log.field.quantity" xml:space="preserve">
+				<source>Quantity</source>
+			</trans-unit>
 			<!-- GENERIC FORMS -->
 			<trans-unit id="forms.submit" xml:space="preserve">
 				<source>Submit</source>

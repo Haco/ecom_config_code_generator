@@ -13,6 +13,7 @@ plugin.tx_ecomconfigcodegenerator {
 	}
 	settings {
 		webmasterEmail = {$plugin.tx_ecomconfigcodegenerator.settings.webmasterEmail}
+		accessPricing = {$plugin.tx_ecomconfigcodegenerator.settings.accessPricing}
 		mail {
 			noReplyEmail = {$plugin.tx_ecomconfigcodegenerator.settings.mail.noReplyEmail}
 			senderEmail = {$plugin.tx_ecomconfigcodegenerator.settings.mail.senderEmail}

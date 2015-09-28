@@ -15,13 +15,35 @@
 	class PriceHandler {
 
 		/**
+		 * @param null                                                     $value
+		 * @param \S3b0\EcomConfigCodeGenerator\Domain\Model\Currency|NULL $currency
+		 * @param boolean                                                  $signed
+		 * @return null|string
+		 */
+		public static function getPriceInCurrency($value = NULL, \S3b0\EcomConfigCodeGenerator\Domain\Model\Currency $currency = NULL, $signed = FALSE) {
+			if ( $currency instanceof \S3b0\EcomConfigCodeGenerator\Domain\Model\Currency ) {
+				$dec_point = $currency->isNumberSeparatorInUSFormat() ? '.' : ',';
+				$thousands_sep = $currency->isNumberSeparatorInUSFormat() ? ',' : '.';
+				$value = ($signed && $value >= 0 ? ($value > 0 ? '+' : '±') : '') . number_format($value, 2, $dec_point, $thousands_sep);
+				$whitespace = $currency->isWhitespaceBetweenCurrencyAndValue() ? ' ' : '';
+				if ( $currency->isSymbolPrepended() ) {
+					$value = "{$currency->getSymbol()}{$whitespace}{$value}";
+				} else {
+					$value = "{$value}{$whitespace}{$currency->getSymbol()}";
+				}
+			}
+
+			return $value;
+		}
+
+		/**
 		 * @param \TYPO3\CMS\Extbase\DomainObject\AbstractDomainObject     $model
 		 * @param \S3b0\EcomConfigCodeGenerator\Domain\Model\Currency|NULL $currency
+		 * @param array                                                    $setNumericFields
 		 * @param string                                                   $setStringField
-		 * @param string                                                   $setNumberField
 		 * @param string                                                   $pricingField
 		 */
-		public static function getPriceInCurrency(\TYPO3\CMS\Extbase\DomainObject\AbstractDomainObject $model, \S3b0\EcomConfigCodeGenerator\Domain\Model\Currency $currency = NULL, $setStringField = 'currencyPricing', $setNumberField = 'noCurrencyPricing', $pricingField = 'pricing') {
+		public static function setPriceInCurrency(\TYPO3\CMS\Extbase\DomainObject\AbstractDomainObject $model, \S3b0\EcomConfigCodeGenerator\Domain\Model\Currency $currency = NULL, $setNumericFields = [ 'noCurrencyPricing' ], $setStringField = 'currencyPricing', $pricingField = 'pricing') {
 			if ( $currency instanceof \S3b0\EcomConfigCodeGenerator\Domain\Model\Currency ) {
 				$value = '0.00';
 				$priceFound = FALSE;
@@ -56,21 +78,34 @@
 							$value = number_format($calculatedValue, 2, $dec_point, $thousands_sep);
 						}
 					}
+				} elseif ( $model instanceof \S3b0\EcomConfigCodeGenerator\Domain\Model\Part && $model->getPartGroup()->isPricePercentage() ) {
+					if ( $model->getPricingPercentage() ) {
+						$numberValue = $model->getPartGroup()->getConfiguration()->getConfigurationPricingNumeric() * ($model->getPricingPercentage() / 100);
+					} else {
+						$numberValue = 0.0;
+					}
+					$value = number_format($numberValue, 2, $dec_point, $thousands_sep);
 				}
 				/**
 				 * Step 3: If still no price is available, set 'em to zero
 				 */
-				$model->_setProperty($setNumberField, $numberValue);
 				$whitespace = $currency->isWhitespaceBetweenCurrencyAndValue() ? ' ' : '';
 				if ( $currency->isSymbolPrepended() ) {
-					$model->{$setStringField} = "{$currency->getSymbol()}{$whitespace}{$value}";
+					$stringValue = "{$currency->getSymbol()}{$whitespace}{$value}";
 				} else {
-					$model->{$setStringField} = "{$value}{$whitespace}{$currency->getSymbol()}";
+					$stringValue = "{$value}{$whitespace}{$currency->getSymbol()}";
 				}
 			} else {
-				$model->_setProperty($setNumberField, 0);
-				$model->{$setStringField} = '0';
+				$numberValue = 0;
+				$stringValue = '0';
 			}
+			/** Set numeric values */
+			foreach ( $setNumericFields as $field ) {
+				if ( $model->_hasProperty($field) )
+					$model->_setProperty($field, $numberValue);
+			}
+			/** Set string value */
+			$model->{$setStringField} = $stringValue;
 		}
 
 	}

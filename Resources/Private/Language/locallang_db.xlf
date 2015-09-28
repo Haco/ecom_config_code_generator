@@ -306,6 +306,9 @@
 			<trans-unit id="tx_ecomconfigcodegenerator_domain_model_log.configuration">
 				<source>Configuration</source>
 			</trans-unit>
+			<trans-unit id="tx_ecomconfigcodegenerator_domain_model_log.quantity">
+				<source>Quantity</source>
+			</trans-unit>
 			<trans-unit id="tx_ecomconfigcodegenerator_domain_model_log.pricing">
 				<source>Pricing</source>
 			</trans-unit>

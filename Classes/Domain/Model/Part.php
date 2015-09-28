@@ -95,9 +95,9 @@ class Part extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	public $currencyPricing = NULL;
 
 	/**
-	 * @var integer
+	 * @var float
 	 */
-	public $noCurrencyPricing = 0;
+	public $noCurrencyPricing = 0.0;
 
 	/**
 	 * @var string
@@ -313,13 +313,13 @@ class Part extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	 * @param \S3b0\EcomConfigCodeGenerator\Domain\Model\Currency $currency
 	 */
 	public function setCurrencyPricing(\S3b0\EcomConfigCodeGenerator\Domain\Model\Currency $currency = NULL) {
-		\S3b0\EcomConfigCodeGenerator\Utility\PriceHandler::getPriceInCurrency($this, $currency);
+		\S3b0\EcomConfigCodeGenerator\Utility\PriceHandler::setPriceInCurrency($this, $currency);
 	}
 
 	/**
 	 * Returns the noCurrencyPricing
 	 *
-	 * @return integer
+	 * @return float
 	 */
 	public function getNoCurrencyPricing() {
 		return $this->noCurrencyPricing;
@@ -328,7 +328,7 @@ class Part extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	/**
 	 * Sets the noCurrencyPricing
 	 *
-	 * @param integer $noCurrencyPricing
+	 * @param float $noCurrencyPricing
 	 */
 	public function setNoCurrencyPricing($noCurrencyPricing) {
 		$this->noCurrencyPricing = $noCurrencyPricing;
@@ -340,7 +340,18 @@ class Part extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	 * @return string
 	 */
 	public function getDifferencePricing() {
-		return $this->differencePricing;
+		if ( $this->partGroup->isMultipleSelectable() ) {
+			$value = $this->noCurrencyPricing * ($this->active ? -1 : 1);
+		} else {
+			if ( $this->active ) {
+				$value = $this->noCurrencyPricing * -1;
+			} else {
+				$value = $this->noCurrencyPricing - $this->partGroup->getPricingNumeric();
+			}
+		}
+		$value = \S3b0\EcomConfigCodeGenerator\Utility\PriceHandler::getPriceInCurrency($value, $this->partGroup->getConfiguration()->getCurrency(), TRUE);
+
+		return $value;
 	}
 
 	/**

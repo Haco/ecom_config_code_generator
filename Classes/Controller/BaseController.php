@@ -155,7 +155,7 @@ class BaseController extends \Ecom\EcomToolbox\Controller\ActionController {
 		if ( !$this->configuration->getPartGroups()->count() )
 			$this->throwStatus(404, NULL, '<h1>' . LocalizationUtility::translate('404.noPartGroups', $this->extensionName) . '</h1>' . LocalizationUtility::translate('404.message.noPartGroups', $this->extensionName, [ "<a href=\"mailto:{$this->settings['webmasterEmail']}\">{$this->settings['webmasterEmail']}</a>" ]));
 
-		$this->pricing = $this->configuration->isPricingEnabled()/* && \Ecom\EcomToolbox\Security\Frontend::checkForUserRoles($this->settings['accessPricing'])*/;
+		$this->pricing = $this->configuration->isPricingEnabled()/* && $GLOBALS['TSFE']->loginUser && \Ecom\EcomToolbox\Security\Frontend::checkForUserRoles($this->settings['accessPricing'])*/;
 
 		// Frontend-Session
 		$this->feSession->setStorageKey(Setup::getSessionStorageKey($this->contentObject));
@@ -174,8 +174,10 @@ class BaseController extends \Ecom\EcomToolbox\Controller\ActionController {
 			$this->forward('currencySelect');
 		if ( $this->pricing && $this->feSession->get('currency') && MathUtility::canBeInterpretedAsInteger($this->feSession->get('currency')) ) {
 			$this->currency = $this->currencyRepository->findByUid($this->feSession->get('currency'));
-			$this->contentObject->getCcgConfiguration()->setCurrencyPricing($this->currency);
+		} else {
+			$this->currency = $this->currencyRepository->getDefault();
 		}
+		$this->contentObject->getCcgConfiguration()->setCurrencyPricing($this->currency);
 	}
 
 	/**
@@ -337,6 +339,9 @@ class BaseController extends \Ecom\EcomToolbox\Controller\ActionController {
 		$cycle = 0;
 		foreach ( $partGroups as $partGroup ) {
 			$partGroup->setStepIndicator($partGroup->isVisibleInNavigation() ? ++$cycle : 0);
+			/** SET PRICE */
+			$partGroup->setPartsCurrencyPricing($this->currency);
+			$this->contentObject->getCcgConfiguration()->summateConfigurationPricing($partGroup);
 			$this->setNextPartGroupFinalOnPartGroup($partGroup);
 			if ( !array_key_exists($partGroup->getUid(), $configuration) && !is_array($configuration[$partGroup->getUid()]) && !$current instanceof \S3b0\EcomConfigCodeGenerator\Domain\Model\PartGroup ) {
 				$current = $partGroup;
@@ -410,8 +415,6 @@ class BaseController extends \Ecom\EcomToolbox\Controller\ActionController {
 		$partsToBeRemoved = new \TYPO3\CMS\Extbase\Persistence\ObjectStorage();
 		/** @var \S3b0\EcomConfigCodeGenerator\Domain\Model\Part $part */
 		foreach ( $parts as $part ) {
-			/** SET PRICE */
-			$part->setCurrencyPricing($this->currency);
 			/** HANDLE DEPENDENCIES */
 			if ( self::checkForPartDependencies($this, $part, $configuration) === FALSE ) {
 				$partsToBeRemoved->attach($part);
@@ -531,13 +534,12 @@ class BaseController extends \Ecom\EcomToolbox\Controller\ActionController {
 				$blankCode[] = $segment;
 			}
 			if ( $partGroup->isVisibleInSummary() ) {
-				/** @todo Add pricing information */
 				$summaryTableRows[] = ("
 					<td>{$partGroup->getStepIndicator()}</td>
 					<td>{$partGroup->getTitle()}</td>
 					<td>" . implode(', ', $partList) . "</td>
 					<td>" . ($partGroup->isSelectable() ? "<a data-part-group=\"{$partGroup->getUid()}\" class=\"configurator-part-group-select\"><i class=\"fa fa-edit\"></i></a>" : "") . "</td>
-				");
+				") . ( $this->pricing ? "<td style=\"text-align:right\">{$partGroup->getPricing()}</td>" : "" );
 				$summaryTableMailRows[] = ("
 					<td>{$partGroup->getTitle()}</td>
 					<td>" . implode(', ', $partList) . "</td>
@@ -563,8 +565,11 @@ class BaseController extends \Ecom\EcomToolbox\Controller\ActionController {
 		$ipLength = !MathUtility::canBeInterpretedAsInteger($this->settings['log']['ipLength']) || $this->settings['log']['ipLength'] > 4 ? 4 : $this->settings['log']['ipLength'];
 		$code = [ ];
 
+		self::initializePartGroups($this->partGroupRepository->findByConfiguration($this->contentObject->getCcgConfiguration()), $configuration);
+
+		$currentConfiguration = $this->contentObject->getCcgConfiguration();
 		/** @var \S3b0\EcomConfigCodeGenerator\Domain\Model\PartGroup $partGroup */
-		foreach ( $this->contentObject->getCcgConfiguration()->getPartGroups() as $partGroup ) {
+		foreach ( $currentConfiguration->getPartGroups() as $partGroup ) {
 			$parts = $configuration[$partGroup->getUid()];
 			ksort($parts); // Order by sorting
 			$segment = '';
@@ -582,14 +587,15 @@ class BaseController extends \Ecom\EcomToolbox\Controller\ActionController {
 		}
 		ksort($code);
 
+		$currentConfiguration->setConfigurationPricingNumeric($currentConfiguration->getConfigurationPricingNumeric() * $log->getQuantity());
 		$log->setSessionId($GLOBALS['TSFE']->fe_user->id)
-			->setConfiguration($this->contentObject->getCcgConfiguration()->getPrefix() . implode('', $code) . $this->contentObject->getCcgConfiguration()->getSuffix())
+			->setConfiguration($currentConfiguration->getPrefix() . implode('', $code) . $this->contentObject->getCcgConfiguration()->getSuffix())
 			->maskIpAddress($ipLength)
+			->setPricing($currentConfiguration->getConfigurationPricing())
 			->setPid(0);
 		if ( $GLOBALS['TSFE']->loginUser ) {
 			/** @var \TYPO3\CMS\Extbase\Domain\Model\FrontendUser $feUser */
 			$feUser = $this->frontendUserRepository->findByUid($GLOBALS['TSFE']->fe_user->user['uid']);
-			/** @todo Add pricing */
 			$log->setFeUser($feUser);
 		}
 	}

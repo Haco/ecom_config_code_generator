@@ -369,6 +369,7 @@ CREATE TABLE tx_ecomconfigcodegenerator_domain_model_log (
 	fax varchar(255) DEFAULT '' NOT NULL,
 	email varchar(255) DEFAULT '' NOT NULL,
 	configuration varchar(255) DEFAULT '' NOT NULL,
+	quantity int(11) unsigned DEFAULT '0',
 	pricing varchar(255) DEFAULT '' NOT NULL,
 	ip_address varchar(255) DEFAULT '' NOT NULL,
 	country int(11) unsigned DEFAULT '0',
