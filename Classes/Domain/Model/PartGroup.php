@@ -118,6 +118,21 @@ class PartGroup extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	protected $modals = NULL;
 
 	/**
+	 * @var \S3b0\EcomConfigCodeGenerator\Domain\Model\Configuration
+	 */
+	protected $configuration;
+
+	/**
+	 * @var string
+	 */
+	protected $pricing = '';
+
+	/**
+	 * @var float
+	 */
+	protected $pricingNumeric = 0.0;
+
+	/**
 	 * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\S3b0\EcomConfigCodeGenerator\Domain\Model\Part>
 	 */
 	protected $activeParts = NULL;
@@ -416,7 +431,8 @@ class PartGroup extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	/**
 	 * Removes a DependentNote
 	 *
-	 * @param \S3b0\EcomConfigCodeGenerator\Domain\Model\DependentNote $dependentNoteToRemove The DependentNote to be removed
+	 * @param \S3b0\EcomConfigCodeGenerator\Domain\Model\DependentNote $dependentNoteToRemove The DependentNote to be
+	 *                                                                                        removed
 	 * @return void
 	 */
 	public function removeDependentNote(\S3b0\EcomConfigCodeGenerator\Domain\Model\DependentNote $dependentNoteToRemove) {
@@ -515,6 +531,48 @@ class PartGroup extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	 */
 	public function hasModals() {
 		return $this->modals instanceof \TYPO3\CMS\Extbase\Persistence\ObjectStorage && $this->modals->count();
+	}
+
+	/**
+	 * @return \S3b0\EcomConfigCodeGenerator\Domain\Model\Configuration
+	 */
+	public function getConfiguration() {
+		return $this->configuration;
+	}
+
+	/**
+	 * @param \S3b0\EcomConfigCodeGenerator\Domain\Model\Configuration $configuration
+	 */
+	public function setConfiguration(\S3b0\EcomConfigCodeGenerator\Domain\Model\Configuration $configuration = NULL) {
+		$this->configuration = $configuration;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getPricing() {
+		return \S3b0\EcomConfigCodeGenerator\Utility\PriceHandler::getPriceInCurrency($this->pricingNumeric, $this->configuration->getCurrency(), TRUE);
+	}
+
+	/**
+	 * @param string $pricing
+	 */
+	public function setPricing($pricing) {
+		$this->pricing = $pricing;
+	}
+
+	/**
+	 * @return float
+	 */
+	public function getPricingNumeric() {
+		return $this->pricingNumeric;
+	}
+
+	/**
+	 * @param float $pricingNumeric
+	 */
+	public function setPricingNumeric($pricingNumeric) {
+		$this->pricingNumeric = $pricingNumeric;
 	}
 
 	/**
@@ -696,6 +754,21 @@ class PartGroup extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	 */
 	public function setLast($last) {
 		$this->last = $last;
+	}
+
+	/**
+	 * @param \S3b0\EcomConfigCodeGenerator\Domain\Model\Currency|NULL $currency
+	 */
+	public function setPartsCurrencyPricing(\S3b0\EcomConfigCodeGenerator\Domain\Model\Currency $currency = NULL) {
+		if ( $this->parts instanceof \TYPO3\CMS\Extbase\Persistence\ObjectStorage && $this->parts->count() ) {
+			/** @var \S3b0\EcomConfigCodeGenerator\Domain\Model\Part $part */
+			foreach ( $this->parts as $part ) {
+				$part->setCurrencyPricing($currency);
+				if ( $part->isActive() ) {
+					$this->pricingNumeric += $part->getNoCurrencyPricing();
+				}
+			}
+		}
 	}
 
 	/**

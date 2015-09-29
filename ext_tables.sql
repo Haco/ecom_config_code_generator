@@ -117,6 +117,7 @@ CREATE TABLE tx_ecomconfigcodegenerator_domain_model_part (
 	hint text NOT NULL,
 	dependency int(11) unsigned DEFAULT '0',
 	pricing int(11) unsigned DEFAULT '0' NOT NULL,
+	pricing_percentage double(11,2) DEFAULT '0.00' NOT NULL,
 
 	tstamp int(11) unsigned DEFAULT '0' NOT NULL,
 	crdate int(11) unsigned DEFAULT '0' NOT NULL,
@@ -368,6 +369,7 @@ CREATE TABLE tx_ecomconfigcodegenerator_domain_model_log (
 	fax varchar(255) DEFAULT '' NOT NULL,
 	email varchar(255) DEFAULT '' NOT NULL,
 	configuration varchar(255) DEFAULT '' NOT NULL,
+	quantity int(11) unsigned DEFAULT '1',
 	pricing varchar(255) DEFAULT '' NOT NULL,
 	ip_address varchar(255) DEFAULT '' NOT NULL,
 	country int(11) unsigned DEFAULT '0',

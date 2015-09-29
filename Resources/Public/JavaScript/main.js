@@ -187,12 +187,16 @@ function genericAjaxRequest(pageUid, language, pageType, action, arguments, onSu
  */
 function onSuccessFunction(result) {
 	var resetButton = $('#configurator-reset-configuration-button'),
-		nextButton = $('#configurator-next-button');
+		nextButton = $('#configurator-next-button'),
+		confPrice = $('#configurator-config-header-config-price');
 	removeAjaxLoader('ccg-configurator-ajax-loader');
 	updateProgressIndicator(result.progress);
 	resetButton.toggle(!result.showResultingConfiguration && result.progress > 0);
 	$('#configurator-part-group-select-index').html(result.selectPartGroupsHTML);
 	$('#configurator-select-parts-ajax-update').html(result.selectPartsHTML);
+	if ( confPrice ) {
+		confPrice.html(result.configurationPrice);
+	}
 	if ( result.showResultingConfiguration ) {
 		$('#configurator-result-canvas').show();
 		$('#configurator-part-group-select-part-index').hide();
@@ -223,6 +227,7 @@ function onSuccessFunction(result) {
 		}
 	}
 	assignListeners(result);
+	$('#ccg-configurator-canvas').scrollTop();
 }
 
 /**********************************

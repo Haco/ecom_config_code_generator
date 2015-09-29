@@ -54,6 +54,7 @@ class GeneratorController extends \S3b0\EcomConfigCodeGenerator\Controller\BaseC
 		$partGroups = $this->initializePartGroups(
 			$this->contentObject->getCcgConfiguration()->getPartGroups() ?: new \TYPO3\CMS\Extbase\Persistence\ObjectStorage(),
 			$configuration,
+			TRUE,
 			$currentPartGroup,
 			$progress
 		);
@@ -86,6 +87,7 @@ class GeneratorController extends \S3b0\EcomConfigCodeGenerator\Controller\BaseC
 			'currentPartGroup' => $currentPartGroup,
 			'nextPartGroup' => $currentPartGroup instanceof \S3b0\EcomConfigCodeGenerator\Domain\Model\PartGroup && $currentPartGroup->getNext() instanceof \S3b0\EcomConfigCodeGenerator\Domain\Model\PartGroup ? $currentPartGroup->getNext()->getUid() : 0,
 			'modals' => $modals,
+			'configurationPrice' => $this->contentObject->getCcgConfiguration()->getConfigurationPricing(),
 			'showResultingConfiguration' => $progress === 1 && !$checkIfPartGroupArgumentIsSet
 		];
 

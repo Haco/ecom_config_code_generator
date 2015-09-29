@@ -26,6 +26,7 @@ namespace S3b0\EcomConfigCodeGenerator\User\ModifyTCA;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
+use S3b0\EcomConfigCodeGenerator\Setup;
 use TYPO3\CMS\Backend\Utility as BackendUtility;
 use TYPO3\CMS\Core\Utility as CoreUtility;
 
@@ -85,7 +86,7 @@ class ModifyTCA extends \TYPO3\CMS\Backend\Form\FormEngine {
 					);
 				}
 			}
-			$PA['fieldConf']['config']['items'][(int) log(\S3b0\EcomConfigCodeGenerator\Setup::BIT_CURRENCY_IS_DEFAULT, 2)][0] = '!!! FLAG ALREADY SET !!! This will cause a break in plugin functionality! Saving twice will set the flag at current record and unset flag at the other records!';
+			$PA['fieldConf']['config']['items'][(int) log(\S3b0\EcomConfigCodeGenerator\Setup::BIT_CURRENCY_IS_DEFAULT, 2)][0] = '!!! FLAG ALREADY SET !!! This will cause a break in plugin functionality! Save twice to set flag at current record!';
 		}
 
 		// Disable for non-admins
@@ -222,6 +223,25 @@ class ModifyTCA extends \TYPO3\CMS\Backend\Form\FormEngine {
 		}
 
 		// No return - the $PA and $pObj variables are passed by reference, so just change content in then and it is passed back automatically...
+	}
+
+	/**
+	 * Check if pricing is fixed or percentage
+	 *
+	 * @param array $PA
+	 *
+	 * @return boolean
+	 */
+	public function checkPriceHandling($PA) {
+		$partGroup = BackendUtility\BackendUtility::getRecord('tx_ecomconfigcodegenerator_domain_model_partgroup', $PA['record']['part_group'], 'settings');
+		$check = ($partGroup['settings'] & Setup::BIT_PARTGROUP_USE_PERCENTAGE_PRICING) === Setup::BIT_PARTGROUP_USE_PERCENTAGE_PRICING;
+
+		switch ( $PA['conditionParameters'][0] ) {
+			case '1':
+				return !$check;
+			default:
+				return $check;
+		}
 	}
 
 }

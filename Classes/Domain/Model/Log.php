@@ -138,7 +138,12 @@ class Log extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	protected $configuration = '';
 
 	/**
-	 * The configration pricing
+	 * @var integer
+	 */
+	protected $quantity = 1;
+
+	/**
+	 * The pricing by quantity
 	 *
 	 * @var string
 	 */
@@ -496,6 +501,26 @@ class Log extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	 */
 	public function setConfiguration($configuration) {
 		$this->configuration = $configuration;
+		return $this;
+	}
+
+	/**
+	 * Returns the quantity
+	 *
+	 * @return int
+	 */
+	public function getQuantity() {
+		return $this->quantity;
+	}
+
+	/**
+	 * Sets the quantity
+	 *
+	 * @param int $quantity
+	 * @return \S3b0\EcomConfigCodeGenerator\Domain\Model\Log Allow chaining of methods
+	 */
+	public function setQuantity($quantity) {
+		$this->quantity = $quantity;
 		return $this;
 	}
 

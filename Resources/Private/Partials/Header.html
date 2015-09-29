@@ -1,15 +1,30 @@
 <div class="ecom-configurator-configurator-head">
 	<div class="ecom-configurator-config-header-instructions" id="ecom-configurator-ajax-header-instructions">{value.instructions -> f:format.html()}</div>
-	<f:if condition="{pricing}">
+	<f:if condition="{pricingEnabled}">
 		<div class="configurator-config-header-price-table">
+			<div class="form-inline">
+				<div class="form-group">
+					<label for="configurator-config-header-currency-selector"></label>
+					<select id="configurator-config-header-currency-selector" class="form-control" onchange="this.options[this.selectedIndex].value && (window.location = this.options[this.selectedIndex].value);">
+						<optgroup label="{f:translate(id: 'currency')}">
+						<f:for each="{currencies}" as="currency">
+							<f:if condition="{currency} == {currencyActive}">
+								<f:then><option style="{currency.flagStyleTag}" value="" class="disabled" selected="selected" disabled="disabled">{currency.isoCode} ({currency.symbol})</option></f:then>
+								<f:else><option style="{currency.flagStyleTag}" value="{f:uri.page(additionalParams: '{currency: currency.uid}', noCacheHash: 1)}">{currency.isoCode} ({currency.symbol})</option></f:else>
+							</f:if>
+						</f:for>
+						</optgroup>
+					</select>
+				</div>
+			</div>
 			<table>
 				<thead>
-					<tr class="align-center"> <td><f:translate id="label.basePrice" /></td> <td><f:translate id="label.configPrice" /></td> </tr>
+					<tr class="align-center"><td><f:translate id="label.basePrice" default="Base price" /></td><td><f:translate id="label.configPrice" default="Configuration price" /></td></tr>
 				</thead>
 				<tbody>
 					<tr class="align-center">
-						<td>{value.pricing.basePrice}</td>
-						<td><span id="configurator-config-header-config-price">{value.pricing.configPrice}</span></td>
+						<td>{contentObject.ccgConfiguration.currencyPricing}</td>
+						<td><span id="configurator-config-header-config-price">{contentObject.ccgConfiguration.configurationPricing}</span></td>
 					</tr>
 				</tbody>
 			</table>

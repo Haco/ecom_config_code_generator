@@ -26,10 +26,25 @@
 				<source>Review your Configuration</source>
 			</trans-unit>
 			<trans-unit id="label.requestButton" xml:space="preserve">
-				<source>Request your device</source>
+				<source>Request your personal %1$s</source>
+			</trans-unit>
+			<trans-unit id="label.sendRequest" xml:space="preserve">
+				<source>Sending request</source>
 			</trans-unit>
 			<trans-unit id="label.moreInformation" xml:space="preserve">
 				<source>More</source>
+			</trans-unit>
+			<trans-unit id="label.basePrice" xml:space="preserve">
+				<source>Base price</source>
+			</trans-unit>
+			<trans-unit id="label.configPrice" xml:space="preserve">
+				<source>Configuration price</source>
+			</trans-unit>
+			<trans-unit id="unitPrice" xml:space="preserve">
+				<source>Unit Price</source>
+			</trans-unit>
+			<trans-unit id="unitPriceAbbr" xml:space="preserve">
+				<source>UP</source>
 			</trans-unit>
 
 			<!-- HEADLINES -->
@@ -85,6 +100,9 @@
 			</trans-unit>
 			<trans-unit id="forms.log.field.email" xml:space="preserve">
 				<source>E-Mail</source>
+			</trans-unit>
+			<trans-unit id="forms.log.field.quantity" xml:space="preserve">
+				<source>Quantity</source>
 			</trans-unit>
 			<!-- GENERIC FORMS -->
 			<trans-unit id="forms.submit" xml:space="preserve">
@@ -166,6 +184,9 @@
 			<trans-unit id="mail.field.email" xml:space="preserve">
 				<source>E-Mail</source>
 			</trans-unit>
+			<trans-unit id="mail.field.quantity" xml:space="preserve">
+				<source>Quantity</source>
+			</trans-unit>
 			<trans-unit id="mail.toSender.configurationHeadline" xml:space="preserve">
 				<source>Your Configuration:</source>
 			</trans-unit>
@@ -215,6 +236,12 @@
 				<source>Please provide a content object. If you need further assistance please contact us at %1$s.</source>
 			</trans-unit>
 
+			<trans-unit id="selectregion.choose_text" xml:space="preserve">
+				<source>Please choose a region/currency</source>
+			</trans-unit>
+			<trans-unit id="currency" xml:space="preserve">
+				<source>Currency</source>
+			</trans-unit>
 			<trans-unit id="currency.region.EUR">
 				<source>Europe</source>
 			</trans-unit>

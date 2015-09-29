@@ -282,8 +282,34 @@ class Currency extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	/**
 	 * @return bool
 	 */
-	public function isNumberSeparatorsInUSFormat() {
+	public function isNumberSeparatorInUSFormat() {
 		return $this->settings & 8;
+	}
+
+	public function getFlagStyleTag() {
+		switch ( $this->isoCode ) {
+			case 'EUR':
+				$flagName = 'europeanunion';
+				break;
+			case 'CHF':
+				$flagName = 'ch';
+				break;
+			case 'GBP':
+				$flagName = 'gb';
+				break;
+			case 'USD':
+				$flagName = 'us';
+				break;
+			default:
+				$flagName = 'multiple';
+		}
+
+		/** @var \TYPO3\CMS\Core\Resource\ResourceFactory $resourceFactory */
+		$resourceFactory = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\TYPO3\CMS\Core\Resource\ResourceFactory::class);
+
+		return "background:url('" . $resourceFactory->retrieveFileOrFolderObject(
+			(version_compare(TYPO3_branch, '7.1', '>=') ? 'EXT:core/Resources/Public/Icons/Flags' : 'EXT:t3skin/images/flags') . "/{$flagName}.png"
+		)->getPublicUrl() . "') no-repeat 3px 7px;padding-left:25px";
 	}
 
 }

@@ -17,14 +17,14 @@ return [
 		'rootLevel' => 1,
 		'readOnly' => TRUE,
 #		'hideTable' => TRUE,
-		'searchFields' => 'tstamp,session_id,salutation,first_name,last_name,subject,message,company,job_title,address,postal_code,city,country,state,phone,fax,email,configuration,configured_parts,pricing,ip_address,fe_user,',
+		'searchFields' => 'tstamp,session_id,salutation,first_name,last_name,subject,message,company,job_title,address,postal_code,city,country,state,phone,fax,email,configuration,quantity,configured_parts,pricing,ip_address,fe_user,',
 		'iconfile' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath('belog') . 'ext_icon.gif'
 	],
 	'interface' => [
-		'showRecordFieldList' => 'tstamp, session_id, salutation, first_name, last_name, subject, message, company, job_title, address, postal_code, city, country, state, phone, fax, email, configuration, configured_parts, pricing, ip_address, fe_user'
+		'showRecordFieldList' => 'tstamp, session_id, salutation, first_name, last_name, subject, message, company, job_title, address, postal_code, city, country, state, phone, fax, email, configuration, quantity, configured_parts, pricing, ip_address, fe_user'
 	],
 	'types' => [
-		'1' => [ 'showitem' => 'tstamp, session_id;;;;1-1-1, salutation, first_name, last_name, subject, message, company, job_title, address, postal_code, city, country, state, phone, fax, email, configuration, configured_parts, pricing, ip_address, fe_user' ]
+		'1' => [ 'showitem' => 'tstamp, session_id;;;;1-1-1, salutation, first_name, last_name, subject, message, company, job_title, address, postal_code, city, country, state, phone, fax, email, configuration, quantity, configured_parts, pricing, ip_address, fe_user' ]
 	],
 	'palettes' => [
 		'1' => [ 'showitem' => '' ]
@@ -188,8 +188,18 @@ return [
 			'label' => "{$translate}tx_ecomconfigcodegenerator_domain_model_log.configuration",
 			'config' => [
 				'type' => 'input',
-				'size' => 41,
+				'size' => 30,
 				'eval' => 'trim,nospace,required'
+			]
+		],
+		'quantity' => [
+			'exclude' => 0,
+			'label' => "{$translate}tx_ecomconfigcodegenerator_domain_model_log.quantity",
+			'config' => [
+				'type' => 'input',
+				'size' => 30,
+				'eval' => 'trim,int',
+				'default' => '1'
 			]
 		],
 		'pricing' => [

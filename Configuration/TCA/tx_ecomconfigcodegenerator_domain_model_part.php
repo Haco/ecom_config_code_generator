@@ -16,7 +16,7 @@ return [
 		'crdate' => 'crdate',
 		'cruser_id' => 'cruser_id',
 		'dividers2tabs' => TRUE,
-		'sortby' => 'sorting',
+		'default_sortby' => 'ORDER BY part_group, sorting',
 		'versioningWS' => 2,
 		'versioning_followPages' => TRUE,
 
@@ -30,14 +30,14 @@ return [
 			'endtime' => 'endtime',
 			'fe_group' => 'fe_group'
 		],
-		'searchFields' => 'title,code_segment,image,hint,dependency,pricing,',
+		'searchFields' => 'title,code_segment,image,hint,dependency,pricing,pricing_percentage',
 		'iconfile' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath('ecom_config_code_generator') . 'Resources/Public/Icons/tx_ecomconfigcodegenerator_domain_model_part.png'
 	],
 	'interface' => [
-		'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, title, code_segment, image, hint, dependency, pricing'
+		'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, title, code_segment, image, hint, dependency, pricing, pricing_percentage'
 	],
 	'types' => [
-		'1' => [ 'showitem' => "sys_language_uid;;;;1-1-1, l10n_parent, l10n_diffsource, hidden;;1, title, code_segment, part_group, --div--;{$translate}tabs.referral, image, dependency, --div--;{$translate}tabs.pricing, pricing, --div--;LLL:EXT:cms/locallang_tca.xlf:pages.tabs.extended, hint;;;wizards[t3editorHtml], --div--;LLL:EXT:cms/locallang_ttc.xlf:tabs.access, --palette--;LLL:EXT:cms/locallang_tca.xlf:pages.palettes.access;access" ]
+		'1' => [ 'showitem' => "sys_language_uid;;;;1-1-1, l10n_parent, l10n_diffsource, hidden;;1, title, code_segment, part_group, --div--;{$translate}tabs.referral, image, dependency, --div--;{$translate}tabs.pricing, pricing, pricing_percentage, --div--;LLL:EXT:cms/locallang_tca.xlf:pages.tabs.extended, hint;;;wizards[t3editorHtml], --div--;LLL:EXT:cms/locallang_ttc.xlf:tabs.access, --palette--;LLL:EXT:cms/locallang_tca.xlf:pages.palettes.access;access" ]
 	],
 	'palettes' => [
 		'1' => [
@@ -257,6 +257,7 @@ return [
 		],
 		'pricing' => [
 			'l10n_mode' => 'exclude',
+			'displayCond' => 'USER:S3b0\\EcomConfigCodeGenerator\\User\\ModifyTCA\\ModifyTCA->checkPriceHandling:1',
 			'exclude' => 1,
 			'label' => "{$translate}tx_ecomconfigcodegenerator_domain_model_part.pricing",
 			'config' => [
@@ -276,6 +277,18 @@ return [
 					'disableMovingChildrenWithParent' => 0,
 					'enableCascadingDelete' => 1
 				]
+			]
+		],
+		'pricing_percentage' => [
+			'l10n_mode' => 'exclude',
+			'displayCond' => 'USER:S3b0\\EcomConfigCodeGenerator\\User\\ModifyTCA\\ModifyTCA->checkPriceHandling',
+			'exclude' => 1,
+			'label' => "{$translate}tx_ecomconfigcodegenerator_domain_model_part.pricing_percentage",
+			'config' => [
+				'type' => 'input',
+				'size' => 10,
+				'placeholder' => '0.00',
+				'eval' => 'double2'
 			]
 		],
 

@@ -141,7 +141,10 @@ class AjaxRequestController extends \S3b0\EcomConfigCodeGenerator\Controller\Gen
 		$templatePathAndFilename = "{$partialRootPath}Part/Selector.html";
 		$view->setTemplatePathAndFilename($templatePathAndFilename);
 		$view->setPartialRootPaths([$partialRootPath]);
-		$view->assign('parts', $parts);
+		$view->assignMultiple([
+			'parts' => $parts,
+			'pricingEnabled' => $this->pricing
+		]);
 		$view->setFormat('html');
 
 		return $this->sanitize_output($view->render());

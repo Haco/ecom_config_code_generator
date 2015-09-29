@@ -10,7 +10,7 @@
 				<source>Resulting configuration (code)</source>
 			</trans-unit>
 			<trans-unit id="pricing.description">
-				<source>The configration pricing</source>
+				<source>The pricing by quantity</source>
 			</trans-unit>
 			<trans-unit id="ip_address.description">
 				<source>The IP address (as of data protection anonymized)</source>
