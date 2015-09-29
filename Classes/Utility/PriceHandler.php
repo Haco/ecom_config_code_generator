@@ -24,7 +24,7 @@
 			if ( $currency instanceof \S3b0\EcomConfigCodeGenerator\Domain\Model\Currency ) {
 				$dec_point = $currency->isNumberSeparatorInUSFormat() ? '.' : ',';
 				$thousands_sep = $currency->isNumberSeparatorInUSFormat() ? ',' : '.';
-				$value = ($signed && $value >= 0 ? ($value > 0 ? '+' : '±') : '') . number_format($value, 2, $dec_point, $thousands_sep);
+				$value = ($signed && $value > 0 ? '+' : '') . number_format($value, 2, $dec_point, $thousands_sep);
 				$whitespace = $currency->isWhitespaceBetweenCurrencyAndValue() ? ' ' : '';
 				if ( $currency->isSymbolPrepended() ) {
 					$value = "{$currency->getSymbol()}{$whitespace}{$value}";

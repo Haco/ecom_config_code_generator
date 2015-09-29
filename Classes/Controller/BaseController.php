@@ -215,11 +215,12 @@ class BaseController extends \Ecom\EcomToolbox\Controller\ActionController {
 	 *
 	 * @param \TYPO3\CMS\Extbase\Persistence\ObjectStorage         $partGroups
 	 * @param array                                                $configuration
+	 * @param boolean                                              $enableDetach  Enables detaching objects (DB issue)
 	 * @param \S3b0\EcomConfigCodeGenerator\Domain\Model\PartGroup $current
 	 * @param integer                                              $progress
 	 * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage
 	 */
-	protected function initializePartGroups(\TYPO3\CMS\Extbase\Persistence\ObjectStorage $partGroups, array &$configuration, \S3b0\EcomConfigCodeGenerator\Domain\Model\PartGroup &$current = NULL, &$progress = 0) {
+	protected function initializePartGroups(\TYPO3\CMS\Extbase\Persistence\ObjectStorage $partGroups, array &$configuration, $enableDetach = TRUE, \S3b0\EcomConfigCodeGenerator\Domain\Model\PartGroup &$current = NULL, &$progress = 0) {
 		/** @var \S3b0\EcomConfigCodeGenerator\Domain\Model\PartGroup $current */
 		$current = NULL;   // Current part group
 		$previous = NULL;  // Previous part group (NEXT as of array_reverse)
@@ -253,7 +254,7 @@ class BaseController extends \Ecom\EcomToolbox\Controller\ActionController {
 					);
 					$locked++;
 					$cycle++;
-				} elseif ( !array_key_exists($partGroup->getUid(), $configuration) ) {
+				} elseif ( !array_key_exists($partGroup->getUid(), $configuration) && $enableDetach ) {
 					$partGroups->detach($partGroup);
 				}
 				continue;
@@ -320,7 +321,8 @@ class BaseController extends \Ecom\EcomToolbox\Controller\ActionController {
 			$originallyAvailablePartsAmount = $partGroup->getParts()->count();
 			$this->initializeParts(
 				$partGroup->getParts(),
-				$configuration
+				$configuration,
+				$enableDetach
 			);
 			/**
 			 * Reset part if availability has been affected by dependencies
@@ -407,11 +409,12 @@ class BaseController extends \Ecom\EcomToolbox\Controller\ActionController {
 	/**
 	 * Initialize parts
 	 *
-	 * @param \TYPO3\CMS\Extbase\Persistence\ObjectStorage       $parts
-	 * @param array                                              $configuration
+	 * @param \TYPO3\CMS\Extbase\Persistence\ObjectStorage $parts
+	 * @param array                                        $configuration
+	 * @param boolean                                      $enableDetach  Enables detaching objects (DB issue)
 	 * @return void
 	 */
-	public function initializeParts(\TYPO3\CMS\Extbase\Persistence\ObjectStorage &$parts, array $configuration) {
+	public function initializeParts(\TYPO3\CMS\Extbase\Persistence\ObjectStorage &$parts, array $configuration, $enableDetach = TRUE) {
 		$partsToBeRemoved = new \TYPO3\CMS\Extbase\Persistence\ObjectStorage();
 		/** @var \S3b0\EcomConfigCodeGenerator\Domain\Model\Part $part */
 		foreach ( $parts as $part ) {
@@ -421,7 +424,8 @@ class BaseController extends \Ecom\EcomToolbox\Controller\ActionController {
 			}
 		}
 
-		$parts->removeAll($partsToBeRemoved);
+		if ( $enableDetach )
+			$parts->removeAll($partsToBeRemoved);
 	}
 
 	/**
@@ -565,7 +569,7 @@ class BaseController extends \Ecom\EcomToolbox\Controller\ActionController {
 		$ipLength = !MathUtility::canBeInterpretedAsInteger($this->settings['log']['ipLength']) || $this->settings['log']['ipLength'] > 4 ? 4 : $this->settings['log']['ipLength'];
 		$code = [ ];
 
-		self::initializePartGroups($this->partGroupRepository->findByConfiguration($this->contentObject->getCcgConfiguration()), $configuration);
+		self::initializePartGroups($this->partGroupRepository->findByConfiguration($this->contentObject->getCcgConfiguration()), $configuration, FALSE);
 
 		$currentConfiguration = $this->contentObject->getCcgConfiguration();
 		/** @var \S3b0\EcomConfigCodeGenerator\Domain\Model\PartGroup $partGroup */
@@ -587,7 +591,11 @@ class BaseController extends \Ecom\EcomToolbox\Controller\ActionController {
 		}
 		ksort($code);
 
-		$currentConfiguration->setConfigurationPricingNumeric($currentConfiguration->getConfigurationPricingNumeric() * $log->getQuantity());
+		/** Set minimum quantity */
+		if ( $log->getQuantity() === 0 ){
+			$log->setQuantity(1);
+		}
+		$currentConfiguration->setConfigurationPricingNumeric($currentConfiguration->getConfigurationPricingNumeric() * ($log->getQuantity() ?: 1));
 		$log->setSessionId($GLOBALS['TSFE']->fe_user->id)
 			->setConfiguration($currentConfiguration->getPrefix() . implode('', $code) . $this->contentObject->getCcgConfiguration()->getSuffix())
 			->maskIpAddress($ipLength)

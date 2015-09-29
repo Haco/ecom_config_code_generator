@@ -140,7 +140,7 @@ class Log extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	/**
 	 * @var integer
 	 */
-	protected $quantity = 0;
+	protected $quantity = 1;
 
 	/**
 	 * The pricing by quantity

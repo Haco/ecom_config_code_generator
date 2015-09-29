@@ -28,7 +28,7 @@ plugin.tx_ecomconfigcodegenerator {
 }
 
 page.includeCSSLibs {
-	ccg = EXT:ecom_config_code_generator/Resources/Public/CSS/main.css
+	ccg = EXT:ecom_config_code_generator/Resources/Public/CSS/app.css
 	ccg.import = 1
 	sweetAlertJS = https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.0/sweetalert.min.css
 	sweetAlertJS.external = 1

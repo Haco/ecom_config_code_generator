@@ -2,7 +2,7 @@
 	<f:for each="{parts}" as="part" iteration="partIterator">
 		<a data-part="{part.uid}" data-part-state="{part.active -> f:format.number(decimals : 0)}" data-modal="{part.modalTrigger}" class="configurator-select-part-group-part configurator-select-part-group-part-selector {f:if(condition : '{part.inConflictWithSelectedParts}', then : 'disabled', else : 'enabled')}" tabindex="{partIterator.cycle}">
 			<f:if condition="{pricingEnabled}">
-				<span class="configurator-select-part-group-part-price">{part.currencyPricing} ( {part.differencePricing}<f:if condition="{part.partGroup.pricePercentage}"> <span style="font-family: 'Lucida Sans Unicode', Arial, sans-serif">≙</span> {part.pricingPercentage}%</f:if> )</span>
+				<span class="configurator-select-part-group-part-price">{part.differencePricing} ( <abbr title="{f:translate(id: 'unitPrice', extensionName: 'ecom_config_code_generator')}">{f:translate(id: 'unitPriceAbbr', extensionName: 'ecom_config_code_generator')}</abbr> {part.currencyPricing}<f:if condition="{part.partGroup.pricePercentage}"> <span style="font-family: 'Lucida Sans Unicode', Arial, sans-serif">≙</span> {part.pricingPercentage}%</f:if> )</span>
 			</f:if>
 			<f:if condition="{part.hint}">
 				<div class="configurator-select-part-group-part-info-wrapper">

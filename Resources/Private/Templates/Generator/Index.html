@@ -2,7 +2,6 @@
 
 <f:section name="main">
 
-	{contentObject.ccgConfiguration -> f:debug(maxDepth: 12) -> f:comment()}
 	<!-- NoJS Warning! -->
 	<noscript><div class="typo3-messages"><div class="typo3-message message-error">ATTENTION: JavaScript needs to be enabled!</div></div></noscript>
 
@@ -41,7 +40,7 @@
 
 	<!-- render configuration result -->
 	<div id="configurator-result-canvas">
-		<f:render partial="Result" arguments="{value: value, jsData: jsData}" />
+		<f:render partial="Result" arguments="{value: value, jsData: jsData, contentObject: contentObject}" />
 	</div>
 
 	<script type="text/javascript" language="JavaScript">
@@ -49,13 +48,12 @@
 			t3lang = {jsData.sysLanguage -> f:format.number(decimals: 0)},
 			t3cobj = {jsData.contentObject},
 			showResult = Boolean({value.showResultingConfiguration -> f:format.number(decimals: 0)}),
-			moreInfoLinkTitle = "{f:translate(id : 'label.moreInformation')}",
 			js = document.createElement("script"),
-			swaljs = document.createElement("script")
+			swaljs = document.createElement("script"),
 			preResult = new Object();
 		preResult.modals = {value.modals -> f:format.raw()};
 		js.type = "text/javascript";
-		js.src = "{f:uri.resource(path:'JavaScript/main.js')}";
+		js.src = "{f:uri.resource(path:'JavaScript/app.js')}";
 		document.body.appendChild(js);
 		swaljs.type = "text/javascript";
 		swaljs.src = "https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.0/sweetalert.min.js";

@@ -10,27 +10,29 @@
  * "version" and "dependencies" must not be touched!
  ***************************************************************/
 
-$EM_CONF[$_EXTKEY] = array(
+$EM_CONF[$_EXTKEY] = [
 	'title' => 'Config code generator',
 	'description' => 'Configuration code generator',
 	'category' => 'plugin',
 	'author' => 'Sebastian Iffland',
 	'author_email' => 'Sebastian.Iffland@ecom-ex.com',
-	'state' => 'beta',
+	'state' => 'stable',
 	'internal' => '',
 	'uploadfolder' => '1',
 	'createDirs' => '',
 	'clearCacheOnLoad' => 0,
-	'version' => '1.0.0',
-	'constraints' => array(
-		'depends' => array(
+	'version' => '1.1.0',
+	'constraints' => [
+		'depends' => [
+			'cms' => '',
 			'typo3' => '6.2',
 			'php' => '5.5',
-			'ecom_toolbox' => '1.2.0'
-		),
-		'conflicts' => array(
-		),
-		'suggests' => array(
-		),
-	),
-);
+			'ecom_toolbox' => '1.2.0',
+			'powermail' => ''
+		],
+		'conflicts' => [
+		],
+		'suggests' => [
+		],
+	],
+];

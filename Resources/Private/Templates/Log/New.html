@@ -2,12 +2,12 @@
 
 <f:section name="main">
 
-<h1><f:translate id="label.requestButton" /></h1>
-
+<h1><f:translate id="label.requestButton" arguments="{0: contentObject.ccgConfiguration.title}" /></h1>
+<p>&nbsp;</p>
 <f:form action="create" enctype="multipart/form-data" id="newLog" name="newLog" object="{newLog}" additionalAttributes="{data-validate: 'html5', data-parsley-validate: 'data-parsley-validate'}">
 	<f:render partial="Log/FormFields" arguments="{_all}" />
-	<div class="form-group row">
-		<f:form.button type="submit" id="ccg-request-submit" class="btn btn-primary morelink"><f:translate id="forms.submit" /></f:form.button>
+	<div class="form-group row no-margin-horizontal">
+		<f:form.button type="submit" id="ccg-request-submit" class="btn btn-primary morelink" additionalAttributes="{autocomplete: 'off'}"><f:translate id="forms.submit" /></f:form.button>
 	</div>
 </f:form>
 
@@ -34,9 +34,9 @@
 
 		$(document).ready(function() {
 			var $RequestButton = $('#ccg-request-submit'),
-				resetTimeout = 40000,
-				defaultText = "<i class=\"fa fa-envelope fa-fw\"></i> {f:translate(id : 'label.requestButton')}",
-				loadingText = "{f:translate(id : 'label.requestButton')}... <i class=\"fa fa-circle-o-notch fa-fw fa-spin\"></i>";
+				requestText = "{f:translate(id : 'label.sendRequest')}",
+				defaultText = "<i class=\"fa fa-envelope fa-fw\"></i> " + requestText,
+				loadingText = requestText + "... <i class=\"fa fa-circle-o-notch fa-fw fa-spin\"></i>";
 			$RequestButton.attr('data-loading-text', loadingText);
 
 			function resetButton() {
@@ -50,9 +50,6 @@
 				// If form is valid
 				if ( $('form#newLog').parsley().isValid() ) {
 					$(this).button('loading').addClass('morelink-no-arrow');
-					setTimeout(function () {
-						resetButton();
-					}, resetTimeout);
 				}
 			});
 

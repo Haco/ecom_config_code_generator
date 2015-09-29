@@ -198,7 +198,8 @@ return [
 			'config' => [
 				'type' => 'input',
 				'size' => 30,
-				'eval' => 'trim,int'
+				'eval' => 'trim,int',
+				'default' => '1'
 			]
 		],
 		'pricing' => [
