@@ -18,6 +18,7 @@ plugin.tx_ecomconfigcodegenerator {
 			noReplyEmail = {$plugin.tx_ecomconfigcodegenerator.settings.mail.noReplyEmail}
 			senderEmail = {$plugin.tx_ecomconfigcodegenerator.settings.mail.senderEmail}
 			senderName = {$plugin.tx_ecomconfigcodegenerator.settings.mail.senderName}
+			carbonCopy = {$plugin.tx_ecomconfigcodegenerator.settings.mail.carbonCopy}
 			confirmationMessage = {$plugin.tx_ecomconfigcodegenerator.settings.mail.confirmationMessage}
 		}
 		log {

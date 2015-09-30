@@ -104,6 +104,14 @@ class LogController extends \S3b0\EcomConfigCodeGenerator\Controller\GeneratorCo
 		} else {
 			$sender = \TYPO3\CMS\Core\Utility\MailUtility::getSystemFrom();
 		}
+		$carbonCopyReceivers = [ ];
+		if ( $this->settings['mail']['carbonCopy'] ) {
+			foreach ( explode(',', $this->settings['mail']['carbonCopy']) as $carbonCopyReceiver ) {
+				$tokens = GeneralUtility::trimExplode(' ', $carbonCopyReceiver, TRUE, 2);
+				if ( GeneralUtility::validEmail($tokens[0]) )
+					$carbonCopyReceivers[ $tokens[0] ] = $tokens[1];
+			}
+		}
 		/** @var \TYPO3\CMS\Core\Mail\MailMessage $mailToSender */
 		$mailToSender = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\TYPO3\CMS\Core\Mail\MailMessage::class);
 		$mailToSender->setContentType('text/html');
@@ -129,6 +137,7 @@ class LogController extends \S3b0\EcomConfigCodeGenerator\Controller\GeneratorCo
 		 * Email to receiver
 		 */
 		$mailToReceiver->setFrom([ $newLog->getEmail() => "{$newLog->getFirstName()} {$newLog->getLastName()}" ])
+			->setCc($carbonCopyReceivers)
 			->setTo($sender)
 			->setSubject($this->settings['mail']['receiverSubject'] ?: LocalizationUtility::translate('mail.toReceiver.subject', $this->extensionName, [ $data['title'] ]))
 			->setBody($this->getStandAloneTemplate('Email/ToReceiver', [

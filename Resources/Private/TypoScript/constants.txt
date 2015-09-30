@@ -24,6 +24,8 @@ plugin.tx_ecomconfigcodegenerator {
 			senderEmail = sales@ecom-ex.com
 			# cat=plugin.tx_ecomconfigcodegenerator//general; type=string; label=E-Mail sender name
 			senderName = ecom instruments GmbH
+			# cat=plugin.tx_ecomconfigcodegenerator//general; type=string; label=E-Mail carbon copy receivers:Split by comma if multiple
+			carbonCopy = marketing@ecom-ex.com ecom Marketing
 			# cat=plugin.tx_ecomconfigcodegenerator//general; type=int+; label=Content object (text) for confirmation page [tt_content]
 			confirmationMessage = 4821
 		}
