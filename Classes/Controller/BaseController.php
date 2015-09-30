@@ -377,7 +377,7 @@ class BaseController extends \Ecom\EcomToolbox\Controller\ActionController {
 		if ( $next instanceof \S3b0\EcomConfigCodeGenerator\Domain\Model\PartGroup ) {
 			if ( $next->isUnlocked() ) {
 				$partGroup->setNext($next);
-			} elseif ( $partGroup->getNext()->getNext()->getNext() instanceof \S3b0\EcomConfigCodeGenerator\Domain\Model\PartGroup ) {
+			} elseif ( $next->getNext() instanceof \S3b0\EcomConfigCodeGenerator\Domain\Model\PartGroup ) {
 				$this->setNextPartGroupFinalOnPartGroup($partGroup, ++$traverse);
 			}
 		} else {
