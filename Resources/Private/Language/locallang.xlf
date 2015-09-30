@@ -104,6 +104,9 @@
 			<trans-unit id="forms.log.field.quantity" xml:space="preserve">
 				<source>Quantity</source>
 			</trans-unit>
+			<trans-unit id="forms.log.field.pricing" xml:space="preserve">
+				<source>Value</source>
+			</trans-unit>
 			<!-- GENERIC FORMS -->
 			<trans-unit id="forms.submit" xml:space="preserve">
 				<source>Submit</source>
