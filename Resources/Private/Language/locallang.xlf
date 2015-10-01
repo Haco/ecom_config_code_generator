@@ -32,7 +32,7 @@
 				<source>Sending request</source>
 			</trans-unit>
 			<trans-unit id="label.moreInformation" xml:space="preserve">
-				<source>More</source>
+				<source><![CDATA[<i class="fa fa-info-circle fa-fw fa-lg" title="More information"></i>]]></source>
 			</trans-unit>
 			<trans-unit id="label.basePrice" xml:space="preserve">
 				<source>Base price</source>
