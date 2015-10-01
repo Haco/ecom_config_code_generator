@@ -58,6 +58,10 @@ class LogController extends \S3b0\EcomConfigCodeGenerator\Controller\GeneratorCo
 	 * @return void
 	 */
 	public function newAction(\S3b0\EcomConfigCodeGenerator\Domain\Model\Log $newLog = NULL) {
+		$configuration = $this->feSession->get('config') ?: [ ];
+		if ( !sizeof($configuration) )
+			$this->forward('index', 'Generator');
+
 		$data = $this->getIndexActionData();
 
 		if ( $data['progress'] < 1 ) {
@@ -90,6 +94,8 @@ class LogController extends \S3b0\EcomConfigCodeGenerator\Controller\GeneratorCo
 		$configuration = $this->feSession->get('config') ?: [ ];
 		if ( sizeof($configuration) ) {
 			$this->addConfigurationToLog($newLog, $configuration);
+		} else {
+			$this->forward('index', 'Generator');
 		}
 
 		$this->createRecord($newLog);

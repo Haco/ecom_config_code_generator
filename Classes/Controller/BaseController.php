@@ -518,40 +518,42 @@ class BaseController extends \Ecom\EcomToolbox\Controller\ActionController {
 		$summaryTableMailRows = [ ];
 		$code = [ ];
 		$blankCode = [ ];
-		/** @var \S3b0\EcomConfigCodeGenerator\Domain\Model\PartGroup $partGroup */
-		foreach ( $this->contentObject->getCcgConfiguration()->getPartGroups() as $partGroup ) {
-			$parts = $configuration[$partGroup->getUid()];
-			ksort($parts); // Order by sorting
-			$segment = '';
-			$partList = [ ];
-			foreach ( $parts as $partUid ) {
-				/** @var \S3b0\EcomConfigCodeGenerator\Domain\Model\Part $part */
-				$part = $this->partRepository->findByUid($partUid);
-				$partList[] = trim(($part->getTitle() !== "-" ? $part->getTitle() : "") . (strlen($part->getCodeSegment()) ? " [{$part->getCodeSegment()}]" : ""));
-				$segment .= $part->getCodeSegment();
+		if ( sizeof($configuration) ) {
+			/** @var \S3b0\EcomConfigCodeGenerator\Domain\Model\PartGroup $partGroup */
+			foreach ( $this->contentObject->getCcgConfiguration()->getPartGroups() as $partGroup ) {
+				$parts = $configuration[$partGroup->getUid()];
+				ksort($parts); // Order by sorting
+				$segment = '';
+				$partList = [ ];
+				foreach ( $parts as $partUid ) {
+					/** @var \S3b0\EcomConfigCodeGenerator\Domain\Model\Part $part */
+					$part = $this->partRepository->findByUid($partUid);
+					$partList[] = trim(($part->getTitle() !== "-" ? $part->getTitle() : "") . (strlen($part->getCodeSegment()) ? " [{$part->getCodeSegment()}]" : ""));
+					$segment .= $part->getCodeSegment();
+				}
+				if ( $partGroup->getPlaceInCode() ) {
+					$code[$partGroup->getPlaceInCode()] = "<span class=\"syntax-help\" title=\"{$partGroup->getTitle()}\">{$segment}</span>";
+					$blankCode[$partGroup->getPlaceInCode()] = $segment;
+				} else {
+					$code[] = "<span class=\"syntax-help\" title=\"{$partGroup->getTitle()}\">{$segment}</span>";
+					$blankCode[] = $segment;
+				}
+				if ( $partGroup->isVisibleInSummary() ) {
+					$summaryTableRows[] = ("
+						<td>{$partGroup->getStepIndicator()}</td>
+						<td>{$partGroup->getTitle()}</td>
+						<td>" . implode(', ', $partList) . "</td>
+						<td>" . ($partGroup->isSelectable() ? "<a data-part-group=\"{$partGroup->getUid()}\" class=\"configurator-part-group-select\"><i class=\"fa fa-edit\"></i></a>" : "") . "</td>
+					") . ( $this->pricing ? "<td style=\"text-align:right\">{$partGroup->getPricing()}</td>" : "" );
+					$summaryTableMailRows[] = ("
+						<td>{$partGroup->getTitle()}</td>
+						<td>" . implode(', ', $partList) . "</td>
+					");
+				}
 			}
-			if ( $partGroup->getPlaceInCode() ) {
-				$code[$partGroup->getPlaceInCode()] = "<span class=\"syntax-help\" title=\"{$partGroup->getTitle()}\">{$segment}</span>";
-				$blankCode[$partGroup->getPlaceInCode()] = $segment;
-			} else {
-				$code[] = "<span class=\"syntax-help\" title=\"{$partGroup->getTitle()}\">{$segment}</span>";
-				$blankCode[] = $segment;
-			}
-			if ( $partGroup->isVisibleInSummary() ) {
-				$summaryTableRows[] = ("
-					<td>{$partGroup->getStepIndicator()}</td>
-					<td>{$partGroup->getTitle()}</td>
-					<td>" . implode(', ', $partList) . "</td>
-					<td>" . ($partGroup->isSelectable() ? "<a data-part-group=\"{$partGroup->getUid()}\" class=\"configurator-part-group-select\"><i class=\"fa fa-edit\"></i></a>" : "") . "</td>
-				") . ( $this->pricing ? "<td style=\"text-align:right\">{$partGroup->getPricing()}</td>" : "" );
-				$summaryTableMailRows[] = ("
-					<td>{$partGroup->getTitle()}</td>
-					<td>" . implode(', ', $partList) . "</td>
-				");
-			}
+			ksort($code);      // Order code either incremental or by place in code
+			ksort($blankCode); // Order code either incremental or by place in code
 		}
-		ksort($code);      // Order code either incremental or by place in code
-		ksort($blankCode); // Order code either incremental or by place in code
 
 		return [
 			'code' => $this->contentObject->getCcgConfiguration()->getPrefix() . implode('', $code) . $this->contentObject->getCcgConfiguration()->getSuffix(),

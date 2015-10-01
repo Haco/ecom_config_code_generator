@@ -182,7 +182,7 @@
 <div class="form-group row no-margin-horizontal">
 	<label for="quantity" class="col-sm-2 col-md-1 control-label"><f:translate id="forms.log.field.quantity" /></label>
 	<div class="col-sm-10 col-md-11">
-		<f:form.textfield additionalAttributes="{min: '1', pattern: '\d+', title: 'Digits only', data-parsley-type: 'number', data-parsley-min: '1'}"
+		<f:form.textfield additionalAttributes="{min: '1', max: '1000000', pattern: '\d+', title: 'Digits only', data-parsley-type: 'number', data-parsley-min: '1'}"
 		                  class="form-control"
 		                  id="quantity"
 		                  property="quantity"

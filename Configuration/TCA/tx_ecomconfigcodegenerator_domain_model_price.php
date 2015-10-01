@@ -17,6 +17,7 @@ return [
 		'versioningWS' => 2,
 		'versioning_followPages' => TRUE,
 		'delete' => 'deleted',
+		'hideTable' => TRUE,
 		'enablecolumns' => [
 			'disabled' => 'hidden'
 		],
