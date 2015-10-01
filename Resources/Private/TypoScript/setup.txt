@@ -1,10 +1,3 @@
-config.defaultGetVars {
-	tx_ecomconfigcodegenerator_generator {
-		action = index
-		controller = Generator
-	}
-}
-
 plugin.tx_ecomconfigcodegenerator {
 	view {
 		templateRootPath = {$plugin.tx_ecomconfigcodegenerator.view.templateRootPath}
@@ -17,7 +10,6 @@ plugin.tx_ecomconfigcodegenerator {
 	features {
 		# uncomment the following line to enable the new Property Mapper.
 		# rewrittenPropertyMapper = 1
-		skipDefaultArguments = 1
 	}
 	settings {
 		webmasterEmail = {$plugin.tx_ecomconfigcodegenerator.settings.webmasterEmail}
