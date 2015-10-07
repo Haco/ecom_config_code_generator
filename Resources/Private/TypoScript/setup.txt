@@ -24,6 +24,7 @@ plugin.tx_ecomconfigcodegenerator {
 		log {
 			ipLength = 3
 		}
+		defaultCurrency = 1
 	}
 	switchableControllerActions = Generator->index;Generator->currencySelect;Generator->reset;Log->new;Log->create;Log->confirmation
 }

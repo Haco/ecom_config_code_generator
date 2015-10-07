@@ -259,33 +259,30 @@ class Currency extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	}
 
 	/**
-	 * @return bool
-	 */
-	public function isDefaultCurrency() {
-		return ($this->settings & \S3b0\EcomConfigCodeGenerator\Setup::BIT_CURRENCY_IS_DEFAULT) == \S3b0\EcomConfigCodeGenerator\Setup::BIT_CURRENCY_IS_DEFAULT;
-	}
-
-	/**
-	 * @return bool
+	 * @return boolean
 	 */
 	public function isSymbolPrepended() {
 		return ($this->settings & \S3b0\EcomConfigCodeGenerator\Setup::BIT_CURRENCY_PREPEND_SYMBOL) == \S3b0\EcomConfigCodeGenerator\Setup::BIT_CURRENCY_PREPEND_SYMBOL;
 	}
 
 	/**
-	 * @return bool
+	 * @return boolean
 	 */
 	public function isWhitespaceBetweenCurrencyAndValue() {
 		return ($this->settings & \S3b0\EcomConfigCodeGenerator\Setup::BIT_CURRENCY_ADD_WHITEPACE_BETWEEN_CURRENCY_AND_VALUE) == \S3b0\EcomConfigCodeGenerator\Setup::BIT_CURRENCY_ADD_WHITEPACE_BETWEEN_CURRENCY_AND_VALUE;
 	}
 
 	/**
-	 * @return bool
+	 * @return boolean
 	 */
 	public function isNumberSeparatorInUSFormat() {
-		return $this->settings & 8;
+		return ($this->settings & \S3b0\EcomConfigCodeGenerator\Setup::BIT_CURRENCY_NUMBER_SEPARATORS_IN_US_FORMAT) == \S3b0\EcomConfigCodeGenerator\Setup::BIT_CURRENCY_NUMBER_SEPARATORS_IN_US_FORMAT;
 	}
 
+	/**
+	 * Get inline CSS for displaying flags in currency switcher
+	 * @return string
+	 */
 	public function getFlagStyleTag() {
 		switch ( $this->isoCode ) {
 			case 'EUR':

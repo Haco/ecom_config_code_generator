@@ -34,67 +34,7 @@ use TYPO3\CMS\Core\Utility as CoreUtility;
  * Class ModifyTCA
  * @package S3b0\EcomConfigCodeGenerator\User\ModifyTCA
  */
-class ModifyTCA extends \TYPO3\CMS\Backend\Form\FormEngine {
-
-	/**
-	 * userFuncEcomConfigCodeGeneratorCurrencySettings function.
-	 *
-	 * @param array                              $PA
-	 * @param \TYPO3\CMS\Backend\Form\FormEngine $pObj
-	 *
-	 * @return string
-	 */
-	public function userFuncEcomConfigCodeGeneratorCurrencySettings(array &$PA, \TYPO3\CMS\Backend\Form\FormEngine $pObj = NULL) {
-		$table = 'tx_ecomconfigcodegenerator_domain_model_currency';
-		$addWhere = \TYPO3\CMS\Core\Utility\MathUtility::canBeInterpretedAsInteger($PA['row']['uid']) ? " AND NOT $table.uid=" . $PA['row']['uid'] : "";
-		if ( $rows = $pObj->getDatabaseConnection()->exec_SELECTgetRows("*", $table, "$table.settings & " . \S3b0\EcomConfigCodeGenerator\Setup::BIT_CURRENCY_IS_DEFAULT . $addWhere . BackendUtility\BackendUtility::BEenableFields($table)) ) {
-			/** @var \Ecom\EcomToolbox\Utility\BitHandler $bitwiseFlag */
-			$bitwiseFlag = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\Ecom\EcomToolbox\Utility\BitHandler::class);
-			$bitwiseFlag->setBits($PA['row']['settings']);
-			$isCurrentMarkedAsDefault = $bitwiseFlag->isBitSet(\S3b0\EcomConfigCodeGenerator\Setup::BIT_CURRENCY_IS_DEFAULT);
-
-			if ( $isCurrentMarkedAsDefault ) {
-				foreach ( $rows as $row ) {
-					$bitwiseFlag->reset()->setBits($row['settings']);
-					if ( !$bitwiseFlag->isBitSet(\S3b0\EcomConfigCodeGenerator\Setup::BIT_CURRENCY_IS_DEFAULT) ) {
-						continue;
-					}
-					$bitwiseFlag->unsetSingleBit(\S3b0\EcomConfigCodeGenerator\Setup::BIT_CURRENCY_IS_DEFAULT);
-					$pObj->getDatabaseConnection()->exec_UPDATEquery(
-						$table,
-						"$table.uid=" . $row['uid'],
-						[ 'settings' => $bitwiseFlag->getBits() ]
-					);
-				}
-			} elseif ( count($rows) > 1 ) {
-				$defaultFlagSet = FALSE;
-				foreach ( $rows as $row ) {
-					$bitwiseFlag->reset();
-					$bitwiseFlag->setBits($row['settings']);
-					if ( !$bitwiseFlag->isBitSet(\S3b0\EcomConfigCodeGenerator\Setup::BIT_CURRENCY_IS_DEFAULT) ) {
-						continue;
-					}
-					if ( !$defaultFlagSet && $bitwiseFlag->isBitSet(\S3b0\EcomConfigCodeGenerator\Setup::BIT_CURRENCY_IS_DEFAULT) ) {
-						$defaultFlagSet = TRUE;
-						continue;
-					}
-					$bitwiseFlag->unsetSingleBit(\S3b0\EcomConfigCodeGenerator\Setup::BIT_CURRENCY_IS_DEFAULT);
-					$pObj->getDatabaseConnection()->exec_UPDATEquery(
-						$table,
-						"$table.uid=" . $row['uid'],
-						[ 'settings' => $bitwiseFlag->getBits() ]
-					);
-				}
-			}
-			$PA['fieldConf']['config']['items'][(int) log(\S3b0\EcomConfigCodeGenerator\Setup::BIT_CURRENCY_IS_DEFAULT, 2)][0] = '!!! FLAG ALREADY SET !!! This will cause a break in plugin functionality! Save twice to set flag at current record!';
-		}
-
-		// Disable for non-admins
-		$PA['fieldConf']['config']['readOnly'] = !$pObj->getBackendUserAuthentication()->isAdmin();
-		// Re-render field based on the "true field type", and not as a "user"
-		$PA['fieldConf']['config']['form_type'] = $PA['fieldConf']['config']['type'];
-		return $pObj->getSingleField_SW($PA['table'], $PA['field'], $PA['row'], $PA);
-	}
+class ModifyTCA {
 
 	/**
 	 * itemsProcFuncEcomConfigCodeGeneratorDomainModelDependencyParts function.

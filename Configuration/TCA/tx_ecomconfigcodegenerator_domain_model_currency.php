@@ -149,14 +149,12 @@ return [
 			'label' => "{$translate}tx_ecomconfigcodegenerator_domain_model_currency.settings",
 			'config' => [
 				'type' => 'check',
-				'form_type' => 'user',
-				'userFunc' => 'S3b0\\EcomConfigCodeGenerator\\User\\ModifyTCA\\ModifyTCA->userFuncEcomConfigCodeGeneratorCurrencySettings',
 				'items' => [
-					[ "{$translate}tx_ecomconfigcodegenerator_domain_model_currency.settings.default" ],
 					[ "{$translate}tx_ecomconfigcodegenerator_domain_model_currency.settings.prepend_symbol" ],
 					[ "{$translate}tx_ecomconfigcodegenerator_domain_model_currency.settings.separate" ],
 					[ "{$translate}tx_ecomconfigcodegenerator_domain_model_currency.settings.format_us" ]
-				]
+				],
+				'default' => 2
 			]
 		]
 

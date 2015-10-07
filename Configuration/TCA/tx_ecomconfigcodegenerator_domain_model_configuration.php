@@ -5,6 +5,10 @@ if (!defined ('TYPO3_MODE')) {
 
 $translate = 'LLL:EXT:ecom_config_code_generator/Resources/Private/Language/locallang_db.xlf:';
 
+/** @var \TYPO3\CMS\Core\Database\DatabaseConnection $db */
+$db = $GLOBALS['TYPO3_DB'];
+$maxItemsPricing = $db->exec_SELECTcountRows('*', 'tx_ecomconfigcodegenerator_domain_model_currency');
+
 return [
 	'ctrl' => [
 		'title'	=> "{$translate}tx_ecomconfigcodegenerator_domain_model_configuration",
@@ -164,7 +168,7 @@ return [
 				'type' => 'inline',
 				'foreign_table' => 'tx_ecomconfigcodegenerator_domain_model_price',
 				'foreign_field' => 'configuration',
-				'maxitems'      => 9999,
+				'maxitems'      => $maxItemsPricing,
 				'appearance' => [
 					'collapseAll' => 0,
 					'levelLinksPosition' => 'bottom',

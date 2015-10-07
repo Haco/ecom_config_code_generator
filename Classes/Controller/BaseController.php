@@ -175,9 +175,9 @@ class BaseController extends \Ecom\EcomToolbox\Controller\ActionController {
 		if ( $this->pricing && $this->feSession->get('currency') && MathUtility::canBeInterpretedAsInteger($this->feSession->get('currency')) ) {
 			$this->currency = $this->currencyRepository->findByUid($this->feSession->get('currency'));
 		} else {
-			$this->currency = $this->currencyRepository->getDefault();
+			$this->currency = $this->currencyRepository->getDefault($this->settings);
 		}
-		$this->contentObject->getCcgConfiguration()->setCurrencyPricing($this->currency);
+		$this->contentObject->getCcgConfiguration()->setCurrencyPricing($this->currency, $this->settings);
 	}
 
 	/**
@@ -342,7 +342,7 @@ class BaseController extends \Ecom\EcomToolbox\Controller\ActionController {
 		foreach ( $partGroups as $partGroup ) {
 			$partGroup->setStepIndicator($partGroup->isVisibleInNavigation() ? ++$cycle : 0);
 			/** SET PRICE */
-			$partGroup->setPartsCurrencyPricing($this->currency);
+			$partGroup->setPartsCurrencyPricing($this->currency, $this->settings);
 			$this->contentObject->getCcgConfiguration()->summateConfigurationPricing($partGroup);
 			$this->setNextPartGroupFinalOnPartGroup($partGroup);
 			if ( !array_key_exists($partGroup->getUid(), $configuration) && !is_array($configuration[$partGroup->getUid()]) && !$current instanceof \S3b0\EcomConfigCodeGenerator\Domain\Model\PartGroup ) {

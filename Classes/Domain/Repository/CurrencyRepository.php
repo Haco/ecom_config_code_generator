@@ -43,16 +43,17 @@ class CurrencyRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
 	}
 
 	/**
+	 * @param array $settings
 	 * @return \S3b0\EcomConfigCodeGenerator\Domain\Model\Currency
 	 */
-	public function getDefault() {
+	public function getDefault(array $settings = [ ]) {
 		$currencies = $this->findAll();
 		/** @var \S3b0\EcomConfigCodeGenerator\Domain\Model\Currency $default */
 		$default = $currencies->getFirst();
-		if ( count($currencies) > 1 ) {
+		if ( sizeof($currencies) > 1 && $settings['defaultCurrency'] ) {
 			/** @var \S3b0\EcomConfigCodeGenerator\Domain\Model\Currency $currency */
 			foreach ( $currencies as $currency ) {
-				if ( $currency->isDefaultCurrency() ) {
+				if ( $currency->getUid() == $settings['defaultCurrency'] ) {
 					$default = $currency;
 				}
 			}

@@ -34,7 +34,6 @@ $tempColumns = [
 \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addTCAcolumns('tt_content', $tempColumns, TRUE);
 
 $GLOBALS['TCA']['tt_content']['types']['list']['subtypes_addlist']['ecomconfigcodegenerator_generator'] = ("
-	--palette--;;tx_ccg_palettes.0,
+	ccg_configuration,
 	--div--;LLL:EXT:cms/locallang_ttc.xlf:tabs.extended, bodytext;{$translate}bodytext_formlabel;;richtext:rte_transform[flag=rte_enabled|mode=ts_css], rte_enabled
 ");
-$GLOBALS['TCA']['tt_content']['palettes']['tx_ccg_palettes.0'] = [ 'showitem' => 'ccg_configuration' ];

@@ -77,7 +77,7 @@ return [
 			]
 		],
 		'part_groups' => [
-			'displayCond' => 'FIELD:mode:IN:0,1',
+			'displayCond' => 'REC:NEW:FALSE',
 			'exclude' => 0,
 			'label' => "{$translate}tx_ecomconfigcodegenerator_domain_model_dependency.part_groups",
 			'config' => [
@@ -105,7 +105,7 @@ return [
 		'parts' => [
 			'displayCond' => [
 				'AND' => [
-					'FIELD:mode:IN:0,1',
+					'REC:NEW:FALSE',
 					'FIELD:part_groups:REQ:TRUE'
 				]
 			],

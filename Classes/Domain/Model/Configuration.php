@@ -294,9 +294,10 @@ class Configuration extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 
 	/**
 	 * @param \S3b0\EcomConfigCodeGenerator\Domain\Model\Currency $currency
+	 * @param array                                               $settings
 	 */
-	public function setCurrencyPricing(\S3b0\EcomConfigCodeGenerator\Domain\Model\Currency $currency = NULL) {
-		\S3b0\EcomConfigCodeGenerator\Utility\PriceHandler::setPriceInCurrency($this, $currency);
+	public function setCurrencyPricing(\S3b0\EcomConfigCodeGenerator\Domain\Model\Currency $currency = NULL, array $settings = [ ]) {
+		\S3b0\EcomConfigCodeGenerator\Utility\PriceHandler::setPriceInCurrency($this, $currency, $settings);
 		$this->configurationPricingNumeric = $this->noCurrencyPricing;
 		$this->currency = $currency;
 	}

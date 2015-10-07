@@ -34,12 +34,13 @@ $extKey = 'ecom_config_code_generator';
 \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addLLrefForTCAdescr('tx_ecomconfigcodegenerator_domain_model_partgroup', 'EXT:ecom_config_code_generator/Resources/Private/Language/locallang_csh_tx_ecomconfigcodegenerator_domain_model_partgroup.xlf');
 \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addLLrefForTCAdescr('tx_ecomconfigcodegenerator_domain_model_price', 'EXT:ecom_config_code_generator/Resources/Private/Language/locallang_csh_tx_ecomconfigcodegenerator_domain_model_price.xlf');
 
+$t3skinExtPath = version_compare(TYPO3_branch, '7.5', '<') ? \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath('t3skin') : \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('t3skin');
   // Add Sprite Icons for different record types (visual distinction)
 \TYPO3\CMS\Backend\Sprite\SpriteManager::addSingleIcons(
 	[
 		'dependency-default' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath($extKey) . 'Resources/Public/Icons/tx_ecomconfigcodegenerator_domain_model_dependency.png',
-		'dependency-allow' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath('t3skin') . 'images/icons/status/status-permission-granted.png',
-		'dependency-deny' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath('t3skin') . 'images/icons/status/status-permission-denied.png',
+		'dependency-allow' => $t3skinExtPath . 'images/icons/status/status-permission-granted.png',
+		'dependency-deny' => $t3skinExtPath . 'images/icons/status/status-permission-denied.png',
 		'package-default' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath($extKey) . 'Resources/Public/Icons/tx_ecomconfigcodegenerator_domain_model_partgroup.png',
 		'package-hidden-fe' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath($extKey) . 'Resources/Public/Icons/tx_ecomconfigcodegenerator_domain_model_partgroup_hidden_fe.png'
 	],

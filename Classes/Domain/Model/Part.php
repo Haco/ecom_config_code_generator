@@ -311,9 +311,10 @@ class Part extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	 * Sets the currencyPricing
 	 *
 	 * @param \S3b0\EcomConfigCodeGenerator\Domain\Model\Currency $currency
+	 * @param array                                               $settings
 	 */
-	public function setCurrencyPricing(\S3b0\EcomConfigCodeGenerator\Domain\Model\Currency $currency = NULL) {
-		\S3b0\EcomConfigCodeGenerator\Utility\PriceHandler::setPriceInCurrency($this, $currency);
+	public function setCurrencyPricing(\S3b0\EcomConfigCodeGenerator\Domain\Model\Currency $currency = NULL, array $settings = [ ]) {
+		\S3b0\EcomConfigCodeGenerator\Utility\PriceHandler::setPriceInCurrency($this, $currency, $settings);
 	}
 
 	/**

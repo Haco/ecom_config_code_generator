@@ -39,11 +39,12 @@
 		/**
 		 * @param \TYPO3\CMS\Extbase\DomainObject\AbstractDomainObject     $model
 		 * @param \S3b0\EcomConfigCodeGenerator\Domain\Model\Currency|NULL $currency
+		 * @param array                                                    $settings
 		 * @param array                                                    $setNumericFields
 		 * @param string                                                   $setStringField
 		 * @param string                                                   $pricingField
 		 */
-		public static function setPriceInCurrency(\TYPO3\CMS\Extbase\DomainObject\AbstractDomainObject $model, \S3b0\EcomConfigCodeGenerator\Domain\Model\Currency $currency = NULL, $setNumericFields = [ 'noCurrencyPricing' ], $setStringField = 'currencyPricing', $pricingField = 'pricing') {
+		public static function setPriceInCurrency(\TYPO3\CMS\Extbase\DomainObject\AbstractDomainObject $model, \S3b0\EcomConfigCodeGenerator\Domain\Model\Currency $currency = NULL, array $settings, $setNumericFields = [ 'noCurrencyPricing' ], $setStringField = 'currencyPricing', $pricingField = 'pricing') {
 			if ( $currency instanceof \S3b0\EcomConfigCodeGenerator\Domain\Model\Currency ) {
 				$value = '0.00';
 				$priceFound = FALSE;
@@ -59,7 +60,7 @@
 					 */
 					foreach( $model->{$pricingField} as $pricing ) {
 						$compareCurrency = $pricing->getCurrency() instanceof \TYPO3\CMS\Extbase\Persistence\Generic\LazyLoadingProxy ? $pricing->getCurrency()->_loadRealInstance() : $pricing->getCurrency();
-						if ( $compareCurrency->isDefaultCurrency() ) {
+						if ( $compareCurrency->getUid() == $settings['defaultCurrency'] ) {
 							$default = $pricing;
 						}
 						if ( $compareCurrency === $currency ) {
