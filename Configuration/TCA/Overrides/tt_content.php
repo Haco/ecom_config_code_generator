@@ -23,9 +23,9 @@ $tempColumns = [
 			'appearance' => [
 				'collapseAll' => 0,
 				'levelLinksPosition' => 'top',
-				'showSynchronizationLink' => 1,
-				'showPossibleLocalizationRecords' => 1,
-				'showAllLocalizationLink' => 1
+				'showSynchronizationLink' => 0,
+				'showPossibleLocalizationRecords' => 0,
+				'showAllLocalizationLink' => 0
 			]
 		]
 	]

@@ -189,7 +189,8 @@ return [
 			'config' => [
 				'type' => 'select',
 				'readOnly' => 1,
-				'foreign_table' => 'tt_content'
+				'foreign_table' => 'tt_content',
+				'suppress_icons' => 1
 			]
 		]
 	]

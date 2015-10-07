@@ -145,7 +145,8 @@ return [
 			'label' => "{$translate}tx_ecomconfigcodegenerator_domain_model_log.country",
 			'config' => [
 				'type' => 'select',
-				'foreign_table' => 'tx_ecomtoolbox_domain_model_region'
+				'foreign_table' => 'tx_ecomtoolbox_domain_model_region',
+				'suppress_icons' => 1
 			]
 		],
 		'state' => [
@@ -153,7 +154,8 @@ return [
 			'label' => "{$translate}tx_ecomconfigcodegenerator_domain_model_log.state",
 			'config' => [
 				'type' => 'select',
-				'foreign_table' => 'tx_ecomtoolbox_domain_model_state'
+				'foreign_table' => 'tx_ecomtoolbox_domain_model_state',
+				'suppress_icons' => 1
 			]
 		],
 		'phone' => [
@@ -229,7 +231,8 @@ return [
 				'foreign_table' => 'fe_users',
 				'items' => [
 					[ '', 0 ]
-				]
+				],
+				'suppress_icons' => 1
 			]
 		],
 		'configured_parts' => [

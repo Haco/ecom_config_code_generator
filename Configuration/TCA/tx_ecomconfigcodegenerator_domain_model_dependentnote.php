@@ -25,7 +25,7 @@ return [
 			'disabled' => 'hidden'
 		],
 		'searchFields' => 'note,note_wrap,use_logical_and,dependent_parts',
-		'iconfile' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath('sys_note') . 'ext_icon.gif'
+		'iconfile' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath('sys_note') . (version_compare(TYPO3_branch, '7.5', '<') ? 'ext_icon.gif' : 'ext_icon.png')
 	],
 	'interface' => [
 		'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, note, note_wrap, use_logical_and, dependent_parts'
@@ -63,6 +63,7 @@ return [
 				],
 				'foreign_table' => 'tx_ecomconfigcodegenerator_domain_model_dependentnote',
 				'foreign_table_where' => 'AND tx_ecomconfigcodegenerator_domain_model_dependentnote.pid=###CURRENT_PID### AND tx_ecomconfigcodegenerator_domain_model_dependentnote.sys_language_uid IN (-1,0)',
+				'suppress_icons' => 1
 			]
 		],
 		'l10n_diffsource' => [

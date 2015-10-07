@@ -62,7 +62,8 @@ return [
 					[ '', 0 ]
 				],
 				'foreign_table' => 'tx_ecomconfigcodegenerator_domain_model_modal',
-				'foreign_table_where' => 'AND tx_ecomconfigcodegenerator_domain_model_modal.pid=###CURRENT_PID### AND tx_ecomconfigcodegenerator_domain_model_modal.sys_language_uid IN (-1,0)'
+				'foreign_table_where' => 'AND tx_ecomconfigcodegenerator_domain_model_modal.pid=###CURRENT_PID### AND tx_ecomconfigcodegenerator_domain_model_modal.sys_language_uid IN (-1,0)',
+				'suppress_icons' => 1
 			]
 		],
 		'l10n_diffsource' => [
@@ -157,7 +158,8 @@ return [
 					[ "{$translate}select.empty", '' ]
 				],
 				'minitems' => 1,
-				'maxitems' => 1
+				'maxitems' => 1,
+				'suppress_icons' => 1
 			]
 		],
 

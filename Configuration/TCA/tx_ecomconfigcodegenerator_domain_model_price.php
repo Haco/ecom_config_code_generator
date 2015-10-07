@@ -70,26 +70,39 @@ return [
 				'foreign_table' => 'tx_ecomconfigcodegenerator_domain_model_currency',
 				'foreign_table_where' => 'AND NOT tx_ecomconfigcodegenerator_domain_model_currency.deleted',
 				'minitems' => 1,
-				'maxitems' => 1
+				'maxitems' => 1,
+				'suppress_icons' => 1
 			]
 		],
 
 		'configuration' => [
-			'displayCond' => 'FIELD:configuration:>:0',
+			'displayCond' => [
+				'AND' => [
+					'REC:NEW:FALSE',
+					'FIELD:part:=:0'
+				]
+			],
 			'label' => "{$translate}tx_ecomconfigcodegenerator_domain_model_configuration",
 			'config' => [
 				'type' => 'select',
 				'readOnly' => 1,
-				'foreign_table' => 'tx_ecomconfigcodegenerator_domain_model_configuration'
+				'foreign_table' => 'tx_ecomconfigcodegenerator_domain_model_configuration',
+				'suppress_icons' => 1
 			]
 		],
 		'part' => [
-			'displayCond' => 'FIELD:part:>:0',
+			'displayCond' => [
+				'AND' => [
+					'REC:NEW:FALSE',
+					'FIELD:configuration:=:0'
+				]
+			],
 			'label' => "{$translate}tx_ecomconfigcodegenerator_domain_model_part",
 			'config' => [
 				'type' => 'select',
 				'readOnly' => 1,
-				'foreign_table' => 'tx_ecomconfigcodegenerator_domain_model_part'
+				'foreign_table' => 'tx_ecomconfigcodegenerator_domain_model_part',
+				'suppress_icons' => 1
 			]
 		]
 	]

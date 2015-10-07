@@ -95,7 +95,8 @@ return [
 					[ '', 0 ],
 				],
 				'foreign_table' => 'tx_ecomconfigcodegenerator_domain_model_partgroup',
-				'foreign_table_where' => 'AND tx_ecomconfigcodegenerator_domain_model_partgroup.pid=###CURRENT_PID### AND tx_ecomconfigcodegenerator_domain_model_partgroup.sys_language_uid IN (-1,0)'
+				'foreign_table_where' => 'AND tx_ecomconfigcodegenerator_domain_model_partgroup.pid=###CURRENT_PID### AND tx_ecomconfigcodegenerator_domain_model_partgroup.sys_language_uid IN (-1,0)',
+				'suppress_icons' => 1
 			]
 		],
 		'l10n_diffsource' => [
@@ -342,7 +343,7 @@ return [
 				'type' => 'inline',
 				'foreign_table' => 'tx_ecomconfigcodegenerator_domain_model_dependentnote',
 				'foreign_field' => 'part_group',
-				'maxitems'      => 9999,
+				'maxitems'      => 1,
 				'appearance' => [
 					'collapseAll' => 1,
 					'expandSingle' => 1,
@@ -368,7 +369,7 @@ return [
 				'type' => 'inline',
 				'foreign_table' => 'tx_ecomconfigcodegenerator_domain_model_modal',
 				'foreign_field' => 'part_group',
-				'maxitems'      => 9999,
+				'maxitems'      => 1,
 				'appearance' => [
 					'collapseAll' => 1,
 					'expandSingle' => 1,
@@ -394,7 +395,8 @@ return [
 			'config' => [
 				'type' => 'select',
 				'readOnly' => 1,
-				'foreign_table' => 'tx_ecomconfigcodegenerator_domain_model_configuration'
+				'foreign_table' => 'tx_ecomconfigcodegenerator_domain_model_configuration',
+				'suppress_icons' => 1
 			]
 		]
 
