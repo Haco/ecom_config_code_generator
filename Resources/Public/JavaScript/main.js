@@ -137,7 +137,6 @@ function getPartInformation(part) {
 			swal({
 				title: null,
 				text: result,
-				type: "info",
 				html: true,
 				confirmButtonText: "OK"
 			});
