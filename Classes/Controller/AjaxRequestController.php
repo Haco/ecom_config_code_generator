@@ -25,7 +25,6 @@ namespace S3b0\EcomConfigCodeGenerator\Controller;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
-use S3b0\EcomConfigCodeGenerator\Setup;
 use TYPO3\CMS\Core\Utility\MathUtility;
 
 /**

@@ -344,7 +344,7 @@ class BaseController extends \Ecom\EcomToolbox\Controller\ActionController {
 			/** SET PRICE */
 			$partGroup->setPartsCurrencyPricing($this->currency, $this->settings);
 			$this->contentObject->getCcgConfiguration()->summateConfigurationPricing($partGroup);
-			$this->setNextPartGroupFinalOnPartGroup($partGroup);
+			$this->correctNextPartGroupIfItHasBeenAffectedByAutoSetPartsOrSimilar($partGroup);
 			if ( !array_key_exists($partGroup->getUid(), $configuration) && !is_array($configuration[$partGroup->getUid()]) && !$current instanceof \S3b0\EcomConfigCodeGenerator\Domain\Model\PartGroup ) {
 				$current = $partGroup;
 			}
@@ -362,7 +362,7 @@ class BaseController extends \Ecom\EcomToolbox\Controller\ActionController {
 	 * Traverse setting correct 'next' item, skipping locked
 	 * @param \S3b0\EcomConfigCodeGenerator\Domain\Model\PartGroup $partGroup
 	 */
-	private function setNextPartGroupFinalOnPartGroup(\S3b0\EcomConfigCodeGenerator\Domain\Model\PartGroup $partGroup = NULL, $traverse = 0) {
+	private function correctNextPartGroupIfItHasBeenAffectedByAutoSetPartsOrSimilar(\S3b0\EcomConfigCodeGenerator\Domain\Model\PartGroup $partGroup = NULL, $traverse = 0) {
 		$next = $partGroup->getNext();
 		if ( $traverse > 0 ) {
 			for ($i = 0; $i < $traverse; $i++) {
@@ -378,7 +378,7 @@ class BaseController extends \Ecom\EcomToolbox\Controller\ActionController {
 			if ( $next->isUnlocked() ) {
 				$partGroup->setNext($next);
 			} elseif ( $next->getNext() instanceof \S3b0\EcomConfigCodeGenerator\Domain\Model\PartGroup ) {
-				$this->setNextPartGroupFinalOnPartGroup($partGroup, ++$traverse);
+				$this->correctNextPartGroupIfItHasBeenAffectedByAutoSetPartsOrSimilar($partGroup, ++$traverse);
 			}
 		} else {
 			$partGroup->setNext(NULL);

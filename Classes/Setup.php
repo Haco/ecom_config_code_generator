@@ -18,8 +18,6 @@ class Setup {
 	const BIT_PARTGROUP_MULTIPLE_SELECT = 8;
 	const BIT_PARTGROUP_USE_PERCENTAGE_PRICING = 16;
 
-	const SESSION_STORAGE_KEY_PREFIX = 'ccg-';
-
 	/**
 	 * @param boolean $isDevelopment
 	 */
@@ -38,12 +36,12 @@ class Setup {
 	}
 
 	/**
-	 * @param \S3b0\EcomConfigCodeGenerator\Domain\Model\Content|NULL $content
+	 * @param \S3b0\EcomConfigCodeGenerator\Domain\Model\Content $content
 	 *
 	 * @return string
 	 */
-	public static function getSessionStorageKey(\S3b0\EcomConfigCodeGenerator\Domain\Model\Content $content = NULL) {
-		return self::SESSION_STORAGE_KEY_PREFIX . $content->getUid();
+	public static function getSessionStorageKey(\S3b0\EcomConfigCodeGenerator\Domain\Model\Content $content) {
+		return 'ccg-' . $content->getUid();
 	}
 
 }

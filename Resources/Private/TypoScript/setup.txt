@@ -60,7 +60,7 @@ EcomConfigCodeGeneratorAjaxRequest {
 		pluginName = Generator
 		controller = AjaxRequest
 		switchableControllerActions {
-			DynamicConfiguratorAjaxRequest {
+			AjaxRequest {
 				1 = index
 				2 = updatePart
 				3 = showHint
@@ -68,7 +68,7 @@ EcomConfigCodeGeneratorAjaxRequest {
 		}
 	}
 
-	view < plugin.tx_ecompc.view
-	persistence < plugin.tx_ecompc.persistence
-	settings < plugin.tx_ecompc.settings
+	view < plugin.tx_ecomconfigcodegenerator.view
+	persistence < plugin.tx_ecomconfigcodegenerator.persistence
+	settings < plugin.tx_ecomconfigcodegenerator.settings
 }
