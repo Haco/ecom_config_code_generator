@@ -95,7 +95,7 @@ class Currency extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	/**
 	 * Divers currency settings
 	 *
-	 * @var integer
+	 * @var int
 	 */
 	protected $settings = 7;
 
@@ -242,7 +242,7 @@ class Currency extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	/**
 	 * Returns the settings
 	 *
-	 * @return integer $settings
+	 * @return int $settings
 	 */
 	public function getSettings() {
 		return $this->settings;
@@ -251,7 +251,7 @@ class Currency extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	/**
 	 * Sets the settings
 	 *
-	 * @param integer $settings
+	 * @param int $settings
 	 * @return void
 	 */
 	public function setSettings($settings) {
@@ -259,21 +259,21 @@ class Currency extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	}
 
 	/**
-	 * @return boolean
+	 * @return bool
 	 */
 	public function isSymbolPrepended() {
 		return ($this->settings & \S3b0\EcomConfigCodeGenerator\Setup::BIT_CURRENCY_PREPEND_SYMBOL) == \S3b0\EcomConfigCodeGenerator\Setup::BIT_CURRENCY_PREPEND_SYMBOL;
 	}
 
 	/**
-	 * @return boolean
+	 * @return bool
 	 */
 	public function isWhitespaceBetweenCurrencyAndValue() {
 		return ($this->settings & \S3b0\EcomConfigCodeGenerator\Setup::BIT_CURRENCY_ADD_WHITEPACE_BETWEEN_CURRENCY_AND_VALUE) == \S3b0\EcomConfigCodeGenerator\Setup::BIT_CURRENCY_ADD_WHITEPACE_BETWEEN_CURRENCY_AND_VALUE;
 	}
 
 	/**
-	 * @return boolean
+	 * @return bool
 	 */
 	public function isNumberSeparatorInUSFormat() {
 		return ($this->settings & \S3b0\EcomConfigCodeGenerator\Setup::BIT_CURRENCY_NUMBER_SEPARATORS_IN_US_FORMAT) == \S3b0\EcomConfigCodeGenerator\Setup::BIT_CURRENCY_NUMBER_SEPARATORS_IN_US_FORMAT;

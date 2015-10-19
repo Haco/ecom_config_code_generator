@@ -19,7 +19,7 @@ class Setup {
 	const BIT_PARTGROUP_USE_PERCENTAGE_PRICING = 16;
 
 	/**
-	 * @param boolean $isDevelopment
+	 * @param bool $isDevelopment
 	 */
 	public static function setEnvironment($isDevelopment = FALSE) {
 		if ( $isDevelopment ) {

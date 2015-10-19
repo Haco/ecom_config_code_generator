@@ -34,7 +34,7 @@ use S3b0\EcomConfigCodeGenerator\Setup;
 class PartGroup extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 
 	/**
-	 * @var integer
+	 * @var int
 	 */
 	protected $sorting = 0;
 
@@ -56,7 +56,7 @@ class PartGroup extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	/**
 	 * Where to place segment in code?
 	 *
-	 * @var integer
+	 * @var int
 	 */
 	protected $placeInCode = 0;
 
@@ -70,7 +70,7 @@ class PartGroup extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	/**
 	 * Wrapper <div class="alert alert-xxx"> (default Bootstrap classes)
 	 *
-	 * @var integer
+	 * @var int
 	 */
 	protected $promptWrap = 0;
 
@@ -78,7 +78,7 @@ class PartGroup extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	 * Global settings, i.e. visibility options, pricing options, multiple select
 	 * availability ...
 	 *
-	 * @var integer
+	 * @var int
 	 */
 	protected $settings = 0;
 
@@ -143,12 +143,12 @@ class PartGroup extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	protected $dependentNotesFluidParsedMessages;
 
 	/**
-	 * @var boolean
+	 * @var bool
 	 */
 	protected $active = FALSE;
 
 	/**
-	 * @var boolean
+	 * @var bool
 	 */
 	protected $current = FALSE;
 
@@ -158,17 +158,17 @@ class PartGroup extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	protected $next = NULL;
 
 	/**
-	 * @var integer
+	 * @var int
 	 */
 	protected $stepIndicator = 0;
 
 	/**
-	 * @var boolean
+	 * @var bool
 	 */
 	protected $selectable = TRUE;
 
 	/**
-	 * @var boolean
+	 * @var bool
 	 */
 	protected $last = FALSE;
 
@@ -196,7 +196,7 @@ class PartGroup extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	}
 
 	/**
-	 * @return integer
+	 * @return int $sorting
 	 */
 	public function getSorting() {
 		return $this->sorting;
@@ -243,7 +243,7 @@ class PartGroup extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	/**
 	 * Returns the placeInCode
 	 *
-	 * @return integer $placeInCode
+	 * @return int $placeInCode
 	 */
 	public function getPlaceInCode() {
 		return $this->placeInCode;
@@ -252,7 +252,7 @@ class PartGroup extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	/**
 	 * Sets the placeInCode
 	 *
-	 * @param integer $placeInCode
+	 * @param int $placeInCode
 	 * @return void
 	 */
 	public function setPlaceInCode($placeInCode) {
@@ -296,7 +296,7 @@ class PartGroup extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	/**
 	 * Returns the promptWrap
 	 *
-	 * @return integer
+	 * @return int $promptWrap
 	 */
 	public function getPromptWrap() {
 		return $this->promptWrap;
@@ -305,7 +305,7 @@ class PartGroup extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	/**
 	 * Sets the promptWrap
 	 *
-	 * @param integer $promptWrap
+	 * @param int $promptWrap
 	 * @return void
 	 */
 	public function setPromptWrap($promptWrap) {
@@ -315,7 +315,7 @@ class PartGroup extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	/**
 	 * Returns the settings
 	 *
-	 * @return integer $settings
+	 * @return int $settings
 	 */
 	public function getSettings() {
 		return $this->settings;
@@ -324,7 +324,7 @@ class PartGroup extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	/**
 	 * Sets the settings
 	 *
-	 * @param integer $settings
+	 * @param int $settings
 	 * @return void
 	 */
 	public function setSettings($settings) {
@@ -365,7 +365,7 @@ class PartGroup extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	 *
 	 * @param array $partUidList
 	 * @todo check right to exist
-	 * @return boolean
+	 * @return bool
 	 */
 	public function areConfiguredPartsAvailable($partUidList = [ ]) {
 		$check = FALSE;
@@ -412,7 +412,7 @@ class PartGroup extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	}
 
 	/**
-	 * @return boolean
+	 * @return bool
 	 */
 	public function hasDefaultPart() {
 		return $this->defaultPart && ( $this->defaultPart instanceof \S3b0\EcomConfigCodeGenerator\Domain\Model\Part || $this->defaultPart instanceof \TYPO3\CMS\Extbase\Persistence\Generic\LazyLoadingProxy );
@@ -474,7 +474,7 @@ class PartGroup extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	/**
 	 * Returns the dependentNotesFluidParsedMessages
 	 *
-	 * @return string
+	 * @return string $dependentNotesFluidParsedMessages
 	 */
 	public function getDependentNotesFluidParsedMessages() {
 		$dependentNotesFluidParsedMessages = '';
@@ -527,14 +527,14 @@ class PartGroup extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	}
 
 	/**
-	 * @return boolean
+	 * @return bool
 	 */
 	public function hasModals() {
 		return $this->modals instanceof \TYPO3\CMS\Extbase\Persistence\ObjectStorage && $this->modals->count();
 	}
 
 	/**
-	 * @return \S3b0\EcomConfigCodeGenerator\Domain\Model\Configuration
+	 * @return \S3b0\EcomConfigCodeGenerator\Domain\Model\Configuration $configuration
 	 */
 	public function getConfiguration() {
 		return $this->configuration;
@@ -548,7 +548,7 @@ class PartGroup extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	}
 
 	/**
-	 * @return string
+	 * @return string $pricing
 	 */
 	public function getPricing() {
 		return \S3b0\EcomConfigCodeGenerator\Utility\PriceHandler::getPriceInCurrency($this->pricingNumeric, $this->configuration->getCurrency(), TRUE);
@@ -562,7 +562,7 @@ class PartGroup extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	}
 
 	/**
-	 * @return float
+	 * @return float $pricingNumeric
 	 */
 	public function getPricingNumeric() {
 		return $this->pricingNumeric;
@@ -619,14 +619,14 @@ class PartGroup extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	}
 
 	/**
-	 * @return boolean
+	 * @return bool $active
 	 */
 	public function isActive() {
 		return $this->active;
 	}
 
 	/**
-	 * @param boolean $active
+	 * @param bool $active
 	 * @return void
 	 */
 	public function setActive($active) {
@@ -634,21 +634,21 @@ class PartGroup extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	}
 
 	/**
-	 * @return boolean
+	 * @return bool $current
 	 */
 	public function isCurrent() {
 		return $this->current;
 	}
 
 	/**
-	 * @param boolean $current
+	 * @param bool $current
 	 */
 	public function setCurrent($current) {
 		$this->current = $current;
 	}
 
 	/**
-	 * @return \S3b0\EcomConfigCodeGenerator\Domain\Model\PartGroup
+	 * @return \S3b0\EcomConfigCodeGenerator\Domain\Model\PartGroup $next
 	 */
 	public function getNext() {
 		return $this->next;
@@ -662,14 +662,14 @@ class PartGroup extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	}
 
 	/**
-	 * @return boolean
+	 * @return bool
 	 */
 	public function isUnlocked() {
 		return ($this->settings & Setup::BIT_PARTGROUP_IS_LOCKED) === Setup::BIT_PARTGROUP_IS_LOCKED;
 	}
 
 	/**
-	 * @param boolean $locked
+	 * @param bool $locked
 	 */
 	public function setUnlocked($locked = TRUE) {
 		if ( $this->isUnlocked() && $locked === FALSE ) {
@@ -680,77 +680,77 @@ class PartGroup extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	}
 
 	/**
-	 * @return boolean
+	 * @return bool
 	 */
 	public function isVisibleInSummary() {
 		return ($this->settings & Setup::BIT_PARTGROUP_IN_SUMMARY) === Setup::BIT_PARTGROUP_IN_SUMMARY;
 	}
 
 	/**
-	 * @return boolean
+	 * @return bool
 	 */
 	public function isVisibleInNavigation() {
 		return ($this->settings & Setup::BIT_PARTGROUP_IN_NAVIGATION) === Setup::BIT_PARTGROUP_IN_NAVIGATION;
 	}
 
 	/**
-	 * @return boolean
+	 * @return bool
 	 */
 	public function isMultipleSelectable() {
 		return ($this->settings & Setup::BIT_PARTGROUP_MULTIPLE_SELECT) === Setup::BIT_PARTGROUP_MULTIPLE_SELECT;
 	}
 
 	/**
-	 * @return boolean
+	 * @return bool
 	 */
 	public function isPricePercentage() {
 		return ($this->settings & Setup::BIT_PARTGROUP_USE_PERCENTAGE_PRICING) === Setup::BIT_PARTGROUP_USE_PERCENTAGE_PRICING;
 	}
 
 	/**
-	 * @return boolean
+	 * @return bool
 	 */
 	public function isLocked() {
 		return !$this->isUnlocked();
 	}
 
 	/**
-	 * @return integer
+	 * @return int $stepIndicator
 	 */
 	public function getStepIndicator() {
 		return $this->stepIndicator;
 	}
 
 	/**
-	 * @param integer $stepIndicator
+	 * @param int $stepIndicator
 	 */
 	public function setStepIndicator($stepIndicator) {
 		$this->stepIndicator = $stepIndicator;
 	}
 
 	/**
-	 * @return boolean
+	 * @return bool $selectable
 	 */
 	public function isSelectable() {
 		return $this->selectable;
 	}
 
 	/**
-	 * @param boolean $selectable
+	 * @param bool $selectable
 	 */
 	public function setSelectable($selectable) {
 		$this->selectable = $selectable;
 	}
 
 	/**
-	 * @return boolean
+	 * @return bool $last
 	 */
 	public function isLast() {
 		return $this->last;
 	}
 
 	/**
-	 * @param boolean $last
+	 * @param bool $last
 	 */
 	public function setLast($last) {
 		$this->last = $last;

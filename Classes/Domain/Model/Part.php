@@ -33,7 +33,7 @@ namespace S3b0\EcomConfigCodeGenerator\Domain\Model;
 class Part extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 
 	/**
-	 * @var integer
+	 * @var int
 	 */
 	protected $sorting = 0;
 
@@ -110,12 +110,12 @@ class Part extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	protected $partGroup = NULL;
 
 	/**
-	 * @var boolean
+	 * @var bool
 	 */
 	protected $active = FALSE;
 
 	/**
-	 * @var integer
+	 * @var int
 	 */
 	protected $modalTrigger = 0;
 
@@ -140,7 +140,7 @@ class Part extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	}
 
 	/**
-	 * @return integer
+	 * @return int $sorting
 	 */
 	public function getSorting() {
 		return $this->sorting;
@@ -283,7 +283,7 @@ class Part extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	/**
 	 * Returns the pricingPercentage
 	 *
-	 * @return float
+	 * @return float $pricingPercentage
 	 */
 	public function getPricingPercentage() {
 		return $this->pricingPercentage;
@@ -320,7 +320,7 @@ class Part extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	/**
 	 * Returns the noCurrencyPricing
 	 *
-	 * @return float
+	 * @return float $noCurrencyPricing
 	 */
 	public function getNoCurrencyPricing() {
 		return $this->noCurrencyPricing;
@@ -338,7 +338,7 @@ class Part extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	/**
 	 * Returns the differencePricing
 	 *
-	 * @return string
+	 * @return string $differencePricing
 	 */
 	public function getDifferencePricing() {
 		if ( $this->partGroup->isMultipleSelectable() ) {
@@ -384,28 +384,28 @@ class Part extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	}
 
 	/**
-	 * @return boolean
+	 * @return bool $active
 	 */
 	public function isActive() {
 		return $this->active;
 	}
 
 	/**
-	 * @param boolean $active
+	 * @param bool $active
 	 */
 	public function setActive($active) {
 		$this->active = $active;
 	}
 
 	/**
-	 * @return integer
+	 * @return int $modalTrigger
 	 */
 	public function getModalTrigger() {
 		return $this->modalTrigger;
 	}
 
 	/**
-	 * @param integer $modalTrigger
+	 * @param int $modalTrigger
 	 */
 	public function setModalTrigger($modalTrigger) {
 		$this->modalTrigger = $modalTrigger;

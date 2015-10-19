@@ -122,7 +122,7 @@ class BaseController extends \Ecom\EcomToolbox\Controller\ActionController {
 	protected $configuration = NULL;
 
 	/**
-	 * @var boolean Indicate if pricing is active or not
+	 * @var bool Indicate if pricing is active or not
 	 */
 	protected $pricing = FALSE;
 
@@ -215,9 +215,9 @@ class BaseController extends \Ecom\EcomToolbox\Controller\ActionController {
 	 *
 	 * @param \TYPO3\CMS\Extbase\Persistence\ObjectStorage         $partGroups
 	 * @param array                                                $configuration
-	 * @param boolean                                              $enableDetach  Enables detaching objects (DB issue)
+	 * @param bool                                                 $enableDetach  Enables detaching objects (DB issue)
 	 * @param \S3b0\EcomConfigCodeGenerator\Domain\Model\PartGroup $current
-	 * @param integer                                              $progress
+	 * @param int                                                  $progress
 	 * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage
 	 */
 	protected function initializePartGroups(\TYPO3\CMS\Extbase\Persistence\ObjectStorage $partGroups, array &$configuration, $enableDetach = TRUE, \S3b0\EcomConfigCodeGenerator\Domain\Model\PartGroup &$current = NULL, &$progress = 0) {
@@ -411,7 +411,7 @@ class BaseController extends \Ecom\EcomToolbox\Controller\ActionController {
 	 *
 	 * @param \TYPO3\CMS\Extbase\Persistence\ObjectStorage $parts
 	 * @param array                                        $configuration
-	 * @param boolean                                      $enableDetach  Enables detaching objects (DB issue)
+	 * @param bool                                         $enableDetach  Enables detaching objects (DB issue)
 	 * @return void
 	 */
 	public function initializeParts(\TYPO3\CMS\Extbase\Persistence\ObjectStorage &$parts, array $configuration, $enableDetach = TRUE) {
@@ -434,7 +434,7 @@ class BaseController extends \Ecom\EcomToolbox\Controller\ActionController {
 	 *                                                                               necessary injections
 	 * @param \S3b0\EcomConfigCodeGenerator\Domain\Model\Part         $part
 	 * @param array                                                   $configuration
-	 * @return boolean                                                Returns FALSE if dependency check failed
+	 * @return bool                                                   Returns FALSE if dependency check failed
 	 */
 	protected static function checkForPartDependencies(\S3b0\EcomConfigCodeGenerator\Controller\BaseController $controller, \S3b0\EcomConfigCodeGenerator\Domain\Model\Part $part, array $configuration) {
 		$check = TRUE;
@@ -543,7 +543,7 @@ class BaseController extends \Ecom\EcomToolbox\Controller\ActionController {
 						<td>{$partGroup->getStepIndicator()}</td>
 						<td>{$partGroup->getTitle()}</td>
 						<td>" . implode(', ', $partList) . "</td>
-						<td>" . ($partGroup->isSelectable() ? "<a data-part-group=\"{$partGroup->getUid()}\" class=\"configurator-part-group-select\"><i class=\"fa fa-edit\"></i></a>" : "") . "</td>
+						<td>" . ($partGroup->isSelectable() ? "<a data-part-group=\"{$partGroup->getUid()}\" class=\"generator-part-group-select\"><i class=\"fa fa-edit\"></i></a>" : "") . "</td>
 					") . ( $this->pricing ? "<td style=\"text-align:right\">{$partGroup->getPricing()}</td>" : "" );
 					$summaryTableMailRows[] = ("
 						<td>{$partGroup->getTitle()}</td>

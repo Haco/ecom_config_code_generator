@@ -168,7 +168,7 @@ class Modal extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	}
 
 	/**
-	 * @return boolean
+	 * @return bool
 	 */
 	public function hasDependentParts() {
 		return $this->dependentParts instanceof \TYPO3\CMS\Extbase\Persistence\ObjectStorage && $this->dependentParts->count();

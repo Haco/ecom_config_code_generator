@@ -43,14 +43,14 @@ class DependentNote extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	/**
 	 * Wrapper <div class="alert alert-xxx"> (default Bootstrap classes)
 	 *
-	 * @var integer
+	 * @var int
 	 */
 	protected $noteWrap = 0;
 
 	/**
 	 * Specifies whether to use logical OR or AND chaining for dependent parts
 	 *
-	 * @var boolean
+	 * @var bool
 	 */
 	protected $useLogicalAnd = FALSE;
 
@@ -118,7 +118,7 @@ class DependentNote extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	/**
 	 * Returns the noteWrap
 	 *
-	 * @return integer
+	 * @return int $noteWrap
 	 */
 	public function getNoteWrap() {
 		return $this->noteWrap;
@@ -127,7 +127,7 @@ class DependentNote extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	/**
 	 * Sets the noteWrap
 	 *
-	 * @param integer $noteWrap
+	 * @param int $noteWrap
 	 * @return void
 	 */
 	public function setNoteWrap($noteWrap) {
@@ -137,29 +137,20 @@ class DependentNote extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	/**
 	 * Returns the useLogicalAnd
 	 *
-	 * @return boolean $useLogicalAnd
+	 * @return bool $useLogicalAnd
 	 */
-	public function getUseLogicalAnd() {
+	public function isUseLogicalAnd() {
 		return $this->useLogicalAnd;
 	}
 
 	/**
 	 * Sets the useLogicalAnd
 	 *
-	 * @param boolean $useLogicalAnd
+	 * @param bool $useLogicalAnd
 	 * @return void
 	 */
 	public function setUseLogicalAnd($useLogicalAnd) {
 		$this->useLogicalAnd = $useLogicalAnd;
-	}
-
-	/**
-	 * Returns the boolean state of useLogicalAnd
-	 *
-	 * @return boolean
-	 */
-	public function isUseLogicalAnd() {
-		return $this->useLogicalAnd;
 	}
 
 	/**

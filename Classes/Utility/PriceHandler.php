@@ -17,7 +17,7 @@
 		/**
 		 * @param null                                                     $value
 		 * @param \S3b0\EcomConfigCodeGenerator\Domain\Model\Currency|NULL $currency
-		 * @param boolean                                                  $signed
+		 * @param bool                                                     $signed
 		 * @return null|string
 		 */
 		public static function getPriceInCurrency($value = NULL, \S3b0\EcomConfigCodeGenerator\Domain\Model\Currency $currency = NULL, $signed = FALSE) {

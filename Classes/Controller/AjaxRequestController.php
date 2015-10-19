@@ -85,7 +85,7 @@ class AjaxRequestController extends \S3b0\EcomConfigCodeGenerator\Controller\Gen
 	 * action updatePart
 	 *
 	 * @param \S3b0\EcomConfigCodeGenerator\Domain\Model\Part|NULL $part
-	 * @param boolean                                              $unset
+	 * @param bool                                              $unset
 	 * @return void
 	 */
 	public function updatePartAction(\S3b0\EcomConfigCodeGenerator\Domain\Model\Part $part = NULL, $unset = FALSE) {

@@ -1,11 +1,11 @@
-<div class="ecom-configurator-configurator-head">
-	<div class="ecom-configurator-config-header-instructions" id="ecom-configurator-ajax-header-instructions">{value.instructions -> f:format.html()}</div>
+<div class="ecom-generator-generator-head">
+	<div class="ecom-generator-config-header-instructions" id="ecom-generator-ajax-header-instructions">{value.instructions -> f:format.html()}</div>
 	<f:if condition="{pricingEnabled}">
-		<div class="configurator-config-header-price-table">
+		<div class="generator-config-header-price-table">
 			<div class="form-inline">
 				<div class="form-group">
-					<label for="configurator-config-header-currency-selector"></label>
-					<select id="configurator-config-header-currency-selector" class="form-control" onchange="this.options[this.selectedIndex].value && (window.location = this.options[this.selectedIndex].value);">
+					<label for="generator-config-header-currency-selector"></label>
+					<select id="generator-config-header-currency-selector" class="form-control" onchange="this.options[this.selectedIndex].value && (window.location = this.options[this.selectedIndex].value);">
 						<optgroup label="{f:translate(id: 'currency')}">
 						<f:for each="{currencies}" as="currency">
 							<f:if condition="{currency} == {currencyActive}">
@@ -24,7 +24,7 @@
 				<tbody>
 					<tr class="align-center">
 						<td>{contentObject.ccgConfiguration.currencyPricing}</td>
-						<td><span id="configurator-config-header-config-price">{contentObject.ccgConfiguration.configurationPricing}</span></td>
+						<td><span id="generator-config-header-config-price">{contentObject.ccgConfiguration.configurationPricing}</span></td>
 					</tr>
 				</tbody>
 			</table>

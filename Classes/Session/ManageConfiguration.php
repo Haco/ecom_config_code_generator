@@ -18,7 +18,7 @@
 		 * @param \S3b0\EcomConfigCodeGenerator\Controller\BaseController $controller
 		 * @param \S3b0\EcomConfigCodeGenerator\Domain\Model\Part         $part
 		 * @param array                                                   $configuration
-		 * @param boolean                                                 $setPartGroupActive
+		 * @param bool                                                    $setPartGroupActive
 		 * @return void
 		 */
 		public static function addPartToConfiguration(\S3b0\EcomConfigCodeGenerator\Controller\BaseController $controller, \S3b0\EcomConfigCodeGenerator\Domain\Model\Part &$part, array &$configuration, $setPartGroupActive = TRUE) {

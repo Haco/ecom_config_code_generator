@@ -65,7 +65,7 @@ class Configuration extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	/**
 	 * pricingEnabled
 	 *
-	 * @var boolean
+	 * @var bool
 	 */
 	protected $pricingEnabled = FALSE;
 
@@ -222,28 +222,19 @@ class Configuration extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	/**
 	 * Returns the pricingEnabled
 	 *
-	 * @return boolean
+	 * @return bool $pricingEnabled
 	 */
-	public function getPricingEnabled() {
+	public function isPricingEnabled() {
 		return $this->pricingEnabled;
 	}
 	/**
 	 * Sets the pricingEnabled
 	 *
-	 * @param boolean $pricingEnabled
+	 * @param bool $pricingEnabled
 	 * @return void
 	 */
 	public function setPricingEnabled($pricingEnabled) {
 		$this->pricingEnabled = $pricingEnabled;
-	}
-
-	/**
-	 * Returns the pricingEnabled
-	 *
-	 * @return boolean
-	 */
-	public function isPricingEnabled() {
-		return $this->pricingEnabled;
 	}
 
 	/**
@@ -286,7 +277,7 @@ class Configuration extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	}
 
 	/**
-	 * @return string
+	 * @return string $currencyPricing
 	 */
 	public function getCurrencyPricing() {
 		return $this->currencyPricing;
@@ -303,14 +294,14 @@ class Configuration extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	}
 
 	/**
-	 * @return integer
+	 * @return float $noCurrencyPricing
 	 */
 	public function getNoCurrencyPricing() {
 		return $this->noCurrencyPricing;
 	}
 
 	/**
-	 * @param integer $noCurrencyPricing
+	 * @param float $noCurrencyPricing
 	 */
 	public function setNoCurrencyPricing($noCurrencyPricing) {
 		$this->noCurrencyPricing = $noCurrencyPricing;
@@ -331,7 +322,7 @@ class Configuration extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	}
 
 	/**
-	 * @return float
+	 * @return float $configurationPricingNumeric
 	 */
 	public function getConfigurationPricingNumeric() {
 		return $this->configurationPricingNumeric;
@@ -345,7 +336,7 @@ class Configuration extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	}
 
 	/**
-	 * @return \S3b0\EcomConfigCodeGenerator\Domain\Model\Currency
+	 * @return \S3b0\EcomConfigCodeGenerator\Domain\Model\Currency $currency
 	 */
 	public function getCurrency() {
 		return $this->currency;

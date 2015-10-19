@@ -35,7 +35,7 @@ class Dependency extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	/**
 	 * Select mode allow|deny
 	 *
-	 * @var integer
+	 * @var int
 	 */
 	protected $mode = 0;
 
@@ -77,7 +77,7 @@ class Dependency extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	/**
 	 * Returns the mode
 	 *
-	 * @return integer $mode
+	 * @return int $mode
 	 */
 	public function getMode() {
 		return $this->mode;
@@ -86,7 +86,7 @@ class Dependency extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	/**
 	 * Sets the mode
 	 *
-	 * @param integer $mode
+	 * @param int $mode
 	 * @return void
 	 */
 	public function setMode($mode) {

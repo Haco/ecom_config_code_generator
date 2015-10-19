@@ -138,7 +138,7 @@ class Log extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	protected $configuration = '';
 
 	/**
-	 * @var integer
+	 * @var int
 	 */
 	protected $quantity = 1;
 
@@ -507,7 +507,7 @@ class Log extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	/**
 	 * Returns the quantity
 	 *
-	 * @return int
+	 * @return int $quantity
 	 */
 	public function getQuantity() {
 		return $this->quantity;
@@ -565,7 +565,7 @@ class Log extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	}
 
 	/**
-	 * @param integer $parts
+	 * @param int $parts
 	 * @return \S3b0\EcomConfigCodeGenerator\Domain\Model\Log Allow chaining of methods
 	 */
 	public function maskIpAddress($parts = 4) {

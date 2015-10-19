@@ -170,7 +170,7 @@ class ModifyTCA {
 	 *
 	 * @param array $PA
 	 *
-	 * @return boolean
+	 * @return bool
 	 */
 	public function checkPriceHandling($PA) {
 		$partGroup = BackendUtility\BackendUtility::getRecord('tx_ecomconfigcodegenerator_domain_model_partgroup', $PA['record']['part_group'], 'settings');
