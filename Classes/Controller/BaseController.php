@@ -165,7 +165,7 @@ class BaseController extends \Ecom\EcomToolbox\Controller\ActionController {
 			$this->redirect('index', 'Generator');
 		}
 		// Redirect to currency selection if pricing enabled
-		if ( $this->pricing && !in_array($this->request->getControllerActionName(), [ 'currencySelect', 'setCurrency' ]) && !$this->feSession->get('currency', 'ecom') )
+		if ( $this->pricing && $this->request->getControllerName() !== 'AjaxRequest' && !in_array($this->request->getControllerActionName(), [ 'currencySelect', 'setCurrency' ]) && !$this->feSession->get('currency', 'ecom') )
 			$this->redirect('currencySelect', 'Generator');
 		if ( $this->pricing && $this->feSession->get('currency', 'ecom') && MathUtility::canBeInterpretedAsInteger($this->feSession->get('currency', 'ecom')) ) {
 			$this->currency = $this->currencyRepository->findByUid($this->feSession->get('currency', 'ecom'));
