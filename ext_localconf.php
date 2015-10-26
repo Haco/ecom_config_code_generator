@@ -7,12 +7,12 @@ if (!defined('TYPO3_MODE')) {
 	'S3b0.EcomConfigCodeGenerator',
 	'Generator',
 	[
-		'Generator' => 'index, currencySelect, reset',
+		'Generator' => 'index, currencySelect, setCurrency, reset',
 		'Log' => 'new, create, confirmation'
 	],
 	// non-cacheable actions
 	[
-		'Generator' => 'index, reset',
+		'Generator' => 'index, setCurrency, reset',
 		'Log' => 'create'
 	]
 );

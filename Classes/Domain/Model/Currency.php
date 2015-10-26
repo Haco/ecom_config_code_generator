@@ -283,7 +283,7 @@ class Currency extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	 * Get inline CSS for displaying flags in currency switcher
 	 * @return string
 	 */
-	public function getFlagStyleTag() {
+	public function getFlagSource() {
 		switch ( $this->isoCode ) {
 			case 'EUR':
 				$flagName = 'europeanunion';
@@ -304,9 +304,9 @@ class Currency extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 		/** @var \TYPO3\CMS\Core\Resource\ResourceFactory $resourceFactory */
 		$resourceFactory = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\TYPO3\CMS\Core\Resource\ResourceFactory::class);
 
-		return "background:url('" . $resourceFactory->retrieveFileOrFolderObject(
+		return $resourceFactory->retrieveFileOrFolderObject(
 			(version_compare(TYPO3_branch, '7.1', '>=') ? 'EXT:core/Resources/Public/Icons/Flags' : 'EXT:t3skin/images/flags') . "/{$flagName}.png"
-		)->getPublicUrl() . "') no-repeat 3px 7px;padding-left:25px";
+		)->getPublicUrl();
 	}
 
 }

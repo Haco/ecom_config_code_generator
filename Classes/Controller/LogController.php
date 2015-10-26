@@ -36,12 +36,6 @@ use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 class LogController extends \S3b0\EcomConfigCodeGenerator\Controller\GeneratorController {
 
 	/**
-	 * @var \S3b0\EcomConfigCodeGenerator\Domain\Repository\LogRepository
-	 * @inject
-	 */
-	protected $logRepository;
-
-	/**
 	 * action confirmation
 	 *
 	 * @return void

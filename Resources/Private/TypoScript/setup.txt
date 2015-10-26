@@ -26,7 +26,7 @@ plugin.tx_ecomconfigcodegenerator {
 		}
 		defaultCurrency = 1
 	}
-	switchableControllerActions = Generator->index;Generator->currencySelect;Generator->reset;Log->new;Log->create;Log->confirmation
+	switchableControllerActions = Generator->index;Generator->currencySelect;Generator->setCurrency;Generator->reset;Log->new;Log->create;Log->confirmation
 }
 
 page.includeCSSLibs {

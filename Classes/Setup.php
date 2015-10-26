@@ -21,7 +21,7 @@ class Setup {
 	/**
 	 * @param bool $isDevelopment
 	 */
-	public static function setEnvironment($isDevelopment = FALSE) {
+	public static function setEnvironmentConfVars($isDevelopment = FALSE) {
 		if ( $isDevelopment ) {
 			$GLOBALS['TYPO3_CONF_VARS']['BE']['debug'] = 1;
 			$GLOBALS['TYPO3_CONF_VARS']['FE']['debug'] = 1;

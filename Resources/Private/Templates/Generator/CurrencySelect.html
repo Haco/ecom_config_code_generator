@@ -6,10 +6,10 @@
 		<h2><f:translate id="selectregion.choose_text" /></h2>
 		<div class="select-region-currencies">
 			<f:for each="{currencies}" as="currency">
-				<f:link.page additionalParams="{currency: currency}" noCacheHash="1" class="select-region-choose-flag">
+				<f:link.action action="setCurrency" arguments="{currency: currency}" noCacheHash="1" class="select-region-choose-flag">
 					<f:image src="{currency.flag.uid}" alt="{currency.l10nRegionTitle} - {currency.title}" width="200" treatIdAsReference="1" /><br />
 					{currency.l10nRegionTitle} ( <abbr title="{currency.title}">{currency.symbol}</abbr> )
-				</f:link.page>
+				</f:link.action>
 			</f:for>
 		</div>
 

@@ -162,18 +162,13 @@ class BaseController extends \Ecom\EcomToolbox\Controller\ActionController {
 		// On reset destroy config session data
 		if ( $this->request->getControllerName() === 'Generator' && $this->request->getControllerActionName() === 'reset' ) {
 			$this->feSession->delete('config');
-			$this->redirectToUri($this->uriBuilder->build());
-		}
-		// Set currency, if any
-		if ( GeneralUtility::_GET('currency') ) {
-			$this->feSession->store('currency', GeneralUtility::_GET('currency'));
-			$this->redirectToUri($this->uriBuilder->build());
+			$this->redirect('index', 'Generator');
 		}
 		// Redirect to currency selection if pricing enabled
-		if ( $this->pricing && $this->request->getControllerActionName() != 'currencySelect' && !$this->feSession->get('currency') )
-			$this->forward('currencySelect');
-		if ( $this->pricing && $this->feSession->get('currency') && MathUtility::canBeInterpretedAsInteger($this->feSession->get('currency')) ) {
-			$this->currency = $this->currencyRepository->findByUid($this->feSession->get('currency'));
+		if ( $this->pricing && !in_array($this->request->getControllerActionName(), [ 'currencySelect', 'setCurrency' ]) && !$this->feSession->get('currency', 'ecom') )
+			$this->redirect('currencySelect', 'Generator');
+		if ( $this->pricing && $this->feSession->get('currency', 'ecom') && MathUtility::canBeInterpretedAsInteger($this->feSession->get('currency', 'ecom')) ) {
+			$this->currency = $this->currencyRepository->findByUid($this->feSession->get('currency', 'ecom'));
 		} else {
 			$this->currency = $this->currencyRepository->getDefault($this->settings);
 		}

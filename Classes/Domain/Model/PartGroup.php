@@ -364,7 +364,6 @@ class PartGroup extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	 * Check if configured parts are also available...
 	 *
 	 * @param array $partUidList
-	 * @todo check right to exist
 	 * @return bool
 	 */
 	public function areConfiguredPartsAvailable($partUidList = [ ]) {
@@ -657,7 +656,7 @@ class PartGroup extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	/**
 	 * @param \S3b0\EcomConfigCodeGenerator\Domain\Model\PartGroup $next
 	 */
-	public function setNext($next) {
+	public function setNext(\S3b0\EcomConfigCodeGenerator\Domain\Model\PartGroup $next = NULL) {
 		$this->next = $next;
 	}
 

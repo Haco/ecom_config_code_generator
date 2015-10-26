@@ -2,21 +2,20 @@
 	<div class="ecom-generator-config-header-instructions" id="ecom-generator-ajax-header-instructions">{value.instructions -> f:format.html()}</div>
 	<f:if condition="{pricingEnabled}">
 		<div class="generator-config-header-price-table">
-			<div class="form-inline">
-				<div class="form-group">
-					<label for="generator-config-header-currency-selector"></label>
-					<select id="generator-config-header-currency-selector" class="form-control" onchange="this.options[this.selectedIndex].value && (window.location = this.options[this.selectedIndex].value);">
-						<optgroup label="{f:translate(id: 'currency')}">
-						<f:for each="{currencies}" as="currency">
-							<f:if condition="{currency} == {currencyActive}">
-								<f:then><option style="{currency.flagStyleTag}" value="" class="disabled" selected="selected" disabled="disabled">{currency.isoCode} ({currency.symbol})</option></f:then>
-								<f:else><option style="{currency.flagStyleTag}" value="{f:uri.page(additionalParams: '{currency: currency.uid}', noCacheHash: 1)}">{currency.isoCode} ({currency.symbol})</option></f:else>
-							</f:if>
-						</f:for>
-						</optgroup>
-					</select>
-				</div>
+			<div class="btn-group">
+				<button type="button" class="btn btn-default" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+					<!--{f:translate(id: 'currency')}:--> {currencyActive.isoCode} [{currencyActive.symbol}] &nbsp; <span class="caret"></span>
+				</button>
+				<ul class="dropdown-menu dropdown-menu-right">
+					<f:for each="{currencies}" as="currency">
+						<f:if condition="{currency} == {currencyActive}">
+							<f:then><li class="active"><a class="disabled"><f:image src="{currency.flagSource}" style="margin-right: 0.2em;vertical-align: baseline" /> {currency.isoCode} ({currency.symbol})</a></li></f:then>
+							<f:else><li><f:link.action action="setCurrency" arguments="{currency: currency}" noCacheHash="1"><f:image src="{currency.flagSource}" style="margin-right: 0.2em;vertical-align: baseline" /> {currency.isoCode} ({currency.symbol})</f:link.action></li></f:else>
+						</f:if>
+					</f:for>
+				</ul>
 			</div>
+			<p>&nbsp;</p>
 			<table>
 				<thead>
 					<tr class="align-center"><td><f:translate id="label.basePrice" default="Base price" /></td><td><f:translate id="label.configPrice" default="Configuration price" /></td></tr>

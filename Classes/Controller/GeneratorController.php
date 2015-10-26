@@ -49,7 +49,7 @@ class GeneratorController extends \S3b0\EcomConfigCodeGenerator\Controller\BaseC
 	public function getIndexActionData(array $arguments = [ ]) {
 		$checkIfPartGroupArgumentIsSet = $arguments[0] instanceof \S3b0\EcomConfigCodeGenerator\Domain\Model\PartGroup;
 		$modals = [ ];
-		// Get current configuration (Array: options=array(options)|packages=array(package => option(s)))
+		// Get current configuration ([partgroup.uid] => {[part.sorting] => [part.uid]})
 		$configuration = $this->feSession->get('config') ?: [ ];
 		$partGroups = $this->initializePartGroups(
 			$this->contentObject->getCcgConfiguration()->getPartGroups() ?: new \TYPO3\CMS\Extbase\Persistence\ObjectStorage(),
@@ -122,6 +122,16 @@ class GeneratorController extends \S3b0\EcomConfigCodeGenerator\Controller\BaseC
 	 */
 	public function currencySelectAction() {
 		$this->view->assign('currencies', $this->currencyRepository->findAll());
+	}
+
+	/**
+	 * @param \S3b0\EcomConfigCodeGenerator\Domain\Model\Currency $currency
+	 *
+	 * @throws \TYPO3\CMS\Extbase\Mvc\Exception\UnsupportedRequestTypeException
+	 */
+	public function setCurrencyAction(\S3b0\EcomConfigCodeGenerator\Domain\Model\Currency $currency) {
+		$this->feSession->store('currency', $currency->getUid(), 'ecom');
+		$this->redirect('index');
 	}
 
 	/**
