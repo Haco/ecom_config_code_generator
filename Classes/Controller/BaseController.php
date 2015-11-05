@@ -551,6 +551,7 @@ class BaseController extends \Ecom\EcomToolbox\Controller\ActionController {
 		}
 
 		return [
+			'title' => $this->contentObject->getCcgConfiguration()->getTitle(),
 			'code' => $this->contentObject->getCcgConfiguration()->getPrefix() . implode('', $code) . $this->contentObject->getCcgConfiguration()->getSuffix(),
 			'blankCode' => $this->contentObject->getCcgConfiguration()->getPrefix() . implode('', $blankCode) . $this->contentObject->getCcgConfiguration()->getSuffix(),
 			'summaryTable' => $this->sanitize_output('<table><tr>' . implode('</tr><tr>', $summaryTableRows) . '</tr></table>'),
