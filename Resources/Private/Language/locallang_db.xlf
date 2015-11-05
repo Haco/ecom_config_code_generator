@@ -217,7 +217,7 @@
 				<source>Prepend currency symbol</source>
 			</trans-unit>
 			<trans-unit id="tx_ecomconfigcodegenerator_domain_model_currency.settings.separate">
-				<source>Separate cureency and symbol (whitespace will be added)</source>
+				<source>Separate currency and symbol (whitespace will be added)</source>
 			</trans-unit>
 			<trans-unit id="tx_ecomconfigcodegenerator_domain_model_currency.settings.format_us">
 				<source>Use US-Format for separators (decimals/thousands)</source>

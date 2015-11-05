@@ -2,12 +2,12 @@
 
 <f:section name="main">
 
-<h1><f:translate id="label.requestButton" arguments="{0: contentObject.ccgConfiguration.title}" /></h1>
+<h1><f:translate id="label.requestButton" extensionName="ecom_config_code_generator" arguments="{0: contentObject.ccgConfiguration.title}" /></h1>
 <p>&nbsp;</p>
 <f:form action="create" enctype="multipart/form-data" id="newLog" name="newLog" object="{newLog}" additionalAttributes="{data-validate: 'html5', data-parsley-validate: 'data-parsley-validate'}">
 	<f:render partial="Log/FormFields" arguments="{_all}" />
 	<div class="form-group row no-margin-horizontal">
-		<f:form.button type="submit" id="ccg-request-submit" class="btn btn-primary morelink" additionalAttributes="{autocomplete: 'off'}"><f:translate id="forms.submit" /></f:form.button>
+		<f:form.button type="submit" id="ccg-request-submit" class="btn btn-primary morelink" additionalAttributes="{autocomplete: 'off'}"><f:translate id="forms.submit" extensionName="ecom_config_code_generator" /></f:form.button>
 	</div>
 </f:form>
 
@@ -34,7 +34,7 @@
 
 		$(document).ready(function() {
 			var $RequestButton = $('#ccg-request-submit'),
-				requestText = "{f:translate(id : 'label.sendRequest')}",
+				requestText = "{f:translate(id : 'label.sendRequest', extensionName: 'ecom_config_code_generator')}",
 				defaultText = "<i class=\"fa fa-envelope fa-fw\"></i> " + requestText,
 				loadingText = requestText + "... <i class=\"fa fa-circle-o-notch fa-fw fa-spin\"></i>";
 			$RequestButton.attr('data-loading-text', loadingText);
