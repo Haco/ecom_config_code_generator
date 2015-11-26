@@ -52,12 +52,14 @@
 			swaljs = document.createElement("script"),
 			preResult = new Object();
 		preResult.modals = {value.modals -> f:format.raw()};
-		js.type = "text/javascript";
-		js.src = "{f:uri.resource(path:'JavaScript/app.js')}";
-		document.body.appendChild(js);
-		swaljs.type = "text/javascript";
-		swaljs.src = "https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.0/sweetalert.min.js";
-		document.body.appendChild(swaljs);
+		$(document).ready(function() {
+			js.type = "text/javascript";
+			js.src = "{f:uri.resource(path:'JavaScript/app.js')}";
+			document.body.appendChild(js);
+			swaljs.type = "text/javascript";
+			swaljs.src = "https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.0/sweetalert.min.js";
+			document.body.appendChild(swaljs);
+		});
 	</script>
 
 </f:section>
