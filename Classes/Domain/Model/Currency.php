@@ -286,27 +286,25 @@ class Currency extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	public function getFlagSource() {
 		switch ( $this->isoCode ) {
 			case 'EUR':
-				$flagName = 'europeanunion';
+				$flagName = 'European-Union.png';
 				break;
 			case 'CHF':
-				$flagName = 'ch';
+				$flagName = 'Switzerland.png';
 				break;
 			case 'GBP':
-				$flagName = 'gb';
+				$flagName = 'United-Kingdom.png';
 				break;
 			case 'USD':
-				$flagName = 'us';
+				$flagName = 'United-States.png';
 				break;
 			default:
-				$flagName = 'multiple';
+				$flagName = 'Unknown.png';
 		}
 
 		/** @var \TYPO3\CMS\Core\Resource\ResourceFactory $resourceFactory */
 		$resourceFactory = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\TYPO3\CMS\Core\Resource\ResourceFactory::class);
 
-		return $resourceFactory->retrieveFileOrFolderObject(
-			(version_compare(TYPO3_branch, '7.1', '>=') ? 'EXT:core/Resources/Public/Icons/Flags' : 'EXT:t3skin/images/flags') . "/{$flagName}.png"
-		)->getPublicUrl();
+		return $resourceFactory->retrieveFileOrFolderObject("EXT:ecom_toolbox/Resources/Public/Images/Flags/{$flagName}")->getPublicUrl();
 	}
 
 }

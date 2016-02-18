@@ -9,8 +9,8 @@
 				<ul class="dropdown-menu dropdown-menu-right">
 					<f:for each="{currencies}" as="currency">
 						<f:if condition="{currency} == {currencyActive}">
-							<f:then><li class="active"><a class="disabled"><f:image src="{currency.flagSource}" style="margin-right: 0.2em;vertical-align: baseline" /> {currency.isoCode} ({currency.symbol})</a></li></f:then>
-							<f:else><li><f:link.action action="setCurrency" arguments="{currency: currency}" noCacheHash="1"><f:image src="{currency.flagSource}" style="margin-right: 0.2em;vertical-align: baseline" /> {currency.isoCode} ({currency.symbol})</f:link.action></li></f:else>
+							<f:then><li class="active"><a class="disabled"><f:image src="{currency.flagSource}" style="margin-right:0.2em" /> {currency.isoCode} ({currency.symbol})</a></li></f:then>
+							<f:else><li><f:link.action action="setCurrency" arguments="{currency: currency}" noCacheHash="1"><f:image src="{currency.flagSource}" style="margin-right:0.2em" /> {currency.isoCode} ({currency.symbol})</f:link.action></li></f:else>
 						</f:if>
 					</f:for>
 				</ul>
