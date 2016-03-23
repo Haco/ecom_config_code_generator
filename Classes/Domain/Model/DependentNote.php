@@ -30,166 +30,185 @@ namespace S3b0\EcomConfigCodeGenerator\Domain\Model;
 /**
  * Dependency notes, that appear when special parts have been chosen
  */
-class DependentNote extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
+class DependentNote extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
+{
 
-	/**
-	 * The note itself
-	 *
-	 * @var string
-	 * @validate NotEmpty
-	 */
-	protected $note = '';
+    /**
+     * The note itself
+     *
+     * @var string
+     * @validate NotEmpty
+     */
+    protected $note = '';
 
-	/**
-	 * Wrapper <div class="alert alert-xxx"> (default Bootstrap classes)
-	 *
-	 * @var int
-	 */
-	protected $noteWrap = 0;
+    /**
+     * Wrapper <div class="alert alert-xxx"> (default Bootstrap classes)
+     *
+     * @var int
+     */
+    protected $noteWrap = 0;
 
-	/**
-	 * Specifies whether to use logical OR or AND chaining for dependent parts
-	 *
-	 * @var bool
-	 */
-	protected $useLogicalAnd = FALSE;
+    /**
+     * Specifies whether to use logical OR or AND chaining for dependent parts
+     *
+     * @var bool
+     */
+    protected $useLogicalAnd = false;
 
-	/**
-	 * Parts the note display depends on
-	 *
-	 * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\S3b0\EcomConfigCodeGenerator\Domain\Model\Part>
-	 */
-	protected $dependentParts = NULL;
+    /**
+     * Parts the note display depends on
+     *
+     * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\S3b0\EcomConfigCodeGenerator\Domain\Model\Part>
+     */
+    protected $dependentParts = null;
 
-	/**
-	 * __construct
-	 */
-	public function __construct() {
-		//Do not remove the next line: It would break the functionality
-		$this->initStorageObjects();
-	}
+    /**
+     * __construct
+     */
+    public function __construct()
+    {
+        //Do not remove the next line: It would break the functionality
+        $this->initStorageObjects();
+    }
 
-	/**
-	 * Initializes all ObjectStorage properties
-	 * Do not modify this method!
-	 * It will be rewritten on each save in the extension builder
-	 * You may modify the constructor of this class instead
-	 *
-	 * @return void
-	 */
-	protected function initStorageObjects() {
-		$this->dependentParts = new \TYPO3\CMS\Extbase\Persistence\ObjectStorage();
-	}
+    /**
+     * Initializes all ObjectStorage properties
+     * Do not modify this method!
+     * It will be rewritten on each save in the extension builder
+     * You may modify the constructor of this class instead
+     *
+     * @return void
+     */
+    protected function initStorageObjects()
+    {
+        $this->dependentParts = new \TYPO3\CMS\Extbase\Persistence\ObjectStorage();
+    }
 
-	/**
-	 * Returns the note
-	 *
-	 * @return string $note
-	 */
-	public function getNote() {
-		switch ( $this->noteWrap ) {
-			case 1:
-				return "<div class=\"alert alert-success\">{$this->note}</div>";
-				break;
-			case 2:
-				return "<div class=\"alert alert-info\">{$this->note}</div>";
-				break;
-			case 3:
-				return "<div class=\"alert alert-warning\">{$this->note}</div>";
-				break;
-			case 4:
-				return "<div class=\"alert alert-danger\">{$this->note}</div>";
-				break;
-			default:
-				return $this->note;
-		}
-	}
+    /**
+     * Returns the note
+     *
+     * @return string $note
+     */
+    public function getNote()
+    {
+        switch ($this->noteWrap) {
+            case 1:
+                return "<div class=\"alert alert-success\">{$this->note}</div>";
+                break;
+            case 2:
+                return "<div class=\"alert alert-info\">{$this->note}</div>";
+                break;
+            case 3:
+                return "<div class=\"alert alert-warning\">{$this->note}</div>";
+                break;
+            case 4:
+                return "<div class=\"alert alert-danger\">{$this->note}</div>";
+                break;
+            default:
+                return $this->note;
+        }
+    }
 
-	/**
-	 * Sets the note
-	 *
-	 * @param string $note
-	 * @return void
-	 */
-	public function setNote($note) {
-		$this->note = $note;
-	}
+    /**
+     * Sets the note
+     *
+     * @param string $note
+     *
+     * @return void
+     */
+    public function setNote($note)
+    {
+        $this->note = $note;
+    }
 
-	/**
-	 * Returns the noteWrap
-	 *
-	 * @return int $noteWrap
-	 */
-	public function getNoteWrap() {
-		return $this->noteWrap;
-	}
+    /**
+     * Returns the noteWrap
+     *
+     * @return int $noteWrap
+     */
+    public function getNoteWrap()
+    {
+        return $this->noteWrap;
+    }
 
-	/**
-	 * Sets the noteWrap
-	 *
-	 * @param int $noteWrap
-	 * @return void
-	 */
-	public function setNoteWrap($noteWrap) {
-		$this->noteWrap = $noteWrap;
-	}
+    /**
+     * Sets the noteWrap
+     *
+     * @param int $noteWrap
+     *
+     * @return void
+     */
+    public function setNoteWrap($noteWrap)
+    {
+        $this->noteWrap = $noteWrap;
+    }
 
-	/**
-	 * Returns the useLogicalAnd
-	 *
-	 * @return bool $useLogicalAnd
-	 */
-	public function isUseLogicalAnd() {
-		return $this->useLogicalAnd;
-	}
+    /**
+     * Returns the useLogicalAnd
+     *
+     * @return bool $useLogicalAnd
+     */
+    public function isUseLogicalAnd()
+    {
+        return $this->useLogicalAnd;
+    }
 
-	/**
-	 * Sets the useLogicalAnd
-	 *
-	 * @param bool $useLogicalAnd
-	 * @return void
-	 */
-	public function setUseLogicalAnd($useLogicalAnd) {
-		$this->useLogicalAnd = $useLogicalAnd;
-	}
+    /**
+     * Sets the useLogicalAnd
+     *
+     * @param bool $useLogicalAnd
+     *
+     * @return void
+     */
+    public function setUseLogicalAnd($useLogicalAnd)
+    {
+        $this->useLogicalAnd = $useLogicalAnd;
+    }
 
-	/**
-	 * Adds a Part
-	 *
-	 * @param \S3b0\EcomConfigCodeGenerator\Domain\Model\Part $dependentPart
-	 * @return void
-	 */
-	public function addDependentPart(\S3b0\EcomConfigCodeGenerator\Domain\Model\Part $dependentPart) {
-		$this->dependentParts->attach($dependentPart);
-	}
+    /**
+     * Adds a Part
+     *
+     * @param \S3b0\EcomConfigCodeGenerator\Domain\Model\Part $dependentPart
+     *
+     * @return void
+     */
+    public function addDependentPart(\S3b0\EcomConfigCodeGenerator\Domain\Model\Part $dependentPart)
+    {
+        $this->dependentParts->attach($dependentPart);
+    }
 
-	/**
-	 * Removes a Part
-	 *
-	 * @param \S3b0\EcomConfigCodeGenerator\Domain\Model\Part $dependentPartToRemove The Part to be removed
-	 * @return void
-	 */
-	public function removeDependentPart(\S3b0\EcomConfigCodeGenerator\Domain\Model\Part $dependentPartToRemove) {
-		$this->dependentParts->detach($dependentPartToRemove);
-	}
+    /**
+     * Removes a Part
+     *
+     * @param \S3b0\EcomConfigCodeGenerator\Domain\Model\Part $dependentPartToRemove The Part to be removed
+     *
+     * @return void
+     */
+    public function removeDependentPart(\S3b0\EcomConfigCodeGenerator\Domain\Model\Part $dependentPartToRemove)
+    {
+        $this->dependentParts->detach($dependentPartToRemove);
+    }
 
-	/**
-	 * Returns the dependentParts
-	 *
-	 * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\S3b0\EcomConfigCodeGenerator\Domain\Model\Part> $dependentParts
-	 */
-	public function getDependentParts() {
-		return $this->dependentParts;
-	}
+    /**
+     * Returns the dependentParts
+     *
+     * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\S3b0\EcomConfigCodeGenerator\Domain\Model\Part> $dependentParts
+     */
+    public function getDependentParts()
+    {
+        return $this->dependentParts;
+    }
 
-	/**
-	 * Sets the dependentParts
-	 *
-	 * @param \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\S3b0\EcomConfigCodeGenerator\Domain\Model\Part> $dependentParts
-	 * @return void
-	 */
-	public function setDependentParts(\TYPO3\CMS\Extbase\Persistence\ObjectStorage $dependentParts) {
-		$this->dependentParts = $dependentParts;
-	}
+    /**
+     * Sets the dependentParts
+     *
+     * @param \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\S3b0\EcomConfigCodeGenerator\Domain\Model\Part> $dependentParts
+     *
+     * @return void
+     */
+    public function setDependentParts(\TYPO3\CMS\Extbase\Persistence\ObjectStorage $dependentParts)
+    {
+        $this->dependentParts = $dependentParts;
+    }
 
 }

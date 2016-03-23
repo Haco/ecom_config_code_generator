@@ -30,16 +30,18 @@ namespace S3b0\EcomConfigCodeGenerator\Domain\Repository;
 /**
  * The repository for Configurations
  */
-class ConfigurationRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
+class ConfigurationRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
+{
 
-	/**
-	 * Set repository wide settings
-	 */
-	public function initializeObject() {
-		/** @var \TYPO3\CMS\Extbase\Persistence\Generic\QuerySettingsInterface $querySettings */
-		$querySettings = $this->objectManager->get(\TYPO3\CMS\Extbase\Persistence\Generic\QuerySettingsInterface::class);
-		$querySettings->setRespectStoragePage(FALSE); // Disable storage pid
-		$this->setDefaultQuerySettings($querySettings);
-	}
+    /**
+     * Set repository wide settings
+     */
+    public function initializeObject()
+    {
+        /** @var \TYPO3\CMS\Extbase\Persistence\Generic\QuerySettingsInterface $querySettings */
+        $querySettings = $this->objectManager->get(\TYPO3\CMS\Extbase\Persistence\Generic\QuerySettingsInterface::class);
+        $querySettings->setRespectStoragePage(false); // Disable storage pid
+        $this->setDefaultQuerySettings($querySettings);
+    }
 
 }

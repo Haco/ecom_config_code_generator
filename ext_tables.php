@@ -1,18 +1,18 @@
 <?php
 if (!defined('TYPO3_MODE')) {
-	die('Access denied.');
+    die('Access denied.');
 }
 
 $extKey = 'ecom_config_code_generator';
 
-  // Register plugins
-\TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerPlugin( $extKey, 'Generator', 'ConfigCodeGen - Generator' );
-\TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerPlugin( $extKey, 'Resolver', 'ConfigCodeGen - Resolver' );
+// Register plugins
+\TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerPlugin($extKey, 'Generator', 'ConfigCodeGen - Generator');
+\TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerPlugin($extKey, 'Resolver', 'ConfigCodeGen - Resolver');
 
-  // Add static templates
+// Add static templates
 \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addStaticFile($extKey, 'Resources/Private/TypoScript', 'Config code generator');
 
-  // Tables allowed on regular TYPO3 pages
+// Tables allowed on regular TYPO3 pages
 \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::allowTableOnStandardPages('tx_ecomconfigcodegenerator_domain_model_configuration');
 \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::allowTableOnStandardPages('tx_ecomconfigcodegenerator_domain_model_currency');
 \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::allowTableOnStandardPages('tx_ecomconfigcodegenerator_domain_model_dependency');
@@ -23,7 +23,7 @@ $extKey = 'ecom_config_code_generator';
 \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::allowTableOnStandardPages('tx_ecomconfigcodegenerator_domain_model_partgroup');
 \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::allowTableOnStandardPages('tx_ecomconfigcodegenerator_domain_model_price');
 
-  // Add context sensitive help
+// Add context sensitive help
 \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addLLrefForTCAdescr('tx_ecomconfigcodegenerator_domain_model_configuration', 'EXT:ecom_config_code_generator/Resources/Private/Language/locallang_csh_tx_ecomconfigcodegenerator_domain_model_configuration.xlf');
 \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addLLrefForTCAdescr('tx_ecomconfigcodegenerator_domain_model_currency', 'EXT:ecom_config_code_generator/Resources/Private/Language/locallang_csh_tx_ecomconfigcodegenerator_domain_model_currency.xlf');
 \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addLLrefForTCAdescr('tx_ecomconfigcodegenerator_domain_model_dependency', 'EXT:ecom_config_code_generator/Resources/Private/Language/locallang_csh_tx_ecomconfigcodegenerator_domain_model_dependency.xlf');
@@ -36,14 +36,14 @@ $extKey = 'ecom_config_code_generator';
 
 $extPath = version_compare(TYPO3_branch, '7.5', '<') ? \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath($extKey) : \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath($extKey);
 $t3skinExtPath = version_compare(TYPO3_branch, '7.5', '<') ? \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath('t3skin') : \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('t3skin');
-  // Add Sprite Icons for different record types (visual distinction)
+// Add Sprite Icons for different record types (visual distinction)
 \TYPO3\CMS\Backend\Sprite\SpriteManager::addSingleIcons(
-	[
-		'dependency-default' => "{$extPath}Resources/Public/Icons/tx_ecomconfigcodegenerator_domain_model_dependency.png",
-		'dependency-allow'   => "{$t3skinExtPath}images/icons/status/status-permission-granted.png",
-		'dependency-deny'    => "{$t3skinExtPath}images/icons/status/status-permission-denied.png",
-		'package-default'    => "{$extPath}Resources/Public/Icons/tx_ecomconfigcodegenerator_domain_model_partgroup.png",
-		'package-hidden-fe'  => "{$extPath}Resources/Public/Icons/tx_ecomconfigcodegenerator_domain_model_partgroup_hidden_fe.png"
-	],
-	$extKey
+    [
+        'dependency-default' => "{$extPath}Resources/Public/Icons/tx_ecomconfigcodegenerator_domain_model_dependency.png",
+        'dependency-allow'   => "{$t3skinExtPath}images/icons/status/status-permission-granted.png",
+        'dependency-deny'    => "{$t3skinExtPath}images/icons/status/status-permission-denied.png",
+        'package-default'    => "{$extPath}Resources/Public/Icons/tx_ecomconfigcodegenerator_domain_model_partgroup.png",
+        'package-hidden-fe'  => "{$extPath}Resources/Public/Icons/tx_ecomconfigcodegenerator_domain_model_partgroup_hidden_fe.png"
+    ],
+    $extKey
 );

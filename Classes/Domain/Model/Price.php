@@ -30,60 +30,67 @@ namespace S3b0\EcomConfigCodeGenerator\Domain\Model;
 /**
  * Pricing information table
  */
-class Price extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
+class Price extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
+{
 
-	/**
-	 * The pricing value
-	 *
-	 * @var float
-	 * @validate NotEmpty
-	 */
-	protected $value = 0.0;
+    /**
+     * The pricing value
+     *
+     * @var float
+     * @validate NotEmpty
+     */
+    protected $value = 0.0;
 
-	/**
-	 * Corresponding currency
-	 *
-	 * @var \S3b0\EcomConfigCodeGenerator\Domain\Model\Currency
-	 * @lazy
-	 */
-	protected $currency = NULL;
+    /**
+     * Corresponding currency
+     *
+     * @var \S3b0\EcomConfigCodeGenerator\Domain\Model\Currency
+     * @lazy
+     */
+    protected $currency = null;
 
-	/**
-	 * Returns the value
-	 *
-	 * @return float $value
-	 */
-	public function getValue() {
-		return $this->value;
-	}
+    /**
+     * Returns the value
+     *
+     * @return float $value
+     */
+    public function getValue()
+    {
+        return $this->value;
+    }
 
-	/**
-	 * Sets the value
-	 *
-	 * @param float $value
-	 * @return void
-	 */
-	public function setValue($value) {
-		$this->value = $value;
-	}
+    /**
+     * Sets the value
+     *
+     * @param float $value
+     *
+     * @return void
+     */
+    public function setValue($value)
+    {
+        $this->value = $value;
+    }
 
-	/**
-	 * Returns the currency
-	 *
-	 * @return \S3b0\EcomConfigCodeGenerator\Domain\Model\Currency|\TYPO3\CMS\Extbase\Persistence\Generic\LazyLoadingProxy $currency
-	 */
-	public function getCurrency() {
-		return $this->currency;
-	}
+    /**
+     * Returns the currency
+     *
+     * @return \S3b0\EcomConfigCodeGenerator\Domain\Model\Currency|\TYPO3\CMS\Extbase\Persistence\Generic\LazyLoadingProxy $currency
+     */
+    public function getCurrency()
+    {
+        return $this->currency;
+    }
 
-	/**
-	 * Sets the currency
-	 *
-	 * @param \S3b0\EcomConfigCodeGenerator\Domain\Model\Currency $currency
-	 * @return void
-	 */
-	public function setCurrency(\S3b0\EcomConfigCodeGenerator\Domain\Model\Currency $currency) {
-		$this->currency = $currency;
-	}
+    /**
+     * Sets the currency
+     *
+     * @param \S3b0\EcomConfigCodeGenerator\Domain\Model\Currency $currency
+     *
+     * @return void
+     */
+    public function setCurrency(\S3b0\EcomConfigCodeGenerator\Domain\Model\Currency $currency)
+    {
+        $this->currency = $currency;
+    }
 
 }

@@ -10,28 +10,28 @@
  * "version" and "dependencies" must not be touched!
  ***************************************************************/
 
-$EM_CONF[$_EXTKEY] = [
-	'title' => 'Config code generator',
-	'description' => 'Configuration code generator',
-	'category' => 'plugin',
-	'author' => 'Sebastian Iffland',
-	'author_email' => 'Sebastian.Iffland@ecom-ex.com',
-	'state' => 'stable',
-	'internal' => '',
-	'uploadfolder' => '1',
-	'createDirs' => '',
-	'clearCacheOnLoad' => 0,
-	'version' => '1.3.0',
-	'constraints' => [
-		'depends' => [
-			'core' => '6.2-7.6.99',
-			'php' => '5.5',
-			'ecom_toolbox' => '1.2.0',
-			'powermail' => ''
-		],
-		'conflicts' => [
-		],
-		'suggests' => [
-		],
-	],
+$EM_CONF[ 'ecom_config_code_generator' ] = [
+    'title'            => 'Config code generator',
+    'description'      => 'Configuration code generator',
+    'category'         => 'plugin',
+    'author'           => 'Sebastian Iffland',
+    'author_email'     => 'Sebastian.Iffland@ecom-ex.com',
+    'state'            => 'stable',
+    'internal'         => '',
+    'uploadfolder'     => '1',
+    'createDirs'       => '',
+    'clearCacheOnLoad' => 0,
+    'version'          => '1.3.0',
+    'constraints'      => [
+        'depends'   => [
+            'core'         => '6.2-7.6.99',
+            'php'          => '5.5',
+            'ecom_toolbox' => '1.2.0',
+            'powermail'    => ''
+        ],
+        'conflicts' => [
+        ],
+        'suggests'  => [
+        ],
+    ],
 ];

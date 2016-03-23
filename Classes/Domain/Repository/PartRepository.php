@@ -30,34 +30,37 @@ namespace S3b0\EcomConfigCodeGenerator\Domain\Repository;
 /**
  * The repository for Parts
  */
-class PartRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
+class PartRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
+{
 
-	/**
-	 * @var array
-	 */
-	protected $defaultOrderings = [
-		'sorting' => \TYPO3\CMS\Extbase\Persistence\QueryInterface::ORDER_ASCENDING
-	];
+    /**
+     * @var array
+     */
+    protected $defaultOrderings = [
+        'sorting' => \TYPO3\CMS\Extbase\Persistence\QueryInterface::ORDER_ASCENDING
+    ];
 
-	/**
-	 * @param array      $list
-	 * @param bool|FALSE $getFirst
-	 *
-	 * @return array|null|object|\TYPO3\CMS\Extbase\Persistence\QueryResultInterface
-	 */
-	public function findByList(array $list, $getFirst = FALSE) {
-		if ( !count($list) )
-			return NULL;
+    /**
+     * @param array      $list
+     * @param bool|FALSE $getFirst
+     *
+     * @return array|null|object|\TYPO3\CMS\Extbase\Persistence\QueryResultInterface
+     */
+    public function findByList(array $list, $getFirst = false)
+    {
+        if (!count($list)) {
+            return null;
+        }
 
-		/** @var \TYPO3\CMS\Core\Database\DatabaseConnection $db */
-		$db = $GLOBALS['TYPO3_DB'];
-		$query = $this->createQuery();
-		$query->getQuerySettings()->setRespectStoragePage(FALSE);
-		$query->getQuerySettings()->setRespectSysLanguage(FALSE);
-		$constraint = $query->in('uid', $db->cleanIntArray($list));
-		$result = $query->matching($constraint)->execute();
+        /** @var \TYPO3\CMS\Core\Database\DatabaseConnection $db */
+        $db = $GLOBALS[ 'TYPO3_DB' ];
+        $query = $this->createQuery();
+        $query->getQuerySettings()->setRespectStoragePage(false);
+        $query->getQuerySettings()->setRespectSysLanguage(false);
+        $constraint = $query->in('uid', $db->cleanIntArray($list));
+        $result = $query->matching($constraint)->execute();
 
-		return $result->count() ? ($getFirst ? $result->getFirst() : $result) : NULL;
-	}
+        return $result->count() ? ($getFirst ? $result->getFirst() : $result) : null;
+    }
 
 }

@@ -32,279 +32,310 @@ use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 /**
  * Currency information table
  */
-class Currency extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
+class Currency extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
+{
 
-	/**
-	 * Currency title
-	 *
-	 * @var string
-	 * @validate NotEmpty
-	 */
-	protected $title = '';
+    /**
+     * Currency title
+     *
+     * @var string
+     * @validate NotEmpty
+     */
+    protected $title = '';
 
-	/**
-	 * @var string
-	 */
-	protected $l10nTitle = '';
+    /**
+     * @var string
+     */
+    protected $l10nTitle = '';
 
-	/**
-	 * ISO 4217 code see https://en.wikipedia.org/wiki/ISO_4217
-	 *
-	 * @var string
-	 * @validate NotEmpty
-	 */
-	protected $isoCode = '';
+    /**
+     * ISO 4217 code see https://en.wikipedia.org/wiki/ISO_4217
+     *
+     * @var string
+     * @validate NotEmpty
+     */
+    protected $isoCode = '';
 
-	/**
-	 * Exchange rate (depending on default currency)
-	 *
-	 * @var float
-	 */
-	protected $exchange = 0.0;
+    /**
+     * Exchange rate (depending on default currency)
+     *
+     * @var float
+     */
+    protected $exchange = 0.0;
 
-	/**
-	 * Currency symbol, i.e. €, $, £. ¥ ...
-	 *
-	 * @var string
-	 * @validate NotEmpty
-	 */
-	protected $symbol = '';
+    /**
+     * Currency symbol, i.e. €, $, £. ¥ ...
+     *
+     * @var string
+     * @validate NotEmpty
+     */
+    protected $symbol = '';
 
-	/**
-	 * Currency region or country
-	 *
-	 * @var string
-	 * @validate NotEmpty
-	 */
-	protected $region = '';
+    /**
+     * Currency region or country
+     *
+     * @var string
+     * @validate NotEmpty
+     */
+    protected $region = '';
 
-	/**
-	 * Reference to locallang item for region label translation
-	 *
-	 * @var string
-	 */
-	protected $llReference = '';
+    /**
+     * Reference to locallang item for region label translation
+     *
+     * @var string
+     */
+    protected $llReference = '';
 
-	/**
-	 * The region flag, if available
-	 *
-	 * @var \TYPO3\CMS\Extbase\Domain\Model\FileReference
-	 */
-	protected $flag = NULL;
+    /**
+     * The region flag, if available
+     *
+     * @var \TYPO3\CMS\Extbase\Domain\Model\FileReference
+     */
+    protected $flag = null;
 
-	/**
-	 * Divers currency settings
-	 *
-	 * @var int
-	 */
-	protected $settings = 7;
+    /**
+     * Divers currency settings
+     *
+     * @var int
+     */
+    protected $settings = 7;
 
-	/**
-	 * Returns the title
-	 *
-	 * @return string $title
-	 */
-	public function getTitle() {
-		return $this->title;
-	}
+    /**
+     * Returns the title
+     *
+     * @return string $title
+     */
+    public function getTitle()
+    {
+        return $this->title;
+    }
 
-	/**
-	 * Sets the title
-	 *
-	 * @param string $title
-	 * @return void
-	 */
-	public function setTitle($title) {
-		$this->title = $title;
-	}
+    /**
+     * Sets the title
+     *
+     * @param string $title
+     *
+     * @return void
+     */
+    public function setTitle($title)
+    {
+        $this->title = $title;
+    }
 
-	/**
-	 * @return string
-	 */
-	public function getL10nRegionTitle() {
-		return $this->llReference ? LocalizationUtility::translate($this->llReference, 'ecom_config_code_generator') : (LocalizationUtility::translate("currency.region.{$this->isoCode}", 'ecom_config_code_generator') ?: $this->region);
-	}
+    /**
+     * @return string
+     */
+    public function getL10nRegionTitle()
+    {
+        return $this->llReference ? LocalizationUtility::translate($this->llReference, 'ecom_config_code_generator') : (LocalizationUtility::translate("currency.region.{$this->isoCode}", 'ecom_config_code_generator') ?: $this->region);
+    }
 
-	/**
-	 * Returns the isoCode
-	 *
-	 * @return string $isoCode
-	 */
-	public function getIsoCode() {
-		return $this->isoCode;
-	}
+    /**
+     * Returns the isoCode
+     *
+     * @return string $isoCode
+     */
+    public function getIsoCode()
+    {
+        return $this->isoCode;
+    }
 
-	/**
-	 * Sets the isoCode
-	 *
-	 * @param string $isoCode
-	 * @return void
-	 */
-	public function setIsoCode($isoCode) {
-		$this->isoCode = $isoCode;
-	}
+    /**
+     * Sets the isoCode
+     *
+     * @param string $isoCode
+     *
+     * @return void
+     */
+    public function setIsoCode($isoCode)
+    {
+        $this->isoCode = $isoCode;
+    }
 
-	/**
-	 * Returns the exchange
-	 *
-	 * @return float $exchange
-	 */
-	public function getExchange() {
-		return $this->exchange;
-	}
+    /**
+     * Returns the exchange
+     *
+     * @return float $exchange
+     */
+    public function getExchange()
+    {
+        return $this->exchange;
+    }
 
-	/**
-	 * Sets the exchange
-	 *
-	 * @param float $exchange
-	 * @return void
-	 */
-	public function setExchange($exchange) {
-		$this->exchange = $exchange;
-	}
+    /**
+     * Sets the exchange
+     *
+     * @param float $exchange
+     *
+     * @return void
+     */
+    public function setExchange($exchange)
+    {
+        $this->exchange = $exchange;
+    }
 
-	/**
-	 * Returns the symbol
-	 *
-	 * @return string $symbol
-	 */
-	public function getSymbol() {
-		return $this->symbol;
-	}
+    /**
+     * Returns the symbol
+     *
+     * @return string $symbol
+     */
+    public function getSymbol()
+    {
+        return $this->symbol;
+    }
 
-	/**
-	 * Sets the symbol
-	 *
-	 * @param string $symbol
-	 * @return void
-	 */
-	public function setSymbol($symbol) {
-		$this->symbol = $symbol;
-	}
+    /**
+     * Sets the symbol
+     *
+     * @param string $symbol
+     *
+     * @return void
+     */
+    public function setSymbol($symbol)
+    {
+        $this->symbol = $symbol;
+    }
 
-	/**
-	 * Returns the region
-	 *
-	 * @return string $region
-	 */
-	public function getRegion() {
-		return $this->region;
-	}
+    /**
+     * Returns the region
+     *
+     * @return string $region
+     */
+    public function getRegion()
+    {
+        return $this->region;
+    }
 
-	/**
-	 * Sets the region
-	 *
-	 * @param string $region
-	 * @return void
-	 */
-	public function setRegion($region) {
-		$this->region = $region;
-	}
+    /**
+     * Sets the region
+     *
+     * @param string $region
+     *
+     * @return void
+     */
+    public function setRegion($region)
+    {
+        $this->region = $region;
+    }
 
-	/**
-	 * Returns the llReference
-	 *
-	 * @return string $llReference
-	 */
-	public function getLlReference() {
-		return $this->llReference;
-	}
+    /**
+     * Returns the llReference
+     *
+     * @return string $llReference
+     */
+    public function getLlReference()
+    {
+        return $this->llReference;
+    }
 
-	/**
-	 * Sets the llReference
-	 *
-	 * @param string $llReference
-	 * @return void
-	 */
-	public function setLlReference($llReference) {
-		$this->llReference = $llReference;
-	}
+    /**
+     * Sets the llReference
+     *
+     * @param string $llReference
+     *
+     * @return void
+     */
+    public function setLlReference($llReference)
+    {
+        $this->llReference = $llReference;
+    }
 
-	/**
-	 * Returns the flag
-	 *
-	 * @return \TYPO3\CMS\Extbase\Domain\Model\FileReference $flag
-	 */
-	public function getFlag() {
-		return $this->flag;
-	}
+    /**
+     * Returns the flag
+     *
+     * @return \TYPO3\CMS\Extbase\Domain\Model\FileReference $flag
+     */
+    public function getFlag()
+    {
+        return $this->flag;
+    }
 
-	/**
-	 * Sets the flag
-	 *
-	 * @param \TYPO3\CMS\Extbase\Domain\Model\FileReference $flag
-	 * @return void
-	 */
-	public function setFlag(\TYPO3\CMS\Extbase\Domain\Model\FileReference $flag) {
-		$this->flag = $flag;
-	}
+    /**
+     * Sets the flag
+     *
+     * @param \TYPO3\CMS\Extbase\Domain\Model\FileReference $flag
+     *
+     * @return void
+     */
+    public function setFlag(\TYPO3\CMS\Extbase\Domain\Model\FileReference $flag)
+    {
+        $this->flag = $flag;
+    }
 
-	/**
-	 * Returns the settings
-	 *
-	 * @return int $settings
-	 */
-	public function getSettings() {
-		return $this->settings;
-	}
+    /**
+     * Returns the settings
+     *
+     * @return int $settings
+     */
+    public function getSettings()
+    {
+        return $this->settings;
+    }
 
-	/**
-	 * Sets the settings
-	 *
-	 * @param int $settings
-	 * @return void
-	 */
-	public function setSettings($settings) {
-		$this->settings = $settings;
-	}
+    /**
+     * Sets the settings
+     *
+     * @param int $settings
+     *
+     * @return void
+     */
+    public function setSettings($settings)
+    {
+        $this->settings = $settings;
+    }
 
-	/**
-	 * @return bool
-	 */
-	public function isSymbolPrepended() {
-		return ($this->settings & \S3b0\EcomConfigCodeGenerator\Setup::BIT_CURRENCY_PREPEND_SYMBOL) == \S3b0\EcomConfigCodeGenerator\Setup::BIT_CURRENCY_PREPEND_SYMBOL;
-	}
+    /**
+     * @return bool
+     */
+    public function isSymbolPrepended()
+    {
+        return ($this->settings & \S3b0\EcomConfigCodeGenerator\Setup::BIT_CURRENCY_PREPEND_SYMBOL) == \S3b0\EcomConfigCodeGenerator\Setup::BIT_CURRENCY_PREPEND_SYMBOL;
+    }
 
-	/**
-	 * @return bool
-	 */
-	public function isWhitespaceBetweenCurrencyAndValue() {
-		return ($this->settings & \S3b0\EcomConfigCodeGenerator\Setup::BIT_CURRENCY_ADD_WHITEPACE_BETWEEN_CURRENCY_AND_VALUE) == \S3b0\EcomConfigCodeGenerator\Setup::BIT_CURRENCY_ADD_WHITEPACE_BETWEEN_CURRENCY_AND_VALUE;
-	}
+    /**
+     * @return bool
+     */
+    public function isWhitespaceBetweenCurrencyAndValue()
+    {
+        return ($this->settings & \S3b0\EcomConfigCodeGenerator\Setup::BIT_CURRENCY_ADD_WHITEPACE_BETWEEN_CURRENCY_AND_VALUE) == \S3b0\EcomConfigCodeGenerator\Setup::BIT_CURRENCY_ADD_WHITEPACE_BETWEEN_CURRENCY_AND_VALUE;
+    }
 
-	/**
-	 * @return bool
-	 */
-	public function isNumberSeparatorInUSFormat() {
-		return ($this->settings & \S3b0\EcomConfigCodeGenerator\Setup::BIT_CURRENCY_NUMBER_SEPARATORS_IN_US_FORMAT) == \S3b0\EcomConfigCodeGenerator\Setup::BIT_CURRENCY_NUMBER_SEPARATORS_IN_US_FORMAT;
-	}
+    /**
+     * @return bool
+     */
+    public function isNumberSeparatorInUSFormat()
+    {
+        return ($this->settings & \S3b0\EcomConfigCodeGenerator\Setup::BIT_CURRENCY_NUMBER_SEPARATORS_IN_US_FORMAT) == \S3b0\EcomConfigCodeGenerator\Setup::BIT_CURRENCY_NUMBER_SEPARATORS_IN_US_FORMAT;
+    }
 
-	/**
-	 * Get inline CSS for displaying flags in currency switcher
-	 * @return string
-	 */
-	public function getFlagSource() {
-		switch ( $this->isoCode ) {
-			case 'EUR':
-				$flagName = 'European-Union.png';
-				break;
-			case 'CHF':
-				$flagName = 'Switzerland.png';
-				break;
-			case 'GBP':
-				$flagName = 'United-Kingdom.png';
-				break;
-			case 'USD':
-				$flagName = 'United-States.png';
-				break;
-			default:
-				$flagName = 'Unknown.png';
-		}
+    /**
+     * Get inline CSS for displaying flags in currency switcher
+     *
+     * @return string
+     */
+    public function getFlagSource()
+    {
+        switch ($this->isoCode) {
+            case 'EUR':
+                $flagName = 'European-Union.png';
+                break;
+            case 'CHF':
+                $flagName = 'Switzerland.png';
+                break;
+            case 'GBP':
+                $flagName = 'United-Kingdom.png';
+                break;
+            case 'USD':
+                $flagName = 'United-States.png';
+                break;
+            default:
+                $flagName = 'Unknown.png';
+        }
 
-		/** @var \TYPO3\CMS\Core\Resource\ResourceFactory $resourceFactory */
-		$resourceFactory = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\TYPO3\CMS\Core\Resource\ResourceFactory::class);
+        /** @var \TYPO3\CMS\Core\Resource\ResourceFactory $resourceFactory */
+        $resourceFactory = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\TYPO3\CMS\Core\Resource\ResourceFactory::class);
 
-		return $resourceFactory->retrieveFileOrFolderObject("EXT:ecom_toolbox/Resources/Public/Images/Flags/{$flagName}")->getPublicUrl();
-	}
+        return $resourceFactory->retrieveFileOrFolderObject("EXT:ecom_toolbox/Resources/Public/Images/Flags/{$flagName}")->getPublicUrl();
+    }
 
 }

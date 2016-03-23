@@ -30,44 +30,50 @@ namespace S3b0\EcomConfigCodeGenerator\Domain\Repository;
 /**
  * The repository for PartGroups
  */
-class PartGroupRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
+class PartGroupRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
+{
 
-	/**
-	 * @var array
-	 */
-	protected $defaultOrderings = [
-		'sorting' => \TYPO3\CMS\Extbase\Persistence\QueryInterface::ORDER_ASCENDING
-	];
+    /**
+     * @var array
+     */
+    protected $defaultOrderings = [
+        'sorting' => \TYPO3\CMS\Extbase\Persistence\QueryInterface::ORDER_ASCENDING
+    ];
 
-	/**
-	 * @param \S3b0\EcomConfigCodeGenerator\Domain\Model\Configuration $configuration
-	 * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage
-	 */
-	public function findByConfiguration(\S3b0\EcomConfigCodeGenerator\Domain\Model\Configuration $configuration) {
-		$query = $this->createQuery();
-		$query->getQuerySettings()->setRespectStoragePage(FALSE);
-		$query->getQuerySettings()->setRespectSysLanguage(FALSE);
+    /**
+     * @param \S3b0\EcomConfigCodeGenerator\Domain\Model\Configuration $configuration
+     *
+     * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage
+     */
+    public function findByConfiguration(\S3b0\EcomConfigCodeGenerator\Domain\Model\Configuration $configuration)
+    {
+        $query = $this->createQuery();
+        $query->getQuerySettings()->setRespectStoragePage(false);
+        $query->getQuerySettings()->setRespectSysLanguage(false);
 
-		return $this->fillOjectStorageFromQueryResult($query->matching($query->equals('configuration', $configuration))->execute());
-	}
+        return $this->fillOjectStorageFromQueryResult($query->matching($query->equals('configuration', $configuration))
+            ->execute());
+    }
 
-	/**
-	 * Fill objectStorage from QueryResult
-	 *
-	 * @param \TYPO3\CMS\Extbase\Persistence\QueryResultInterface $queryResult
-	 * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage
-	 */
-	protected function fillOjectStorageFromQueryResult(\TYPO3\CMS\Extbase\Persistence\QueryResultInterface $queryResult = NULL) {
-		/* @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage $objectStorage */
-		$objectStorage = $this->objectManager->get('TYPO3\\CMS\\Extbase\\Persistence\\ObjectStorage');
+    /**
+     * Fill objectStorage from QueryResult
+     *
+     * @param \TYPO3\CMS\Extbase\Persistence\QueryResultInterface $queryResult
+     *
+     * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage
+     */
+    protected function fillOjectStorageFromQueryResult(\TYPO3\CMS\Extbase\Persistence\QueryResultInterface $queryResult = null)
+    {
+        /* @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage $objectStorage */
+        $objectStorage = $this->objectManager->get('TYPO3\\CMS\\Extbase\\Persistence\\ObjectStorage');
 
-		if ( $queryResult !== NULL ) {
-			foreach ( $queryResult as $object ) {
-				$objectStorage->attach($object);
-			}
-		}
+        if ($queryResult !== null) {
+            foreach ($queryResult as $object) {
+                $objectStorage->attach($object);
+            }
+        }
 
-		return $objectStorage;
-	}
+        return $objectStorage;
+    }
 
 }

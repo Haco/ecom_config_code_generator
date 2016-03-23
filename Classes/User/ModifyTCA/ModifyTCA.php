@@ -32,157 +32,162 @@ use TYPO3\CMS\Core\Utility as CoreUtility;
 
 /**
  * Class ModifyTCA
+ *
  * @package S3b0\EcomConfigCodeGenerator\User\ModifyTCA
  */
-class ModifyTCA {
+class ModifyTCA
+{
 
-	/**
-	 * itemsProcFuncEcomConfigCodeGeneratorDomainModelDependencyParts function.
-	 *
-	 * @param array                                    $PA
-	 * @param \TYPO3\CMS\Backend\Form\DataPreprocessor $pObj
-	 *
-	 * @return void
-	 */
-	public function itemsProcFuncEcomConfigCodeGeneratorDomainModelDependencyParts(array &$PA, $pObj = NULL)  {
-		// Adding an item!
-		//$PA['items'][] = array($pObj->sL('Added label by PHP function|Tilfjet Dansk tekst med PHP funktion'), 999);
+    /**
+     * itemsProcFuncEcomConfigCodeGeneratorDomainModelDependencyParts function.
+     *
+     * @param array                                    $PA
+     * @param \TYPO3\CMS\Backend\Form\DataPreprocessor $pObj
+     *
+     * @return void
+     */
+    public function itemsProcFuncEcomConfigCodeGeneratorDomainModelDependencyParts(array &$PA, $pObj = null)
+    {
+        // Adding an item!
+        //$PA['items'][] = array($pObj->sL('Added label by PHP function|Tilfjet Dansk tekst med PHP funktion'), 999);
 
-		if ( sizeof($PA['items']) && $PA['row']['part_groups'] ) {
-			$partGroupsCollection = [ ];
-			$referringPart = BackendUtility\BackendUtility::getRecord('tx_ecomconfigcodegenerator_domain_model_part', $PA['row']['part'], 'pid,part_group');
+        if (sizeof($PA[ 'items' ]) && $PA[ 'row' ][ 'part_groups' ]) {
+            $partGroupsCollection = [];
+            $referringPart = BackendUtility\BackendUtility::getRecord('tx_ecomconfigcodegenerator_domain_model_part', $PA[ 'row' ][ 'part' ], 'pid,part_group');
 
-			/** @var \TYPO3\CMS\Core\Database\DatabaseConnection $db */
-			$db = $GLOBALS['TYPO3_DB'];
-			$partGroups = [ ];
-			$result = $db->exec_SELECTquery('uid_foreign', 'tx_ecomconfigcodegenerator_dependency_partgroup_mm', "uid_local={$PA['row']['uid']}");
-			while ( $row = $db->sql_fetch_assoc($result) ) {
-				$partGroups[] = $row['uid_foreign'];
-			}
-			$db->sql_free_result($result);
+            /** @var \TYPO3\CMS\Core\Database\DatabaseConnection $db */
+            $db = $GLOBALS[ 'TYPO3_DB' ];
+            $partGroups = [];
+            $result = $db->exec_SELECTquery('uid_foreign', 'tx_ecomconfigcodegenerator_dependency_partgroup_mm', "uid_local={$PA['row']['uid']}");
+            while ($row = $db->sql_fetch_assoc($result)) {
+                $partGroups[] = $row[ 'uid_foreign' ];
+            }
+            $db->sql_free_result($result);
 
-			foreach ( $PA['items'] as $item ) {
-				$data = BackendUtility\BackendUtility::getRecord('tx_ecomconfigcodegenerator_domain_model_part', $item[1], '*');
-				if ( !sizeof($data) || $data['pid'] !== $referringPart['pid'] || !CoreUtility\GeneralUtility::inList(implode(',', $partGroups), $data['part_group']) ) {
-					continue;
-				}
+            foreach ($PA[ 'items' ] as $item) {
+                $data = BackendUtility\BackendUtility::getRecord('tx_ecomconfigcodegenerator_domain_model_part', $item[ 1 ], '*');
+                if (!sizeof($data) || $data[ 'pid' ] !== $referringPart[ 'pid' ] || !CoreUtility\GeneralUtility::inList(implode(',', $partGroups), $data[ 'part_group' ])) {
+                    continue;
+                }
 
-				$item[2] = 'clear.gif';
-				$partGroupsCollection[0]['div'] = '-- not assigned --';
-				if ( CoreUtility\MathUtility::canBeInterpretedAsInteger($data['part_group']) ) {
-					if ( !array_key_exists($data['part_group'], $partGroupsCollection) ) {
-						$partGroup = BackendUtility\BackendUtility::getRecord('tx_ecomconfigcodegenerator_domain_model_partgroup', $data['part_group'], 'title');
-						$partGroupsCollection[$data['part_group']]['div'] = $partGroup['title'];
-					}
-					$partGroupsCollection[$data['part_group']]['items'][] = $item;
-				} else {
-					$partGroupsCollection[0]['items'][] = $item;
-				}
+                $item[ 2 ] = 'clear.gif';
+                $partGroupsCollection[ 0 ][ 'div' ] = '-- not assigned --';
+                if (CoreUtility\MathUtility::canBeInterpretedAsInteger($data[ 'part_group' ])) {
+                    if (!array_key_exists($data[ 'part_group' ], $partGroupsCollection)) {
+                        $partGroup = BackendUtility\BackendUtility::getRecord('tx_ecomconfigcodegenerator_domain_model_partgroup', $data[ 'part_group' ], 'title');
+                        $partGroupsCollection[ $data[ 'part_group' ] ][ 'div' ] = $partGroup[ 'title' ];
+                    }
+                    $partGroupsCollection[ $data[ 'part_group' ] ][ 'items' ][] = $item;
+                } else {
+                    $partGroupsCollection[ 0 ][ 'items' ][] = $item;
+                }
 
-			}
-			//usort($configurationPackages, 'self::cmp'); // Sort Alphabetically @package label
-			ksort($partGroupsCollection); // Order by uid @package
+            }
+            //usort($configurationPackages, 'self::cmp'); // Sort Alphabetically @package label
+            ksort($partGroupsCollection); // Order by uid @package
 
-			$PA['items'] = [ ];
-			foreach ( $partGroupsCollection as $partGroup ) {
-				if ( !is_array($partGroup['items']) ) {
-					continue;
-				}
-				$PA['items'][] = [
-					$partGroup['div'],
-					'--div--'
-				];
-				$PA['items'] = array_merge($PA['items'], $partGroup['items']);
-			}
-		} elseif ( !$PA['row']['part_groups'] ) {
-			$PA['items'] = [ ];
-		}
+            $PA[ 'items' ] = [];
+            foreach ($partGroupsCollection as $partGroup) {
+                if (!is_array($partGroup[ 'items' ])) {
+                    continue;
+                }
+                $PA[ 'items' ][] = [
+                    $partGroup[ 'div' ],
+                    '--div--'
+                ];
+                $PA[ 'items' ] = array_merge($PA[ 'items' ], $partGroup[ 'items' ]);
+            }
+        } elseif (!$PA[ 'row' ][ 'part_groups' ]) {
+            $PA[ 'items' ] = [];
+        }
 
-		// No return - the $PA and $pObj variables are passed by reference, so just change content in then and it is passed back automatically...
-	}
+        // No return - the $PA and $pObj variables are passed by reference, so just change content in then and it is passed back automatically...
+    }
 
-	/**
-	 * itemsProcFuncEcomConfigCodeGeneratorDomainModelDependentNoteDependentParts function.
-	 *
-	 * @param array                                    $PA
-	 * @param \TYPO3\CMS\Backend\Form\DataPreprocessor $pObj
-	 *
-	 * @return void
-	 */
-	public function itemsProcFuncEcomConfigCodeGeneratorDomainModelDependentNoteDependentParts(array &$PA, $pObj = NULL)  {
-		// Adding an item!
-		//$PA['items'][] = array($pObj->sL('Added label by PHP function|Tilfjet Dansk tekst med PHP funktion'), 999);
+    /**
+     * itemsProcFuncEcomConfigCodeGeneratorDomainModelDependentNoteDependentParts function.
+     *
+     * @param array                                    $PA
+     * @param \TYPO3\CMS\Backend\Form\DataPreprocessor $pObj
+     *
+     * @return void
+     */
+    public function itemsProcFuncEcomConfigCodeGeneratorDomainModelDependentNoteDependentParts(array &$PA, $pObj = null)
+    {
+        // Adding an item!
+        //$PA['items'][] = array($pObj->sL('Added label by PHP function|Tilfjet Dansk tekst med PHP funktion'), 999);
 
-		if ( sizeof($PA['items']) ) {
-			$partGroupsCollection = [ ];
+        if (sizeof($PA[ 'items' ])) {
+            $partGroupsCollection = [];
 
-			/** @var \TYPO3\CMS\Core\Database\DatabaseConnection $db */
-			$db = $GLOBALS['TYPO3_DB'];
-			$partGroups = [ ];
-			$result = $db->exec_SELECTquery('uid', 'tx_ecomconfigcodegenerator_domain_model_partgroup', "pid={$PA['row']['pid']}");
-			while ( $row = $db->sql_fetch_assoc($result) ) {
-				$partGroups[] = $row['uid'];
-			}
-			$db->sql_free_result($result);
+            /** @var \TYPO3\CMS\Core\Database\DatabaseConnection $db */
+            $db = $GLOBALS[ 'TYPO3_DB' ];
+            $partGroups = [];
+            $result = $db->exec_SELECTquery('uid', 'tx_ecomconfigcodegenerator_domain_model_partgroup', "pid={$PA['row']['pid']}");
+            while ($row = $db->sql_fetch_assoc($result)) {
+                $partGroups[] = $row[ 'uid' ];
+            }
+            $db->sql_free_result($result);
 
-			foreach ( $PA['items'] as $item ) {
-				$data = BackendUtility\BackendUtility::getRecord('tx_ecomconfigcodegenerator_domain_model_part', $item[1], '*');
-				if ( !sizeof($data) || !CoreUtility\GeneralUtility::inList(implode(',', $partGroups), $data['part_group']) ) {
-					continue;
-				}
+            foreach ($PA[ 'items' ] as $item) {
+                $data = BackendUtility\BackendUtility::getRecord('tx_ecomconfigcodegenerator_domain_model_part', $item[ 1 ], '*');
+                if (!sizeof($data) || !CoreUtility\GeneralUtility::inList(implode(',', $partGroups), $data[ 'part_group' ])) {
+                    continue;
+                }
 
-				$item[2] = 'clear.gif';
-				$partGroupsCollection[0]['div'] = '-- not assigned --';
-				if ( CoreUtility\MathUtility::canBeInterpretedAsInteger($data['part_group']) ) {
-					if ( !array_key_exists($data['part_group'], $partGroupsCollection) ) {
-						$partGroup = BackendUtility\BackendUtility::getRecord('tx_ecomconfigcodegenerator_domain_model_partgroup', $data['part_group'], 'title');
-						$partGroupsCollection[$data['part_group']]['div'] = $partGroup['title'];
-					}
-					$partGroupsCollection[$data['part_group']]['items'][] = $item;
-				} else {
-					$partGroupsCollection[0]['items'][] = $item;
-				}
+                $item[ 2 ] = 'clear.gif';
+                $partGroupsCollection[ 0 ][ 'div' ] = '-- not assigned --';
+                if (CoreUtility\MathUtility::canBeInterpretedAsInteger($data[ 'part_group' ])) {
+                    if (!array_key_exists($data[ 'part_group' ], $partGroupsCollection)) {
+                        $partGroup = BackendUtility\BackendUtility::getRecord('tx_ecomconfigcodegenerator_domain_model_partgroup', $data[ 'part_group' ], 'title');
+                        $partGroupsCollection[ $data[ 'part_group' ] ][ 'div' ] = $partGroup[ 'title' ];
+                    }
+                    $partGroupsCollection[ $data[ 'part_group' ] ][ 'items' ][] = $item;
+                } else {
+                    $partGroupsCollection[ 0 ][ 'items' ][] = $item;
+                }
 
-			}
-			//usort($configurationPackages, 'self::cmp'); // Sort Alphabetically @package label
-			ksort($partGroupsCollection); // Order by uid @package
+            }
+            //usort($configurationPackages, 'self::cmp'); // Sort Alphabetically @package label
+            ksort($partGroupsCollection); // Order by uid @package
 
-			$PA['items'] = [ ];
-			foreach ( $partGroupsCollection as $partGroup ) {
-				if ( !is_array($partGroup['items']) ) {
-					continue;
-				}
-				$PA['items'][] = [
-					$partGroup['div'],
-					'--div--'
-				];
-				$PA['items'] = array_merge($PA['items'], $partGroup['items']);
-			}
-		} elseif ( !$PA['row']['part_groups'] ) {
-			$PA['items'] = [ ];
-		}
+            $PA[ 'items' ] = [];
+            foreach ($partGroupsCollection as $partGroup) {
+                if (!is_array($partGroup[ 'items' ])) {
+                    continue;
+                }
+                $PA[ 'items' ][] = [
+                    $partGroup[ 'div' ],
+                    '--div--'
+                ];
+                $PA[ 'items' ] = array_merge($PA[ 'items' ], $partGroup[ 'items' ]);
+            }
+        } elseif (!$PA[ 'row' ][ 'part_groups' ]) {
+            $PA[ 'items' ] = [];
+        }
 
-		// No return - the $PA and $pObj variables are passed by reference, so just change content in then and it is passed back automatically...
-	}
+        // No return - the $PA and $pObj variables are passed by reference, so just change content in then and it is passed back automatically...
+    }
 
-	/**
-	 * Check if pricing is fixed or percentage
-	 *
-	 * @param array $PA
-	 *
-	 * @return bool
-	 */
-	public function checkPriceHandling($PA) {
-		$partGroup = BackendUtility\BackendUtility::getRecord('tx_ecomconfigcodegenerator_domain_model_partgroup', $PA['record']['part_group'], 'settings');
-		$check = ($partGroup['settings'] & Setup::BIT_PARTGROUP_USE_PERCENTAGE_PRICING) === Setup::BIT_PARTGROUP_USE_PERCENTAGE_PRICING;
+    /**
+     * Check if pricing is fixed or percentage
+     *
+     * @param array $PA
+     *
+     * @return bool
+     */
+    public function checkPriceHandling($PA)
+    {
+        $partGroup = BackendUtility\BackendUtility::getRecord('tx_ecomconfigcodegenerator_domain_model_partgroup', $PA[ 'record' ][ 'part_group' ], 'settings');
+        $check = ($partGroup[ 'settings' ] & Setup::BIT_PARTGROUP_USE_PERCENTAGE_PRICING) === Setup::BIT_PARTGROUP_USE_PERCENTAGE_PRICING;
 
-		switch ( $PA['conditionParameters'][0] ) {
-			case '1':
-				return !$check;
-			default:
-				return $check;
-		}
-	}
+        switch ($PA[ 'conditionParameters' ][ 0 ]) {
+            case '1':
+                return !$check;
+            default:
+                return $check;
+        }
+    }
 
 }
 

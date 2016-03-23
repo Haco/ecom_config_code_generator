@@ -30,71 +30,79 @@ namespace S3b0\EcomConfigCodeGenerator\Domain\Model;
 /**
  * Extending tt_content table
  */
-class Content extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
+class Content extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
+{
 
-	/**
-	 * @var string
-	 */
-	protected $bodytext = '';
+    /**
+     * @var string
+     */
+    protected $bodytext = '';
 
-	/**
-	 * @var string
-	 */
-	protected $header = '';
+    /**
+     * @var string
+     */
+    protected $header = '';
 
-	/**
-	 * Link content element to configuration
-	 *
-	 * @var \S3b0\EcomConfigCodeGenerator\Domain\Model\Configuration
-	 * @lazy
-	 */
-	protected $ccgConfiguration = NULL;
+    /**
+     * Link content element to configuration
+     *
+     * @var \S3b0\EcomConfigCodeGenerator\Domain\Model\Configuration
+     * @lazy
+     */
+    protected $ccgConfiguration = null;
 
-	/**
-	 * @return string
-	 */
-	public function getBodytext() {
-		return $this->bodytext;
-	}
+    /**
+     * @return string
+     */
+    public function getBodytext()
+    {
+        return $this->bodytext;
+    }
 
-	/**
-	 * @param string $bodytext
-	 */
-	public function setBodytext($bodytext) {
-		$this->bodytext = $bodytext;
-	}
+    /**
+     * @param string $bodytext
+     */
+    public function setBodytext($bodytext)
+    {
+        $this->bodytext = $bodytext;
+    }
 
-	/**
-	 * @return string
-	 */
-	public function getHeader() {
-		return $this->header;
-	}
+    /**
+     * @return string
+     */
+    public function getHeader()
+    {
+        return $this->header;
+    }
 
-	/**
-	 * @param string $header
-	 */
-	public function setHeader($header) {
-		$this->header = $header;
-	}
+    /**
+     * @param string $header
+     */
+    public function setHeader($header)
+    {
+        $this->header = $header;
+    }
 
-	/**
-	 * Returns the ccgConfiguration
-	 *
-	 * @return \S3b0\EcomConfigCodeGenerator\Domain\Model\Configuration $ccgConfiguration
-	 */
-	public function getCcgConfiguration() {
-		return $this->ccgConfiguration;
-	}
+    /**
+     * Returns the ccgConfiguration
+     *
+     * @return \S3b0\EcomConfigCodeGenerator\Domain\Model\Configuration $ccgConfiguration
+     */
+    public function getCcgConfiguration()
+    {
+        return $this->ccgConfiguration;
+    }
 
-	/**
-	 * Sets the ccgConfiguration
-	 *
-	 * @param \S3b0\EcomConfigCodeGenerator\Domain\Model\Configuration $ccgConfiguration
-	 * @return void
-	 */
-	public function setCcgConfiguration(\S3b0\EcomConfigCodeGenerator\Domain\Model\Configuration $ccgConfiguration) {
-		$this->ccgConfiguration = $ccgConfiguration;
-	}
+    /**
+     * Sets the ccgConfiguration
+     *
+     * @param \S3b0\EcomConfigCodeGenerator\Domain\Model\Configuration $ccgConfiguration
+     *
+     * @return void
+     */
+    public function setCcgConfiguration(\S3b0\EcomConfigCodeGenerator\Domain\Model\Configuration $ccgConfiguration)
+    {
+        $this->ccgConfiguration = $ccgConfiguration;
+    }
 
 }

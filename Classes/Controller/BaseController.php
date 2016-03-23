@@ -258,7 +258,7 @@ class BaseController extends \Ecom\EcomToolbox\Controller\ActionController
                     $partGroup->setSelectable(false);
                     \S3b0\EcomConfigCodeGenerator\Session\ManageConfiguration::addPartToConfiguration(
                         $this,
-                        $partGroup->getDefaultPart() instanceof \TYPO3\CMS\Extbase\Persistence\Generic\LazyLoadingProxy ? $partGroup->getDefaultPart()->_loadRealInstance() : $partGroup->getDefaultPart(),
+                        $partGroup->getDefaultPart(),
                         $configuration
                     );
                     $locked++;

@@ -33,124 +33,133 @@ use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 /**
  * LogController
  */
-class LogController extends \S3b0\EcomConfigCodeGenerator\Controller\GeneratorController {
+class LogController extends \S3b0\EcomConfigCodeGenerator\Controller\GeneratorController
+{
 
-	/**
-	 * action confirmation
-	 *
-	 * @return void
-	 */
-	public function confirmationAction() {
-		$this->view->assign('message', $this->contentRepository->findByUid((int) $this->settings['mail']['confirmationMessage']));
-	}
+    /**
+     * action confirmation
+     *
+     * @return void
+     */
+    public function confirmationAction()
+    {
+        $this->view->assign('message', $this->contentRepository->findByUid((int)$this->settings[ 'mail' ][ 'confirmationMessage' ]));
+    }
 
-	/**
-	 * action new
-	 *
-	 * @param \S3b0\EcomConfigCodeGenerator\Domain\Model\Log $newLog
-	 * @ignorevalidation $newLog
-	 * @return void
-	 */
-	public function newAction(\S3b0\EcomConfigCodeGenerator\Domain\Model\Log $newLog = NULL) {
-		$configuration = $this->feSession->get('config') ?: [ ];
-		if ( !sizeof($configuration) )
-			$this->forward('index', 'Generator');
+    /**
+     * action new
+     *
+     * @param \S3b0\EcomConfigCodeGenerator\Domain\Model\Log $newLog
+     * @ignorevalidation $newLog
+     *
+     * @return void
+     */
+    public function newAction(\S3b0\EcomConfigCodeGenerator\Domain\Model\Log $newLog = null)
+    {
+        $configuration = $this->feSession->get('config') ?: [];
+        if (!sizeof($configuration)) {
+            $this->forward('index', 'Generator');
+        }
 
-		$data = $this->getIndexActionData();
+        $data = $this->getIndexActionData();
 
-		if ( $data['progress'] < 1 ) {
-			$this->redirect('index', 'Generator');
-		}
-		$this->view->assignMultiple([
-			'newLog' => $newLog,
-			'countryList' => $this->regionRepository->findByType(0),
-			'stateList' => $this->stateRepository->findAll()
-		]);
-	}
+        if ($data[ 'progress' ] < 1) {
+            $this->redirect('index', 'Generator');
+        }
+        $this->view->assignMultiple([
+            'newLog'      => $newLog,
+            'countryList' => $this->regionRepository->findByType(0),
+            'stateList'   => $this->stateRepository->findAll()
+        ]);
+    }
 
-	/**
-	 * action initializeCreate
-	 */
-	protected function initializeCreateAction() {
-		$propertyMappingConfiguration = $this->arguments['newLog']->getPropertyMappingConfiguration();
-		$propertyMappingConfiguration->allowProperties('country');
-		$propertyMappingConfiguration->allowProperties('state');
-	}
+    /**
+     * action initializeCreate
+     */
+    protected function initializeCreateAction()
+    {
+        $propertyMappingConfiguration = $this->arguments[ 'newLog' ]->getPropertyMappingConfiguration();
+        $propertyMappingConfiguration->allowProperties('country');
+        $propertyMappingConfiguration->allowProperties('state');
+    }
 
-	/**
-	 * action create
-	 *
-	 * @param \S3b0\EcomConfigCodeGenerator\Domain\Model\Log $newLog
-	 * @return void
-	 */
-	public function createAction(\S3b0\EcomConfigCodeGenerator\Domain\Model\Log $newLog) {
-		/** EMail stuff */
-		$configuration = $this->feSession->get('config') ?: [ ];
-		if ( sizeof($configuration) ) {
-			$this->addConfigurationToLog($newLog, $configuration);
-		} else {
-			$this->forward('index', 'Generator');
-		}
+    /**
+     * action create
+     *
+     * @param \S3b0\EcomConfigCodeGenerator\Domain\Model\Log $newLog
+     *
+     * @return void
+     */
+    public function createAction(\S3b0\EcomConfigCodeGenerator\Domain\Model\Log $newLog)
+    {
+        /** EMail stuff */
+        $configuration = $this->feSession->get('config') ?: [];
+        if (sizeof($configuration)) {
+            $this->addConfigurationToLog($newLog, $configuration);
+        } else {
+            $this->forward('index', 'Generator');
+        }
 
-		$this->createRecord($newLog);
+        $this->createRecord($newLog);
 
-		$noReply = NULL;
-		$data = $this->getConfigurationCode($configuration);
-		if ( $this->settings['mail']['noReplyEmail'] && GeneralUtility::validEmail($this->settings['mail']['noReplyEmail']) && $this->settings['mail']['senderName'] ) {
-			$noReply = [ $this->settings['mail']['noReplyEmail'] => $this->settings['mail']['senderName'] ];
-		}
-		if ( $this->settings['mail']['senderEmail'] && GeneralUtility::validEmail($this->settings['mail']['senderEmail']) && $this->settings['mail']['senderName'] ) {
-			$sender = [ $this->settings['mail']['senderEmail'] => $this->settings['mail']['senderName'] ];
-		} else {
-			$sender = \TYPO3\CMS\Core\Utility\MailUtility::getSystemFrom();
-		}
-		$carbonCopyReceivers = [ ];
-		if ( $this->settings['mail']['carbonCopy'] ) {
-			foreach ( explode(',', $this->settings['mail']['carbonCopy']) as $carbonCopyReceiver ) {
-				$tokens = GeneralUtility::trimExplode(' ', $carbonCopyReceiver, TRUE, 2);
-				if ( GeneralUtility::validEmail($tokens[0]) )
-					$carbonCopyReceivers[ $tokens[0] ] = $tokens[1];
-			}
-		}
-		/** @var \TYPO3\CMS\Core\Mail\MailMessage $mailToSender */
-		$mailToSender = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\TYPO3\CMS\Core\Mail\MailMessage::class);
-		$mailToSender->setContentType('text/html');
+        $noReply = null;
+        $data = $this->getConfigurationCode($configuration);
+        if ($this->settings[ 'mail' ][ 'noReplyEmail' ] && GeneralUtility::validEmail($this->settings[ 'mail' ][ 'noReplyEmail' ]) && $this->settings[ 'mail' ][ 'senderName' ]) {
+            $noReply = [$this->settings[ 'mail' ][ 'noReplyEmail' ] => $this->settings[ 'mail' ][ 'senderName' ]];
+        }
+        if ($this->settings[ 'mail' ][ 'senderEmail' ] && GeneralUtility::validEmail($this->settings[ 'mail' ][ 'senderEmail' ]) && $this->settings[ 'mail' ][ 'senderName' ]) {
+            $sender = [$this->settings[ 'mail' ][ 'senderEmail' ] => $this->settings[ 'mail' ][ 'senderName' ]];
+        } else {
+            $sender = \TYPO3\CMS\Core\Utility\MailUtility::getSystemFrom();
+        }
+        $carbonCopyReceivers = [];
+        if ($this->settings[ 'mail' ][ 'carbonCopy' ]) {
+            foreach (explode(',', $this->settings[ 'mail' ][ 'carbonCopy' ]) as $carbonCopyReceiver) {
+                $tokens = GeneralUtility::trimExplode(' ', $carbonCopyReceiver, true, 2);
+                if (GeneralUtility::validEmail($tokens[ 0 ])) {
+                    $carbonCopyReceivers[ $tokens[ 0 ] ] = $tokens[ 1 ];
+                }
+            }
+        }
+        /** @var \TYPO3\CMS\Core\Mail\MailMessage $mailToSender */
+        $mailToSender = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\TYPO3\CMS\Core\Mail\MailMessage::class);
+        $mailToSender->setContentType('text/html');
 
-		/**
-		 * Email to sender
-		 */
-		$mailToSender->setFrom($noReply ?: $sender)
-			->setTo([ $newLog->getEmail() => "{$newLog->getFirstName()} {$newLog->getLastName()}" ])
-			->setSubject($this->settings['mail']['senderSubject'] ?: LocalizationUtility::translate('mail.toSender.subject', $this->extensionName, [ $data['title'] ]))
-			->setBody($this->getStandAloneTemplate('Email/ToSender', [
-				'title' => $this->contentObject->getCcgConfiguration()->getTitle(),
-				'configurationCode' => $data,
-				'log' => $newLog
-			]))
-			->send();
+        /**
+         * Email to sender
+         */
+        $mailToSender->setFrom($noReply ?: $sender)
+            ->setTo([$newLog->getEmail() => "{$newLog->getFirstName()} {$newLog->getLastName()}"])
+            ->setSubject($this->settings[ 'mail' ][ 'senderSubject' ] ?: LocalizationUtility::translate('mail.toSender.subject', $this->extensionName, [$data[ 'title' ]]))
+            ->setBody($this->getStandAloneTemplate('Email/ToSender', [
+                'title'             => $this->contentObject->getCcgConfiguration()->getTitle(),
+                'configurationCode' => $data,
+                'log'               => $newLog
+            ]))
+            ->send();
 
-		/** @var \TYPO3\CMS\Core\Mail\MailMessage $mailToReceiver */
-		$mailToReceiver = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\TYPO3\CMS\Core\Mail\MailMessage::class);
-		$mailToReceiver->setContentType('text/html');
+        /** @var \TYPO3\CMS\Core\Mail\MailMessage $mailToReceiver */
+        $mailToReceiver = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\TYPO3\CMS\Core\Mail\MailMessage::class);
+        $mailToReceiver->setContentType('text/html');
 
-		/**
-		 * Email to receiver
-		 */
-		$mailToReceiver->setFrom([ $newLog->getEmail() => "{$newLog->getFirstName()} {$newLog->getLastName()}" ])
-			->setCc($carbonCopyReceivers)
-			->setTo($sender)
-			->setSubject($this->settings['mail']['receiverSubject'] ?: LocalizationUtility::translate('mail.toReceiver.subject', $this->extensionName, [ $data['title'] ]))
-			->setBody($this->getStandAloneTemplate('Email/ToReceiver', [
-				'title' => $this->contentObject->getCcgConfiguration()->getTitle(),
-				'configurationCode' => $data,
-				'log' => $newLog,
-				'marketingInformation' => SessionUtility::getMarketingInfos()
-			]))
-			->send();
+        /**
+         * Email to receiver
+         */
+        $mailToReceiver->setFrom([$newLog->getEmail() => "{$newLog->getFirstName()} {$newLog->getLastName()}"])
+            ->setCc($carbonCopyReceivers)
+            ->setTo($sender)
+            ->setSubject($this->settings[ 'mail' ][ 'receiverSubject' ] ?: LocalizationUtility::translate('mail.toReceiver.subject', $this->extensionName, [$data[ 'title' ]]))
+            ->setBody($this->getStandAloneTemplate('Email/ToReceiver', [
+                'title'                => $this->contentObject->getCcgConfiguration()->getTitle(),
+                'configurationCode'    => $data,
+                'log'                  => $newLog,
+                'marketingInformation' => SessionUtility::getMarketingInfos()
+            ]))
+            ->send();
 
-		\S3b0\EcomConfigCodeGenerator\Session\ManageConfiguration::resetConfiguration($this);
+        \S3b0\EcomConfigCodeGenerator\Session\ManageConfiguration::resetConfiguration($this);
 
-		$this->redirect('confirmation');
-	}
+        $this->redirect('confirmation');
+    }
 
 }
