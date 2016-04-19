@@ -27,7 +27,6 @@ namespace S3b0\EcomConfigCodeGenerator\User\ModifyTCA;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 use S3b0\EcomConfigCodeGenerator\Setup;
-use TYPO3\CMS\Backend\Utility as BackendUtility;
 use TYPO3\CMS\Core\Utility as CoreUtility;
 
 /**
@@ -53,10 +52,10 @@ class ModifyTCA
 
         if (sizeof($PA[ 'items' ]) && $PA[ 'row' ][ 'part_groups' ]) {
             $partGroupsCollection = [];
-            $referringPart = BackendUtility\BackendUtility::getRecord('tx_ecomconfigcodegenerator_domain_model_part', $PA[ 'row' ][ 'part' ], 'pid,part_group');
 
             /** @var \TYPO3\CMS\Core\Database\DatabaseConnection $db */
             $db = $GLOBALS[ 'TYPO3_DB' ];
+            $referringPart = $db->exec_SELECTgetSingleRow('*', 'tx_ecomconfigcodegenerator_domain_model_part', "uid={$PA[ 'row' ][ 'part' ]}");
             $partGroups = [];
             $result = $db->exec_SELECTquery('uid_foreign', 'tx_ecomconfigcodegenerator_dependency_partgroup_mm', "uid_local={$PA['row']['uid']}");
             while ($row = $db->sql_fetch_assoc($result)) {
@@ -65,16 +64,15 @@ class ModifyTCA
             $db->sql_free_result($result);
 
             foreach ($PA[ 'items' ] as $item) {
-                $data = BackendUtility\BackendUtility::getRecord('tx_ecomconfigcodegenerator_domain_model_part', $item[ 1 ], '*');
-                if (!sizeof($data) || $data[ 'pid' ] !== $referringPart[ 'pid' ] || !CoreUtility\GeneralUtility::inList(implode(',', $partGroups), $data[ 'part_group' ])) {
+                $data = $db->exec_SELECTgetSingleRow('*', 'tx_ecomconfigcodegenerator_domain_model_part', "uid={$item[ 1 ]}");
+                if (sizeof($data) < 1 || $data[ 'pid' ] !== $referringPart[ 'pid' ] || CoreUtility\GeneralUtility::inList(implode(',', $partGroups), $data[ 'part_group' ]) === false) {
                     continue;
                 }
 
-                $item[ 2 ] = 'clear.gif';
                 $partGroupsCollection[ 0 ][ 'div' ] = '-- not assigned --';
                 if (CoreUtility\MathUtility::canBeInterpretedAsInteger($data[ 'part_group' ])) {
                     if (!array_key_exists($data[ 'part_group' ], $partGroupsCollection)) {
-                        $partGroup = BackendUtility\BackendUtility::getRecord('tx_ecomconfigcodegenerator_domain_model_partgroup', $data[ 'part_group' ], 'title');
+                        $partGroup = $db->exec_SELECTgetSingleRow('*', 'tx_ecomconfigcodegenerator_domain_model_partgroup', "uid={$data[ 'part_group' ]}");
                         $partGroupsCollection[ $data[ 'part_group' ] ][ 'div' ] = $partGroup[ 'title' ];
                     }
                     $partGroupsCollection[ $data[ 'part_group' ] ][ 'items' ][] = $item;
@@ -130,7 +128,7 @@ class ModifyTCA
             $db->sql_free_result($result);
 
             foreach ($PA[ 'items' ] as $item) {
-                $data = BackendUtility\BackendUtility::getRecord('tx_ecomconfigcodegenerator_domain_model_part', $item[ 1 ], '*');
+                $data = $db->exec_SELECTgetSingleRow('*', 'tx_ecomconfigcodegenerator_domain_model_part', "uid={$item[ 1 ]}");
                 if (!sizeof($data) || !CoreUtility\GeneralUtility::inList(implode(',', $partGroups), $data[ 'part_group' ])) {
                     continue;
                 }
@@ -139,7 +137,7 @@ class ModifyTCA
                 $partGroupsCollection[ 0 ][ 'div' ] = '-- not assigned --';
                 if (CoreUtility\MathUtility::canBeInterpretedAsInteger($data[ 'part_group' ])) {
                     if (!array_key_exists($data[ 'part_group' ], $partGroupsCollection)) {
-                        $partGroup = BackendUtility\BackendUtility::getRecord('tx_ecomconfigcodegenerator_domain_model_partgroup', $data[ 'part_group' ], 'title');
+                        $partGroup = $db->exec_SELECTgetSingleRow('title', 'tx_ecomconfigcodegenerator_domain_model_partgroup', "uid={$data[ 'part_group' ]}");
                         $partGroupsCollection[ $data[ 'part_group' ] ][ 'div' ] = $partGroup[ 'title' ];
                     }
                     $partGroupsCollection[ $data[ 'part_group' ] ][ 'items' ][] = $item;
@@ -178,7 +176,7 @@ class ModifyTCA
      */
     public function checkPriceHandling($PA)
     {
-        $partGroup = BackendUtility\BackendUtility::getRecord('tx_ecomconfigcodegenerator_domain_model_partgroup', $PA[ 'record' ][ 'part_group' ], 'settings');
+        $partGroup = $GLOBALS[ 'TYPO3_DB' ]->exec_SELECTgetSingleRow('settings', 'tx_ecomconfigcodegenerator_domain_model_partgroup', 'uid IN (' . implode(',', (array)$PA[ 'record' ][ 'part_group' ]) . ')');
         $check = ($partGroup[ 'settings' ] & Setup::BIT_PARTGROUP_USE_PERCENTAGE_PRICING) === Setup::BIT_PARTGROUP_USE_PERCENTAGE_PRICING;
 
         switch ($PA[ 'conditionParameters' ][ 0 ]) {

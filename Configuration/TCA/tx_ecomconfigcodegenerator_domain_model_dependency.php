@@ -77,7 +77,7 @@ return [
             ]
         ],
         'part_groups' => [
-            'displayCond' => 'REC:NEW:FALSE',
+            'displayCond' => 'REC:NEW:false',
             'exclude'     => 0,
             'label'       => "{$translate}tx_ecomconfigcodegenerator_domain_model_dependency.part_groups",
             'config'      => [
@@ -99,14 +99,14 @@ return [
                 'autoSizeMax'         => 30,
                 'maxitems'            => 9999,
                 'multiple'            => 0,
-                'renderMode'          => 'checkbox'
+                'renderType'          => 'selectCheckBox'
             ]
         ],
         'parts'       => [
             'displayCond' => [
                 'AND' => [
-                    'REC:NEW:FALSE',
-                    'FIELD:part_groups:REQ:TRUE'
+                    'REC:NEW:false',
+                    'FIELD:part_groups:REQ:true'
                 ]
             ],
             'exclude'     => 0,
@@ -123,12 +123,12 @@ return [
 					) ORDER BY tx_ecomconfigcodegenerator_domain_model_part.part_group, tx_ecomconfigcodegenerator_domain_model_part.title
 				'),
                 'MM'                  => 'tx_ecomconfigcodegenerator_dependency_part_mm',
-                'itemsProcFunc'       => 'S3b0\\EcomConfigCodeGenerator\\User\\ModifyTCA\\ModifyTCA->itemsProcFuncEcomConfigCodeGeneratorDomainModelDependencyParts',
+                'itemsProcFunc'       => \S3b0\EcomConfigCodeGenerator\User\ModifyTCA\ModifyTCA::class . '->itemsProcFuncEcomConfigCodeGeneratorDomainModelDependencyParts',
                 'size'                => 10,
                 'autoSizeMax'         => 30,
                 'maxitems'            => 9999,
                 'multiple'            => 0,
-                'renderMode'          => 'checkbox'
+                'renderType'          => 'selectSingleBox'
             ]
         ],
         'part'        => [

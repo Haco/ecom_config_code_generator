@@ -136,13 +136,13 @@ return [
 					ORDER BY tx_ecomconfigcodegenerator_domain_model_part.part_group, tx_ecomconfigcodegenerator_domain_model_part.title
 				'),
                 'MM'                            => 'tx_ecomconfigcodegenerator_modal_part_mm',
-                'itemsProcFunc'                 => 'S3b0\\EcomConfigCodeGenerator\\User\\ModifyTCA\\ModifyTCA->itemsProcFuncEcomConfigCodeGeneratorDomainModelDependentNoteDependentParts',
+                'itemsProcFunc'                 => \S3b0\EcomConfigCodeGenerator\User\ModifyTCA\ModifyTCA::class . '->itemsProcFuncEcomConfigCodeGeneratorDomainModelDependentNoteDependentParts',
                 'size'                          => 10,
                 'autoSizeMax'                   => 30,
                 'minitems'                      => 1,
                 'maxitems'                      => 9999,
                 'multiple'                      => 0,
-                'renderMode'                    => 'checkbox',
+                'renderType'                    => 'selectSingleBox',
                 'disableNoMatchingValueElement' => 1
             ]
         ],
