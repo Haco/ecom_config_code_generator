@@ -592,24 +592,9 @@ class BaseController extends \Ecom\EcomToolbox\Controller\ActionController
                 $partList = [];
                 // Handle Accessory
                 if ($partGroup->getUid() === -1) {
-                    foreach ($parts as $ps => $sku) {
-                        if (intval($ps) === -1 && strlen($sku) === 0) {
-                            $partList = [ LocalizationUtility::translate('part.none', Setup::EXT_KEY) ];
-                            break;
-                        }
-                        $part = $partGroup->getPartBySku($sku);
-                        $partList[] = "{$part->getTitle()} [{$part->getCodeSegment()}]";
-                    }
-                    $summaryTableRows[] = ("
-                            <td>{$partGroup->getStepIndicator()}</td>
-                            <td>{$partGroup->getTitle()}</td>
-                            <td>" . implode('<br />', $partList) . "</td>
-                            <td><a data-part-group=\"{$partGroup->getUid()}\" class=\"generator-part-group-select\"><i class=\"fa fa-edit\"></i></a></td>
-                        ") . ($this->pricing ? "<td style=\"text-align:right\">{$partGroup->getPricing()}</td>" : "");
-                    $summaryTableMailRows[] = ("
-                            <td>{$partGroup->getTitle()}</td>
-                            <td>" . implode(', ', $partList) . "</td>
-                        ");
+                    $data = self::getConfigurationCodeDataForAccessoryPartGroup($parts, $partGroup);
+                    $summaryTableRows[] = $data[0];
+                    $summaryTableMailRows[] = $data[1];
                     $addedAccessory = true;
                 } else {
                     foreach ($parts as $partUid) {
@@ -649,25 +634,9 @@ class BaseController extends \Ecom\EcomToolbox\Controller\ActionController
                 $parts = $configuration[ -1 ];
                 $step = isset($partGroup) && $partGroup instanceof \S3b0\EcomConfigCodeGenerator\Domain\Model\PartGroup ? $partGroup->getStepIndicator() : 0;
                 $partGroup = $this->addAccessoryPartGroup($configuration, null, ++$step, true);
-                $partList = [];
-                foreach ($parts as $ps => $sku) {
-                    if (intval($ps) === -1 && strlen($sku) === 0) {
-                        $partList = [ LocalizationUtility::translate('part.none', Setup::EXT_KEY) ];
-                        break;
-                    }
-                    $part = $partGroup->getPartBySku($sku);
-                    $partList[] = "{$part->getTitle()} [{$part->getCodeSegment()}]";
-                }
-                $summaryTableRows[] = ("
-                        <td>{$partGroup->getStepIndicator()}</td>
-                        <td>{$partGroup->getTitle()}</td>
-                        <td>" . implode('<br />', $partList) . "</td>
-                        <td><a data-part-group=\"{$partGroup->getUid()}\" class=\"generator-part-group-select\"><i class=\"fa fa-edit\"></i></a></td>
-                    ") . ($this->pricing ? "<td style=\"text-align:right\">{$partGroup->getPricing()}</td>" : "");
-                $summaryTableMailRows[] = ("
-                        <td>{$partGroup->getTitle()}</td>
-                        <td>" . implode(', ', $partList) . "</td>
-                    ");
+                $data = self::getConfigurationCodeDataForAccessoryPartGroup($parts, $partGroup);
+                $summaryTableRows[] = $data[0];
+                $summaryTableMailRows[] = $data[1];
             }
         }
 
@@ -678,6 +647,37 @@ class BaseController extends \Ecom\EcomToolbox\Controller\ActionController
             'summaryTable'     => $this->sanitize_output('<table><tr>' . implode('</tr><tr>', $summaryTableRows) . '</tr></table>'),
             'summaryTableMail' => $this->sanitize_output('<table><tr>' . implode('</tr><tr>', $summaryTableMailRows) . '</tr></table>')
         ];
+    }
+
+    /**
+     * @param array                                                $parts
+     * @param \S3b0\EcomConfigCodeGenerator\Domain\Model\PartGroup $partGroup
+     *
+     * @return array
+     */
+    private static function getConfigurationCodeDataForAccessoryPartGroup(array $parts, \S3b0\EcomConfigCodeGenerator\Domain\Model\PartGroup $partGroup)
+    {
+        $partList = [];
+        foreach ($parts as $ps => $sku) {
+            if (intval($ps) === -1 && strlen($sku) === 0) {
+                $partList = [ LocalizationUtility::translate('part.none', Setup::EXT_KEY) ];
+                break;
+            }
+            $part = $partGroup->getPartBySku($sku);
+            $partList[] = "{$part->getTitle()} [{$part->getCodeSegment()}]";
+        }
+        $summaryTableRow = ("
+                        <td>{$partGroup->getStepIndicator()}</td>
+                        <td>{$partGroup->getTitle()}</td>
+                        <td>" . implode('<br />', $partList) . "</td>
+                        <td><a data-part-group=\"{$partGroup->getUid()}\" class=\"generator-part-group-select\"><i class=\"fa fa-edit\"></i></a></td>
+                    ");
+        $summaryTableMailRow = ("
+                        <td>{$partGroup->getTitle()}</td>
+                        <td>" . implode(', ', $partList) . "</td>
+                    ");
+
+        return [ $summaryTableRow, $summaryTableMailRow ];
     }
 
     /**
