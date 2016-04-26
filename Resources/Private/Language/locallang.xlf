@@ -46,6 +46,12 @@
 			<trans-unit id="unitPriceAbbr" xml:space="preserve">
 				<source>UP</source>
 			</trans-unit>
+			<trans-unit id="partGroup.accessories" xml:space="preserve">
+				<source>Accessories</source>
+			</trans-unit>
+			<trans-unit id="part.none" xml:space="preserve">
+				<source>None</source>
+			</trans-unit>
 
 			<!-- HEADLINES -->
 			<trans-unit id="headlines.yourConfigurationCode" xml:space="preserve">

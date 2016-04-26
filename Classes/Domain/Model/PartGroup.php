@@ -27,6 +27,7 @@ namespace S3b0\EcomConfigCodeGenerator\Domain\Model;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 use S3b0\EcomConfigCodeGenerator\Setup;
+use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 
 /**
  * Group of parts available for configuration
@@ -178,6 +179,18 @@ class PartGroup extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      */
     public function __construct()
     {
+        /**
+         * Accessory (pseudo) part group
+         * 2 arguments must be set:
+         *   - integer: 1 -> indicating this special part group
+         *   - array  : configuration array (session data)
+         */
+        if (func_get_arg(0) === 1) {
+            $this->settings      = Setup::BIT_PARTGROUP_IN_CONFIGURATOR + Setup::BIT_PARTGROUP_IN_NAVIGATION + Setup::BIT_PARTGROUP_IN_SUMMARY + Setup::BIT_PARTGROUP_MULTIPLE_SELECT;
+            $this->uid           = -1;
+            $this->title         = LocalizationUtility::translate('partGroup.accessories', Setup::EXT_KEY);
+            $this->configuration = func_get_arg(1);
+        }
         $this->initStorageObjects();
     }
 
@@ -450,6 +463,25 @@ class PartGroup extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     public function hasDefaultPart()
     {
         return $this->defaultPart && ($this->defaultPart instanceof \S3b0\EcomConfigCodeGenerator\Domain\Model\Part || $this->defaultPart instanceof \TYPO3\CMS\Extbase\Persistence\Generic\LazyLoadingProxy);
+    }
+
+    /**
+     * @param string $sku
+     *
+     * @return null|Part
+     */
+    public function getPartBySku($sku = '')
+    {
+        if (strlen($sku) && $this->parts instanceof \TYPO3\CMS\Extbase\Persistence\ObjectStorage && $this->parts->count()) {
+            /** @var \S3b0\EcomConfigCodeGenerator\Domain\Model\Part $part */
+            foreach ($this->parts as $part) {
+                if ($part->getCodeSegment() == $sku) {
+                    return $part;
+                }
+            }
+        }
+
+        return null;
     }
 
     /**
@@ -741,7 +773,7 @@ class PartGroup extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      */
     public function isUnlocked()
     {
-        return ($this->settings & Setup::BIT_PARTGROUP_IS_LOCKED) === Setup::BIT_PARTGROUP_IS_LOCKED;
+        return ($this->settings & Setup::BIT_PARTGROUP_IN_CONFIGURATOR) === Setup::BIT_PARTGROUP_IN_CONFIGURATOR;
     }
 
     /**
@@ -749,10 +781,10 @@ class PartGroup extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      */
     public function setUnlocked($locked = true)
     {
-        if ($this->isUnlocked() && $locked === false) {
-            $this->setSettings($this->getSettings() - Setup::BIT_PARTGROUP_IS_LOCKED);
-        } elseif (!$this->isUnlocked() && $locked === true) {
-            $this->setSettings($this->getSettings() + Setup::BIT_PARTGROUP_IS_LOCKED);
+        if ($this->isUnlocked() === true && $locked === false) {
+            $this->setSettings($this->getSettings() - Setup::BIT_PARTGROUP_IN_CONFIGURATOR);
+        } elseif ($this->isUnlocked() === false && $locked === true) {
+            $this->setSettings($this->getSettings() + Setup::BIT_PARTGROUP_IN_CONFIGURATOR);
         }
     }
 

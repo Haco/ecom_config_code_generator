@@ -43,7 +43,7 @@ class AjaxRequestController extends \S3b0\EcomConfigCodeGenerator\Controller\Gen
     /**
      * @var string
      */
-    protected $defaultViewObjectName = 'TYPO3\\CMS\\Extbase\\Mvc\\View\\JsonView';
+    protected $defaultViewObjectName = \TYPO3\CMS\Extbase\Mvc\View\JsonView::class;
 
     /**
      * Initializes the controller before invoking an action method.
@@ -70,21 +70,33 @@ class AjaxRequestController extends \S3b0\EcomConfigCodeGenerator\Controller\Gen
      * @throws \TYPO3\CMS\Extbase\Mvc\Exception\InvalidArgumentNameException
      * @throws \TYPO3\CMS\Extbase\Mvc\Exception\NoSuchArgumentException
      */
-    public function initializeIndexAction()
-    {
-        if ($this->request->hasArgument('partGroup') && MathUtility::canBeInterpretedAsInteger($this->request->getArgument('partGroup')) && !$this->request->getArgument('partGroup') instanceof \S3b0\EcomConfigCodeGenerator\Domain\Model\PartGroup) {
-            $this->request->setArgument('partGroup', $this->partGroupRepository->findByUid($this->request->getArgument('partGroup')));
-        }
-    }
-
-    /**
-     * @throws \TYPO3\CMS\Extbase\Mvc\Exception\InvalidArgumentNameException
-     * @throws \TYPO3\CMS\Extbase\Mvc\Exception\NoSuchArgumentException
-     */
     public function initializeUpdatePartAction()
     {
-        if ($this->request->hasArgument('part') && MathUtility::canBeInterpretedAsInteger($this->request->getArgument('part')) && !$this->request->getArgument('part') instanceof \S3b0\EcomConfigCodeGenerator\Domain\Model\Part) {
-            $this->request->setArgument('part', $this->partRepository->findByUid($this->request->getArgument('part')));
+        if ($this->request->hasArgument('part') && !$this->request->getArgument('part') instanceof \S3b0\EcomConfigCodeGenerator\Domain\Model\Part) {
+            if (MathUtility::canBeInterpretedAsInteger($this->request->getArgument('part'))) {
+                $this->request->setArgument('part', $this->partRepository->findByUid($this->request->getArgument('part')));
+            } elseif (preg_match('/^[a-z0-9]+$/i', $this->request->getArgument('part'))) {
+                $page = $this->getDatabaseConnection()->exec_SELECTgetSingleRow('tx_product', 'pages', "uid={$this->contentObject->getPid()}");
+                /** @var \S3b0\EcomProductTools\Domain\Model\Product $product */
+                $product = $this->productRepository->findByUid($page[ 'tx_product' ]);
+                $pseudoPartGroup = new \S3b0\EcomConfigCodeGenerator\Domain\Model\PartGroup(1, $this->configuration);
+                /** @var \S3b0\EcomProductTools\Domain\Model\Accessory $accessory */
+                foreach ($product->getAccessories() as $accessory) {
+                    if (preg_match("/{$this->request->getArgument('part')}/im", $accessory->getArticleNumbersPlain()) && ($articleCount = sizeof($accessory->getArticleNumbers()))) {
+                        if ($articleCount > 1) {
+                            for ($i = 0; $i < $articleCount; $i++) {
+                                if (preg_match("/{$this->request->getArgument('part')}/im", $accessory->getArticleNumbers()[ $i ])) {
+                                    $this->request->setArgument('part', new \S3b0\EcomConfigCodeGenerator\Domain\Model\Part($accessory, $i, $pseudoPartGroup, $this->feSession->get('config') ?: []));
+                                    break 2;
+                                }
+                            }
+                        } else {
+                            $this->request->setArgument('part', new \S3b0\EcomConfigCodeGenerator\Domain\Model\Part($accessory, 0, $pseudoPartGroup, $this->feSession->get('config') ?: []));
+                            break;
+                        }
+                    }
+                }
+            }
         }
     }
 
@@ -108,10 +120,11 @@ class AjaxRequestController extends \S3b0\EcomConfigCodeGenerator\Controller\Gen
             \S3b0\EcomConfigCodeGenerator\Session\ManageConfiguration::removePartFromConfiguration($this, $part, $configuration);
         }
 
-        $arguments = $part->getPartGroup()->isMultipleSelectable() ? [$part->getPartGroup()] : [];
+        $partGroup = $part->getPartGroup();
+        $arguments = $partGroup->isMultipleSelectable() ? [$partGroup] : [];
         $data = parent::getIndexActionData($arguments);
         $data[ 'part' ] = $part;
-        $data[ 'multiple' ] = $part->getPartGroup()->isMultipleSelectable();
+        $data[ 'multiple' ] = $partGroup->isMultipleSelectable();
 
         $this->view->assign('value', $data);
     }

@@ -26,6 +26,8 @@ namespace S3b0\EcomConfigCodeGenerator\Domain\Model;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
+use S3b0\EcomConfigCodeGenerator\Setup;
+use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 
 /**
  * A part available to configuration
@@ -34,7 +36,7 @@ class Part extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
 {
 
     /**
-     * @var int
+     * @var integer
      */
     protected $sorting = 0;
 
@@ -111,20 +113,58 @@ class Part extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     protected $partGroup = null;
 
     /**
-     * @var bool
+     * @var boolean
      */
     protected $active = false;
 
     /**
-     * @var int
+     * @var integer
      */
     protected $modalTrigger = 0;
 
     /**
-     * __construct
+     * @var string
      */
-    public function __construct()
+    protected $shortDescription;
+
+    /**
+     * Part constructor.
+     *
+     * @param \S3b0\EcomProductTools\Domain\Model\Accessory|null $object
+     * @param integer                                            $articleNumber
+     * @param PartGroup|null                                     $partGroup
+     * @param array                                              $configuration
+     */
+    public function __construct($object = null, $articleNumber = 0, \S3b0\EcomConfigCodeGenerator\Domain\Model\PartGroup $partGroup = null, array $configuration = [])
     {
+        /**
+         * Handle accessory, if any.
+         * Requires new pseudo part group, @see \S3b0\EcomConfigCodeGenerator\Domain\Model\PartGroup
+         * Part group requires (pseudo) parts, initialized in this place
+         */
+        if ($partGroup instanceof \S3b0\EcomConfigCodeGenerator\Domain\Model\PartGroup) {
+            $this->partGroup   = $partGroup;
+            if ($object instanceof \S3b0\EcomProductTools\Domain\Model\Accessory) {
+                preg_match('/^[a-z0-9]+/i', $object->getArticleNumbers()[$articleNumber], $matches);
+                $this->title            = $object->getTitle();
+                $this->shortDescription = $object->getShortDescription();
+                $this->codeSegment      = $matches[0];
+                $this->sorting          = $object->getSorting();
+                if (in_array($object->getArticleNumbers()[$articleNumber], (array)$configuration[ -1 ])) {
+                    $this->active  = true;
+                    $this->partGroup->addActivePart($this);
+                    $this->partGroup->setActive(true);
+                }
+            } else {
+                $this->title   = LocalizationUtility::translate('part.none', Setup::EXT_KEY);
+                $this->sorting = -1;
+                if (in_array('', (array)$configuration[ -1 ])) {
+                    $this->active  = true;
+                    $this->partGroup->addActivePart($this);
+                    $this->partGroup->setActive(true);
+                }
+            }
+        }
         //Do not remove the next line: It would break the functionality
         $this->initStorageObjects();
     }
@@ -143,7 +183,7 @@ class Part extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     }
 
     /**
-     * @return int $sorting
+     * @return integer $sorting
      */
     public function getSorting()
     {
@@ -344,7 +384,9 @@ class Part extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      */
     public function setCurrencyPricing(\S3b0\EcomConfigCodeGenerator\Domain\Model\Currency $currency = null, array $settings = [])
     {
-        \S3b0\EcomConfigCodeGenerator\Utility\PriceHandler::setPriceInCurrency($this, $currency, $settings);
+        if ($currency instanceof \S3b0\EcomConfigCodeGenerator\Domain\Model\Currency) {
+            \S3b0\EcomConfigCodeGenerator\Utility\PriceHandler::setPriceInCurrency($this, $currency, $settings);
+        }
     }
 
     /**
@@ -421,7 +463,7 @@ class Part extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     }
 
     /**
-     * @return bool $active
+     * @return boolean $active
      */
     public function isActive()
     {
@@ -429,7 +471,7 @@ class Part extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     }
 
     /**
-     * @param bool $active
+     * @param boolean $active
      */
     public function setActive($active)
     {
@@ -437,7 +479,7 @@ class Part extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     }
 
     /**
-     * @return int $modalTrigger
+     * @return integer $modalTrigger
      */
     public function getModalTrigger()
     {
@@ -445,11 +487,27 @@ class Part extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     }
 
     /**
-     * @param int $modalTrigger
+     * @param integer $modalTrigger
      */
     public function setModalTrigger($modalTrigger)
     {
         $this->modalTrigger = $modalTrigger;
+    }
+
+    /**
+     * @return string
+     */
+    public function getShortDescription()
+    {
+        return $this->shortDescription;
+    }
+
+    /**
+     * @param string $shortDescription
+     */
+    public function setShortDescription($shortDescription)
+    {
+        $this->shortDescription = $shortDescription;
     }
 
 }

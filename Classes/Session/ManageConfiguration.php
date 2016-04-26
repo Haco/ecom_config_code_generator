@@ -26,33 +26,57 @@ class ManageConfiguration
      */
     public static function addPartToConfiguration(\S3b0\EcomConfigCodeGenerator\Controller\BaseController $controller, &$part, array &$configuration, $setPartGroupActive = true)
     {
-        $temp = &$configuration[ $part->getPartGroup()->getUid() ];
+        if ($part === null) {
+            $pseudoPartGroup = new \S3b0\EcomConfigCodeGenerator\Domain\Model\PartGroup(1, $controller->configuration);
+            $part            = new \S3b0\EcomConfigCodeGenerator\Domain\Model\Part(null, 0, $pseudoPartGroup);
+        }
+
+        $partGroup = $part->getPartGroup();
+        $temp = &$configuration[ $partGroup->getUid() ];
+
+        if ($partGroup->getUid() === -1) {
+            if ($part->getCodeSegment() === '') {
+                $temp = [];
+            } else {
+                unset($temp[-1]);
+            }
+        }
 
         // Add part
         if (!$part->getPartGroup()->isMultipleSelectable()) {
             $temp = [];
         }
-        $temp[ $part->getSorting() ] = $part->getUid();
+        $temp[ $part->getSorting() ] = $part->getUid() ?: $part->getCodeSegment();
         $part->setActive(true);
-        $part->getPartGroup()->setActive($setPartGroupActive);
-        $part->getPartGroup()->addActivePart($part);
+        $partGroup->setActive($setPartGroupActive);
+        $partGroup->addActivePart($part);
 
         $controller->feSession->store('config', $configuration);
     }
 
     /**
      * @param \S3b0\EcomConfigCodeGenerator\Controller\BaseController $controller
-     * @param \S3b0\EcomConfigCodeGenerator\Domain\Model\Part         $part
+     * @param \S3b0\EcomConfigCodeGenerator\Domain\Model\Part|null    $part
      * @param array                                                   $configuration
      *
      * @return void
      */
-    public static function removePartFromConfiguration(\S3b0\EcomConfigCodeGenerator\Controller\BaseController $controller, \S3b0\EcomConfigCodeGenerator\Domain\Model\Part &$part, array &$configuration)
+    public static function removePartFromConfiguration(\S3b0\EcomConfigCodeGenerator\Controller\BaseController $controller, &$part, array &$configuration)
     {
+        if ($part === null) {
+            $pseudoPartGroup = new \S3b0\EcomConfigCodeGenerator\Domain\Model\PartGroup(1, $controller->configuration);
+            $part            = new \S3b0\EcomConfigCodeGenerator\Domain\Model\Part(null, 0, $pseudoPartGroup);
+        }
+
         $temp = &$configuration[ $part->getPartGroup()->getUid() ];
 
         if (is_array($temp)) {
-            if (($key = array_search($part->getUid(), $temp)) !== false) {
+            // Handle Accessory.
+            if ($part->getPartGroup()->getUid() === -1) {
+                if (($key = array_search($part->getCodeSegment(), $temp)) !== false) {
+                    unset($temp[ $key ]);
+                }
+            } elseif (($key = array_search($part->getUid(), $temp)) !== false) {
                 unset($temp[ $key ]);
             }
         }
@@ -75,9 +99,7 @@ class ManageConfiguration
      */
     public static function removePartGroupFromConfiguration(\S3b0\EcomConfigCodeGenerator\Controller\BaseController $controller, \S3b0\EcomConfigCodeGenerator\Domain\Model\PartGroup &$partGroup, array &$configuration)
     {
-        if ($partGroup->getActiveParts() instanceof \TYPO3\CMS\Extbase\Persistence\ObjectStorage && $partGroup->getActiveParts()
-                ->count()
-        ) {
+        if ($partGroup->getActiveParts() instanceof \TYPO3\CMS\Extbase\Persistence\ObjectStorage && $partGroup->getActiveParts()->count()) {
             /** @var \S3b0\EcomConfigCodeGenerator\Domain\Model\Part $part */
             foreach ($partGroup->getActiveParts() as $part) {
                 $part->setActive(false);

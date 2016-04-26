@@ -24,10 +24,11 @@ $EM_CONF[ 'ecom_config_code_generator' ] = [
     'version'          => '1.3.0',
     'constraints'      => [
         'depends'   => [
-            'core'         => '6.2-7.6.99',
-            'php'          => '5.5',
-            'ecom_toolbox' => '1.2.0',
-            'powermail'    => ''
+            'core'               => '6.2-7.6.99',
+            'php'                => '5.5',
+            'ecom_toolbox'       => '1.2.0',
+            'ecom_product_tools' => '7.6.7',
+            'powermail'          => ''
         ],
         'conflicts' => [
         ],

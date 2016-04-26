@@ -186,6 +186,11 @@ class Log extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     protected $configuredParts = null;
 
     /**
+     * @var string
+     */
+    protected $accessories = '';
+
+    /**
      * __construct
      */
     public function __construct()
@@ -774,6 +779,22 @@ class Log extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
         $this->configuredParts = $configuredParts;
 
         return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getAccessories()
+    {
+        return $this->accessories;
+    }
+
+    /**
+     * @param string $accessories
+     */
+    public function setAccessories($accessories)
+    {
+        $this->accessories = $accessories;
     }
 
 }

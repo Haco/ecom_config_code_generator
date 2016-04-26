@@ -27,6 +27,7 @@ namespace S3b0\EcomConfigCodeGenerator\Domain\Model;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
+use S3b0\EcomConfigCodeGenerator\Setup;
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 
 /**
@@ -127,7 +128,7 @@ class Currency extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      */
     public function getL10nRegionTitle()
     {
-        return $this->llReference ? LocalizationUtility::translate($this->llReference, 'ecom_config_code_generator') : (LocalizationUtility::translate("currency.region.{$this->isoCode}", 'ecom_config_code_generator') ?: $this->region);
+        return $this->llReference ? LocalizationUtility::translate($this->llReference, Setup::EXT_KEY) : (LocalizationUtility::translate("currency.region.{$this->isoCode}", Setup::EXT_KEY) ?: $this->region);
     }
 
     /**

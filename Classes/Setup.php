@@ -9,12 +9,13 @@ namespace S3b0\EcomConfigCodeGenerator;
  */
 class Setup
 {
+    const EXT_KEY = 'ecom_config_code_generator';
 
     const BIT_CURRENCY_PREPEND_SYMBOL                           = 1;
     const BIT_CURRENCY_ADD_WHITEPACE_BETWEEN_CURRENCY_AND_VALUE = 2;
     const BIT_CURRENCY_NUMBER_SEPARATORS_IN_US_FORMAT           = 4;
 
-    const BIT_PARTGROUP_IS_LOCKED              = 1;
+    const BIT_PARTGROUP_IN_CONFIGURATOR        = 1;
     const BIT_PARTGROUP_IN_SUMMARY             = 2;
     const BIT_PARTGROUP_IN_NAVIGATION          = 4;
     const BIT_PARTGROUP_MULTIPLE_SELECT        = 8;

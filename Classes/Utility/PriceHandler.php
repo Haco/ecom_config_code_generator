@@ -67,8 +67,7 @@ class PriceHandler
                  * @var \S3b0\EcomConfigCodeGenerator\Domain\Model\Price $pricing
                  */
                 foreach ($model->{$pricingField} as $pricing) {
-                    $compareCurrency = $pricing->getCurrency() instanceof \TYPO3\CMS\Extbase\Persistence\Generic\LazyLoadingProxy ? $pricing->getCurrency()
-                        ->_loadRealInstance() : $pricing->getCurrency();
+                    $compareCurrency = $pricing->getCurrency() instanceof \TYPO3\CMS\Extbase\Persistence\Generic\LazyLoadingProxy ? $pricing->getCurrency()->_loadRealInstance() : $pricing->getCurrency();
                     if ($compareCurrency->getUid() == $settings[ 'defaultCurrency' ]) {
                         $default = $pricing;
                     }
@@ -88,8 +87,7 @@ class PriceHandler
                         $value = number_format($calculatedValue, 2, $dec_point, $thousands_sep);
                     }
                 }
-            } elseif ($model instanceof \S3b0\EcomConfigCodeGenerator\Domain\Model\Part && $model->getPartGroup()
-                    ->isPricePercentage()
+            } elseif ($model instanceof \S3b0\EcomConfigCodeGenerator\Domain\Model\Part && $model->getPartGroup()->isPricePercentage()
             ) {
                 if ($model->getPricingPercentage()) {
                     $numberValue = $model->getPartGroup()
