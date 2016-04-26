@@ -150,7 +150,7 @@ class Part extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
                 $this->shortDescription = $object->getShortDescription();
                 $this->codeSegment      = $matches[0];
                 $this->sorting          = $object->getSorting();
-                if (in_array($object->getArticleNumbers()[$articleNumber], (array)$configuration[ -1 ])) {
+                if (in_array($matches[0], (array)$configuration[ -1 ])) {
                     $this->active  = true;
                     $this->partGroup->addActivePart($this);
                     $this->partGroup->setActive(true);

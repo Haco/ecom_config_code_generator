@@ -26,7 +26,8 @@ class ManageConfiguration
      */
     public static function addPartToConfiguration(\S3b0\EcomConfigCodeGenerator\Controller\BaseController $controller, &$part, array &$configuration, $setPartGroupActive = true)
     {
-        if ($part === null) {
+        $partIsNull = $part === null;
+        if ($partIsNull) {
             $pseudoPartGroup = new \S3b0\EcomConfigCodeGenerator\Domain\Model\PartGroup(1, $controller->configuration);
             $part            = new \S3b0\EcomConfigCodeGenerator\Domain\Model\Part(null, 0, $pseudoPartGroup);
         }
@@ -34,16 +35,19 @@ class ManageConfiguration
         $partGroup = $part->getPartGroup();
         $temp = &$configuration[ $partGroup->getUid() ];
 
+        // On accessory (pseudo) part group do
         if ($partGroup->getUid() === -1) {
-            if ($part->getCodeSegment() === '') {
+            // Empty corresponding part group configuration if empty option (none [-1]) was chosen
+            if ($partIsNull) {
                 $temp = [];
+            // Clear empty option (none [-1]) if any other option was chosen
             } else {
                 unset($temp[-1]);
             }
         }
 
         // Add part
-        if (!$part->getPartGroup()->isMultipleSelectable()) {
+        if ($partGroup->isMultipleSelectable() === false) {
             $temp = [];
         }
         $temp[ $part->getSorting() ] = $part->getUid() ?: $part->getCodeSegment();
