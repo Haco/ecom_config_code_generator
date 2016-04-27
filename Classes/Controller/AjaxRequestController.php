@@ -110,7 +110,7 @@ class AjaxRequestController extends \S3b0\EcomConfigCodeGenerator\Controller\Gen
      */
     public function updatePartAction(\S3b0\EcomConfigCodeGenerator\Domain\Model\Part $part = null, $unset = false)
     {
-        $configuration = $this->feSession->get('config');
+        $configuration = $this->feSession->get('config') ?: [];
         // Manage Session data
         /** Add part */
         if ($unset === false) {

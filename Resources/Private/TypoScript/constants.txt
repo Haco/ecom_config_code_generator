@@ -28,5 +28,7 @@ plugin.tx_ecomconfigcodegenerator {
 			# cat=plugin.tx_ecomconfigcodegenerator//general; type=int+; label=Content object (text) for confirmation page [tt_content]
 			confirmationMessage = 4821
 		}
+		# cat=plugin.tx_ecomconfigcodegenerator//general; type=string; label=Accessory Label:Label used for accessory part group in configurator
+		accessoryLabel = LLL:EXT:ecom_config_code_generator/Resources/Private/Language/locallang.xlf:partGroup.accessories
 	}
 }

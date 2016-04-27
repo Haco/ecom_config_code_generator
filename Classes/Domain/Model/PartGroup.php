@@ -27,6 +27,9 @@ namespace S3b0\EcomConfigCodeGenerator\Domain\Model;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 use S3b0\EcomConfigCodeGenerator\Setup;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extbase\Configuration\ConfigurationManager;
+use TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface;
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 
 /**
@@ -175,9 +178,12 @@ class PartGroup extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     protected $last = false;
 
     /**
-     * __construct
+     * PartGroup constructor.
+     *
+     * @param int         $type
+     * @param object|null $configuration
      */
-    public function __construct()
+    public function __construct($type = 0, $configuration = null)
     {
         /**
          * Accessory (pseudo) part group
@@ -185,11 +191,14 @@ class PartGroup extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
          *   - integer: 1 -> indicating this special part group
          *   - array  : configuration array (session data)
          */
-        if (func_get_arg(0) === 1) {
+        if ($type === 1) {
+            /** @var ConfigurationManager $configurationManager */
+            $configurationManager = GeneralUtility::makeInstance(ConfigurationManager::class);
+            $settings = $configurationManager->getConfiguration(ConfigurationManagerInterface::CONFIGURATION_TYPE_SETTINGS);
             $this->settings      = Setup::BIT_PARTGROUP_IN_CONFIGURATOR + Setup::BIT_PARTGROUP_IN_NAVIGATION + Setup::BIT_PARTGROUP_IN_SUMMARY + Setup::BIT_PARTGROUP_MULTIPLE_SELECT;
             $this->uid           = -1;
-            $this->title         = LocalizationUtility::translate('partGroup.accessories', Setup::EXT_KEY);
-            $this->configuration = func_get_arg(1);
+            $this->title         = LocalizationUtility::translate($settings['accessoryLabel'] ?: 'partGroup.accessories', Setup::EXT_KEY);
+            $this->configuration = $configuration;
         }
         $this->initStorageObjects();
     }
