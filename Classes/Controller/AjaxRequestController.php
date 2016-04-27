@@ -149,7 +149,10 @@ class AjaxRequestController extends \S3b0\EcomConfigCodeGenerator\Controller\Gen
      */
     public function showHintAction(\S3b0\EcomConfigCodeGenerator\Domain\Model\Part $part = null)
     {
-        $this->view->assign('value', [$this->sanitize_output($part->getHint())]);
+        $this->view->assign('value', [
+            'partTitle' => $this->sanitize_output($part->getTitle()),
+            'partHint' => $this->sanitize_output($part->getHint())
+        ]);
     }
 
 

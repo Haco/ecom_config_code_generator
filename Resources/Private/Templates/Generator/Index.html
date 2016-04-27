@@ -5,6 +5,19 @@
 	<!-- NoJS Warning! -->
 	<noscript><div class="typo3-messages"><div class="typo3-message message-error">ATTENTION: JavaScript needs to be enabled!</div></div></noscript>
 
+    <!-- Modal -->
+    <div class="modal ccg-base-modal fade" tabindex="-1" role="dialog" aria-labelledby="ccg-modal-label" >
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header" style="background: #0083cb">
+                    <h3 class="modal-title ccg-base-modal-title text-uppercase" style="color: white;" id="ccg-modal-label"></h3>
+                </div>
+                <div class="modal-body ccg-base-modal-body"></div>
+                <div class="modal-footer ccg-base-modal-footer"></div>
+            </div>
+        </div>
+    </div>
+
 	<div class="generator-index">
 		<!-- progress bar/indicator -->
 		<progress value="{value.progress}" max="1" id="generator-progress-value">
@@ -49,16 +62,12 @@
 			t3cobj = {jsData.contentObject},
 			showResult = Boolean({value.showResultingConfiguration -> f:format.number(decimals: 0)}),
 			js = document.createElement("script"),
-			swaljs = document.createElement("script"),
 			preResult = new Object();
-		preResult.modals = {value.modals -> f:format.raw()};
+		    preResult.modals = {value.modals -> f:format.raw()};
 		$(document).ready(function() {
 			js.type = "text/javascript";
-			js.src = "{f:uri.resource(path:'JavaScript/app.js')}";
+			js.src = "{f:uri.resource(path:'JavaScript/ccg-app.min.js')}";
 			document.body.appendChild(js);
-			swaljs.type = "text/javascript";
-			swaljs.src = "https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.0/sweetalert.min.js";
-			document.body.appendChild(swaljs);
 		});
 	</script>
 
