@@ -259,12 +259,25 @@ function updateProgressIndicator(progress) {
 // Popup on click
 function addInfoTrigger() {
     var triggerHint = '#ccg-generator-canvas .generator-select-part-group-part-info';
+    var triggerPreviewImage = '#ccg-generator-canvas .generator-select-part-group-part-image';
 
     $(triggerHint).on('click', function(e) {
         e.preventDefault();
         getPartInformation($(this).parents('a').first().attr('data-part'));
         return false;
-    })
+    });
+    $(triggerPreviewImage).on('click', function(e) {
+        e.preventDefault();
+        $(this).popover('hide');
+        return false;
+    }).popover({
+        html: true,
+        trigger: 'hover',
+        placement: 'left',
+        content: function () {
+            return '<img alt="Preview Image" src="'+$(this).data('image-src') + '" />';
+        }
+    });
 }
 
 /**

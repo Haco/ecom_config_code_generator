@@ -302,7 +302,6 @@ return [
                 'foreign_sortby' => 'sorting',
                 'maxitems'       => 9999,
                 'appearance'     => [
-                    'collapseAll'                     => 1,
                     'expandSingle'                    => 1,
                     'newRecordLinkAddTitle'           => 0,
                     'newRecordLinkTitle'              => "{$translate}tx_ecomconfigcodegenerator_domain_model_partgroup.parts.inlineElementAddTitle",
