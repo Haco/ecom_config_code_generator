@@ -358,26 +358,34 @@ body {
 #ccg-generator-canvas .generator-select-part-group-price.generator-price-info {
 	color: #808080;
 }
-#ccg-generator-canvas .generator-select-part-group-part-info {
+#ccg-generator-canvas .generator-select-part-group-part-info,
+#ccg-generator-canvas .generator-select-part-group-part-image {
 	color: #808080;
 	line-height: 38px;
 	cursor: help;
 }
-#ccg-generator-canvas .generator-select-part-group-part-info:hover {
+#ccg-generator-canvas .generator-select-part-group-part-info:hover,
+#ccg-generator-canvas .generator-select-part-group-part-image:hover {
 	text-decoration: underline;
 }
-#ccg-generator-canvas .generator-select-part-group-part-info-wrapper {
+#ccg-generator-canvas .generator-select-part-group-part-button-wrapper {
 	float: right;
-	padding: 0 15px;
+	padding-right: 10px;
+}
+#ccg-generator-canvas .generator-select-part-group-part-button-wrapper .popover {
+    max-width: 250px;
+    width: auto;
 }
 #ccg-generator-canvas .generator-select-part-group-part-selector.enabled:hover .generator-checkbox,
 #ccg-generator-canvas .generator-select-part-group-part-selector.enabled:hover .generator-select-part-group-part.part,
 #ccg-generator-canvas .generator-select-part-group-part-selector.enabled:hover .generator-select-part-group-part-price,
 #ccg-generator-canvas .generator-select-part-group-part-selector.enabled:hover .generator-select-part-group-part-info,
+#ccg-generator-canvas .generator-select-part-group-part-selector.enabled:hover .generator-select-part-group-part-image,
 #ccg-generator-canvas .generator-select-part-group-part-selector.enabled:focus .generator-checkbox,
 #ccg-generator-canvas .generator-select-part-group-part-selector.enabled:focus .generator-select-part-group-part.part,
 #ccg-generator-canvas .generator-select-part-group-part-selector.enabled:focus .generator-select-part-group-part-price,
-#ccg-generator-canvas .generator-select-part-group-part-selector.enabled:focus .generator-select-part-group-part-info {
+#ccg-generator-canvas .generator-select-part-group-part-selector.enabled:focus .generator-select-part-group-part-info,
+#ccg-generator-canvas .generator-select-part-group-part-selector.enabled:focus .generator-select-part-group-part-image {
 	color: #fff;
 }
 #ccg-generator-canvas .generator-checkbox {
