@@ -16,10 +16,12 @@ return [
         'label'                  => 'title',
         'label_alt'              => 'code_segment',
         'label_alt_force'        => true,
+        'label_userFunc'         => 'S3b0\EcomConfigCodeGenerator\User\ModifyTCA\ModifyTCA->getPartAccessoryLabel',
         'tstamp'                 => 'tstamp',
         'crdate'                 => 'crdate',
         'cruser_id'              => 'cruser_id',
         'dividers2tabs'          => true,
+        'requestUpdate'          => 'is_empty_part, accessory',
         'default_sortby'         => 'ORDER BY part_group, sorting',
         'versioningWS'           => 2,
         'versioning_followPages' => true,
@@ -34,14 +36,20 @@ return [
             'endtime'   => 'endtime',
             'fe_group'  => 'fe_group'
         ],
-        'searchFields'             => 'title,code_segment,image,hint,dependency,pricing,pricing_percentage',
-        'iconfile'                 => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath('ecom_config_code_generator') . 'Resources/Public/Icons/tx_ecomconfigcodegenerator_domain_model_part.png'
+        'searchFields'             => 'title,accessory,code_segment,image,hint,dependency,pricing,pricing_percentage',
+        'iconfile'                 => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath('ecom_config_code_generator') . 'Resources/Public/Icons/tx_ecomconfigcodegenerator_domain_model_part.png',
+        'typeicon_column' => 'accessory',
+        'typeicon_classes' => [
+            'default' => 'ccg-domain-model-part-accessory',
+            'mask' => 'ccg-domain-model-part-no-accessory-###TYPE###',
+        ]
+
     ],
     'interface' => [
-        'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, title, code_segment, image, hint, dependency, pricing, pricing_percentage'
+        'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, title, is_empty_part, accessory, code_segment, image, hint, dependency, pricing, pricing_percentage'
     ],
     'types'     => [
-        '1' => ['showitem' => "sys_language_uid;;;;1-1-1, l10n_parent, l10n_diffsource, hidden;;1, title, code_segment, part_group, --div--;{$translate}tabs.referral, image, dependency, --div--;{$translate}tabs.pricing, pricing, pricing_percentage, --div--;LLL:EXT:cms/locallang_tca.xlf:pages.tabs.extended, hint;;;wizards[t3editorHtml], --div--;LLL:EXT:cms/locallang_ttc.xlf:tabs.access, --palette--;LLL:EXT:cms/locallang_tca.xlf:pages.palettes.access;access"]
+        '1' => ['showitem' => "sys_language_uid;;;;1-1-1, l10n_parent, l10n_diffsource, hidden;;1, --palette--;Part;pTitle, accessory, code_segment, part_group, --div--;{$translate}tabs.referral, image, dependency, --div--;{$translate}tabs.pricing, pricing, pricing_percentage, --div--;LLL:EXT:cms/locallang_tca.xlf:pages.tabs.extended, hint;;;wizards[t3editorHtml], --div--;LLL:EXT:cms/locallang_ttc.xlf:tabs.access, --palette--;LLL:EXT:cms/locallang_tca.xlf:pages.palettes.access;access"]
     ],
     'palettes'  => [
         '1'      => [
@@ -49,6 +57,10 @@ return [
         ],
         'access' => [
             'showitem'       => 'starttime;LLL:EXT:cms/locallang_tca.xlf:pages.starttime_formlabel, endtime;LLL:EXT:cms/locallang_tca.xlf:pages.endtime_formlabel, --linebreak--, fe_group;LLL:EXT:cms/locallang_tca.xlf:pages.fe_group_formlabel',
+            'canNotCollapse' => true
+        ],
+        'pTitle' => [
+            'showitem' => 'title, is_empty_part',
             'canNotCollapse' => true
         ]
     ],
@@ -161,7 +173,40 @@ return [
                 'foreign_table_where' => 'ORDER BY fe_groups.title'
             ]
         ],
-
+        'accessory'    => [
+            'l10n_mode'   => 'exclude',
+            'displayCond' => 'FIELD:is_empty_part:=:0',
+            'exclude'     => 1,
+            'label'       => "{$translate}tx_ecomconfigcodegenerator_domain_model_part.accessory",
+            'config'      => [
+                'type' => 'select',
+                'foreign_table' => 'tx_ecomproducttools_domain_model_accessory',
+                'foreign_table_where' => ('
+                    AND NOT tx_ecomproducttools_domain_model_accessory.deleted
+                    AND tx_ecomproducttools_domain_model_accessory.sys_language_uid IN (-1,0)
+                    ORDER BY tx_ecomproducttools_domain_model_accessory.title
+                '),
+                'maxitems' => 1,
+                'renderType' => 'selectMultipleSideBySide',
+                'wizards'             => [
+                    '_POSITION' => 'top',
+                    'suggest'   => [
+                        'type'    => 'suggest',
+                        'default' => ['searchWholePhrase' => 1]
+                    ],
+                    'edit' => [
+                        'type' => 'popup',
+                        'title' => 'Edit template',
+                        'module' => [
+                            'name' => 'wizard_edit',
+                        ],
+                        'popup_onlyOpenIfSelected' => 1,
+                        'icon' => 'edit2.gif',
+                        'JSopenParams' => 'height=350,width=580,status=0,menubar=0,scrollbars=1'
+                    ],
+                ],
+            ]
+        ],
         'title'              => [
             'l10n_mode' => 'prefixLangTitle',
             'exclude'   => 0,
@@ -169,7 +214,21 @@ return [
             'config'    => [
                 'type' => 'input',
                 'size' => 30,
-                'eval' => 'trim,required'
+                'eval' => 'trim,required',
+            ]
+        ],
+        'is_empty_part'    => [
+            'l10n_mode' => 'exclude',
+            'displayCond' => [
+                'AND' => [
+                    'FIELD:accessory:=:',
+                    'USER:S3b0\\EcomConfigCodeGenerator\\User\\ModifyTCA\\ModifyTCA->checkIfMultipleSelectEnabledInPart:1'
+                ]
+            ],
+            'exclude' => 1,
+            'label'   => "{$translate}tx_ecomconfigcodegenerator_domain_model_part.is_empty_part",
+            'config'  => [
+                'type' => 'check'
             ]
         ],
         'code_segment'       => [
@@ -184,6 +243,7 @@ return [
         ],
         'image'              => [
             'l10n_mode' => 'exclude',
+            'displayCond' => 'FIELD:accessory:=:',
             'exclude'   => 1,
             'label'     => "{$translate}tx_ecomconfigcodegenerator_domain_model_part.image",
             'config'    => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::getFileFieldTCAConfig(
@@ -217,6 +277,7 @@ return [
         ],
         'hint'               => [
             'l10n_mode' => 'prefixLangTitle',
+            'displayCond' => 'FIELD:accessory:=:',
             'exclude'   => 0,
             'label'     => "{$translate}tx_ecomconfigcodegenerator_domain_model_part.hint",
             'config'    => [

@@ -7,7 +7,7 @@
 					<f:else><span class="part-group-number align-center">{partGroup.stepIndicator}</span></f:else>
 				</f:if>
 				<f:if condition="{partGroup.unlocked}">
-					<f:then><i class="fa fa-{f:if(condition: partGroup.activeParts, then: 'check-', else: '')}square-o{f:if(condition: partGroup.current, then: ' current')}"></i></f:then>
+					<f:then><i class="fa fa-{f:if(condition: partGroup.activeParts, then: 'check-', else: '')}square{f:if(condition: partGroup.current, then: ' current')}"></i></f:then>
 					<f:else><i class="fa fa-lock"></i></f:else>
 				</f:if>
 			</div>

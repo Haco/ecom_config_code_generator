@@ -34,7 +34,6 @@ use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
  */
 class Part extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
 {
-
     /**
      * @var integer
      */
@@ -47,6 +46,35 @@ class Part extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      * @validate NotEmpty
      */
     protected $title = '';
+
+    /**
+     * Is an empty part option?
+     *
+     * @var bool
+     */
+    protected $isEmptyPart = false;
+
+    /**
+     * The accessory UID
+     *
+     * @var int
+     */
+    protected $accessory = 0;
+
+    /**
+     * The accessory Title
+     *
+     * @var string
+     */
+    protected $accessoryTitle = '';
+
+    /**
+     * The accessory ArtNo
+     *
+     * @var string
+     * @validate NotEmpty
+     */
+    protected $accessoryArtNo = '';
 
     /**
      * Representation of part as segment in code!
@@ -193,10 +221,17 @@ class Part extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     /**
      * Returns the title
      *
-     * @return string $title
+     * @return string
      */
     public function getTitle()
     {
+        // Get the title of accessory (Will be set in BaseController->initializeParts)
+        // And add Art. No if available
+        if (strlen($this->getAccessoryTitle())) {
+            $accessoryTitle = $this->accessoryTitle;
+            $accessoryTitle .= (strlen($this->accessoryArtNo)) ? ' (Art. No: ' . $this->getAccessoryArtNo() . ')' : '';
+            return $accessoryTitle;
+        }
         return $this->title;
     }
 
@@ -210,6 +245,93 @@ class Part extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     public function setTitle($title)
     {
         $this->title = $title;
+    }
+
+    /**
+     * Returns Is empty part option
+     *
+     * @return bool $isEmptyPart
+     */
+    public function getIsEmptyPart()
+    {
+        return $this->isEmptyPart;
+    }
+
+    /**
+     * Sets the is Empty Part Option
+     *
+     * @param bool $isEmptyPart
+     *
+     * @return void
+     */
+    public function setIsEmptyPart($isEmptyPart)
+    {
+        $this->isEmptyPart= $isEmptyPart;
+    }
+
+    /**
+     * Returns the accessory
+     *
+     * @return int $accessory
+     */
+    public function getAccessory()
+    {
+        return $this->accessory;
+    }
+
+    /**
+     * Sets the accessory
+     *
+     * @param int $accessory
+     *
+     * @return void
+     */
+    public function setAccessory($accessory)
+    {
+        $this->accessory = $accessory;
+    }
+
+    /**
+     * Returns the accessory title
+     *
+     * @return string
+     */
+    public function getAccessoryTitle()
+    {
+        return $this->accessoryTitle;
+    }
+
+    /**
+     * Sets the accessory title
+     *
+     * @param string $accessoryTitle
+     *
+     * @return void
+     */
+    public function setAccessoryTitle($accessoryTitle)
+    {
+        $this->accessoryTitle = $accessoryTitle;
+    }
+
+    /**
+     * Returns the accessory Articles No
+     *
+     * @return string
+     */
+    public function getAccessoryArtNo()
+    {
+        return $this->accessoryArtNo;
+    }
+
+    /**
+     * Sets the accessoryArtNo
+     *
+     * @param string $accessoryArtNo
+     * @return void
+     */
+    public function setAccessoryArtNo($accessoryArtNo)
+    {
+        $this->accessoryArtNo = $accessoryArtNo;
     }
 
     /**

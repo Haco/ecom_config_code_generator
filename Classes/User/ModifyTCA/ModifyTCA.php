@@ -1,5 +1,4 @@
 <?php
-
 namespace S3b0\EcomConfigCodeGenerator\User\ModifyTCA;
 
 /***************************************************************
@@ -28,6 +27,7 @@ namespace S3b0\EcomConfigCodeGenerator\User\ModifyTCA;
  ***************************************************************/
 use S3b0\EcomConfigCodeGenerator\Setup;
 use TYPO3\CMS\Core\Utility as CoreUtility;
+use TYPO3\CMS\Backend\Utility\BackendUtility;
 
 /**
  * Class ModifyTCA
@@ -36,7 +36,6 @@ use TYPO3\CMS\Core\Utility as CoreUtility;
  */
 class ModifyTCA
 {
-
     /**
      * itemsProcFuncEcomConfigCodeGeneratorDomainModelDependencyParts function.
      *
@@ -187,6 +186,43 @@ class ModifyTCA
         }
     }
 
-}
+    /**
+     * Check in domain_model_part TCA if multiple selection is enabled in parent object domain_model_partgroup
+     *
+     * @param array $PA
+     * @return bool
+     */
+    public function checkIfMultipleSelectEnabledInPart($PA)
+    {
+        $partGroup = $GLOBALS[ 'TYPO3_DB' ]->exec_SELECTgetSingleRow('settings', 'tx_ecomconfigcodegenerator_domain_model_partgroup', 'uid IN (' . implode(',', (array)$PA[ 'record' ][ 'part_group' ]) . ')');
+        $check = ($partGroup[ 'settings' ] & Setup::BIT_PARTGROUP_MULTIPLE_SELECT) === Setup::BIT_PARTGROUP_MULTIPLE_SELECT;
 
-?>
+        return $check;
+    }
+
+    /**
+     * getPartAccessoryLabel
+     * For table domain_model_part.
+     * If a accessory is selected as part
+     * - Sets the backend label to the selected accessory title, Art. Nr. + Part_Title + Part_Code_segement (if available)
+     *
+     * @param array $PA
+     * @return void
+     */
+    public function getPartAccessoryLabel(array &$PA)
+    {
+        $record = BackendUtility::getRecord($PA[ 'table' ],  $PA['row']['uid']) ?: [];
+
+        if ($selectedAccessoryUid = $record['accessory']) {
+            $accessoryRecord = BackendUtility::getRecord('tx_ecomproducttools_domain_model_accessory', $selectedAccessoryUid);
+            $PA['title'] = $accessoryRecord['title'] . ', ' . $accessoryRecord['article_numbers'];
+            // Add original title
+            //$PA['title'] .= ', ['.  $record['title'] .']';
+        } else {
+            $PA['title'] = $record['title'];
+        }
+        if (strlen($record['code_segment'])) {
+            $PA['title'] .= ', ' . $record['code_segment'];
+        }
+    }
+}

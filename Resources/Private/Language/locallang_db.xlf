@@ -117,6 +117,12 @@
 			<trans-unit id="tx_ecomconfigcodegenerator_domain_model_part.title">
 				<source>Title</source>
 			</trans-unit>
+			<trans-unit id="tx_ecomconfigcodegenerator_domain_model_part.is_empty_part">
+				<source>Is empty part option? (For multiple selections)</source>
+			</trans-unit>
+			<trans-unit id="tx_ecomconfigcodegenerator_domain_model_part.accessory">
+				<source>Accessory (To connect part)</source>
+			</trans-unit>
 			<trans-unit id="tx_ecomconfigcodegenerator_domain_model_part.code_segment">
 				<source>Code Segment</source>
 			</trans-unit>
@@ -326,6 +332,9 @@
 			</trans-unit>
 			<trans-unit id="tx_ecomconfigcodegenerator_domain_model_log.configured_parts">
 				<source>Configured Parts</source>
+			</trans-unit>
+			<trans-unit id="tx_ecomconfigcodegenerator_domain_model_log.accessories">
+				<source>Accessories</source>
 			</trans-unit>
 
 

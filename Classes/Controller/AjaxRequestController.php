@@ -141,17 +141,29 @@ class AjaxRequestController extends \S3b0\EcomConfigCodeGenerator\Controller\Gen
     }
 
     /**
-     * action updatePart
+     * Shows bootstrap hint modal for parts / partAccessory
      *
      * @param \S3b0\EcomConfigCodeGenerator\Domain\Model\Part|null $part
-     *
      * @return void
      */
     public function showHintAction(\S3b0\EcomConfigCodeGenerator\Domain\Model\Part $part = null)
     {
+        $title = $part->getTitle();
+        $hint = $part->getHint();
+
+        // Get title and teaser from accessory repo (product_tools)
+        if ($part->getAccessory() && $this->accessoryRepository->findByUid($part->getAccessory()) instanceof \S3b0\EcomProductTools\Domain\Model\Accessory) {
+            /** @var \S3b0\EcomProductTools\Domain\Model\Accessory $currentAccessory */
+            $currentAccessory = $this->accessoryRepository->findByUid($part->getAccessory());
+
+            $title = (strlen($currentAccessory->getTitle())) ? $currentAccessory->getTitle() : $title;
+            $title .= strlen($currentAccessory->getArticleNumbersPlain()) ? ' - [' . $currentAccessory->getArticleNumbersPlain() . ']' : '';
+            $hint = (strlen($currentAccessory->getTeaser())) ? $currentAccessory->getTeaser() : '';
+        }
+
         $this->view->assign('value', [
-            'partTitle' => $this->sanitize_output($part->getTitle()),
-            'partHint' => $this->sanitize_output($part->getHint())
+            'partTitle' => $this->sanitize_output($title),
+            'partHint' => $this->sanitize_output($hint)
         ]);
     }
 

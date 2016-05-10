@@ -127,6 +127,14 @@ class BaseController extends \Ecom\EcomToolbox\Controller\ActionController
     protected $productRepository;
 
     /**
+     * accessoryRepository
+     *
+     * @var \S3b0\EcomProductTools\Domain\Repository\AccessoryRepository
+     * @inject
+     */
+    protected $accessoryRepository;
+
+    /**
      * @var \S3b0\EcomConfigCodeGenerator\Domain\Model\Configuration
      */
     public $configuration = null;
@@ -473,6 +481,37 @@ class BaseController extends \Ecom\EcomToolbox\Controller\ActionController
         $partsToBeRemoved = new \TYPO3\CMS\Extbase\Persistence\ObjectStorage();
         /** @var \S3b0\EcomConfigCodeGenerator\Domain\Model\Part $part */
         foreach ($parts as $part) {
+            // Part Accessory Implementation based on domain_model_part.accessory UID
+            if ($part->getAccessory() && $this->accessoryRepository->findByUid($part->getAccessory()) instanceof \S3b0\EcomProductTools\Domain\Model\Accessory) {
+                /** @var \S3b0\EcomProductTools\Domain\Model\Accessory $currentAccessory */
+                $currentAccessory = $this->accessoryRepository->findByUid($part->getAccessory());
+
+                $accessoryTitle = (strlen($currentAccessory->getTitle())) ? $currentAccessory->getTitle() : '';
+                $accessoryShortDesc = (strlen($currentAccessory->getShortDescription())) ? $currentAccessory->getShortDescription() : '';
+                $accessoryArtNo = (strlen($currentAccessory->getArticleNumbersPlain())) ? $currentAccessory->getArticleNumbersPlain() : '';
+                $accessoryTeaser = (strlen($currentAccessory->getTeaser())) ? $currentAccessory->getTeaser() : '';
+
+                $part->setAccessoryTitle($accessoryTitle);
+                $part->setShortDescription($accessoryShortDesc);
+                $part->setAccessoryArtNo($accessoryArtNo);
+                $part->setHint($accessoryTeaser);
+
+                // Adds the first image of the accessoryModel to partModel as single image
+                if ($currentAccessory->getImages() instanceof \TYPO3\CMS\Extbase\Persistence\ObjectStorage) {
+                    $imageIndex = 0;
+                    foreach ($currentAccessory->getImages() as $image) {
+                        if ($imageIndex === 0 && $image instanceof \TYPO3\CMS\Extbase\Domain\Model\FileReference) {
+                            // Adds first image to partModel
+                            $part->setImage($image);
+                        }
+                        $imageIndex++;
+                    }
+                }
+
+                // Update part
+                $this->partRepository->update($part);
+            }
+
             /** HANDLE DEPENDENCIES */
             if (self::checkForPartDependencies($this, $part, $configuration) === false) {
                 $partsToBeRemoved->attach($part);
@@ -614,12 +653,12 @@ class BaseController extends \Ecom\EcomToolbox\Controller\ActionController
                         $summaryTableRows[] = ("
                             <td>{$partGroup->getStepIndicator()}</td>
                             <td>{$partGroup->getTitle()}</td>
-                            <td>" . implode(', ', $partList) . "</td>
+                            <td>" . implode(',<br>', $partList) . "</td>
                             <td>" . ($partGroup->isSelectable() ? "<a data-part-group=\"{$partGroup->getUid()}\" class=\"generator-part-group-select\"><i class=\"fa fa-edit\"></i></a>" : "") . "</td>
                         ") . ($this->pricing ? "<td style=\"text-align:right\">{$partGroup->getPricing()}</td>" : "");
                         $summaryTableMailRows[] = ("
                             <td>{$partGroup->getTitle()}</td>
-                            <td>" . implode(', ', $partList) . "</td>
+                            <td>" . implode(',<br>', $partList) . "</td>
                         ");
                     }
                 }

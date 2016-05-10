@@ -1,29 +1,35 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <xliff version="1.0">
-	<file source-language="en" datatype="plaintext" original="messages" date="2015-09-02T08:52:37Z" product-name="ecom_config_code_generator">
-		<header/>
-		<body>
-			<trans-unit id="title.description">
-				<source>The part title</source>
-			</trans-unit>
-			<trans-unit id="code_segment.description">
-				<source>Representation of part as segment in code!</source>
-			</trans-unit>
-			<trans-unit id="image.description">
-				<source>A part image</source>
-			</trans-unit>
-			<trans-unit id="hint.description">
-				<source>Give user a hint</source>
-			</trans-unit>
-			<trans-unit id="dependency.description">
-				<source>Set a dependency on other parts</source>
-			</trans-unit>
-			<trans-unit id="pricing.description">
-				<source>Part pricing</source>
-			</trans-unit>
-			<trans-unit id="pricing_percentage.description">
-				<source>Part pricing (percentage)</source>
-			</trans-unit>
-		</body>
-	</file>
+    <file source-language="en" datatype="plaintext" original="messages" date="2015-09-02T08:52:37Z" product-name="ecom_config_code_generator">
+        <header/>
+        <body>
+            <trans-unit id="title.description">
+                <source>The part title</source>
+            </trans-unit>
+            <trans-unit id="is_empty_part.description">
+                <source>Only useful if multi-selection is enabled for parent part-group. This option enables an empty selection for this part-group.If this option is checked in the frontend, all other parts will be unchecked.</source>
+            </trans-unit>
+            <trans-unit id="accessory.description">
+                <source>Connect part with accessory from ecom_product_tools. Uses accessory info for this part.</source>
+            </trans-unit>
+            <trans-unit id="code_segment.description">
+                <source>Representation of part as segment in code!</source>
+            </trans-unit>
+            <trans-unit id="image.description">
+                <source>A part image</source>
+            </trans-unit>
+            <trans-unit id="hint.description">
+                <source>Give user a hint</source>
+            </trans-unit>
+            <trans-unit id="dependency.description">
+                <source>Set a dependency on other parts</source>
+            </trans-unit>
+            <trans-unit id="pricing.description">
+                <source>Part pricing</source>
+            </trans-unit>
+            <trans-unit id="pricing_percentage.description">
+                <source>Part pricing (percentage)</source>
+            </trans-unit>
+        </body>
+    </file>
 </xliff>

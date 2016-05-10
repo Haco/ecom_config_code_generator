@@ -1,6 +1,8 @@
 <f:if condition="{partGroup}">
 	<h2>{partGroup.title}</h2>
-	<p>{partGroup.prompt -> f:format.html()}</p>
+    <f:if condition="{partGroup.prompt}">
+        <p>{partGroup.prompt -> f:format.html()}</p>
+    </f:if>
 	<f:if condition="{partGroup.dependentNotesFluidParsedMessages}">
 		{partGroup.dependentNotesFluidParsedMessages -> f:format.html()}
 	</f:if>

@@ -15,9 +15,9 @@ $settings = [
 ];
 // Generate typeIconClasses (exclude bit 1)
 $max = pow(2, count($settings));
-$typeIconClasses[ 'default' ] = 'extensions-ecom_config_code_generator-package-default';
+$typeIconClasses[ 'default' ] = 'ccg-domain-model-partgroup-default';
 for ($i = 0; $i < $max; $i += 2) {
-    $typeIconClasses[ "$i" ] = 'extensions-ecom_config_code_generator-package-hidden-fe';
+    $typeIconClasses[ "$i" ] = 'ccg-domain-model-partgroup-hidden-fe';
 }
 
 return [

@@ -1,5 +1,13 @@
 <div class="ecom-generator-generator-head">
-	<div class="ecom-generator-config-header-instructions" id="ecom-generator-ajax-header-instructions">{value.instructions -> f:format.html()}</div>
+    <!-- Progress Print -->
+    <p id="generator-progress-number">
+        <span><span class="generator-progress-value-print"><f:format.number decimals="0">{value.progressPercentage}</f:format.number></span>% COMPLETED<f:comment><f:translate id="label.percentDone" extensionName="ecom_config_code_generator" /></f:comment></span>
+    </p>
+
+	<div class="ecom-generator-config-header-instructions" id="ecom-generator-ajax-header-instructions">
+        <h1 class="text-primary">{value.title} <small>Configurator</small></h1>
+        {value.instructions -> f:format.html()}
+    </div>
 	<f:if condition="{pricingEnabled}">
 		<div class="generator-config-header-price-table">
 			<div class="btn-group">

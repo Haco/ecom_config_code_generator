@@ -193,9 +193,9 @@ function onSuccessFunction(result) {
         nextButton.attr('data-part-group', result.nextPartGroup);
         nextButton.attr('data-current', result.currentPartGroup ? result.currentPartGroup['uid'] : 0);
         if ( result.currentPartGroup && $('#generator-part-group-' + result.currentPartGroup['uid'] + '-link').hasClass('generator-part-group-state-1') ) {
-            nextButton.removeClass('disabled');
+            nextButton.removeClass('disabled btn-default').addClass('btn-primary');
         } else {
-            nextButton.addClass('disabled');
+            nextButton.addClass('disabled btn-default').removeClass('btn-primary');
         }
         nextButton.show();
         if ( result.progress === 0 ) {
@@ -240,7 +240,8 @@ function alterPartGroupInformation(data) {
  */
 function updateProgressIndicator(progress) {
     // Update/animate progress bar
-    $('#generator-progress-value').animate({value: progress});
+    $('#generator-progress-value').animate({value: progress}, 800);
+    //$('.ccg-progress-indicator').animate({width: progress * 100 + '%'});
     // Update/animate number display(s)
     $('.generator-progress-value-print').each(function(index, element) {
         $({countNum: $(element).text()}).animate({countNum: Math.floor(progress * 100)}, {
@@ -266,17 +267,24 @@ function addInfoTrigger() {
         getPartInformation($(this).parents('a').first().attr('data-part'));
         return false;
     });
+
     $(triggerPreviewImage).on('click', function(e) {
         e.preventDefault();
-        $(this).popover('hide');
         return false;
     }).popover({
         html: true,
         trigger: 'hover',
         placement: 'left',
         content: function () {
-            return '<img alt="Preview Image" src="'+$(this).data('image-src') + '" />';
+            return '<img width="200px" alt="Preview Image" src="'+$(this).data('image-src') + '" />';
         }
+    }).on('click', function() {
+        $(this).popover('toggle');
+    }).on('shown.bs.popover', function () {
+        $('#' + $(this).attr('aria-describedby')).on('click', function(e) {
+            e.preventDefault();
+            return false;
+        });
     });
 }
 

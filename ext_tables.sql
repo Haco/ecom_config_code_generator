@@ -112,6 +112,8 @@ CREATE TABLE tx_ecomconfigcodegenerator_domain_model_part (
 	part_group int(11) unsigned DEFAULT '0' NOT NULL,
 
 	title varchar(255) DEFAULT '' NOT NULL,
+	is_empty_part tinyint(1) unsigned DEFAULT '0' NOT NULL,
+	accessory int(11) unsigned DEFAULT '0' NOT NULL,
 	code_segment varchar(255) DEFAULT '' NOT NULL,
 	image int(11) unsigned NOT NULL default '0',
 	hint text NOT NULL,

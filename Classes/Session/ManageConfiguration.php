@@ -15,7 +15,6 @@ namespace S3b0\EcomConfigCodeGenerator\Session;
  */
 class ManageConfiguration
 {
-
     /**
      * @param \S3b0\EcomConfigCodeGenerator\Controller\BaseController                                                 $controller
      * @param \TYPO3\CMS\Extbase\Persistence\Generic\LazyLoadingProxy|\S3b0\EcomConfigCodeGenerator\Domain\Model\Part $part
@@ -34,6 +33,29 @@ class ManageConfiguration
 
         $partGroup = $part->getPartGroup();
         $temp = &$configuration[ $partGroup->getUid() ];
+
+        // If is_empty_part option is selected, remove all parts
+        if ($partGroup->isMultipleSelectable()) {
+            foreach ($partGroup->getParts() as $partOfPartGroup) {
+                /** @var \S3b0\EcomConfigCodeGenerator\Domain\Model\Part $singlePart */
+                if ($partOfPartGroup->getIsEmptyPart()) {
+                    $partGroupUidWithEmptyOption = $partOfPartGroup->getPartGroup()->getUid();
+                    $emptyOptionPartUid = $partOfPartGroup->getUid();
+                    $emptyOptionPartSorting = $partOfPartGroup->getSorting();
+                    break;
+                }
+            }
+
+            if ($part->getIsEmptyPart() && !$part->getAccessory()) {
+                $temp = [];
+            }
+            
+            // If the current partGroup is the one with an empty-part-option & the current selected part is NOT the empty option
+            // Than clear the empty option by its sorting identifier
+            if ($partGroup->getUid() === $partGroupUidWithEmptyOption && $part->getUid() !== $emptyOptionPartUid) {
+                unset($temp[$emptyOptionPartSorting]);
+            }
+        }
 
         // On accessory (pseudo) part group do
         if ($partGroup->getUid() === -1) {

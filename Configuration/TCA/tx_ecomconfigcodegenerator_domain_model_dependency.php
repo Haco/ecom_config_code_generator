@@ -20,17 +20,17 @@ return [
         'versioning_followPages' => true,
         'delete'                 => 'deleted',
         'requestUpdate'          => 'mode',
-        'typeicon_column'        => 'mode',
-        'typeicon_classes'       => [
-            'default' => 'extensions-ecom_config_code_generator-dependency-default',
-            '1'       => 'extensions-ecom_config_code_generator-dependency-allow',
-            '0'       => 'extensions-ecom_config_code_generator-dependency-deny'
-        ],
         'enablecolumns'          => [
             'disabled' => 'hidden'
         ],
         'searchFields'           => 'mode,part_groups,parts,',
-        'iconfile'               => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath('ecom_config_code_generator') . 'Resources/Public/Icons/tx_ecomconfigcodegenerator_domain_model_dependency.png'
+        'iconfile'               => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath('ecom_config_code_generator') . 'Resources/Public/Icons/tx_ecomconfigcodegenerator_domain_model_dependency.png',
+        'typeicon_column'        => 'mode',
+        'typeicon_classes'       => [
+            'default' => 'ccg-domain-model-dependency-default',
+            '1'       => 'ccg-domain-model-dependency-allow',
+            '0'       => 'ccg-domain-model-dependency-deny'
+        ],
     ],
     'interface' => [
         'showRecordFieldList'  => 'hidden, mode, part_groups, parts',
