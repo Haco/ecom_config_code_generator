@@ -29,7 +29,6 @@ namespace S3b0\EcomConfigCodeGenerator\Controller;
 
 use S3b0\EcomConfigCodeGenerator\Setup;
 use TYPO3\CMS\Core\Utility\ArrayUtility;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\MathUtility;
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 
@@ -119,14 +118,6 @@ class BaseController extends \Ecom\EcomToolbox\Controller\ActionController
     protected $stateRepository;
 
     /**
-     * productRepository
-     *
-     * @var \S3b0\EcomProductTools\Domain\Repository\ProductRepository
-     * @inject
-     */
-    protected $productRepository;
-
-    /**
      * accessoryRepository
      *
      * @var \S3b0\EcomProductTools\Domain\Repository\AccessoryRepository
@@ -148,16 +139,6 @@ class BaseController extends \Ecom\EcomToolbox\Controller\ActionController
      * @var \S3b0\EcomConfigCodeGenerator\Domain\Model\Currency
      */
     protected $currency = null;
-
-    /**
-     * @var array
-     */
-    protected $page = [];
-
-    /**
-     * @var \S3b0\EcomProductTools\Domain\Model\Product|null
-     */
-    protected $product = null;
 
     /**
      * Initializes the controller before invoking an action method.
@@ -381,10 +362,6 @@ class BaseController extends \Ecom\EcomToolbox\Controller\ActionController
             /** @var \S3b0\EcomConfigCodeGenerator\Domain\Model\PartGroup $previous */
             $previous = $partGroup;
             $cycle++;
-        }
-
-        if ($this->checkIfAccessoryPartGroupMustBeAdded()) {
-            $this->addAccessoryPartGroup($configuration, $partGroups);
         }
 
         $cycle = 0;
@@ -621,7 +598,6 @@ class BaseController extends \Ecom\EcomToolbox\Controller\ActionController
         $summaryTableMailRows = [];
         $code                 = [];
         $blankCode            = [];
-        $addedAccessory       = false;
         if (sizeof($configuration)) {
             /** @var \S3b0\EcomConfigCodeGenerator\Domain\Model\PartGroup $partGroup */
             foreach ($this->contentObject->getCcgConfiguration()->getPartGroups() as $partGroup) {
@@ -629,54 +605,35 @@ class BaseController extends \Ecom\EcomToolbox\Controller\ActionController
                 ksort($parts); // Order by sorting
                 $segment = '';
                 $partList = [];
-                // Handle Accessory
-                if ($partGroup->getUid() === -1) {
-                    $data = self::getConfigurationCodeDataForAccessoryPartGroup($parts, $partGroup);
-                    $summaryTableRows[] = $data[0];
-                    $summaryTableMailRows[] = $data[1];
-                    $addedAccessory = true;
+
+                foreach ($parts as $partUid) {
+                    /** @var \S3b0\EcomConfigCodeGenerator\Domain\Model\Part $part */
+                    $part = $this->partRepository->findByUid($partUid);
+                    $partList[] = trim(($part->getTitle() !== "-" ? $part->getTitle() : "") . (strlen($part->getCodeSegment()) ? " [{$part->getCodeSegment()}]" : ""));
+                    $segment .= $part->getCodeSegment();
+                }
+                if ($partGroup->getPlaceInCode()) {
+                    $code[ $partGroup->getPlaceInCode() ] = "<span class=\"syntax-help\" title=\"{$partGroup->getTitle()}\">{$segment}</span>";
+                    $blankCode[ $partGroup->getPlaceInCode() ] = $segment;
                 } else {
-                    foreach ($parts as $partUid) {
-                        /** @var \S3b0\EcomConfigCodeGenerator\Domain\Model\Part $part */
-                        $part = $this->partRepository->findByUid($partUid);
-                        $partList[] = trim(($part->getTitle() !== "-" ? $part->getTitle() : "") . (strlen($part->getCodeSegment()) ? " [{$part->getCodeSegment()}]" : ""));
-                        $segment .= $part->getCodeSegment();
-                    }
-                    if ($partGroup->getPlaceInCode()) {
-                        $code[ $partGroup->getPlaceInCode() ] = "<span class=\"syntax-help\" title=\"{$partGroup->getTitle()}\">{$segment}</span>";
-                        $blankCode[ $partGroup->getPlaceInCode() ] = $segment;
-                    } else {
-                        $code[] = "<span class=\"syntax-help\" title=\"{$partGroup->getTitle()}\">{$segment}</span>";
-                        $blankCode[] = $segment;
-                    }
-                    if ($partGroup->isVisibleInSummary()) {
-                        $summaryTableRows[] = ("
+                    $code[] = "<span class=\"syntax-help\" title=\"{$partGroup->getTitle()}\">{$segment}</span>";
+                    $blankCode[] = $segment;
+                }
+                if ($partGroup->isVisibleInSummary()) {
+                    $summaryTableRows[] = ("
                             <td>{$partGroup->getStepIndicator()}</td>
                             <td>{$partGroup->getTitle()}</td>
                             <td>" . implode(',<br>', $partList) . "</td>
                             <td>" . ($partGroup->isSelectable() ? "<a data-part-group=\"{$partGroup->getUid()}\" class=\"generator-part-group-select\"><i class=\"fa fa-edit\"></i></a>" : "") . "</td>
                         ") . ($this->pricing ? "<td style=\"text-align:right\">{$partGroup->getPricing()}</td>" : "");
-                        $summaryTableMailRows[] = ("
+                    $summaryTableMailRows[] = ("
                             <td>{$partGroup->getTitle()}</td>
                             <td>" . implode(',<br>', $partList) . "</td>
                         ");
-                    }
                 }
             }
             ksort($code);      // Order code either incremental or by place in code
             ksort($blankCode); // Order code either incremental or by place in code
-        }
-
-        /** Handle Accessory (especially for Log Controller!) */
-        if ($addedAccessory === false) {
-            if ($this->checkIfAccessoryPartGroupMustBeAdded()) {
-                $parts = $configuration[ -1 ];
-                $step = isset($partGroup) && $partGroup instanceof \S3b0\EcomConfigCodeGenerator\Domain\Model\PartGroup ? $partGroup->getStepIndicator() : 0;
-                $partGroup = $this->addAccessoryPartGroup($configuration, null, ++$step, true);
-                $data = self::getConfigurationCodeDataForAccessoryPartGroup($parts, $partGroup);
-                $summaryTableRows[] = $data[0];
-                $summaryTableMailRows[] = $data[1];
-            }
         }
 
         return [
@@ -686,37 +643,6 @@ class BaseController extends \Ecom\EcomToolbox\Controller\ActionController
             'summaryTable'     => $this->sanitize_output('<table><tr>' . implode('</tr><tr>', $summaryTableRows) . '</tr></table>'),
             'summaryTableMail' => $this->sanitize_output('<table><tr>' . implode('</tr><tr>', $summaryTableMailRows) . '</tr></table>')
         ];
-    }
-
-    /**
-     * @param array                                                $parts
-     * @param \S3b0\EcomConfigCodeGenerator\Domain\Model\PartGroup $partGroup
-     *
-     * @return array
-     */
-    private static function getConfigurationCodeDataForAccessoryPartGroup(array $parts, \S3b0\EcomConfigCodeGenerator\Domain\Model\PartGroup $partGroup)
-    {
-        $partList = [];
-        foreach ($parts as $ps => $sku) {
-            if (intval($ps) === -1 && strlen($sku) === 0) {
-                $partList = [ LocalizationUtility::translate('part.none', Setup::EXT_KEY) ];
-                break;
-            }
-            $part = $partGroup->getPartBySku($sku);
-            $partList[] = "{$part->getTitle()} [{$part->getCodeSegment()}]";
-        }
-        $summaryTableRow = ("
-                        <td>{$partGroup->getStepIndicator()}</td>
-                        <td>{$partGroup->getTitle()}</td>
-                        <td>" . implode('<br />', $partList) . "</td>
-                        <td><a data-part-group=\"{$partGroup->getUid()}\" class=\"generator-part-group-select\"><i class=\"fa fa-edit\"></i></a></td>
-                    ");
-        $summaryTableMailRow = ("
-                        <td>{$partGroup->getTitle()}</td>
-                        <td>" . implode(', ', $partList) . "</td>
-                    ");
-
-        return [ $summaryTableRow, $summaryTableMailRow ];
     }
 
     /**
@@ -748,9 +674,6 @@ class BaseController extends \Ecom\EcomToolbox\Controller\ActionController
                 $code[] = $segment;
             }
         }
-        if (is_array($configuration[ -1 ])) {
-            $log->setAccessories(implode(', ', $configuration[ -1 ]));
-        }
         ksort($code);
 
         /** Set minimum quantity */
@@ -768,58 +691,6 @@ class BaseController extends \Ecom\EcomToolbox\Controller\ActionController
             $feUser = $this->frontendUserRepository->findByUid($GLOBALS[ 'TSFE' ]->fe_user->user[ 'uid' ]);
             $log->setFeUser($feUser);
         }
-    }
-
-    /**
-     * @return boolean
-     */
-    protected function checkIfAccessoryPartGroupMustBeAdded()
-    {
-        if ($this->product instanceof \S3b0\EcomProductTools\Domain\Model\Product) {
-            return $this->product->hasAccessories();
-        }
-        $this->page = $this->getDatabaseConnection()->exec_SELECTgetSingleRow('tx_product', 'pages', "uid={$this->contentObject->getPid()}");
-        if (MathUtility::canBeInterpretedAsInteger($this->page['tx_product']) && $this->page['tx_product']) {
-            $this->product = $this->productRepository->findByUid($this->page['tx_product']);
-            if ($this->product instanceof \S3b0\EcomProductTools\Domain\Model\Product) {
-                return $this->product->hasAccessories();
-            }
-        }
-
-        return false;
-    }
-
-    /**
-     * @param array                                             $configuration
-     * @param \TYPO3\CMS\Extbase\Persistence\ObjectStorage|null $storage
-     * @param integer                                           $stepIndicator
-     *
-     * @return \S3b0\EcomConfigCodeGenerator\Domain\Model\PartGroup|integer
-     */
-    protected function addAccessoryPartGroup(array $configuration, \TYPO3\CMS\Extbase\Persistence\ObjectStorage $storage = null, $stepIndicator = 0, $returnPartGroup = false)
-    {
-        $pseudoPartGroup = new \S3b0\EcomConfigCodeGenerator\Domain\Model\PartGroup(1, $this->configuration);
-        if ($stepIndicator) {
-            $pseudoPartGroup->setStepIndicator($stepIndicator);
-        }
-        $pseudoPartGroup->addPart(new \S3b0\EcomConfigCodeGenerator\Domain\Model\Part(null, 0, $pseudoPartGroup, $configuration));
-        /** @var \S3b0\EcomProductTools\Domain\Model\Accessory $accessory */
-        foreach ($this->product->getAccessories() as $accessory) {
-            if ($articleCount = sizeof($accessory->getArticleNumbers())) {
-                if ($articleCount > 1) {
-                    for ($i = 0; $i < $articleCount; $i++) {
-                        $pseudoPartGroup->addPart(new \S3b0\EcomConfigCodeGenerator\Domain\Model\Part($accessory, $i, $pseudoPartGroup, $configuration));
-                    }
-                } else {
-                    $pseudoPartGroup->addPart(new \S3b0\EcomConfigCodeGenerator\Domain\Model\Part($accessory, 0, $pseudoPartGroup, $configuration));
-                }
-            }
-        }
-        if ($storage instanceof \TYPO3\CMS\Extbase\Persistence\ObjectStorage) {
-            $storage->attach($pseudoPartGroup);
-        }
-
-        return $returnPartGroup ? $pseudoPartGroup : 1;
     }
 
     /**

@@ -1,7 +1,6 @@
 <?php
 namespace S3b0\EcomConfigCodeGenerator\Domain\Model;
 
-
 /***************************************************************
  *
  *  Copyright notice
@@ -26,8 +25,6 @@ namespace S3b0\EcomConfigCodeGenerator\Domain\Model;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
-use S3b0\EcomConfigCodeGenerator\Setup;
-use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 
 /**
  * A part available to configuration
@@ -156,43 +153,10 @@ class Part extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     protected $shortDescription;
 
     /**
-     * Part constructor.
-     *
-     * @param \S3b0\EcomProductTools\Domain\Model\Accessory|null $object
-     * @param integer                                            $articleNumber
-     * @param PartGroup|null                                     $partGroup
-     * @param array                                              $configuration
+     * Part constructor
      */
-    public function __construct($object = null, $articleNumber = 0, \S3b0\EcomConfigCodeGenerator\Domain\Model\PartGroup $partGroup = null, array $configuration = [])
+    public function __construct()
     {
-        /**
-         * Handle accessory, if any.
-         * Requires new pseudo part group, @see \S3b0\EcomConfigCodeGenerator\Domain\Model\PartGroup
-         * Part group requires (pseudo) parts, initialized in this place
-         */
-        if ($partGroup instanceof \S3b0\EcomConfigCodeGenerator\Domain\Model\PartGroup) {
-            $this->partGroup   = $partGroup;
-            if ($object instanceof \S3b0\EcomProductTools\Domain\Model\Accessory) {
-                preg_match('/^[a-z0-9]+/i', $object->getArticleNumbers()[$articleNumber], $matches);
-                $this->title            = $object->getTitle();
-                $this->shortDescription = $object->getShortDescription();
-                $this->codeSegment      = $matches[0];
-                $this->sorting          = $object->getSorting();
-                if (in_array($matches[0], (array)$configuration[ -1 ])) {
-                    $this->active  = true;
-                    $this->partGroup->addActivePart($this);
-                    $this->partGroup->setActive(true);
-                }
-            } else {
-                $this->title   = LocalizationUtility::translate('part.none', Setup::EXT_KEY);
-                $this->sorting = -1;
-                if (in_array('', (array)$configuration[ -1 ])) {
-                    $this->active  = true;
-                    $this->partGroup->addActivePart($this);
-                    $this->partGroup->setActive(true);
-                }
-            }
-        }
         //Do not remove the next line: It would break the functionality
         $this->initStorageObjects();
     }

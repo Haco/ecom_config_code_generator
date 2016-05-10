@@ -12,7 +12,6 @@ plugin.tx_ecomconfigcodegenerator {
 		# rewrittenPropertyMapper = 1
 	}
 	settings {
-		accessoryLabel = {$plugin.tx_ecomconfigcodegenerator.settings.accessoryLabel}
 		webmasterEmail = {$plugin.tx_ecomconfigcodegenerator.settings.webmasterEmail}
 		accessPricing = {$plugin.tx_ecomconfigcodegenerator.settings.accessPricing}
 		mail {

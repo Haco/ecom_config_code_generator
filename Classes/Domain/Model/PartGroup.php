@@ -27,10 +27,6 @@ namespace S3b0\EcomConfigCodeGenerator\Domain\Model;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 use S3b0\EcomConfigCodeGenerator\Setup;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Extbase\Configuration\ConfigurationManager;
-use TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface;
-use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 
 /**
  * Group of parts available for configuration
@@ -178,28 +174,10 @@ class PartGroup extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     protected $last = false;
 
     /**
-     * PartGroup constructor.
-     *
-     * @param int         $type
-     * @param object|null $configuration
+     * PartGroup constructor
      */
-    public function __construct($type = 0, $configuration = null)
+    public function __construct()
     {
-        /**
-         * Accessory (pseudo) part group
-         * 2 arguments must be set:
-         *   - integer: 1 -> indicating this special part group
-         *   - array  : configuration array (session data)
-         */
-        if ($type === 1) {
-            /** @var ConfigurationManager $configurationManager */
-            $configurationManager = GeneralUtility::makeInstance(ConfigurationManager::class);
-            $settings = $configurationManager->getConfiguration(ConfigurationManagerInterface::CONFIGURATION_TYPE_SETTINGS);
-            $this->settings      = Setup::BIT_PARTGROUP_IN_CONFIGURATOR + Setup::BIT_PARTGROUP_IN_NAVIGATION + Setup::BIT_PARTGROUP_IN_SUMMARY + Setup::BIT_PARTGROUP_MULTIPLE_SELECT;
-            $this->uid           = -1;
-            $this->title         = LocalizationUtility::translate($settings['accessoryLabel'] ?: 'partGroup.accessories', Setup::EXT_KEY);
-            $this->configuration = $configuration;
-        }
         $this->initStorageObjects();
     }
 
@@ -472,25 +450,6 @@ class PartGroup extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     public function hasDefaultPart()
     {
         return $this->defaultPart && ($this->defaultPart instanceof \S3b0\EcomConfigCodeGenerator\Domain\Model\Part || $this->defaultPart instanceof \TYPO3\CMS\Extbase\Persistence\Generic\LazyLoadingProxy);
-    }
-
-    /**
-     * @param string $sku
-     *
-     * @return null|Part
-     */
-    public function getPartBySku($sku = '')
-    {
-        if (strlen($sku) && $this->parts instanceof \TYPO3\CMS\Extbase\Persistence\ObjectStorage && $this->parts->count()) {
-            /** @var \S3b0\EcomConfigCodeGenerator\Domain\Model\Part $part */
-            foreach ($this->parts as $part) {
-                if ($part->getCodeSegment() == $sku) {
-                    return $part;
-                }
-            }
-        }
-
-        return null;
     }
 
     /**

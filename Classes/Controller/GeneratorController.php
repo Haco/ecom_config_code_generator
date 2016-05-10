@@ -40,30 +40,8 @@ class GeneratorController extends \S3b0\EcomConfigCodeGenerator\Controller\BaseC
      */
     public function initializeIndexAction()
     {
-        if ($this->request->hasArgument('partGroup') && !$this->request->getArgument('partGroup') instanceof \S3b0\EcomConfigCodeGenerator\Domain\Model\PartGroup) {
-            if (MathUtility::canBeInterpretedAsInteger($this->request->getArgument('partGroup')) && $this->request->getArgument('partGroup') > 0) {
-                $this->request->setArgument('partGroup', $this->partGroupRepository->findByUid($this->request->getArgument('partGroup')));
-            } elseif (intval($this->request->getArgument('partGroup')) === -1) {
-                $page = $this->getDatabaseConnection()->exec_SELECTgetSingleRow('tx_product', 'pages', "uid={$this->contentObject->getPid()}");
-                /** @var \S3b0\EcomProductTools\Domain\Model\Product $product */
-                if (($product = $this->productRepository->findByUid($page[ 'tx_product' ])) && $product->hasAccessories()) {
-                    $pseudoPartGroup = new \S3b0\EcomConfigCodeGenerator\Domain\Model\PartGroup(1, $this->configuration);
-                    $pseudoPartGroup->addPart(new \S3b0\EcomConfigCodeGenerator\Domain\Model\Part(null, 0, $pseudoPartGroup, $this->feSession->get('config') ?: []));
-                    /** @var \S3b0\EcomProductTools\Domain\Model\Accessory $accessory */
-                    foreach ($product->getAccessories() as $accessory) {
-                        if ($articleCount = sizeof($accessory->getArticleNumbers())) {
-                            if ($articleCount > 1) {
-                                for ($i = 0; $i < $articleCount; $i++) {
-                                    $pseudoPartGroup->addPart(new \S3b0\EcomConfigCodeGenerator\Domain\Model\Part($accessory, $i, $pseudoPartGroup, $this->feSession->get('config') ?: []));
-                                }
-                            } else {
-                                $pseudoPartGroup->addPart(new \S3b0\EcomConfigCodeGenerator\Domain\Model\Part($accessory, 0, $pseudoPartGroup, $this->feSession->get('config') ?: []));
-                            }
-                        }
-                    }
-                    $this->request->setArgument('partGroup', $pseudoPartGroup);
-                }
-            }
+        if ($this->request->hasArgument('partGroup') && MathUtility::canBeInterpretedAsInteger($this->request->getArgument('partGroup')) && $this->request->getArgument('partGroup') > 0 && !$this->request->getArgument('partGroup') instanceof \S3b0\EcomConfigCodeGenerator\Domain\Model\PartGroup) {
+            $this->request->setArgument('partGroup', $this->partGroupRepository->findByUid($this->request->getArgument('partGroup')));
         }
     }
 
@@ -81,7 +59,6 @@ class GeneratorController extends \S3b0\EcomConfigCodeGenerator\Controller\BaseC
 
     /**
      * @param array   $arguments
-     * @param boolean $addAccessoryPartGroup
      *
      * @return array
      */
@@ -101,21 +78,6 @@ class GeneratorController extends \S3b0\EcomConfigCodeGenerator\Controller\BaseC
         if ($arguments[ 0 ] instanceof \S3b0\EcomConfigCodeGenerator\Domain\Model\PartGroup) {
             /** @var \S3b0\EcomConfigCodeGenerator\Domain\Model\PartGroup $currentPartGroup */
             $currentPartGroup = $arguments[ 0 ];
-            if ($currentPartGroup->getUid() === -1 && $currentPartGroup->getParts()->count() === 0) {
-                $currentPartGroup->addPart(new \S3b0\EcomConfigCodeGenerator\Domain\Model\Part(null, 0, $currentPartGroup, $this->feSession->get('config') ?: []));
-                /** @var \S3b0\EcomProductTools\Domain\Model\Accessory $accessory */
-                foreach ($this->product->getAccessories() as $accessory) {
-                    if ($articleCount = sizeof($accessory->getArticleNumbers())) {
-                        if ($articleCount > 1) {
-                            for ($i = 0; $i < $articleCount; $i++) {
-                                $currentPartGroup->addPart(new \S3b0\EcomConfigCodeGenerator\Domain\Model\Part($accessory, $i, $currentPartGroup, $this->feSession->get('config') ?: []));
-                            }
-                        } else {
-                            $currentPartGroup->addPart(new \S3b0\EcomConfigCodeGenerator\Domain\Model\Part($accessory, 0, $currentPartGroup, $this->feSession->get('config') ?: []));
-                        }
-                    }
-                }
-            }
         }
         if ($currentPartGroup instanceof \S3b0\EcomConfigCodeGenerator\Domain\Model\PartGroup) {
             $currentPartGroup->setCurrent(true);
