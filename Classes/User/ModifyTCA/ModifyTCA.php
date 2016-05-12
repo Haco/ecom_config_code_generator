@@ -175,10 +175,10 @@ class ModifyTCA
      */
     public function checkPriceHandling($PA)
     {
-        $partGroup = $GLOBALS[ 'TYPO3_DB' ]->exec_SELECTgetSingleRow('settings', 'tx_ecomconfigcodegenerator_domain_model_partgroup', 'uid IN (' . implode(',', (array)$PA[ 'record' ][ 'part_group' ]) . ')');
-        $check = ($partGroup[ 'settings' ] & Setup::BIT_PARTGROUP_USE_PERCENTAGE_PRICING) === Setup::BIT_PARTGROUP_USE_PERCENTAGE_PRICING;
-
-        switch ($PA[ 'conditionParameters' ][ 0 ]) {
+        $partGroup = BackendUtility::getRecord('tx_ecomconfigcodegenerator_domain_model_partgroup', $PA['record']['part_group'][0], 'settings');
+        $check = ($partGroup['settings'] & Setup::BIT_PARTGROUP_USE_PERCENTAGE_PRICING) === Setup::BIT_PARTGROUP_USE_PERCENTAGE_PRICING;
+        
+        switch ( $PA['conditionParameters'][0] ) {
             case '1':
                 return !$check;
             default:
@@ -194,7 +194,7 @@ class ModifyTCA
      */
     public function checkIfMultipleSelectEnabledInPart($PA)
     {
-        $partGroup = $GLOBALS[ 'TYPO3_DB' ]->exec_SELECTgetSingleRow('settings', 'tx_ecomconfigcodegenerator_domain_model_partgroup', 'uid IN (' . implode(',', (array)$PA[ 'record' ][ 'part_group' ]) . ')');
+        $partGroup = BackendUtility::getRecord('tx_ecomconfigcodegenerator_domain_model_partgroup', $PA['record']['part_group'][0], 'settings');
         $check = ($partGroup[ 'settings' ] & Setup::BIT_PARTGROUP_MULTIPLE_SELECT) === Setup::BIT_PARTGROUP_MULTIPLE_SELECT;
 
         return $check;
