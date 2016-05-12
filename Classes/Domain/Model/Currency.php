@@ -336,7 +336,7 @@ class Currency extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
         /** @var \TYPO3\CMS\Core\Resource\ResourceFactory $resourceFactory */
         $resourceFactory = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\TYPO3\CMS\Core\Resource\ResourceFactory::class);
 
-        return $resourceFactory->retrieveFileOrFolderObject("EXT:ecom_toolbox/Resources/Public/Images/Flags/{$flagName}")->getPublicUrl();
+        return $resourceFactory->retrieveFileOrFolderObject("EXT:ecom_toolbox/Resources/Public/Images/Flags/BE/{$flagName}")->getPublicUrl();
     }
 
 }

@@ -1,8 +1,10 @@
-// Equalize height of checkbox and part group selection on resize.
+// Centers Checkboxes
 (function($) {
     function equalizeHeight() {
-        $('#ccg-generator-canvas .generator-part-group-select').each(function() {
-            $(this).siblings('.generator-part-group-state').height($(this).outerHeight());
+        $('#ccg-generator-canvas .generator-select-part-group-part').each(function() {
+            var checkboxHeight = $('.generator-checkbox', this).outerHeight();
+            var partSelectorHeight = $(this).height();
+            $('.generator-checkbox', this).css('margin-top', (partSelectorHeight / 2) - (checkboxHeight / 2));
         });
     }equalizeHeight();
     $(window).resize(function() {

@@ -167,7 +167,7 @@ class BaseController extends \Ecom\EcomToolbox\Controller\ActionController
         if (!$this->configuration->getPartGroups()->count()) {
             $this->throwStatus(404, null, '<h1>' . LocalizationUtility::translate('404.noPartGroups', $this->extensionName) . '</h1>' . LocalizationUtility::translate('404.message.noPartGroups', $this->extensionName, ["<a href=\"mailto:{$this->settings['webmasterEmail']}\">{$this->settings['webmasterEmail']}</a>"]));
         }
-
+        
         $this->pricing = $this->configuration->isPricingEnabled() && $GLOBALS[ 'TSFE' ]->loginUser && \Ecom\EcomToolbox\Security\Frontend::checkForUserRoles($this->settings[ 'accessPricing' ]);
 
         // Frontend-Session
@@ -462,6 +462,7 @@ class BaseController extends \Ecom\EcomToolbox\Controller\ActionController
             if ($part->getAccessory() && $this->accessoryRepository->findByUid($part->getAccessory()) instanceof \S3b0\EcomProductTools\Domain\Model\Accessory) {
                 /** @var \S3b0\EcomProductTools\Domain\Model\Accessory $currentAccessory */
                 $currentAccessory = $this->accessoryRepository->findByUid($part->getAccessory());
+                $part->setAccessoryObject($currentAccessory);
 
                 $accessoryTitle = (strlen($currentAccessory->getTitle())) ? $currentAccessory->getTitle() : '';
                 $accessoryShortDesc = (strlen($currentAccessory->getShortDescription())) ? $currentAccessory->getShortDescription() : '';

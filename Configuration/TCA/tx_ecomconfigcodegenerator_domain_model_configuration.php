@@ -190,7 +190,7 @@ return [
                 'type'           => 'select',
                 'readOnly'       => 1,
                 'foreign_table'  => 'tt_content',
-                'suppress_icons' => 1
+                'foreign_table_where' => 'AND tt_content.pid=###CURRENT_PID###'
             ]
         ]
     ]

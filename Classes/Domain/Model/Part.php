@@ -59,6 +59,13 @@ class Part extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     protected $accessory = 0;
 
     /**
+     * The accessory UID
+     *
+     * @var \S3b0\EcomProductTools\Domain\Model\Accessory
+     */
+    protected $accessoryObject = null;
+
+    /**
      * The accessory Title
      *
      * @var string
@@ -150,7 +157,7 @@ class Part extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     /**
      * @var string
      */
-    protected $shortDescription;
+    protected $shortDescription = '';
 
     /**
      * Part constructor
@@ -236,11 +243,33 @@ class Part extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     /**
      * Returns the accessory
      *
-     * @return int $accessory
+     * @return int
      */
     public function getAccessory()
     {
         return $this->accessory;
+    }
+
+    /**
+     * Sets the accessoryObject
+     *
+     * @param \S3b0\EcomProductTools\Domain\Model\Accessory $accessoryObject
+     *
+     * @return void
+     */
+    public function setAccessoryObject(\S3b0\EcomProductTools\Domain\Model\Accessory $accessoryObject)
+    {
+        $this->accessoryObject = $accessoryObject;
+    }
+
+    /**
+     * Returns the accessoryObject
+     *
+     * @return \S3b0\EcomProductTools\Domain\Model\Accessory
+     */
+    public function getAccessoryObject()
+    {
+        return $this->accessoryObject;
     }
 
     /**
@@ -595,5 +624,4 @@ class Part extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     {
         $this->shortDescription = $shortDescription;
     }
-
 }

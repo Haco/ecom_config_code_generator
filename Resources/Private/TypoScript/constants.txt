@@ -21,11 +21,11 @@ plugin.tx_ecomconfigcodegenerator {
 			noReplyEmail = noreply@ecom-ex.com
 			# cat=plugin.tx_ecomconfigcodegenerator//general; type=string; label=E-Mail sender address
 			senderEmail = sales@ecom-ex.com
-            #senderEmail = webmaster@ecom-ex.com
+            #senderEmail = nicolas.scheidler@ecom-ex.com
 			# cat=plugin.tx_ecomconfigcodegenerator//general; type=string; label=E-Mail sender name
 			senderName = ecom instruments GmbH
 			# cat=plugin.tx_ecomconfigcodegenerator//general; type=string; label=E-Mail carbon copy receivers:Split by comma if multiple
-			carbonCopy = marketing@ecom-ex.com ecom Marketing
+			carbonCopy = marketing@ecom-ex.com ecom Marketing,info.us@ecom-ex.com ecom USA
             #carbonCopy =
 			# cat=plugin.tx_ecomconfigcodegenerator//general; type=int+; label=Content object (text) for confirmation page [tt_content]
 			confirmationMessage = 4821

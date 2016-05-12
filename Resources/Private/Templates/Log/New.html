@@ -1,8 +1,12 @@
 <f:layout name="Request" />
 
 <f:section name="main">
-
-<h1><f:translate id="label.requestButton" extensionName="ecom_config_code_generator" arguments="{0: contentObject.ccgConfiguration.title}" /></h1>
+<h1>
+    <f:if condition="{contentObject.ccgConfiguration.title}">
+        <f:then><f:translate id="label.requestButton" extensionName="ecom_config_code_generator" arguments="{0: contentObject.ccgConfiguration.title}" /></f:then>
+        <f:else><f:translate id="label.requestButton" extensionName="ecom_config_code_generator" arguments="{0: contentObject.header}" /></f:else>
+    </f:if>
+</h1>
 <p>&nbsp;</p>
 <f:form action="create" enctype="multipart/form-data" id="newLog" name="newLog" object="{newLog}" additionalAttributes="{data-validate: 'html5', data-parsley-validate: 'data-parsley-validate'}">
 	<f:render partial="Log/FormFields" arguments="{_all}" />

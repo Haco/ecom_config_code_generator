@@ -165,7 +165,6 @@ class AjaxRequestController extends \S3b0\EcomConfigCodeGenerator\Controller\Gen
             'pricingEnabled' => $this->pricing
         ]);
         $view->setFormat('html');
-
         return $this->sanitize_output($view->render());
     }
 
