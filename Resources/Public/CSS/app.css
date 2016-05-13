@@ -258,6 +258,7 @@ body {
 #ccg-generator-canvas .generator-index .btn,
 #ccg-generator-canvas .generator-result .btn {
     margin-right: 5px;
+    margin-bottom: 5px;
 }
 #ccg-generator-canvas .generator-resolve-list thead {
 	font-weight: bold;
@@ -344,7 +345,8 @@ body {
     font-weight: 300;
 }
 #ccg-generator-canvas .generator-select-part-group-part-selector {
-	color: #000;
+	color: #676767;
+    font-size: 1.1em;
 	background: #eee;
 	display: block;
     margin-bottom: 4px;

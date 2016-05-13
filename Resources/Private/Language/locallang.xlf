@@ -5,7 +5,7 @@
 		<body>
 			<!-- LABELS -->
 			<trans-unit id="label.percentDone" xml:space="preserve">
-				<source>% done</source>
+				<source>% COMPLETED</source>
 			</trans-unit>
 			<trans-unit id="label.closeButton" xml:space="preserve">
 				<source>Close</source>

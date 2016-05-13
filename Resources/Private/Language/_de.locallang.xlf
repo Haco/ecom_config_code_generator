@@ -1,0 +1,317 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<xliff version="1.0">
+	<file source-language="en" target-language="de" datatype="plaintext" original="messages" date="2015-09-02T08:52:37Z" product-name="ecom_config_code_generator">
+        <header/>
+        <body>
+            <!-- LABELS -->
+            <trans-unit id="label.percentDone" xml:space="preserve">
+                <source>% COMPLETED</source>
+                <target>% ABGESCHLOSSEN</target>
+            </trans-unit>
+            <trans-unit id="label.closeButton" xml:space="preserve">
+                <source>Close</source>
+                <target>Schließen</target>
+            </trans-unit>
+            <trans-unit id="label.resetConfiguration" xml:space="preserve">
+                <source>Reset configuration</source>
+                <target>Konfiguration zurücksetzen</target>
+            </trans-unit>
+            <trans-unit id="label.showResult" xml:space="preserve">
+                <source>Show result</source>
+                <target>Ergebnis anzeigen</target>
+            </trans-unit>
+            <trans-unit id="label.proceed" xml:space="preserve">
+                <source>Proceed</source>
+                <target>Weiter</target>
+            </trans-unit>
+            <trans-unit id="label.summaryButton" xml:space="preserve">
+                <source>Summary</source>
+                <target>Zusammenfassung</target>
+            </trans-unit>
+            <trans-unit id="label.summaryButtonTitle" xml:space="preserve">
+                <source>Review your Configuration</source>
+                <target>Konfiguration überprüfen</target>
+            </trans-unit>
+            <trans-unit id="label.requestButton" xml:space="preserve">
+                <source>Request your personal %1$s</source>
+                <target>Jetzt anfragen: %1$s</target>
+            </trans-unit>
+            <trans-unit id="label.sendRequest" xml:space="preserve">
+                <source>Sending request</source>
+                <target>Anfrage senden</target>
+            </trans-unit>
+            <trans-unit id="label.moreInformation" xml:space="preserve">
+                <source><![CDATA[<i class="fa fa-info-circle fa-fw fa-lg" title="More information"></i>]]></source>
+                <target><![CDATA[<i class="fa fa-info-circle fa-fw fa-lg" title="Weitere Informationen"></i>]]></target>
+            </trans-unit>
+            <trans-unit id="label.basePrice" xml:space="preserve">
+                <source>Base price</source>
+                <target>Basispreis</target>
+            </trans-unit>
+            <trans-unit id="label.configPrice" xml:space="preserve">
+                <source>Configuration price</source>
+                <target>Konfigurationspreis</target>
+            </trans-unit>
+            <trans-unit id="unitPrice" xml:space="preserve">
+                <source>Unit Price</source>
+                <target>Stückpreis</target>
+            </trans-unit>
+            <trans-unit id="unitPriceAbbr" xml:space="preserve">
+                <source>UP</source>
+                <target>St.-Pr.</target>
+            </trans-unit>
+            <trans-unit id="partGroup.accessories" xml:space="preserve">
+                <source>Accessories</source>
+                <target>Zubehör</target>
+            </trans-unit>
+            <trans-unit id="part.none" xml:space="preserve">
+                <source>None</source>
+                <target>Keine Auswahl</target>
+            </trans-unit>
+
+            <!-- HEADLINES -->
+            <trans-unit id="headlines.yourConfigurationCode" xml:space="preserve">
+                <source>Your configuration code</source>
+                <target>Ihre Konfiguration</target>
+            </trans-unit>
+            <trans-unit id="headlines.confirmation" xml:space="preserve">
+                <source>Request sent!</source>
+                <target>Anfrage versendet!</target>
+            </trans-unit>
+
+            <!-- NEW LOG -->
+            <trans-unit id="forms.log.field.salutation" xml:space="preserve">
+                <source>Salutation</source>
+                <target>Anrede</target>
+            </trans-unit>
+            <trans-unit id="forms.log.field.firstName" xml:space="preserve">
+                <source>First Name</source>
+                <target>Vorname</target>
+            </trans-unit>
+            <trans-unit id="forms.log.field.lastName" xml:space="preserve">
+                <source>Last Name</source>
+                <target>Nachname</target>
+            </trans-unit>
+            <trans-unit id="forms.log.field.subject" xml:space="preserve">
+                <source>Subject</source>
+                <target>Betreff</target>
+            </trans-unit>
+            <trans-unit id="forms.log.field.message" xml:space="preserve">
+                <source>Your Message</source>
+                <target>Ihre Nachricht</target>
+            </trans-unit>
+            <trans-unit id="forms.log.field.company" xml:space="preserve">
+                <source>Company</source>
+                <target>Firma</target>
+            </trans-unit>
+            <trans-unit id="forms.log.field.jobTitle" xml:space="preserve">
+                <source>Job Title</source>
+                <target>Position</target>
+            </trans-unit>
+            <trans-unit id="forms.log.field.address" xml:space="preserve">
+                <source>Street Address</source>
+                <target>Straße, Nr.</target>
+            </trans-unit>
+            <trans-unit id="forms.log.field.zip" xml:space="preserve">
+                <source>Postal Code</source>
+                <target>PLZ</target>
+            </trans-unit>
+            <trans-unit id="forms.log.field.city" xml:space="preserve">
+                <source>City</source>
+                <target>Ort</target>
+            </trans-unit>
+            <trans-unit id="forms.log.field.country" xml:space="preserve">
+                <source>Country</source>
+                <target>Land</target>
+            </trans-unit>
+            <trans-unit id="forms.log.field.state" xml:space="preserve">
+                <source>State / Province</source>
+                <target>Bundesland</target>
+            </trans-unit>
+            <trans-unit id="forms.log.field.phone" xml:space="preserve">
+                <source>Phone</source>
+                <target>Telefon</target>
+            </trans-unit>
+            <trans-unit id="forms.log.field.fax" xml:space="preserve">
+                <source>Fax</source>
+                <target>Fax</target>
+            </trans-unit>
+            <trans-unit id="forms.log.field.email" xml:space="preserve">
+                <source>E-Mail</source>
+                <target>E-Mail</target>
+            </trans-unit>
+            <trans-unit id="forms.log.field.quantity" xml:space="preserve">
+                <source>Quantity</source>
+                <target>Anzahl</target>
+            </trans-unit>
+            <trans-unit id="forms.log.field.pricing" xml:space="preserve">
+                <source>Value</source>
+                <target>Betrag</target>
+            </trans-unit>
+            <!-- GENERIC FORMS -->
+            <trans-unit id="forms.submit" xml:space="preserve">
+                <source>Submit</source>
+                <target>Senden</target>
+            </trans-unit>
+            <trans-unit id="forms.input.placeholder" xml:space="preserve">
+                <source>Please fill in</source>
+                <target>Bitte ausfüllen</target>
+            </trans-unit>
+            <trans-unit id="forms.select.empty" xml:space="preserve">
+                <source>Please choose</source>
+                <target>Bitte auswählen</target>
+            </trans-unit>
+            <trans-unit id="forms.privacyPolicy0" xml:space="preserve">
+                <source>I herewith declare my express agreement to the </source>
+                <target>Ich akzeptiere die </target>
+            </trans-unit>
+            <trans-unit id="forms.privacyPolicy1" xml:space="preserve">
+                <source>data protection provisions</source>
+                <target>Datenschutzerklärung</target>
+            </trans-unit>
+            <trans-unit id="forms.privacyPolicy2" xml:space="preserve">
+                <source> of ecom instruments GmbH.</source>
+                <target> der ecom instruments GmbH.</target>
+            </trans-unit>
+            <trans-unit id="forms.mandatoryHint" xml:space="preserve">
+                <source><![CDATA[Fields marked with <span class="%1$s">*</span> are mandatory.]]></source>
+                <target><![CDATA[Die mit <span class="%1$s">*</span> gekennzeichneten Felder sind Pflichtangaben.]]></target>
+            </trans-unit>
+            <!-- EMAIL -->
+            <trans-unit id="mail.toSender.subject" xml:space="preserve">
+                <source>Your %1$s request</source>
+                <target>Ihre %1$s Anfrage</target>
+            </trans-unit>
+            <trans-unit id="mail.toReceiver.subject" xml:space="preserve">
+                <source>Incoming %1$s request</source>
+                <target>Eingehende %1$s Anfrage</target>
+            </trans-unit>
+            <trans-unit id="mail.hello" xml:space="preserve">
+                <source>Hello %1$s %2$s,</source>
+                <target>Guten Tag %1$s %2$s,</target>
+            </trans-unit>
+            <trans-unit id="mail.toSender.receivedMessage" xml:space="preserve">
+                <source>we received this message from you:</source>
+                <target>wir haben folgende Nachricht von Ihnen erhalten:</target>
+            </trans-unit>
+            <trans-unit id="mail.field.salutation" xml:space="preserve">
+                <source>Salutation</source>
+                <target>Anrede</target>
+            </trans-unit>
+            <trans-unit id="mail.field.first_name" xml:space="preserve">
+                <source>First Name</source>
+                <target>Vorname</target>
+            </trans-unit>
+            <trans-unit id="mail.field.last_name" xml:space="preserve">
+                <source>Last Name</source>
+                <target>Nachname</target>
+            </trans-unit>
+            <trans-unit id="mail.field.subject" xml:space="preserve">
+                <source>Subject</source>
+                <target>Betreff</target>
+            </trans-unit>
+            <trans-unit id="mail.field.message" xml:space="preserve">
+                <source>Your Message</source>
+                <target>Ihre Nachricht</target>
+            </trans-unit>
+            <trans-unit id="mail.field.company" xml:space="preserve">
+                <source>Company</source>
+                <target>Firma</target>
+            </trans-unit>
+            <trans-unit id="mail.field.job_title" xml:space="preserve">
+                <source>Job Title</source>
+                <target>Position</target>
+            </trans-unit>
+            <trans-unit id="mail.field.address" xml:space="preserve">
+                <source>Street Address</source>
+                <target>Straße, Nr.</target>
+            </trans-unit>
+            <trans-unit id="mail.field.postal_code" xml:space="preserve">
+                <source>Postal Code</source>
+                <target>PLZ</target>
+            </trans-unit>
+            <trans-unit id="mail.field.city" xml:space="preserve">
+                <source>City</source>
+                <target>Ort</target>
+            </trans-unit>
+            <trans-unit id="mail.field.country" xml:space="preserve">
+                <source>Country</source>
+                <target>Land</target>
+            </trans-unit>
+            <trans-unit id="mail.field.state" xml:space="preserve">
+                <source>State / Province</source>
+                <target>Bundesland</target>
+            </trans-unit>
+            <trans-unit id="mail.field.phone" xml:space="preserve">
+                <source>Phone</source>
+                <target>Telefon</target>
+            </trans-unit>
+            <trans-unit id="mail.field.fax" xml:space="preserve">
+                <source>Fax</source>
+                <target>Fax</target>
+            </trans-unit>
+            <trans-unit id="mail.field.email" xml:space="preserve">
+                <source>E-Mail</source>
+                <target>E-Mail</target>
+            </trans-unit>
+            <trans-unit id="mail.field.quantity" xml:space="preserve">
+                <source>Quantity</source>
+                <target>Anzahl</target>
+            </trans-unit>
+            <trans-unit id="mail.toSender.configurationHeadline" xml:space="preserve">
+                <source>Your Configuration:</source>
+                <target>Ihre Konfiguration:</target>
+            </trans-unit>
+            <trans-unit id="mail.generatedMessage" xml:space="preserve">
+                <source>This email has been automatically generated by our tracking system.</source>
+                <target>Dies ist eine automatisch generierte Nachricht aus unserem Mailsystem.</target>
+            </trans-unit>
+            <!-- PARSLEY MESSAGES -->
+            <trans-unit id="forms.parsley.required" xml:space="preserve">
+                <source>This field is required.</source>
+                <target>Dies ist ein Pflichtfeld.</target>
+            </trans-unit>
+            <trans-unit id="forms.parsley.requiredText" xml:space="preserve">
+                <source>This field must be filled!</source>
+                <target>Dieses Feld muss ausgefüllt werden!</target>
+            </trans-unit>
+            <trans-unit id="forms.parsley.requiredSelect" xml:space="preserve">
+                <source>Please choose an option!</source>
+                <target>Bitte wählen Sie eine Option!</target>
+            </trans-unit>
+            <trans-unit id="forms.parsley.invalidEmail" xml:space="preserve">
+                <source>This is not a valid email address!</source>
+                <target>Dies ist keine gültige E-Mail Adresse!</target>
+            </trans-unit>
+            <trans-unit id="forms.parsley.confirmPrivacyPolicy" xml:space="preserve">
+                <source>Please confirm our privacy policy!</source>
+                <target>Bitte bestätigen Sie unsere Datenschutzerklärung!</target>
+            </trans-unit>
+
+            <trans-unit id="selectregion.choose_text" xml:space="preserve">
+                <source>Please choose a region/currency</source>
+                <target>Bitte wählen Sie eine Währung</target>
+            </trans-unit>
+            <trans-unit id="currency" xml:space="preserve">
+                <source>Currency</source>
+                <target>Währung</target>
+            </trans-unit>
+            <trans-unit id="currency.region.EUR">
+                <source>Europe</source>
+                <target>Europa</target>
+            </trans-unit>
+            <trans-unit id="currency.region.CHF">
+                <source>Switzerland</source>
+                <target>Schweiz</target>
+            </trans-unit>
+            <trans-unit id="currency.region.GBP">
+                <source>United Kingdom</source>
+                <target>Vereinigtes Königreich</target>
+            </trans-unit>
+            <trans-unit id="currency.region.USD">
+                <source>United States</source>
+                <target>Vereinigte Staaten</target>
+            </trans-unit>
+        </body>
+	</file>
+</xliff>

@@ -1,28 +1,27 @@
-// Centers Checkboxes
-(function($) {
-    function equalizeHeight() {
-        $('#ccg-generator-canvas .generator-select-part-group-part').each(function() {
-            var checkboxHeight = $('.generator-checkbox', this).outerHeight();
-            var partSelectorHeight = $(this).height();
-            $('.generator-checkbox', this).css('margin-top', (partSelectorHeight / 2) - (checkboxHeight / 2));
-        });
-    }equalizeHeight();
-    $(window).resize(function() {
-        equalizeHeight();
+// Centers Checkboxes in PartSelector
+function equalizeHeight() {
+    $('#ccg-generator-canvas').find('.generator-select-part-group-part').each(function () {
+        var checkboxHeight = $('.generator-checkbox', this).outerHeight();
+        var partSelectorHeight = $(this).height();
+        $('.generator-checkbox', this).css('margin-top', (partSelectorHeight / 2) - (checkboxHeight / 2));
     });
-})(jQuery);
+}
+equalizeHeight();
+$(window).resize(function () {
+    equalizeHeight();
+});
 
 // Review/Summary Configuration Button
-(function($) {
-    var summaryTable = $('#ccg-generator-canvas #generator-summary-table');
-    $('#ccg-generator-canvas .generator-result-review-config').on('click', function(e) {
+(function ($) {
+    var summaryTable = $('#generator-summary-table');
+    $('#ccg-generator-canvas').find('.generator-result-review-config').on('click', function (e) {
         // Prevent default anchor action
         e.preventDefault();
         $(this).stop().toggleClass('active');
         summaryTable.stop().slideToggle('slow').toggleClass('active');
 
         // Scroll in position if the table is not currently hidden
-        if ( summaryTable.hasClass('active') ) {
+        if (summaryTable.hasClass('active')) {
             $('html, body').stop().animate({
                 scrollTop: summaryTable.offset().top
             }, 'slow');
@@ -33,7 +32,6 @@
 /**
  * ajax.js
  */
-
 function addAjaxLoader(element) {
     $('#' + element).addClass('ajaxloader');
 }
@@ -54,14 +52,14 @@ function removeAjaxLoader(element) {
 function ccgUpdatePart(preResult) {
     $('.generator-select-part-group-part-selector').on('click', function (e) {
         e.preventDefault();
-        if ( $(this).hasClass('disabled') ) {
+        if ($(this).hasClass('disabled')) {
             $(this).blur();
             return void(0);
         }
         var modal = $(this).attr('data-modal'),
             part = $(this).attr('data-part'),
             unset = $(this).attr('data-part-state');
-        if ( modal > 0 && preResult.modals && unset == 0 ) {
+        if (modal > 0 && preResult.modals && unset == 0) {
             makeBootstrapModal({
                 'title': preResult.modals[modal]['title'],
                 'body': preResult.modals[modal]['text']
@@ -94,7 +92,7 @@ function ccgIndex(target) {
          $(this).blur();
          return void(0);
          }*/
-        if ( ( $(this).hasClass('generator-part-group-state-0') && $('.generator-part-group-state-0').first().attr('id') !== $(this).attr('id')) || $(this).hasClass('generator-locked-part-group') || $(this).hasClass('current') ) {
+        if (( $(this).hasClass('generator-part-group-state-0') && $('.generator-part-group-state-0').first().attr('id') !== $(this).attr('id')) || $(this).hasClass('generator-locked-part-group') || $(this).hasClass('current')) {
             $(this).blur();
             return false;
         }
@@ -116,7 +114,7 @@ function getPartInformation(part) {
     genericAjaxRequest(t3pid, t3lang, 1441344351, 'showHint', {
             part: part,
             cObj: t3cobj
-        }, function(result) {
+        }, function (result) {
             makeBootstrapModal({
                 'title': result['partTitle'],
                 'body': result['partHint']
@@ -155,8 +153,8 @@ function genericAjaxRequest(pageUid, language, pageType, action, arguments, onSu
             }
         },
         success: onSuccess,
-        error: function(jqXHR, textStatus, errorThrown) {
-            console.log('Request failed with ' + textStatus + ': ' + errorThrown +  '!');
+        error: function (jqXHR, textStatus, errorThrown) {
+            console.log('Request failed with ' + textStatus + ': ' + errorThrown + '!');
         }
     });
 }
@@ -174,10 +172,11 @@ function onSuccessFunction(result) {
     resetButton.toggle(!result.showResultingConfiguration && result.progress > 0);
     $('#generator-part-group-select-index').html(result.selectPartGroupsHTML);
     $('#generator-select-parts-ajax-update').html(result.selectPartsHTML);
-    if ( confPrice ) {
+
+    if (confPrice) {
         confPrice.html(result.configurationPrice);
     }
-    if ( result.showResultingConfiguration ) {
+    if (result.showResultingConfiguration) {
         $('#generator-result-canvas').show();
         $('#generator-part-group-select-part-index').hide();
         alterPartGroupInformation('hide');
@@ -189,18 +188,20 @@ function onSuccessFunction(result) {
         $('#generator-summary-table').html(result.configurationCode['summaryTable']);
     } else {
         $('#generator-result-canvas').hide();
-        $('#generator-part-group-select-part-index').show();
+        $('#generator-part-group-select-part-index').show().promise().done(function () {
+            equalizeHeight();
+        });
         alterPartGroupInformation(result.currentPartGroup);
         $('#generator-show-result-button').toggle(result.progress === 1 && !result.currentPartGroup['last']);
         nextButton.attr('data-part-group', result.nextPartGroup);
         nextButton.attr('data-current', result.currentPartGroup ? result.currentPartGroup['uid'] : 0);
-        if ( result.currentPartGroup && $('#generator-part-group-' + result.currentPartGroup['uid'] + '-link').hasClass('generator-part-group-state-1') ) {
+        if (result.currentPartGroup && $('#generator-part-group-' + result.currentPartGroup['uid'] + '-link').hasClass('generator-part-group-state-1')) {
             nextButton.removeClass('disabled btn-default').addClass('btn-primary');
         } else {
             nextButton.addClass('disabled btn-default').removeClass('btn-primary');
         }
         nextButton.show();
-        if ( result.progress === 0 ) {
+        if (result.progress === 0) {
             resetButton.addClass('disabled');
         } else {
             resetButton.removeClass('disabled');
@@ -228,10 +229,10 @@ function alterPartGroupInformation(data) {
             div.hide();
             break;
         default:
-            if ( data instanceof Object ) {
+            if (data instanceof Object) {
                 /* Add dependency notes */
                 var addDN = data.dependentNotesFluidParsedMessages !== undefined ? data.dependentNotesFluidParsedMessages : '';
-                div.html( '<h2>' + data.title + '</h2><p>' + data.prompt + '</p><p>' + addDN + '</p>' ).show();
+                div.html('<h2>' + data.title + '</h2><p>' + data.prompt + '</p><p>' + addDN + '</p>').show();
             }
     }
 }
@@ -245,14 +246,14 @@ function updateProgressIndicator(progress) {
     $('#generator-progress-value').animate({value: progress}, 800);
     //$('.ccg-progress-indicator').animate({width: progress * 100 + '%'});
     // Update/animate number display(s)
-    $('.generator-progress-value-print').each(function(index, element) {
+    $('.generator-progress-value-print').each(function (index, element) {
         $({countNum: $(element).text()}).animate({countNum: Math.floor(progress * 100)}, {
             duration: 800,
-            easing:'linear',
-            step: function() {
+            easing: 'linear',
+            step: function () {
                 $(element).text(Math.floor(this.countNum));
             },
-            complete: function() {
+            complete: function () {
                 $(element).text(this.countNum);
             }
         });
@@ -264,13 +265,13 @@ function addInfoTrigger() {
     var triggerHint = '#ccg-generator-canvas .generator-select-part-group-part-info';
     var triggerPreviewImage = '#ccg-generator-canvas .generator-select-part-group-part-image';
 
-    $(triggerHint).on('click', function(e) {
+    $(triggerHint).on('click', function (e) {
         e.preventDefault();
         getPartInformation($(this).parents('a').first().attr('data-part'));
         return false;
     });
 
-    $(triggerPreviewImage).on('click', function(e) {
+    $(triggerPreviewImage).on('click', function (e) {
         e.preventDefault();
         return false;
     }).popover({
@@ -278,12 +279,12 @@ function addInfoTrigger() {
         trigger: 'hover',
         placement: 'left',
         content: function () {
-            return '<img width="200px" alt="Preview Image" src="'+$(this).data('image-src') + '" />';
+            return '<img width="200px" alt="Preview Image" src="' + $(this).data('image-src') + '" />';
         }
-    }).on('click', function() {
+    }).on('click', function () {
         $(this).popover('toggle');
     }).on('shown.bs.popover', function () {
-        $('#' + $(this).attr('aria-describedby')).on('click', function(e) {
+        $('#' + $(this).attr('aria-describedby')).on('click', function (e) {
             e.preventDefault();
             return false;
         });
@@ -326,7 +327,7 @@ function makeBootstrapModal(modalData, part, unset, confirmModal) {
         $ModalFooter.append('<button type="button" class="btn btn-success text-uppercase" id="ccg-modal-confirm">Proceed <span class="fa fa-chevron-right fa-fw"></span></button>');
         var $ModalConfirm = $ModalFooter.find('#ccg-modal-confirm');
 
-        $ModalConfirm.on('click', function() {
+        $ModalConfirm.on('click', function () {
             ccgUpdatePartExec(part, unset);
             $CCGModal.modal('hide');
         });
@@ -341,7 +342,7 @@ function makeBootstrapModal(modalData, part, unset, confirmModal) {
 /**********************************************
  * Initialize Event Listeners once DOM loaded *
  *********************************************/
-(function() {
+(function () {
     $('#generator-result-canvas').toggle(showResult);
     $('#generator-reset-configuration-button').toggle(!showResult);
     $('#generator-next-button').toggle(!showResult);

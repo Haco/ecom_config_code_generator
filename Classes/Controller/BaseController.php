@@ -167,7 +167,7 @@ class BaseController extends \Ecom\EcomToolbox\Controller\ActionController
         if (!$this->configuration->getPartGroups()->count()) {
             $this->throwStatus(404, null, '<h1>' . LocalizationUtility::translate('404.noPartGroups', $this->extensionName) . '</h1>' . LocalizationUtility::translate('404.message.noPartGroups', $this->extensionName, ["<a href=\"mailto:{$this->settings['webmasterEmail']}\">{$this->settings['webmasterEmail']}</a>"]));
         }
-        
+
         $this->pricing = $this->configuration->isPricingEnabled() && $GLOBALS[ 'TSFE' ]->loginUser && \Ecom\EcomToolbox\Security\Frontend::checkForUserRoles($this->settings[ 'accessPricing' ]);
 
         // Frontend-Session
@@ -175,7 +175,8 @@ class BaseController extends \Ecom\EcomToolbox\Controller\ActionController
         // On reset destroy config session data
         if ($this->request->getControllerName() === 'Generator' && $this->request->getControllerActionName() === 'reset') {
             $this->feSession->delete('config');
-            $this->redirect('index', 'Generator');
+            $resetUri = $this->uriBuilder->reset()->setArguments(['L' => $GLOBALS['TSFE']->sys_language_uid])->setUseCacheHash(false)->uriFor('index', array(),'Generator');
+            $this->redirectToUri($resetUri);
         }
         // Redirect to currency selection if pricing enabled
         if (
