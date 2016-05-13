@@ -245,6 +245,8 @@ function updateProgressIndicator(progress) {
     // Update/animate progress bar
     $('#generator-progress-value').animate({value: progress}, 800);
     //$('.ccg-progress-indicator').animate({width: progress * 100 + '%'});
+    // Update progress width for older browsers
+    $('.ccg-generator-progress-wrap .progress-bar > span').animate({width: progress * 100 + '%'}, 800);
     // Update/animate number display(s)
     $('.generator-progress-value-print').each(function (index, element) {
         $({countNum: $(element).text()}).animate({countNum: Math.floor(progress * 100)}, {

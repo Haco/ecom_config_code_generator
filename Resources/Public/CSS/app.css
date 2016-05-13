@@ -550,10 +550,10 @@ progress[value]::-moz-progress-bar {
 /* Fallback technique styles */
 #ccg-generator-canvas .progress-bar {
 	background-color: transparent;
-	height: 5px;
+	height: 8px;
 	overflow: hidden;
 	position: fixed;
-	width: 500px;
+	width: 100%;
 }
 #ccg-generator-canvas .progress-bar span {
 	background-color: #0083cb;
