@@ -170,7 +170,7 @@ return [
                 'foreign_field' => 'configuration',
                 'maxitems'      => $maxItemsPricing,
                 'appearance'    => [
-                    'collapseAll'           => 0,
+                    'collapseAll'           => 1,
                     'levelLinksPosition'    => 'bottom',
                     'newRecordLinkAddTitle' => 0,
                     'newRecordLinkTitle'    => "{$translate}tx_ecomconfigcodegenerator_domain_model_configuration.pricing.inlineElementAddTitle"
