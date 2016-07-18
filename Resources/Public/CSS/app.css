@@ -650,3 +650,9 @@ body .ui-tooltip {
 		height: auto;
 	}
 }
+
+@media print {
+    .generator-result .btn {
+        display: none !important;
+    }
+}
