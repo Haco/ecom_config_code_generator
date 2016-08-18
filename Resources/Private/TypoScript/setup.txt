@@ -31,7 +31,6 @@ plugin.tx_ecomconfigcodegenerator {
 
 page.includeCSSLibs {
 	ccg = EXT:ecom_config_code_generator/Resources/Public/CSS/app.min.css
-	ccg.import = 1
 }
 
 EcomConfigCodeGeneratorAjaxRequest = PAGE
