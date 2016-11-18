@@ -302,6 +302,9 @@ body {
 	background: #0083cb;
 	color: white;
 }
+#ccg-generator-canvas #generator-summary-table > table tr:hover small {
+    color: white;
+}
 #ccg-generator-canvas .generator-resolve-table,
 #ccg-generator-canvas .generator-resolve-list {
 	border-spacing: 0;
@@ -347,9 +350,9 @@ body {
 #ccg-generator-canvas .generator-select-part-group-part-selector {
 	color: #676767;
     font-size: 1.1em;
-	background: #eee;
+	background: #e8e8e8;
 	display: block;
-    margin-bottom: 4px;
+    margin-bottom: 8px;
 	border-bottom: 3px solid #d5d5d5;
 	padding: 8px;
 }
@@ -358,6 +361,9 @@ body {
     border-bottom-color: #eee;
 	color: #ffb2b2;
 	cursor: not-allowed;
+}
+#ccg-generator-canvas .generator-select-part-group-part-selector .min-order-quantity-label:hover {
+    cursor: help;
 }
 #ccg-generator-canvas .generator-select-part-group-part-selector.disabled .generator-checkbox,
 #ccg-generator-canvas .generator-select-part-group-part-selector.disabled .generator-select-part-group-part-button-wrapper,
@@ -370,6 +376,15 @@ body {
 #ccg-generator-canvas .generator-select-part-group-part-selector.enabled:focus {
 	background: #0083cb;
     border-bottom-color: #00476f;
+}
+#ccg-generator-canvas .generator-select-part-group-part-selector.sku-incompatible-part.enabled:hover,
+#ccg-generator-canvas .generator-select-part-group-part-selector.sku-incompatible-part.enabled:focus {
+    background: #d3d3d3;
+    border-bottom-color: #a8a8a8;
+}
+#ccg-generator-canvas .generator-select-part-group-part-selector.sku-incompatible-part.enabled:hover .generator-select-part-group-part.part,
+#ccg-generator-canvas .generator-select-part-group-part-selector.sku-incompatible-part.enabled:focus .generator-select-part-group-part.part {
+    color: #676767;
 }
 #ccg-generator-canvas .generator-select-part-group-part.part {
 	display: block;
@@ -393,7 +408,6 @@ body {
 #ccg-generator-canvas .generator-select-part-group-part-info,
 #ccg-generator-canvas .generator-select-part-group-part-image {
 	color: #808080;
-	line-height: 38px;
 	cursor: help;
 }
 #ccg-generator-canvas .generator-select-part-group-part-info:hover,
@@ -403,6 +417,7 @@ body {
 #ccg-generator-canvas .generator-select-part-group-part-button-wrapper {
 	float: right;
 	padding-right: 10px;
+    line-height: 38px;
 }
 #ccg-generator-canvas .generator-select-part-group-part-button-wrapper .popover {
     max-width: 250px;

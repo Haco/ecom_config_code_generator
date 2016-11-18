@@ -12,6 +12,8 @@
 	<f:render partial="Log/FormFields" arguments="{_all}" />
 	<div class="form-group row no-margin-horizontal">
 		<f:form.button type="submit" id="ccg-request-submit" class="btn btn-primary morelink" additionalAttributes="{autocomplete: 'off'}"><f:translate id="forms.submit" extensionName="ecom_config_code_generator" /></f:form.button>
+        <br>
+        <f:link.action action="reset" controller="Generator" class="btn btn-default" noCacheHash="1"><f:translate id="label.resetConfiguration" extensionName="ecom_config_code_generator" /> <i class="fa fa-undo fa-fw"></i></f:link.action>
 	</div>
 </f:form>
 
