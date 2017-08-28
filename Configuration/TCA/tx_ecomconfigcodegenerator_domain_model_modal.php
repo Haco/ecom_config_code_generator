@@ -139,7 +139,7 @@ return [
                 'itemsProcFunc'                 => \S3b0\EcomConfigCodeGenerator\User\ModifyTCA\ModifyTCA::class . '->itemsProcFuncEcomConfigCodeGeneratorDomainModelDependentNoteDependentParts',
                 'size'                          => 10,
                 'autoSizeMax'                   => 30,
-                'minitems'                      => 1,
+                'minitems'                      => 0,
                 'maxitems'                      => 9999,
                 'multiple'                      => 0,
                 'renderType'                    => 'selectSingleBox',
