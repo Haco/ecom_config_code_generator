@@ -368,7 +368,7 @@ return [
                 'type'          => 'inline',
                 'foreign_table' => 'tx_ecomconfigcodegenerator_domain_model_modal',
                 'foreign_field' => 'part_group',
-                'maxitems'      => 1,
+                'maxitems'      => 10,
                 'appearance'    => [
                     'collapseAll'                     => 1,
                     'expandSingle'                    => 1,
